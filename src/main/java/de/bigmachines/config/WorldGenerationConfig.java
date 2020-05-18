@@ -42,8 +42,10 @@ public class WorldGenerationConfig {
     	ModWorldGenerator.generators.clear();
 		try {
 	    	JsonReader reader = new JsonReader(new FileReader(WorldGenerationConfig.worldGenerationConfig));
-	    	HashMap<String, Object> json = gson.fromJson(reader, HashMap.class);
-	    	
+	    	List<HashMap<String, Object>> json = gson.fromJson(reader, List.class);
+	    	json.forEach(generator -> {
+	    		
+	    	});
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			WorldGenerationConfig.init(WorldGenerationConfig.worldGenerationConfigDir);
