@@ -21,6 +21,7 @@ public class WorldGenerationConfig {
     
     public static void init(File worldGenerationConfigDir) {
     	gson = new GsonBuilder().setPrettyPrinting().create();
+    	WorldGenerator.registerGenerators();
 		if (Config.config == null) {
 			worldGenerationConfigDir = new File(worldGenerationConfigDir, Reference.MOD_ID);
 			worldGenerationConfigDir.mkdir();
@@ -31,7 +32,7 @@ public class WorldGenerationConfig {
 	}
     
     public static void loadConfig() {
-    	
+    	generators.clear();
     }
 	
 }
