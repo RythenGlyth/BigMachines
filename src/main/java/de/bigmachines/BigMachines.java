@@ -1,5 +1,7 @@
 package de.bigmachines;
 
+import java.io.File;
+
 import de.bigmachines.config.Config;
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.handler.CooktimeDisplay;
@@ -44,7 +46,7 @@ public class BigMachines {
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent e) {
 		Config.init(e.getModConfigurationDirectory());
-		WorldGenerationConfig.init(e.getModConfigurationDirectory());
+		WorldGenerationConfig.init(new File(e.getModConfigurationDirectory(), Reference.MOD_ID));
 		
         MinecraftForge.EVENT_BUS.register(proxy);
 
@@ -65,8 +67,9 @@ public class BigMachines {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
-
 		proxy.init();
+		
+		WorldGenerationConfig.loadConfig();
 	}
 	
 	@EventHandler

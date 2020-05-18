@@ -29,7 +29,6 @@ public class ModItems {
     @SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
         ITEMS.forEach(item -> {
-        	System.out.println(item);
 			event.getRegistry().register(item);
 			if(item instanceof IInitializer) ((IInitializer)item).postRegister();
 		});

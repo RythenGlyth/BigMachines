@@ -1,6 +1,7 @@
 package de.bigmachines.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -18,6 +19,10 @@ public class ModWorldGenerator implements IWorldGenerator {
 		for(WorldGeneratorBase generator : generators) {
 			generator.generateChunk(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 		}
+	}
+
+	public static void addGenerator(WorldGeneratorBase generator) {
+		generators.add(generator);
 	}
 	
 }

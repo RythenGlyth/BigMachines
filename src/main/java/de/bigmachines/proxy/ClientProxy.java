@@ -36,7 +36,6 @@ public class ClientProxy implements CommonProxy {
 
 	@SubscribeEvent
 	public void registerItems(ModelRegistryEvent event) {
-		System.out.println("-REGISTER ITEMS------------------------------------------------------------------");
 		modelList.forEach(modelRegister -> {
 			modelRegister.registerModels();
 		});

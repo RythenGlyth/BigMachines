@@ -1,3 +1,10 @@
 [
-    
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:block_aluminium",
+        "max-per-chunk": 100,
+        "max-vein-size": 16,
+        "min-height": 0,
+        "max-height": 255
+    }
 ]

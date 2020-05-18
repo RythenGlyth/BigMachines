@@ -10,16 +10,16 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
-public class WorldGeneratorBase {
+public abstract class WorldGeneratorBase {
 	
-	public static HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes;
+	public static HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes = new HashMap<String, Class<? extends WorldGeneratorBase>>();
 	
 	public static void addWorldGeneratorType(String name, Class<? extends WorldGeneratorBase> worldGeneratorType) {
 		worldGeneratorTypes.put(name, worldGeneratorType);
 	}
 	
 	public static void registerGenerators() {
-		addWorldGeneratorType("ore", WorldGeneratorMineable.class);
+		addWorldGeneratorType("mineable", WorldGeneratorMineable.class);
 	}
 
 	public void generateChunk(Random random, int chunkX, int chunkY, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
