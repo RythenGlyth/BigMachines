@@ -1,4 +1,4 @@
-package de.bigmachines.config.worldGeneration;
+package de.bigmachines.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import de.bigmachines.Reference;
-import de.bigmachines.config.Config;
+import de.bigmachines.world.WorldGeneratorBase;
 
 public class WorldGenerationConfig {
 	
@@ -21,11 +21,11 @@ public class WorldGenerationConfig {
     private static File worldGenerationConfig;
     private static File worldGenerationConfigDir;
     
-    public static List<WorldGenerator> generators;
+    public static List<WorldGeneratorBase> generators;
     
     public static void init(File worldGenerationConfigDir) {
     	gson = new GsonBuilder().setPrettyPrinting().create();
-    	WorldGenerator.registerGenerators();
+    	WorldGeneratorBase.registerGenerators();
 		if (Config.config == null) {
 			WorldGenerationConfig.worldGenerationConfigDir = new File(worldGenerationConfigDir, Reference.MOD_ID);
 			WorldGenerationConfig.worldGenerationConfigDir.mkdir();

@@ -1,7 +1,7 @@
 package de.bigmachines;
 
 import de.bigmachines.config.Config;
-import de.bigmachines.config.worldGeneration.WorldGenerationConfig;
+import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.handler.CooktimeDisplay;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
@@ -11,6 +11,7 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModItems;
 import de.bigmachines.init.ModMaterials;
 import de.bigmachines.proxy.CommonProxy;
+import de.bigmachines.world.ModWorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Main
@@ -43,6 +45,7 @@ public class BigMachines {
 	public void preinit(FMLPreInitializationEvent e) {
 		Config.init(e.getModConfigurationDirectory());
 		WorldGenerationConfig.init(e.getModConfigurationDirectory());
+		
         MinecraftForge.EVENT_BUS.register(proxy);
 
         MinecraftForge.EVENT_BUS.register(new ModItems());
@@ -68,7 +71,7 @@ public class BigMachines {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-
+		GameRegistry.registerWorldGenerator(new ModWorldGenerator(), 0);
 		proxy.postInit();
 	}
 
