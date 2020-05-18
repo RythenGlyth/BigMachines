@@ -3,25 +3,37 @@ itemGroup.bigmachines.mainTab=Big Machines
 itemGroup.bigmachines.materialsTab=Big Machines: Materials
 
 #Items
-item.examplemod.ingot_copper.name=Kupferbarren
-item.examplemod.ingot_tin.name=Zinnbarren
-item.examplemod.ingot_silver.name=Silberbarren
-item.examplemod.ingot_lead.name=Bleibarren
-item.examplemod.ingot_aluminium.name=Aluminiumbarren
-item.examplemod.nugget_copper.name=Kupferklumpen
-item.examplemod.nugget_tin.name=Zinnklumpen
-item.examplemod.nugget_silver.name=Silberklumpen
-item.examplemod.nugget_lead.name=Bleiklumpen
-item.examplemod.nugget_aluminium.name=Aluminiumklupmpen
+item.bigmachines.ingot_copper.name=Kupferbarren
+item.bigmachines.ingot_tin.name=Zinnbarren
+item.bigmachines.ingot_silver.name=Silberbarren
+item.bigmachines.ingot_lead.name=Bleibarren
+item.bigmachines.ingot_aluminium.name=Aluminiumbarren
+item.bigmachines.nugget_copper.name=Kupferklumpen
+item.bigmachines.nugget_tin.name=Zinnklumpen
+item.bigmachines.nugget_silver.name=Silberklumpen
+item.bigmachines.nugget_lead.name=Bleiklumpen
+item.bigmachines.nugget_aluminium.name=Aluminiumklupmpen
+
+item.bigmachines.slime_boots.name=Slime Schuhe
 
 #Blocks
-tile.examplemod.block_copper.name=Kupferblock
-tile.examplemod.block_tin.name=Zinnblock
-tile.examplemod.block_silver.name=Silberblock
-tile.examplemod.block_lead.name=Bleiblock
-tile.examplemod.block_aluminium.name=Aluminiumblock
-tile.examplemod.ore_copper.name=Kupfererz
-tile.examplemod.ore_tin.name=Zinnerz
-tile.examplemod.ore_silver.name=Silbererz
-tile.examplemod.ore_lead.name=Bleierz
-tile.examplemod.ore_aluminium.name=Aluminiumerz
+tile.bigmachines.block_copper.name=Kupferblock
+tile.bigmachines.block_tin.name=Zinnblock
+tile.bigmachines.block_silver.name=Silberblock
+tile.bigmachines.block_lead.name=Bleiblock
+tile.bigmachines.block_aluminium.name=Aluminiumblock
+tile.bigmachines.ore_copper.name=Kupfererz
+tile.bigmachines.ore_tin.name=Zinnerz
+tile.bigmachines.ore_silver.name=Silbererz
+tile.bigmachines.ore_lead.name=Bleierz
+tile.bigmachines.ore_aluminium.name=Aluminiumerz
+
+#Infos
+info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
+info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details
+info.bigmachines.press_strg=Halte §e§l[STRG]§r§7 für Details
+
+info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
+
+info.bigmachines.burntime=Brennzeit
+info.bigmachines.charge=Ladung

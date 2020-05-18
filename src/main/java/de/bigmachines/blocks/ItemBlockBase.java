@@ -20,8 +20,6 @@ public class ItemBlockBase extends ItemBlock implements IModelRegister {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerModels() {
-		System.out.println(this);
-		System.out.println(getRegistryName());
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
     

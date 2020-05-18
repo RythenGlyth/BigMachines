@@ -1,5 +1,10 @@
 package de.bigmachines;
 
+import de.bigmachines.config.Config;
+import de.bigmachines.handler.CooktimeDisplay;
+import de.bigmachines.handler.HUDTickHandler;
+import de.bigmachines.handler.ItemInformationHandler;
+import de.bigmachines.handler.SlimeBootsHandler;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModItems;
@@ -20,7 +25,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  *
  */
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY)
 public class BigMachines {
 	
 	@Instance
@@ -35,12 +40,16 @@ public class BigMachines {
 	
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent e) {
-        System.out.println("-------------------------------------------BIGMACHINES----LOADING-------------------------------");
+		Config.init(e.getModConfigurationDirectory());
         MinecraftForge.EVENT_BUS.register(proxy);
 
         MinecraftForge.EVENT_BUS.register(new ModItems());
 		MinecraftForge.EVENT_BUS.register(new ModBlocks());
-		
+        MinecraftForge.EVENT_BUS.register(new HUDTickHandler());
+		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
+		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
+		MinecraftForge.EVENT_BUS.register(new CooktimeDisplay());
+
 		ModCreativeTabs.init();
 		ModItems.preInit();
 		ModBlocks.preInit();

@@ -14,6 +14,8 @@ item.bigmachines.nugget_silver.name=Silver Nugget
 item.bigmachines.nugget_lead.name=Lead Nugget
 item.bigmachines.nugget_aluminium.name=Aluminium Nugget
 
+item.bigmachines.slime_boots.name=Slime Boots
+
 #Blocks
 tile.bigmachines.block_copper.name=Block of Copper
 tile.bigmachines.block_tin.name=Block of Tin
@@ -25,3 +27,13 @@ tile.bigmachines.ore_tin.name=Tin Ore
 tile.bigmachines.ore_silver.name=Silver Ore
 tile.bigmachines.ore_lead.name=Lead Ore
 tile.bigmachines.ore_aluminium.name=Aluminium Ore
+
+#Infos
+info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
+info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details
+info.bigmachines.press_strg=Hold §e§l[STRG]§r§7 for Details
+
+info.bigmachines.slimeBoots.shift=Let you jump like on a slime block!
+
+info.bigmachines.burntime=Burntime
+info.bigmachines.charge=Charge

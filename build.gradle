@@ -1,3 +1,4 @@
+import java.util.regex.Pattern
 buildscript {
     repositories {
         jcenter()
@@ -11,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "0.0.1"
+version = pullVersion()
 group = "de.bigmachines" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bigmachines"
 
@@ -82,11 +83,22 @@ processResources {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mc_version':project.minecraft.version
     }
         
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+def pullVersion() {
+    def file = file("src/main/java/de/bigmachines/Reference.java")
+    def version = ""
+    def pattern = Pattern.compile("public static final String VERSION = \"([\\d\\.]*)\";")
+    def matcher = pattern.matcher(file.text)
+    if(matcher.find()) {
+        version = matcher.group(1)
+    }
+    return version
 }
