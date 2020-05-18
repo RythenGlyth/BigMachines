@@ -17,7 +17,11 @@ public class WorldGenerator {
 	}
 	
 	public static void registerGenerators() {
-		addWorldGeneratorType("oreGen", WorldGeneratorMineable.class);
+		addWorldGeneratorType("ore", WorldGeneratorMineable.class);
+	}
+
+	public void generateChunk(Random random, int chunkX, int chunkY, World world) {
+		
 	}
 	
 }

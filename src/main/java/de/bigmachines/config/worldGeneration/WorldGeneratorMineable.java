@@ -25,7 +25,11 @@ public class WorldGeneratorMineable extends WorldGenerator {
 		this.generator = new WorldGenMinable(blockState, blockcount);
 	}
 	
-	public void generate(Random random, int x, int y, World world) {
+	@Override
+	public void generateChunk(Random random, int chunkX, int chunkY, World world) {
+		//chunk to world coordinates
+		int x = chunkX * 16;
+		int y = chunkY * 16;
 		for (int i = 0; i < this.maxPerChunk; i++) {
 			int randPosX = x + random.nextInt(16);
 			int randPosY = random.nextInt(this.maxHeight - this.minHeight) + this.minHeight;

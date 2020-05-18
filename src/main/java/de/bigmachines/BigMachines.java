@@ -1,6 +1,7 @@
 package de.bigmachines;
 
 import de.bigmachines.config.Config;
+import de.bigmachines.config.worldGeneration.WorldGenerationConfig;
 import de.bigmachines.handler.CooktimeDisplay;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
@@ -41,6 +42,7 @@ public class BigMachines {
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent e) {
 		Config.init(e.getModConfigurationDirectory());
+		WorldGenerationConfig.init(e.getModConfigurationDirectory());
         MinecraftForge.EVENT_BUS.register(proxy);
 
         MinecraftForge.EVENT_BUS.register(new ModItems());
