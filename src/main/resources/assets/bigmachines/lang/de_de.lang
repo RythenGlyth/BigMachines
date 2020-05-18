@@ -1,0 +1,27 @@
+# Creative Tabs
+itemGroup.bigmachines.mainTab=Big Machines
+itemGroup.bigmachines.materialsTab=Big Machines: Materials
+
+#Items
+item.examplemod.ingot_copper.name=Kupferbarren
+item.examplemod.ingot_tin.name=Zinnbarren
+item.examplemod.ingot_silver.name=Silberbarren
+item.examplemod.ingot_lead.name=Bleibarren
+item.examplemod.ingot_aluminium.name=Aluminiumbarren
+item.examplemod.nugget_copper.name=Kupferklumpen
+item.examplemod.nugget_tin.name=Zinnklumpen
+item.examplemod.nugget_silver.name=Silberklumpen
+item.examplemod.nugget_lead.name=Bleiklumpen
+item.examplemod.nugget_aluminium.name=Aluminiumklupmpen
+
+#Blocks
+tile.examplemod.block_copper.name=Kupferblock
+tile.examplemod.block_tin.name=Zinnblock
+tile.examplemod.block_silver.name=Silberblock
+tile.examplemod.block_lead.name=Bleiblock
+tile.examplemod.block_aluminium.name=Aluminiumblock
+tile.examplemod.ore_copper.name=Kupfererz
+tile.examplemod.ore_tin.name=Zinnerz
+tile.examplemod.ore_silver.name=Silbererz
+tile.examplemod.ore_lead.name=Bleierz
+tile.examplemod.ore_aluminium.name=Aluminiumerz

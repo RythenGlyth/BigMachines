@@ -1,0 +1,8 @@
+{
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "bigmachines:block/materials/block_aluminium"
+        }
+    }
+}

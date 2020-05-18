@@ -1,0 +1,8 @@
+{
+    "defaults": {
+        "model": "cube_all",
+        "textures": {
+            "all": "bigmachines:block/ores/ore_copper"
+        }
+    }
+}

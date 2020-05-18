@@ -1,0 +1,14 @@
+[{
+  "modid": "bigmachines",
+  "name": "Big Machines",
+  "description": "A Mod for big machines.",
+  "version": "${version}",
+  "mcversion": "${mc_version}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["RythenGlyth", "ScrouthTV"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}]
