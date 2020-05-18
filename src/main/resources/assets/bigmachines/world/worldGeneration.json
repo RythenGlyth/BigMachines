@@ -1,10 +1,57 @@
 [
     {
         "type": "mineable",
-        "block-id": "bigmachines:block_aluminium",
-        "max-per-chunk": 100,
-        "max-vein-size": 16,
+        "block-id": "bigmachines:ore_copper",
+        "max-per-chunk": 12,
+        "max-vein-size": 8,
         "min-height": 0,
-        "max-height": 255
+        "max-height": 75,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:ore_lead",
+        "max-per-chunk": 8,
+        "max-vein-size": 8,
+        "min-height": 0,
+        "max-height": 40,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:ore_tin",
+        "max-per-chunk": 10,
+        "max-vein-size": 8,
+        "min-height": 0,
+        "max-height": 75,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:ore_silver",
+        "max-per-chunk": 6,
+        "max-vein-size": 8,
+        "min-height": 0,
+        "max-height": 40,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:ore_aluminium",
+        "max-per-chunk": 10,
+        "max-vein-size": 8,
+        "min-height": 0,
+        "max-height": 75,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
     }
 ]
