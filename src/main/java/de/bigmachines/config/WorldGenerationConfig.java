@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import de.bigmachines.Reference;
+import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 
@@ -30,6 +31,9 @@ public class WorldGenerationConfig {
 			WorldGenerationConfig.worldGenerationConfigDir.mkdir();
             WorldGenerationConfig.worldGenerationConfigDir = worldGenerationConfigDir;
             WorldGenerationConfig.worldGenerationConfig = new File(worldGenerationConfigDir, "worldGeneration.json");
+            if(!WorldGenerationConfig.worldGenerationConfig.exists()) {
+            	FileHelper.copyFile(new File("assets/" + Reference.MOD_ID + "/world/worldGeneration.json"), WorldGenerationConfig.worldGenerationConfig);
+            }
             loadConfig();
         }
 	}
