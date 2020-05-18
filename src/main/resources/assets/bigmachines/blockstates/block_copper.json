@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/materials/block_copper"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:block_copper"},
+        "inventory": {"model": "bigmachines:block_copper"}
     }
 }

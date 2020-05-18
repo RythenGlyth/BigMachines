@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -34,7 +35,8 @@ public class ClientProxy implements CommonProxy {
 	}
 
 	@SubscribeEvent
-	public void registerItems(RegistryEvent.Register<Item> event) {
+	public void registerItems(ModelRegistryEvent event) {
+		System.out.println("-REGISTER ITEMS------------------------------------------------------------------");
 		modelList.forEach(modelRegister -> {
 			modelRegister.registerModels();
 		});

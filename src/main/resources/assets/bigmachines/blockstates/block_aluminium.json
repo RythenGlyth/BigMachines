@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/materials/block_aluminium"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:block_aluminium"},
+        "inventory": {"model": "bigmachines:block_aluminium"}
     }
 }

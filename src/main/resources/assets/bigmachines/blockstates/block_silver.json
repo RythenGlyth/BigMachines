@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/materials/block_silver"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:block_silver"},
+        "inventory": {"model": "bigmachines:block_silver"}
     }
 }

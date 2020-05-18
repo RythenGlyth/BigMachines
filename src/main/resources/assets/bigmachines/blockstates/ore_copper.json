@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/ores/ore_copper"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:ore_copper"},
+        "inventory": {"model": "bigmachines:ore_copper"}
     }
 }

@@ -1,9 +1,0 @@
-modLoader="javafml"
-loaderVersion="[23,)"
-
-[[mods]]
-modId="bigmachines"
-version="${version}"
-displayName="Big Machines"
-description="A Mod for big machines."
-authors="RythenGlyth and ScrouthTV"

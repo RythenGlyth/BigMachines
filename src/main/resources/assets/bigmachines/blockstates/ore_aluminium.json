@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/ores/ore_aluminium"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:ore_aluminium"},
+        "inventory": {"model": "bigmachines:ore_aluminium"}
     }
 }

@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/materials/block_tin"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:block_tin"},
+        "inventory": {"model": "bigmachines:block_tin"}
     }
 }

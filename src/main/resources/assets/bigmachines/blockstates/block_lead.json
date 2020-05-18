@@ -1,8 +1,6 @@
 {
-    "defaults": {
-        "model": "cube_all",
-        "textures": {
-            "all": "bigmachines:block/materials/block_lead"
-        }
+    "variants": {
+        "normal": {"model": "bigmachines:block_lead"},
+        "inventory": {"model": "bigmachines:block_lead"}
     }
 }

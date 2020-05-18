@@ -1,7 +1,9 @@
 package de.bigmachines.init;
 
 import de.bigmachines.blocks.BlockBase;
+import de.bigmachines.blocks.BlockBaseOreDict;
 import de.bigmachines.items.ItemBase;
+import de.bigmachines.items.ItemBaseOreDict;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -35,11 +37,11 @@ public class ModMaterials {
     public static void preInit() {
         // ingots
 
-        ingot_copper = new ItemBase("ingot_copper");
-        ingot_lead = new ItemBase("ingot_lead");
-        ingot_tin = new ItemBase("ingot_tin");
-        ingot_silver = new ItemBase("ingot_silver");
-        ingot_aluminium = new ItemBase("ingot_aluminium");
+        ingot_copper = new ItemBaseOreDict("ingot_copper", "ingotCopper");
+        ingot_lead = new ItemBaseOreDict("ingot_lead", "ingotLead");
+        ingot_tin = new ItemBaseOreDict("ingot_tin", "ingotTin");
+        ingot_silver = new ItemBaseOreDict("ingot_silver", "ingotSilver");
+        ingot_aluminium = new ItemBaseOreDict("ingot_aluminium", "ingotAluminium");
 
         ingot_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         ingot_lead.setCreativeTab(ModCreativeTabs.materialsTab);
@@ -47,11 +49,11 @@ public class ModMaterials {
         ingot_silver.setCreativeTab(ModCreativeTabs.materialsTab);
         ingot_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
         
-        OreDictionary.registerOre("ingotCopper", ingot_copper);
+        /*OreDictionary.registerOre("ingotCopper", ingot_copper);
         OreDictionary.registerOre("ingotLead", ingot_lead);
         OreDictionary.registerOre("ingotTin", ingot_tin);
         OreDictionary.registerOre("ingotSilver", ingot_silver);
-        OreDictionary.registerOre("ingotAluminium", ingot_aluminium);
+        OreDictionary.registerOre("ingotAluminium", ingot_aluminium);*/
 
         ModItems.ITEMS.add(ingot_copper);
         ModItems.ITEMS.add(ingot_lead);
@@ -61,11 +63,11 @@ public class ModMaterials {
 
         //nuggets
 
-        nugget_copper = new ItemBase("nugget_copper");
-        nugget_lead = new ItemBase("nugget_lead");
-        nugget_tin = new ItemBase("nugget_tin");
-        nugget_silver = new ItemBase("nugget_silver");
-        nugget_aluminium = new ItemBase("nugget_aluminium");
+        nugget_copper = new ItemBaseOreDict("nugget_copper", "nuggetCopper");
+        nugget_lead = new ItemBaseOreDict("nugget_lead", "nuggetLead");
+        nugget_tin = new ItemBaseOreDict("nugget_tin", "nuggetTin");
+        nugget_silver = new ItemBaseOreDict("nugget_silver", "nuggetSilver");
+        nugget_aluminium = new ItemBaseOreDict("nugget_aluminium", "nuggetAluminium");
 
         nugget_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         nugget_lead.setCreativeTab(ModCreativeTabs.materialsTab);
@@ -73,11 +75,11 @@ public class ModMaterials {
         nugget_silver.setCreativeTab(ModCreativeTabs.materialsTab);
         nugget_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
 
-        OreDictionary.registerOre("nuggetCopper", nugget_copper);
+        /*OreDictionary.registerOre("nuggetCopper", nugget_copper);
         OreDictionary.registerOre("nuggetLead", nugget_lead);
         OreDictionary.registerOre("nuggetTin", nugget_tin);
         OreDictionary.registerOre("nuggetSilver", nugget_silver);
-        OreDictionary.registerOre("nuggetAluminium", nugget_aluminium);
+        OreDictionary.registerOre("nuggetAluminium", nugget_aluminium);*/
 
         ModItems.ITEMS.add(nugget_copper);
         ModItems.ITEMS.add(nugget_lead);
@@ -87,11 +89,11 @@ public class ModMaterials {
 
         // Ores
 
-        ore_copper = new BlockBase(Material.ROCK, "ore_copper");
-        ore_lead = new BlockBase(Material.ROCK, "ore_lead");
-        ore_tin = new BlockBase(Material.ROCK, "ore_tin");
-        ore_silver = new BlockBase(Material.ROCK, "ore_silver");
-        ore_aluminium = new BlockBase(Material.ROCK, "ore_aluminium");
+        ore_copper = new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper");
+        ore_lead = new BlockBaseOreDict(Material.ROCK, "ore_lead", "ore_lead");
+        ore_tin = new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin");
+        ore_silver = new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver");
+        ore_aluminium = new BlockBaseOreDict(Material.ROCK, "ore_aluminium", "oreAluminium");
 
         ore_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         ore_lead.setCreativeTab(ModCreativeTabs.materialsTab);
@@ -99,11 +101,11 @@ public class ModMaterials {
         ore_silver.setCreativeTab(ModCreativeTabs.materialsTab);
         ore_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
 
-        OreDictionary.registerOre("oreCopper", ore_copper);
+        /*OreDictionary.registerOre("oreCopper", ore_copper);
         OreDictionary.registerOre("oreLead", ore_lead);
         OreDictionary.registerOre("oreTin", ore_tin);
         OreDictionary.registerOre("oreSilver", ore_silver);
-        OreDictionary.registerOre("oreAluminium", ore_aluminium);
+        OreDictionary.registerOre("oreAluminium", ore_aluminium);*/
 
         ModBlocks.BLOCKS.add(ore_copper);
         ModBlocks.BLOCKS.add(ore_lead);
@@ -113,11 +115,11 @@ public class ModMaterials {
 
         // storage blocks
 
-        block_copper = new BlockBase(Material.IRON, "block_copper");
-        block_lead = new BlockBase(Material.IRON, "block_lead");
-        block_tin = new BlockBase(Material.IRON, "block_tin");
-        block_silver = new BlockBase(Material.IRON, "block_silver");
-        block_aluminium = new BlockBase(Material.IRON, "block_aluminium");
+        block_copper = new BlockBaseOreDict(Material.IRON, "block_copper", "blockCopper");
+        block_lead = new BlockBaseOreDict(Material.IRON, "block_lead", "blockLead");
+        block_tin = new BlockBaseOreDict(Material.IRON, "block_tin", "blockTin");
+        block_silver = new BlockBaseOreDict(Material.IRON, "block_silver", "blockSilver");
+        block_aluminium = new BlockBaseOreDict(Material.IRON, "block_aluminium", "blockAluminium");
 
         block_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         block_lead.setCreativeTab(ModCreativeTabs.materialsTab);
@@ -125,11 +127,11 @@ public class ModMaterials {
         block_silver.setCreativeTab(ModCreativeTabs.materialsTab);
         block_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
 
-        OreDictionary.registerOre("blockCopper", block_copper);
+        /*OreDictionary.registerOre("blockCopper", block_copper);
         OreDictionary.registerOre("blockLead", block_lead);
         OreDictionary.registerOre("blockTin", block_tin);
         OreDictionary.registerOre("blockSilver", block_silver);
-        OreDictionary.registerOre("blockAluminium", block_aluminium);
+        OreDictionary.registerOre("blockAluminium", block_aluminium);*/
 
         ModBlocks.BLOCKS.add(block_copper);
         ModBlocks.BLOCKS.add(block_lead);
