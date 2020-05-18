@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import de.bigmachines.Reference;
+import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 
 public class WorldGenerationConfig {
@@ -20,8 +21,6 @@ public class WorldGenerationConfig {
 
     private static File worldGenerationConfig;
     private static File worldGenerationConfigDir;
-    
-    public static List<WorldGeneratorBase> generators;
     
     public static void init(File worldGenerationConfigDir) {
     	gson = new GsonBuilder().setPrettyPrinting().create();
@@ -36,7 +35,7 @@ public class WorldGenerationConfig {
 	}
     
     public static void loadConfig() {
-    	generators.clear();
+    	ModWorldGenerator.generators.clear();
 		try {
 	    	JsonReader reader = new JsonReader(new FileReader(WorldGenerationConfig.worldGenerationConfig));
 	    	HashMap<String, Object> json = gson.fromJson(reader, HashMap.class);

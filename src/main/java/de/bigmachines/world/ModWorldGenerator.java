@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class ModWorldGenerator implements IWorldGenerator {
 
-	public List<WorldGeneratorBase> generators = new ArrayList<WorldGeneratorBase>();
+	public static List<WorldGeneratorBase> generators = new ArrayList<WorldGeneratorBase>();
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
