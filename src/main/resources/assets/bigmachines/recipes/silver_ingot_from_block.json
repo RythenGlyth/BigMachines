@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bigmachines:block_silver"
+		}
+	],
+	"result": {
+		"item": "bigmachines:ingot_silver",
+		"count": 9
+	}
+}

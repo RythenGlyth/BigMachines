@@ -15,6 +15,8 @@ import net.minecraftforge.client.model.ModelLoader;
 /**
  * Core Block
  * 
+ * Represents any block (e. g. ore, storage block, conduit, machine)
+ * 
  * @author RythenGlyth
  *
  */
