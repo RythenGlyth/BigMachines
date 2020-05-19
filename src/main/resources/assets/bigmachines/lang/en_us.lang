@@ -6,7 +6,7 @@ itemGroup.bigmachines.materialsTab=Big Machines: Materials
 
 #Items
 item.bigmachines.ingot_copper.name=Copper Ingot
-item.examplemod.ingot_tin.name=Tin Ingot
+item.bigmachines.ingot_tin.name=Tin Ingot
 item.bigmachines.ingot_silver.name=Silver Ingot
 item.bigmachines.ingot_lead.name=Lead Ingot
 item.bigmachines.ingot_aluminium.name=Aluminium Ingot
