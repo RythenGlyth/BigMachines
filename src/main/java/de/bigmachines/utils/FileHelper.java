@@ -25,6 +25,9 @@ public class FileHelper {
             while ((length = inputStream.read(buffer)) > 0) {
             	outputStream.write(buffer, 0, length);
             }
+            
+            inputStream.close();
+            outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,6 +42,8 @@ public class FileHelper {
 			while ((length = inputStream.read(buffer)) > 0) {
 				outputStream.write(buffer, 0, length);
 			}
+			
+			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
