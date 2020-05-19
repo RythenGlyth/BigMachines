@@ -35,7 +35,11 @@ public class ModMaterials {
     public static BlockBase block_aluminium;
 
     public static void preInit() {
-        // ingots
+        initMetals();
+    }
+
+    private static final void initMetals() {
+    	// ingots
 
         ingot_copper = new ItemBaseOreDict("ingot_copper", "ingotCopper");
         ingot_lead = new ItemBaseOreDict("ingot_lead", "ingotLead");
@@ -139,7 +143,5 @@ public class ModMaterials {
         ModBlocks.BLOCKS.add(block_silver);
         ModBlocks.BLOCKS.add(block_aluminium);
     }
-
-
     
 }
