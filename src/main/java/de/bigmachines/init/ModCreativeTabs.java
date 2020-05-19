@@ -28,7 +28,8 @@ public class ModCreativeTabs {
 			
 			@Override
 			public ItemStack getTabIconItem() {
-				return new ItemStack(ModMaterials.ingot_lead);
+				// lead ingot
+				return new ItemStack(ModMaterials.ingots[2]);
 			}
 		};
 	}

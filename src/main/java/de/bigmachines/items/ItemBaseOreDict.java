@@ -17,6 +17,8 @@ public class ItemBaseOreDict extends ItemBase implements IInitializer {
 		OreDictionary.registerOre(oreDict, this);
 	}
 	
-	
+//	public final String getOreDict() {
+//		return oreDict;
+//	}
 	
 }

@@ -10,136 +10,103 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ModMaterials {
 
-    public static ItemBase ingot_copper;
-    public static ItemBase ingot_lead;
-    public static ItemBase ingot_tin;
-    public static ItemBase ingot_silver;
-    public static ItemBase ingot_aluminium;
+	public static ItemBase[] ingots;
+	public static ItemBase[] nuggets;
+	public static BlockBase[] ores;
+	public static BlockBase[] blocks;
 
-    public static ItemBase nugget_copper;
-    public static ItemBase nugget_lead;
-    public static ItemBase nugget_tin;
-    public static ItemBase nugget_silver;
-    public static ItemBase nugget_aluminium;
+	public static void preInit() {
+		// ingots
+		ingots = new ItemBase[] {
+				new ItemBaseOreDict("ingot_aluminium", "ingotAluminium"),
+				new ItemBaseOreDict("ingot_copper", "ingotCopper"),
+				new ItemBaseOreDict("ingot_lead", "ingotLead"),
+				new ItemBaseOreDict("ingot_tin", "ingotTin"),
+				new ItemBaseOreDict("ingot_silver", "ingotSilver")
+		};
 
-    public static BlockBase ore_copper;
-    public static BlockBase ore_lead;
-    public static BlockBase ore_tin;
-    public static BlockBase ore_silver;
-    public static BlockBase ore_aluminium;
+		for (ItemBase ingot : ingots) {
+			ingot.setCreativeTab(ModCreativeTabs.materialsTab);
+			ModItems.ITEMS.add(ingot);
+		}
 
-    public static BlockBase block_copper;
-    public static BlockBase block_lead;
-    public static BlockBase block_tin;
-    public static BlockBase block_silver;
-    public static BlockBase block_aluminium;
+		/*
+		
+		needs uncommenting the correct function in ItemBaseOreDict
 
-    public static void preInit() {
-        // ingots
+        for (ItemBase ingot : ingots)
+        	OreDictionary.registerOre(((ItemBaseOreDict) ingot).getOreDict(), ingot);
 
-        ingot_copper = new ItemBaseOreDict("ingot_copper", "ingotCopper");
-        ingot_lead = new ItemBaseOreDict("ingot_lead", "ingotLead");
-        ingot_tin = new ItemBaseOreDict("ingot_tin", "ingotTin");
-        ingot_silver = new ItemBaseOreDict("ingot_silver", "ingotSilver");
-        ingot_aluminium = new ItemBaseOreDict("ingot_aluminium", "ingotAluminium");
+        would replace this:
 
-        ingot_copper.setCreativeTab(ModCreativeTabs.materialsTab);
-        ingot_lead.setCreativeTab(ModCreativeTabs.materialsTab);
-        ingot_tin.setCreativeTab(ModCreativeTabs.materialsTab);
-        ingot_silver.setCreativeTab(ModCreativeTabs.materialsTab);
-        ingot_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
-        
-        /*OreDictionary.registerOre("ingotCopper", ingot_copper);
+        OreDictionary.registerOre("ingotCopper", ingot_copper);
         OreDictionary.registerOre("ingotLead", ingot_lead);
         OreDictionary.registerOre("ingotTin", ingot_tin);
         OreDictionary.registerOre("ingotSilver", ingot_silver);
         OreDictionary.registerOre("ingotAluminium", ingot_aluminium);*/
 
-        ModItems.ITEMS.add(ingot_copper);
-        ModItems.ITEMS.add(ingot_lead);
-        ModItems.ITEMS.add(ingot_tin);
-        ModItems.ITEMS.add(ingot_silver);
-        ModItems.ITEMS.add(ingot_aluminium);
+		//nuggets
 
-        //nuggets
+		nuggets = new ItemBase[] {
+				new ItemBaseOreDict("nugget_aluminium", "nuggetAluminium"),
+				new ItemBaseOreDict("nugget_copper", "nuggetCopper"),
+				new ItemBaseOreDict("nugget_lead", "nuggetLead"),
+				new ItemBaseOreDict("nugget_tin", "nuggetTin"),
+				new ItemBaseOreDict("nugget_silver", "nuggetSilver")
+		};
 
-        nugget_copper = new ItemBaseOreDict("nugget_copper", "nuggetCopper");
-        nugget_lead = new ItemBaseOreDict("nugget_lead", "nuggetLead");
-        nugget_tin = new ItemBaseOreDict("nugget_tin", "nuggetTin");
-        nugget_silver = new ItemBaseOreDict("nugget_silver", "nuggetSilver");
-        nugget_aluminium = new ItemBaseOreDict("nugget_aluminium", "nuggetAluminium");
+		for (ItemBase nugget : nuggets) {
+			nugget.setCreativeTab(ModCreativeTabs.materialsTab);
+			ModItems.ITEMS.add(nugget);
+		}
 
-        nugget_copper.setCreativeTab(ModCreativeTabs.materialsTab);
-        nugget_lead.setCreativeTab(ModCreativeTabs.materialsTab);
-        nugget_tin.setCreativeTab(ModCreativeTabs.materialsTab);
-        nugget_silver.setCreativeTab(ModCreativeTabs.materialsTab);
-        nugget_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
-
-        /*OreDictionary.registerOre("nuggetCopper", nugget_copper);
+		/*OreDictionary.registerOre("nuggetCopper", nugget_copper);
         OreDictionary.registerOre("nuggetLead", nugget_lead);
         OreDictionary.registerOre("nuggetTin", nugget_tin);
         OreDictionary.registerOre("nuggetSilver", nugget_silver);
         OreDictionary.registerOre("nuggetAluminium", nugget_aluminium);*/
 
-        ModItems.ITEMS.add(nugget_copper);
-        ModItems.ITEMS.add(nugget_lead);
-        ModItems.ITEMS.add(nugget_tin);
-        ModItems.ITEMS.add(nugget_silver);
-        ModItems.ITEMS.add(nugget_aluminium);
+		// Ores
 
-        // Ores
+		ores = new BlockBase[] {
+				new BlockBaseOreDict(Material.ROCK, "ore_aluminium", "oreAluminium"),
+				new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper"),
+				new BlockBaseOreDict(Material.ROCK, "ore_lead", "ore_lead"),
+				new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin"),
+				new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver")
+		};
 
-        ore_copper = new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper");
-        ore_lead = new BlockBaseOreDict(Material.ROCK, "ore_lead", "ore_lead");
-        ore_tin = new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin");
-        ore_silver = new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver");
-        ore_aluminium = new BlockBaseOreDict(Material.ROCK, "ore_aluminium", "oreAluminium");
+		for (BlockBase ore : ores) {
+			ore.setCreativeTab(ModCreativeTabs.materialsTab);
+			ModBlocks.BLOCKS.add(ore);
+		}
 
-        ore_copper.setCreativeTab(ModCreativeTabs.materialsTab);
-        ore_lead.setCreativeTab(ModCreativeTabs.materialsTab);
-        ore_tin.setCreativeTab(ModCreativeTabs.materialsTab);
-        ore_silver.setCreativeTab(ModCreativeTabs.materialsTab);
-        ore_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
-
-        /*OreDictionary.registerOre("oreCopper", ore_copper);
+		/*OreDictionary.registerOre("oreCopper", ore_copper);
         OreDictionary.registerOre("oreLead", ore_lead);
         OreDictionary.registerOre("oreTin", ore_tin);
         OreDictionary.registerOre("oreSilver", ore_silver);
         OreDictionary.registerOre("oreAluminium", ore_aluminium);*/
 
-        ModBlocks.BLOCKS.add(ore_copper);
-        ModBlocks.BLOCKS.add(ore_lead);
-        ModBlocks.BLOCKS.add(ore_tin);
-        ModBlocks.BLOCKS.add(ore_silver);
-        ModBlocks.BLOCKS.add(ore_aluminium);
+		// storage blocks
 
-        // storage blocks
+		blocks = new BlockBase[] {
+				new BlockBaseOreDict(Material.IRON, "block_aluminium", "blockAluminium"),
+				new BlockBaseOreDict(Material.IRON, "block_copper", "blockCopper"),
+				new BlockBaseOreDict(Material.IRON, "block_lead", "blockLead"),
+				new BlockBaseOreDict(Material.IRON, "block_tin", "blockTin"),
+				new BlockBaseOreDict(Material.IRON, "block_silver", "blockSilver")
+		};
 
-        block_copper = new BlockBaseOreDict(Material.IRON, "block_copper", "blockCopper");
-        block_lead = new BlockBaseOreDict(Material.IRON, "block_lead", "blockLead");
-        block_tin = new BlockBaseOreDict(Material.IRON, "block_tin", "blockTin");
-        block_silver = new BlockBaseOreDict(Material.IRON, "block_silver", "blockSilver");
-        block_aluminium = new BlockBaseOreDict(Material.IRON, "block_aluminium", "blockAluminium");
+		for (BlockBase block : blocks) {
+			block.setCreativeTab(ModCreativeTabs.materialsTab);
+			ModBlocks.BLOCKS.add(block);
+		}
 
-        block_copper.setCreativeTab(ModCreativeTabs.materialsTab);
-        block_lead.setCreativeTab(ModCreativeTabs.materialsTab);
-        block_tin.setCreativeTab(ModCreativeTabs.materialsTab);
-        block_silver.setCreativeTab(ModCreativeTabs.materialsTab);
-        block_aluminium.setCreativeTab(ModCreativeTabs.materialsTab);
-
-        /*OreDictionary.registerOre("blockCopper", block_copper);
+		/*OreDictionary.registerOre("blockCopper", block_copper);
         OreDictionary.registerOre("blockLead", block_lead);
         OreDictionary.registerOre("blockTin", block_tin);
         OreDictionary.registerOre("blockSilver", block_silver);
         OreDictionary.registerOre("blockAluminium", block_aluminium);*/
+	}
 
-        ModBlocks.BLOCKS.add(block_copper);
-        ModBlocks.BLOCKS.add(block_lead);
-        ModBlocks.BLOCKS.add(block_tin);
-        ModBlocks.BLOCKS.add(block_silver);
-        ModBlocks.BLOCKS.add(block_aluminium);
-    }
-
-
-    
 }
