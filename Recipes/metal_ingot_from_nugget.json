@@ -1,0 +1,19 @@
+{
+	"type": "crafting_shaped",
+	"pattern": [
+		"###",
+		"###",
+		"###"
+
+	],
+	"key": {
+		"#": {
+			"item": "minecraft:metal_nugget"
+
+		}
+
+	},
+	"result": {
+		"item": "minecraft:metal_ingot"
+	}
+}
