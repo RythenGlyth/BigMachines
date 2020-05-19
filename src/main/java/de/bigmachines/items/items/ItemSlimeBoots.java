@@ -1,10 +1,11 @@
-package de.bigmachines.items;
+package de.bigmachines.items.items;
 
 import java.util.List;
 
 import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.interfaces.IModelRegister;
+import de.bigmachines.items.IInfoProviderShift;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;

@@ -11,7 +11,9 @@ import de.bigmachines.handler.SlimeBootsHandler;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModItems;
+import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.init.ModMaterials;
+import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
@@ -56,11 +58,13 @@ public class BigMachines {
 		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
 		MinecraftForge.EVENT_BUS.register(new CooktimeDisplay());
-
+		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
+		
 		ModCreativeTabs.init();
 		ModItems.preInit();
 		ModBlocks.preInit();
 		ModMaterials.preInit();
+		ModKeybinds.init();
 
 		proxy.preInit();
 	}
