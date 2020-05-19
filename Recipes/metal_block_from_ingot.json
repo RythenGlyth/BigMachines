@@ -1,5 +1,5 @@
 {
-	"type": "crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"###",
 		"###",
@@ -8,12 +8,12 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:metal_ingot"
+			"item": "bigmachines:ingot_metal"
 
 		}
 	},
 	"result": {
-		"item": "bigmachines:metal_block"
+		"item": "bigmachines:block_metal"
 
 	}
 }

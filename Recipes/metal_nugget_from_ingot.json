@@ -2,11 +2,11 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "bigmachines:nugget_metal"
+			"item": "bigmachines:ingot_metal"
 		}
 	],
 	"result": {
-		"item": "bigmachines:ingot_metal",
+		"item": "bigmachines:nugget_metal",
 		"count": 9
 	}
 }
