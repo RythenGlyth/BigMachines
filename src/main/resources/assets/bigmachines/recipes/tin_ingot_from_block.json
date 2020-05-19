@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bigmachines:block_tin"
+		}
+	],
+	"result": {
+		"item": "bigmachines:ingot_tin",
+		"count": 9
+	}
+}
