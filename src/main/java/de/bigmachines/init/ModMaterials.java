@@ -94,7 +94,7 @@ public class ModMaterials {
         // Ores
 
         ore_copper = new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper");
-        ore_lead = new BlockBaseOreDict(Material.ROCK, "ore_lead", "ore_lead");
+        ore_lead = new BlockBaseOreDict(Material.ROCK, "ore_lead", "oreLead");
         ore_tin = new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin");
         ore_silver = new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver");
         ore_aluminium = new BlockBaseOreDict(Material.ROCK, "ore_aluminium", "oreAluminium");
@@ -142,6 +142,7 @@ public class ModMaterials {
         ModBlocks.BLOCKS.add(block_tin);
         ModBlocks.BLOCKS.add(block_silver);
         ModBlocks.BLOCKS.add(block_aluminium);
+        
     }
     
 }
