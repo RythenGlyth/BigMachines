@@ -13,6 +13,7 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModItems;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.init.ModMaterials;
+import de.bigmachines.init.ModTileEntities;
 import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
@@ -65,6 +66,7 @@ public class BigMachines {
 		ModBlocks.preInit();
 		ModMaterials.preInit();
 		ModKeybinds.init();
+		ModTileEntities.init();
 
 		proxy.preInit();
 	}
