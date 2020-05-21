@@ -2,7 +2,8 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "bigmachines:block_metal"
+			"type": "forge:ore_dict",
+			"ore": "blockMetal",
 		}
 	],
 	"result": {
