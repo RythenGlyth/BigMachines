@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.bigmachines.Reference;
+import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.items.IInfoProviderAlt;
 import de.bigmachines.items.IInfoProviderCtrl;
 import de.bigmachines.items.IInfoProviderShift;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 
 public class ItemInformationHandler {
 	
@@ -27,7 +29,6 @@ public class ItemInformationHandler {
 		
 		if(e.getItemStack().getItem() instanceof IInfoProviderShift) {
 			addShiftInfo((IInfoProviderShift)e.getItemStack().getItem(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
-			
 		}
 		
 		if(e.getItemStack().getItem() instanceof IInfoProviderAlt) {

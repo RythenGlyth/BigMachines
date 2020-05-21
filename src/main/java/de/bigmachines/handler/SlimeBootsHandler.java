@@ -1,6 +1,6 @@
 package de.bigmachines.handler;
 
-import de.bigmachines.items.ItemSlimeBoots;
+import de.bigmachines.items.items.ItemSlimeBoots;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;

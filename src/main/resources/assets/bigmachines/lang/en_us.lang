@@ -1,5 +1,9 @@
 bigmachines.config.title=Big Machines Config
 
+#Keybindings
+key.categories.bigmachines=Big Machines
+key.bigmachines.wrench=Enable Wrench
+
 # Creative Tabs
 itemGroup.bigmachines.mainTab=Big Machines
 itemGroup.bigmachines.materialsTab=Big Machines: Materials
@@ -17,6 +21,13 @@ item.bigmachines.nugget_lead.name=Lead Nugget
 item.bigmachines.nugget_aluminium.name=Aluminium Nugget
 
 item.bigmachines.slime_boots.name=Slime Boots
+
+item.bigmachines.wrench.name=Wrench
+#item.bigmachines.wrench_copper.name=Copper wrench
+#item.bigmachines.wrench_aluminium.name=Aluminium wrench
+#item.bigmachines.wrench_lead.name=Lead wrench
+#item.bigmachines.wrench_silver.name=Silver wrench
+#item.bigmachines.wrench_tin.name=Tin wrench
 
 #Blocks
 tile.bigmachines.block_copper.name=Block of Copper
