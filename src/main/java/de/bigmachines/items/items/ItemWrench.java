@@ -77,6 +77,7 @@ public class ItemWrench extends ItemBase {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerModels() {
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 		/*ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "type=copper")); //Copper
 		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(getRegistryName(), "type=aluminium")); //Aluminium
 		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(getRegistryName(), "type=lead")); //Lead
