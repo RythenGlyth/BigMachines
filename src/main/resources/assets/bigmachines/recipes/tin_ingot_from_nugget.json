@@ -8,7 +8,8 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:nugget_tin"
+			"type": "forge:ore_dict",
+			"type": "nuggetTin"
 
 		}
 

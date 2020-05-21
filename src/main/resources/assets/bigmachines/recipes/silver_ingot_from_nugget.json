@@ -8,7 +8,8 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:nugget_silver"
+			"type": "forge:ore_dict",
+			"type": "nuggetSilver"
 
 		}
 
