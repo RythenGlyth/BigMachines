@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:pipe_heat"},
+        "inventory": {"model": "bigmachines:pipe_heat"}
+    }
+}

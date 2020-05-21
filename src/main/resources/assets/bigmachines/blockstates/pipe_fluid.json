@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:pipe_fluid"},
+        "inventory": {"model": "bigmachines:pipe_fluid"}
+    }
+}

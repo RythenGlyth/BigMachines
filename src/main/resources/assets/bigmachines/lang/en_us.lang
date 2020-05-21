@@ -41,6 +41,9 @@ tile.bigmachines.ore_silver.name=Silver Ore
 tile.bigmachines.ore_lead.name=Lead Ore
 tile.bigmachines.ore_aluminium.name=Aluminium Ore
 
+tile.bigmachines.pipe_heat.name=Heat Pipe
+tile.bigmachines.pipe_fluid.name=Fluid Pipe
+
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
 info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details

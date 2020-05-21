@@ -41,6 +41,9 @@ tile.bigmachines.ore_silver.name=Silbererz
 tile.bigmachines.ore_lead.name=Bleierz
 tile.bigmachines.ore_aluminium.name=Aluminiumerz
 
+tile.bigmachines.pipe_heat.name=Hitze Rohr
+tile.bigmachines.pipe_fluid.name=Flüssigkeiten Rohr
+
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
 info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details
