@@ -29,6 +29,7 @@ public class ModBlocks {
 	public void registerItems(RegistryEvent.Register<Item> event) {
         BLOCKS.forEach(block -> {
 			event.getRegistry().register(block.getItemBlock());
+			if(block instanceof IInitializer) ((IInitializer)block).postRegister();
 		});
 		
 	}
@@ -37,7 +38,6 @@ public class ModBlocks {
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
 		BLOCKS.forEach(block -> {
 			event.getRegistry().register(block);
-			if(block instanceof IInitializer) ((IInitializer)block).postRegister();
 		});
 	}
 

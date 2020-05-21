@@ -25,7 +25,7 @@ public class BlockBaseOreDict extends BlockBase implements IInitializer {
 //		IRegistryDelegate d = ore.getItem().delegate;
 		
 //		OreDictionary.registerOre(oreDict, ore);
-		OreDictionary.registerOre(oreDict, this);
+		OreDictionary.registerOre(oreDict, getItemBlock());
 	}
 	
 	
