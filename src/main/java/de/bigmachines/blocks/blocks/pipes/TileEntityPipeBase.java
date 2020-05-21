@@ -1,6 +1,7 @@
 package de.bigmachines.blocks.blocks.pipes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -22,16 +23,16 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileEntityPipeBase extends TileEntityBase {
 	
-	protected List<EnumFacing> attachments;
+	protected HashSet<EnumFacing> attachments;
 	protected Capability capability;
 	
 	public TileEntityPipeBase(Capability capability) {
 		super();
-		attachments = new ArrayList<EnumFacing>();
+		attachments = new HashSet<EnumFacing>();
 		this.capability = capability;
 	}
 	
-	public List<EnumFacing> getAttachments() {
+	public HashSet<EnumFacing> getAttachments() {
 		return attachments;
 	}
 	
@@ -40,7 +41,7 @@ public class TileEntityPipeBase extends TileEntityBase {
 	}
 	
 	public void updateAttachments() {
-		List<EnumFacing> lastAttachments = new ArrayList<>(attachments);
+		HashSet<EnumFacing> lastAttachments = new HashSet<>(attachments);
 		attachments.clear();
 		for(EnumFacing side : EnumFacing.VALUES) {
 			TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
