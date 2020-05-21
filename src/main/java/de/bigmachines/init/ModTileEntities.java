@@ -11,9 +11,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModTileEntities {
 	
 	public static void init() {
-		GameRegistry.registerTileEntity(TileEntityHeatPipe.class, new ResourceLocation(Reference.MOD_ID, "heat_pipe"));
+		GameRegistry.registerTileEntity(TileEntityHeatPipe.class, new ResourceLocation(Reference.MOD_ID, "pipe_heat"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeatPipe.class, new TileEntitySpecialRendererPipeBase(new ResourceLocation(Reference.MOD_ID, "textures/block/pipe_heat.png"), 32D));
-		GameRegistry.registerTileEntity(TileEntityFluidPipe.class, new ResourceLocation(Reference.MOD_ID, "fluid_pipe"));
+		GameRegistry.registerTileEntity(TileEntityFluidPipe.class, new ResourceLocation(Reference.MOD_ID, "pipe_fluid"));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPipe.class, new TileEntitySpecialRendererPipeBase(new ResourceLocation(Reference.MOD_ID, "textures/block/pipe_fluid.png"), 32D));
 	}
 	

@@ -21,7 +21,7 @@ public class ModCreativeTabs {
 			
 			@Override
 			public ItemStack getTabIconItem() {
-				return new ItemStack(Blocks.DIRT);
+				return new ItemStack(ModItems.wrench);
 			}
 		};
 		materialsTab = new CreativeTabs(Reference.MOD_ID + "." + "materialsTab") {

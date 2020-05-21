@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import de.bigmachines.blocks.TileEntityBase;
 import de.bigmachines.utils.BlockHelper;
+import de.bigmachines.utils.NBTHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import scala.actors.threadpool.Arrays;
 
 public class TileEntityPipeBase extends TileEntityBase {
 	
@@ -25,6 +27,7 @@ public class TileEntityPipeBase extends TileEntityBase {
 	protected Capability capability;
 	
 	public TileEntityPipeBase(Capability capability) {
+		super();
 		attachments = new ArrayList<EnumFacing>();
 		this.capability = capability;
 	}
@@ -38,9 +41,6 @@ public class TileEntityPipeBase extends TileEntityBase {
 		attachments.clear();
 		for(EnumFacing side : EnumFacing.VALUES) {
 			TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
-			//System.out.println(attachments);
-			System.out.println(side);
-			System.out.println(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite()));
 			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite())) attachments.add(side);
 		}
 		if(!lastAttachments.equals(attachments)) updated();
@@ -61,18 +61,25 @@ public class TileEntityPipeBase extends TileEntityBase {
 		if((attachmentBytes & 1 << 4) > 0) attachments.add(EnumFacing.UP);
 		if((attachmentBytes & 1 << 5) > 0) attachments.add(EnumFacing.WEST);
 		super.readCustomNBT(compound, updatePacket);
-		
 	}
 	
 	@Override
 	public void writeCustomNBT(NBTTagCompound compound, boolean updatePacket) {
-		compound.setByte("Attachments", (byte)(
+		/*compound.setByte("Attachments", (byte)(
 				  (attachments.contains(EnumFacing.DOWN) ?  1 << 0 : 0x0)
 				| (attachments.contains(EnumFacing.EAST) ?  1 << 1 : 0x0)
 				| (attachments.contains(EnumFacing.NORTH) ? 1 << 2 : 0x0)
 				| (attachments.contains(EnumFacing.SOUTH) ? 1 << 3 : 0x0)
 				| (attachments.contains(EnumFacing.UP) ?    1 << 4 : 0x0)
 				| (attachments.contains(EnumFacing.WEST) ?  1 << 5 : 0x0)
+		));*/
+		compound.setByte("Attachments", (byte)NBTHelper.writeBooleansToInt(
+				attachments.contains(EnumFacing.DOWN),
+				attachments.contains(EnumFacing.EAST),
+				attachments.contains(EnumFacing.NORTH),
+				attachments.contains(EnumFacing.SOUTH),
+				attachments.contains(EnumFacing.UP),
+				attachments.contains(EnumFacing.WEST)
 		));
 		super.writeCustomNBT(compound, updatePacket);
 		

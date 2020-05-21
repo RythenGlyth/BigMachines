@@ -19,7 +19,7 @@ public class SlimeBootsHandler {
 	
 	@SubscribeEvent
     public void onFall(LivingFallEvent e) {
-		/*
+		
     	EntityLivingBase entity = e.getEntityLiving();
 		
     	if(entity == null) return;
@@ -36,7 +36,7 @@ public class SlimeBootsHandler {
         	entity.fallDistance = 0;
         	e.setDamageMultiplier(0);
         	if(entity.getEntityWorld().isRemote) {
-        		entity.motionY = 15;
+        		entity.addVelocity(0, 5, 0);
         		
         		entity.isAirBorne = true;
                 entity.onGround = false;
@@ -46,7 +46,7 @@ public class SlimeBootsHandler {
             entity.playSound(SoundEvents.ENTITY_SLIME_SQUISH, 1f, 1f);
         } else if(entity.isSneaking()) {
         	e.setDamageMultiplier(0.5f);
-        }*/
+        }
     }
 	
 }

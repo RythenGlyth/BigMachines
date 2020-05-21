@@ -10,6 +10,10 @@ import net.minecraftforge.common.util.Constants;
 
 public abstract class TileEntityBase extends TileEntity {
 	
+	public TileEntityBase() {
+		super();
+	}
+	
 	//sync and dirty (save later)
 	public void updated() {
 		BlockHelper.callBlockUpdate(this.getWorld(), this.getPos());
@@ -18,6 +22,7 @@ public abstract class TileEntityBase extends TileEntity {
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
+		
 		this.readCustomNBT(compound, false);
 		super.readFromNBT(compound);
 	}
@@ -26,14 +31,22 @@ public abstract class TileEntityBase extends TileEntity {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		this.writeCustomNBT(compound, false);
 		super.writeToNBT(compound);
+		
 		return compound;
 	}
-
+	
+	@Override
+	public void onLoad() {
+		super.onLoad();
+	}
+	
 	
 	//Synchronise between Client and Server
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound compound = new NBTTagCompound();
+		System.out.println("----------------------------------GET-UPDATETAG");
+		NBTTagCompound compound = super.getUpdateTag();
+		if(compound == null) compound = new NBTTagCompound();
 		this.writeCustomNBT(compound, true);
 		return compound;
 	}
@@ -47,11 +60,13 @@ public abstract class TileEntityBase extends TileEntity {
 	
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		super.onDataPacket(net, pkt);
 		this.readCustomNBT(pkt.getNbtCompound(), true);
 	}
 	
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
+		super.handleUpdateTag(tag);
 		this.readCustomNBT(tag, true);
 	}
 
