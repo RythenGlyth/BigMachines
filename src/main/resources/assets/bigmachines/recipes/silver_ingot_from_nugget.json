@@ -9,7 +9,7 @@
 	"key": {
 		"#": {
 			"type": "forge:ore_dict",
-			"type": "nuggetSilver"
+			"ore": "nuggetSilver"
 
 		}
 
