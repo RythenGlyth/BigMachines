@@ -8,7 +8,8 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:nugget_lead"
+			"type": "forge:ore_dict",
+			"ore": "nuggetLead"
 
 		}
 

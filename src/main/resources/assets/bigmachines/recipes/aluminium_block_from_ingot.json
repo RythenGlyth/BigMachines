@@ -8,7 +8,8 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:ingot_aluminium"
+			"type": "forge:ore_dict",
+			"ore": "ingotAluminium"
 
 		}
 	},

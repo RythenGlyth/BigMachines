@@ -8,7 +8,8 @@
 	],
 	"key": {
 		"#": {
-			"item": "bigmachines:ingot_lead"
+			"type": "forge:ore_dict",
+			"ore": "ingotLead"
 
 		}
 	},

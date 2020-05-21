@@ -2,7 +2,8 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "bigmachines:ingot_tin"
+			"type": "forge:ore_dict",
+			"ore": "ingotTin"
 		}
 	],
 	"result": {
