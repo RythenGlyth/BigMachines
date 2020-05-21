@@ -21,8 +21,6 @@ import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 import de.bigmachines.world.WorldGeneratorMineable;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
 
 public class WorldGenerationConfig {
 	

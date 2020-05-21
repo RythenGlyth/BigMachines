@@ -32,14 +32,14 @@ import net.minecraft.world.World;
 
 public class BlockPipeBase extends BlockBase {
 	
-	private static final double offsetBox = 0.1;
+	private static final double offsetBox = 0.3;
 	
 	private static final AxisAlignedBB box_base
-	= new AxisAlignedBB((5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11 + offsetBox) / 16, (11 + offsetBox) / 16, (11 + offsetBox) / 16);
+	= new AxisAlignedBB((5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_down
 	= new AxisAlignedBB((5D - offsetBox) / 16, 0D, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_east
-	= new AxisAlignedBB((11D + offsetBox) / 16, (5D + offsetBox) / 16, (5D - offsetBox) / 16, 1D, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
+	= new AxisAlignedBB((11D + offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, 1D, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_north
 	= new AxisAlignedBB((5D - offsetBox) / 16, (5D - offsetBox) / 16, 0D, (11D + offsetBox) / 16, (11D + offsetBox) / 16, (5D - offsetBox) / 16);
 	private static final AxisAlignedBB box_south
@@ -47,7 +47,7 @@ public class BlockPipeBase extends BlockBase {
 	private static final AxisAlignedBB box_up
 	= new AxisAlignedBB((5D - offsetBox) / 16, (11D + offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, 1D, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_west
-	= new AxisAlignedBB(0D, (5D + offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
+	= new AxisAlignedBB(0D, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
 	
 	public BlockPipeBase(String name) {
 		super(Material.GLASS, name);
@@ -93,15 +93,16 @@ public class BlockPipeBase extends BlockBase {
 
 		if (tile instanceof TileEntityPipeBase) {
 			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			for(EnumFacing side : EnumFacing.VALUES) {
-				if(tileEntityPipeBase.hasAttachment(side)) collidingBoxes.add(getBox(side));
+			for(EnumFacing side : tileEntityPipeBase.attachments) {
+				collidingBoxes.add(getBox(side));
 			}
 		}
 		
 		return collidingBoxes;
 	}
 	
-	@Nonnull public AxisAlignedBB getBox(@Nullable EnumFacing side) {
+	@Nonnull
+	public static AxisAlignedBB getBox(@Nullable EnumFacing side) {
 		if(side == null) 
 			return box_base;
 		switch(side) {

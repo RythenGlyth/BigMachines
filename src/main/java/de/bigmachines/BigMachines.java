@@ -7,6 +7,7 @@ import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.handler.CooktimeDisplay;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
+import de.bigmachines.handler.PipeOutlineHandler;
 import de.bigmachines.handler.SlimeBootsHandler;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;

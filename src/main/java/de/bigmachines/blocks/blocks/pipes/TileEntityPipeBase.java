@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import scala.actors.threadpool.Arrays;
 
 public class TileEntityPipeBase extends TileEntityBase {
 	
@@ -30,6 +29,10 @@ public class TileEntityPipeBase extends TileEntityBase {
 		super();
 		attachments = new ArrayList<EnumFacing>();
 		this.capability = capability;
+	}
+	
+	public List<EnumFacing> getAttachments() {
+		return attachments;
 	}
 	
 	public void onBlockPlaced(IBlockState state, EntityLivingBase placer, ItemStack stack) {
@@ -54,6 +57,7 @@ public class TileEntityPipeBase extends TileEntityBase {
 	@Override
 	public void readCustomNBT(NBTTagCompound compound, boolean updatePacket) {
 		byte attachmentBytes = compound.getByte("Attachments");
+		attachments.clear();
 		if((attachmentBytes & 1 << 0) > 0) attachments.add(EnumFacing.DOWN);
 		if((attachmentBytes & 1 << 1) > 0) attachments.add(EnumFacing.EAST);
 		if((attachmentBytes & 1 << 2) > 0) attachments.add(EnumFacing.NORTH);

@@ -2,9 +2,11 @@ package de.bigmachines.proxy;
 
 import java.util.ArrayList;
 
+import de.bigmachines.handler.PipeOutlineHandler;
 import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -21,6 +23,7 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new PipeOutlineHandler());
 
 	}
 
