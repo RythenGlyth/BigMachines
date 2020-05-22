@@ -155,7 +155,7 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		System.out.println("1:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
+		//System.out.println("1:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
 		if(!worldIn.isRemote) {
 			TileEntity tile = worldIn.getTileEntity(pos);
 			if(tile instanceof TileEntityPipeBase) {
@@ -166,7 +166,7 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		System.out.println("2:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
+		//System.out.println("2:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
 		super.onNeighborChange(world, pos, neighbor);
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {

@@ -45,6 +45,13 @@ public class PipeOutlineHandler {
 				for(EnumFacing side : tileEntityPipeBase.getAttachments()) {
 			        AxisAlignedBB box = BlockPipeBase.getBox(side);
 			        
+			        boolean isBox = box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
+			        
+			        if(isBox) {
+			        	lines.clear();
+			        	blacklist.clear();
+			        }
+			        
 			        for(Line3D line : RenderHelper.getLinesFromCube(box)) {
 		        		if(lines.contains(line)) {
 		        		}
@@ -52,6 +59,9 @@ public class PipeOutlineHandler {
 			        		blacklist.add(line);
 			        	}
 			        }
+			        
+			        if(isBox) break;
+			        
 				}
 				lines.removeAll(blacklist);
 				blacklist = null;

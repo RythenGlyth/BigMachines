@@ -6,12 +6,17 @@ import de.bigmachines.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.animation.FastTESR;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer<TileEntityPipeBase> {
 	
@@ -29,14 +34,16 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 	
 	@Override
 	public void render(TileEntityPipeBase te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_LIGHTING);
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, z);
 		
-		GL11.glTranslated(x, y, z);
+		GlStateManager.disableLighting();
+		
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		bindTexture(texture);
+		
 		drawBase();
 		if(te.hasAttachment(EnumFacing.DOWN)) drawAttachment(EnumFacing.DOWN);
 		if(te.hasAttachment(EnumFacing.EAST)) drawAttachment(EnumFacing.EAST);
@@ -44,10 +51,12 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachment(EnumFacing.SOUTH);
 		if(te.hasAttachment(EnumFacing.UP)) drawAttachment(EnumFacing.UP);
 		if(te.hasAttachment(EnumFacing.WEST)) drawAttachment(EnumFacing.WEST);
-
-		GL11.glDisable(GL11.GL_BLEND);
 		
-		GL11.glPopMatrix();
+		drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
+		
+		GlStateManager.disableBlend();
+		
+		GlStateManager.popMatrix();
 	}
 	
 	public void drawBase() {
@@ -215,6 +224,127 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
 		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
 		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		
+		tessellator.draw();
+		GL11.glPopMatrix();
+	}
+	
+	public void drawFluid(FluidStack stack, TileEntityPipeBase te) {
+		bindTexture(new ResourceLocation("textures/atlas/blocks.png"));
+		TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(stack.getFluid().getStill().toString());
+		
+		drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.DOWN)) drawAttachmentFluid(EnumFacing.DOWN, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.EAST)) drawAttachmentFluid(EnumFacing.EAST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.NORTH)) drawAttachmentFluid(EnumFacing.NORTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachmentFluid(EnumFacing.SOUTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.UP)) drawAttachmentFluid(EnumFacing.UP, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		if(te.hasAttachment(EnumFacing.WEST)) drawAttachmentFluid(EnumFacing.WEST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+		
+	}
+	
+
+	
+	public void drawBaseFluid(double minU, double minV, double maxU, double maxV) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		
+		//OUTSIDE
+		
+		//NORTH
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, minV).endVertex();
+
+		//WEST
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, minV).endVertex();
+
+		//SOUTH
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//EAST
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+
+		//UP
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//DOWN
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 5.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+		
+		tessellator.draw();
+	}
+	
+	public void drawAttachmentFluid(EnumFacing side, double minU, double minV, double maxU, double maxV) {
+		GL11.glPushMatrix();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		
+		GL11.glTranslated(0.5, 0.5, 0.5);
+		switch (side) {
+			case NORTH:
+				GL11.glRotated(90, -1, 0, 0);
+				break;
+			case WEST:
+				GL11.glRotated(90, 0, 0, 1);
+				break;
+			case SOUTH:
+				GL11.glRotated(90, 1, 0, 0);
+				break;
+			case EAST:
+				GL11.glRotated(90, 0, 0, -1);
+				break;
+			case DOWN:
+				GL11.glRotated(180, 1, 0, 0);
+				break;
+			case UP:
+				break;
+		}
+		
+		GL11.glTranslated(-0.5, -0.5, -0.5);
+		
+		//OUTSIDE
+		
+		//NORTH
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//WEST
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//SOUTH
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//EAST
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
 		
 		tessellator.draw();
 		GL11.glPopMatrix();
