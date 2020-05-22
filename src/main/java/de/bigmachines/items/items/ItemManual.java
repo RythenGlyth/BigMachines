@@ -2,9 +2,9 @@ package de.bigmachines.items.items;
 
 import de.bigmachines.items.ItemBase;
 
-public class ModManual extends ItemBase {
+public class ItemManual extends ItemBase {
 
-	public ModManual() {
+	public ItemManual() {
 		super("manual");
 	}
 	
