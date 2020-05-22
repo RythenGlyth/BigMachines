@@ -59,7 +59,6 @@ public class BigMachines {
         MinecraftForge.EVENT_BUS.register(new HUDTickHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
-		MinecraftForge.EVENT_BUS.register(new CooktimeDisplay());
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
 		
 		ModCreativeTabs.init();

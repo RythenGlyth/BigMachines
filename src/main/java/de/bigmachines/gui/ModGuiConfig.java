@@ -12,7 +12,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 public class ModGuiConfig extends GuiConfig {
 
 	public ModGuiConfig(GuiScreen parentScreen) {
-		super(parentScreen, Config.getConfigElements(), Reference.MOD_ID, false, false, I18n.format(Reference.MOD_ID + ".config.title"));
+		super(parentScreen, Config.getConfigElements(), Reference.MOD_ID, false, false, I18n.format("config." + Reference.MOD_ID + ".title"));
 	}
 	
 	

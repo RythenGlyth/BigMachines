@@ -1,4 +1,14 @@
+#Config
 bigmachines.config.title=Big Machines Config
+
+config.bigmachines.displayCookTime.title=Display cook time
+config.bigmachines.displayCookTime.description=Displays the cook time if you press STRG on an item
+config.bigmachines.displayHarvestLevel.title=Display harvest level
+config.bigmachines.displayHarvestLevel.description=Displays the harvest level if you press STRG on an item
+config.bigmachines.showHUDWhileChatting.title=Show HUD while chatting
+config.bigmachines.showHUDWhileChatting.description=Shows the HUD while chat is open
+config.bigmachines.hudPosition.title=HUD position
+config.bigmachines.hudPosition.description=position of the mod's HUD
 
 #Keybindings
 key.categories.bigmachines=Big Machines
@@ -50,6 +60,7 @@ info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details
 info.bigmachines.press_strg=Hold §e§l[STRG]§r§7 for Details
 
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
+info.bigmachines.harvestlevel.shift=Abbau-Level
 
 info.bigmachines.burntime=Burntime
 info.bigmachines.charge=Charge
