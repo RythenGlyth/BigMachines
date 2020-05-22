@@ -44,6 +44,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
+		
 		bindTexture(texture);
 		
 		drawBase();
@@ -252,6 +253,8 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 	public void drawBaseFluid(double minU, double minV, double maxU, double maxV) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder buffer = tessellator.getBuffer();
+		
+
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		
 		//OUTSIDE
