@@ -6,11 +6,13 @@ import de.bigmachines.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.animation.FastTESR;
@@ -53,6 +55,8 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		if(te.hasAttachment(EnumFacing.WEST)) drawAttachment(EnumFacing.WEST);
 		
 		drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
+		
+		GlStateManager.enableLighting();
 		
 		GlStateManager.disableBlend();
 		
