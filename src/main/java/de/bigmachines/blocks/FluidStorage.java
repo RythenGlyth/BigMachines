@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import de.bigmachines.utils.MathHelper;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -68,10 +69,18 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-        if (!canFillFluidType(resource)) return 0;
-        final int fill = MathHelper.min(resource.amount, maxReceive, contents.amount);
-        if (doFill)
-        	contents.amount += fill;
+		if(!(contents == null || contents.amount <= 0) && !canFillFluidType(resource)) {
+			return 0;
+		}
+        final int fill = Math.min(resource.amount, (contents == null ? maxReceive : Math.min(contents.amount, maxReceive)));
+        if (doFill) {
+        	if(contents == null || contents.amount <= 0) {
+        		contents = new FluidStack(resource.getFluid(), fill);
+        	} else {
+            	contents.amount += fill;
+        	}
+        }
+        System.out.println(fill);
         return fill;
 	}
 
@@ -84,6 +93,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
+		if(contents == null) return new FluidStack(FluidRegistry.WATER, 0);
         final int drain = MathHelper.min(maxDrain, maxExtract, contents.amount);
         if (doDrain)
         	contents.amount -= drain;
@@ -92,9 +102,14 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
         return drained;
 	}
 
+	public int getAmount() {
+		FluidStack contents = getContents();
+        return contents == null ? 0 : contents.amount;
+	}
+
 	@Override
 	public FluidStack getContents() {
-        return contents.copy();
+        return contents == null ? null : contents.copy();
 	}
 
 	@Override
@@ -114,7 +129,9 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 
 	@Override
 	public boolean canFillFluidType(FluidStack fluidStack) {
-		return fluidStack.isFluidEqual(contents);
+		if(contents == null || contents.amount <= 0) {
+			return true;
+		} else return fluidStack.isFluidEqual(contents);
 	}
 
 	@Override
