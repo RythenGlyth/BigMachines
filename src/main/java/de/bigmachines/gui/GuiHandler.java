@@ -17,7 +17,7 @@ public class GuiHandler implements IGuiHandler {
 				if(tileEntity instanceof IHasGui) {
 					return ((IHasGui)tileEntity).getGuiClient(player.inventory);
 				}
-			}
+		}
 		return null;
 	}
 	
