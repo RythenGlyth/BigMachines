@@ -188,8 +188,8 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		//return getBox(null);
-		return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+		return getBox(null);
+		//return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 	
 	@Override

@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -54,7 +55,12 @@ public class TileEntityPipeBase extends TileEntityBase {
 		//System.out.println(attachments);
 		return attachments.contains(side);
 	}
-	
+    
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return new AxisAlignedBB(getPos(), getPos().add(1, 1, 1));
+	}
+    
 	@Override
 	public void readCustomNBT(NBTTagCompound compound, boolean updatePacket) {
 		byte attachmentBytes = compound.getByte("Attachments");

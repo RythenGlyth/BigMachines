@@ -43,6 +43,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 15*16, 15*16);
 		
 		//GL11.glDisable(GL11.GL_ACCUM);
 		
