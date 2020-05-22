@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Config {
 	
 	public static boolean displayCookTime;
+	public static boolean displayHarvestLevel;
 	public static boolean showHUDWhileChatting;
 	public static HUDPostitions hudPosition;
 	
@@ -70,21 +71,26 @@ public class Config {
 	
 	private static void loadConfig() {
 		Property property = Config.config.get("general", "displayCookTime", true);
-		property.setComment(I18n.format(Reference.MOD_ID + ".config.displayCookTime.description"));
-		property.setLanguageKey(Reference.MOD_ID + ".config.displayCookTime.title");
+		property.setComment(I18n.format("config." + Reference.MOD_ID + ".displayCookTime.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".displayCookTime.title");
         displayCookTime = property.getBoolean();
         
+		property = Config.config.get("general", "displayHarvestLevel", true);
+		property.setComment(I18n.format("config." + Reference.MOD_ID + ".displayHarvestLevel.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".displayHarvestLevel.title");
+        displayHarvestLevel = property.getBoolean();
+        
         property = Config.config.get("general", "showHUDWhileChatting", true);
-		property.setComment(I18n.format(Reference.MOD_ID + ".config.showHUDWhileChatting.description"));
-		property.setLanguageKey(Reference.MOD_ID + ".config.showHUDWhileChatting.title");
+		property.setComment(I18n.format("config." + Reference.MOD_ID + ".showHUDWhileChatting.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".showHUDWhileChatting.title");
         showHUDWhileChatting = property.getBoolean();
         
         //property = Config.config.get("general", "hudPosition", Settings.HUDPostitions.BOTTOM_RIGHT.toString(), 
         //		I18n.translateToLocal(Reference.MOD_ID + ".config.hudPosition.description"), EnumUtils.getNames(Settings.HUDPostitions.class));
-        property = Config.config.get("hud", "hudPosition", HUDPostitions.BOTTOM_RIGHT.toString());
+        property = Config.config.get("general", "hudPosition", HUDPostitions.BOTTOM_RIGHT.toString());
 		property.setValidValues(EnumHelper.getNames(HUDPostitions.class));
-		property.setComment(I18n.format(Reference.MOD_ID + ".config.hudPosition.description"));
-		property.setLanguageKey(Reference.MOD_ID + ".config.hudPosition.title");
+		property.setComment(I18n.format("config." + Reference.MOD_ID + ".hudPosition.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".hudPosition.title");
         hudPosition = HUDPostitions.valueOf(property.getString());
         
         

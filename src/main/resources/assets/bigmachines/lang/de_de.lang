@@ -1,4 +1,14 @@
-bigmachines.config.title=Big Machines Konfig
+#Config
+config.bigmachines.title=Big Machines Konfig
+
+config.bigmachines.displayCookTime.title=Zeigt die Brennzeit
+config.bigmachines.displayCookTime.description=Zeigt die Brennzeit, wenn man STRG auf einem Item drückt
+config.bigmachines.displayHarvestLevel.title=Zeigt das Abbau-Level
+config.bigmachines.displayHarvestLevel.description=Zeigt das Abbau-Level, wenn man STRG auf einem Item drückt
+config.bigmachines.showHUDWhileChatting.title=Zeige HUD währen Chatten
+config.bigmachines.showHUDWhileChatting.description=Zeigt die HUD während der Chat offen ist
+config.bigmachines.hudPosition.title=HUD Position
+config.bigmachines.hudPosition.description=Die Position der HUD der Mod
 
 #Keybindings
 key.categories.bigmachines=Big Machines
@@ -50,6 +60,7 @@ info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details
 info.bigmachines.press_strg=Halte §e§l[STRG]§r§7 für Details
 
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
+info.bigmachines.harvestlevel.shift=Abbau-Level
 
 info.bigmachines.burntime=Brennzeit
 info.bigmachines.charge=Ladung
