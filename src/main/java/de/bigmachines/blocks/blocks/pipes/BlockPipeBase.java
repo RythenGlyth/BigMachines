@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 
 public class BlockPipeBase extends BlockBase {
 	
-	private static final double offsetBox = 0.3;
+	private static final double offsetBox = 0.1;
 	
 	private static final AxisAlignedBB box_base
 	= new AxisAlignedBB((5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);

@@ -23,6 +23,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileEntityPipeBase extends TileEntityBase {
 	
+	public int pass;
+	
 	protected HashSet<EnumFacing> attachments;
 	protected Capability capability;
 	
@@ -30,6 +32,12 @@ public class TileEntityPipeBase extends TileEntityBase {
 		super();
 		attachments = new HashSet<EnumFacing>();
 		this.capability = capability;
+	}
+	
+	@Override
+	public boolean shouldRenderInPass(int pass) {
+		this.pass = pass;
+		return true;
 	}
 	
 	public HashSet<EnumFacing> getAttachments() {

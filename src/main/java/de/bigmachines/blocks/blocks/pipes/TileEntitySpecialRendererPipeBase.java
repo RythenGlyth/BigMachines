@@ -44,20 +44,20 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		//GL11.glDisable(GL11.GL_ACCUM);
+		if(te.pass == 0) {
+			bindTexture(texture);
+			
+			drawBase();
+			if(te.hasAttachment(EnumFacing.DOWN)) drawAttachment(EnumFacing.DOWN);
+			if(te.hasAttachment(EnumFacing.EAST)) drawAttachment(EnumFacing.EAST);
+			if(te.hasAttachment(EnumFacing.NORTH)) drawAttachment(EnumFacing.NORTH);
+			if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachment(EnumFacing.SOUTH);
+			if(te.hasAttachment(EnumFacing.UP)) drawAttachment(EnumFacing.UP);
+			if(te.hasAttachment(EnumFacing.WEST)) drawAttachment(EnumFacing.WEST);
+		} else {
+			drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
+		}
 		
-		
-		bindTexture(texture);
-		
-		drawBase();
-		if(te.hasAttachment(EnumFacing.DOWN)) drawAttachment(EnumFacing.DOWN);
-		if(te.hasAttachment(EnumFacing.EAST)) drawAttachment(EnumFacing.EAST);
-		if(te.hasAttachment(EnumFacing.NORTH)) drawAttachment(EnumFacing.NORTH);
-		if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachment(EnumFacing.SOUTH);
-		if(te.hasAttachment(EnumFacing.UP)) drawAttachment(EnumFacing.UP);
-		if(te.hasAttachment(EnumFacing.WEST)) drawAttachment(EnumFacing.WEST);
-		
-		drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
 		
 		GlStateManager.enableLighting();
 		
