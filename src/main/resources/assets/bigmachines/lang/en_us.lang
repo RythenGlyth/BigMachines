@@ -31,6 +31,7 @@ item.bigmachines.nugget_lead.name=Lead Nugget
 item.bigmachines.nugget_aluminium.name=Aluminium Nugget
 
 item.bigmachines.slime_boots.name=Slime Boots
+item.bigmachines.manual.name=Big Machines Manual
 
 item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_copper.name=Copper wrench

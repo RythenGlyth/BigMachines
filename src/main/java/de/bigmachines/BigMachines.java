@@ -4,10 +4,9 @@ import java.io.File;
 
 import de.bigmachines.config.Config;
 import de.bigmachines.config.WorldGenerationConfig;
-import de.bigmachines.handler.CooktimeDisplay;
+import de.bigmachines.gui.GuiHandler;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
-import de.bigmachines.handler.PipeOutlineHandler;
 import de.bigmachines.handler.SlimeBootsHandler;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
@@ -26,6 +25,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -60,6 +60,8 @@ public class BigMachines {
 		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
+		
+		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 		
 		ModCreativeTabs.init();
 		ModItems.preInit();

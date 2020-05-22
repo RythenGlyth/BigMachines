@@ -31,6 +31,7 @@ item.bigmachines.nugget_lead.name=Bleiklumpen
 item.bigmachines.nugget_aluminium.name=Aluminiumklupmpen
 
 item.bigmachines.slime_boots.name=Slime Schuhe
+item.bigmachines.manual.name=Big Machines Anleitung
 
 item.bigmachines.wrench.name=Schraubenschlüssel
 #item.bigmachines.wrench_copper.name=Kupfer Schraubenschlüssel
