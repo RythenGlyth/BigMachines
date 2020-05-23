@@ -3,6 +3,7 @@ package de.bigmachines;
 import java.io.File;
 
 import de.bigmachines.config.Config;
+import de.bigmachines.config.ManualLoader;
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.gui.GuiHandler;
 import de.bigmachines.handler.HUDTickHandler;
@@ -78,6 +79,7 @@ public class BigMachines {
 		proxy.init();
 		
 		WorldGenerationConfig.loadConfig();
+		ManualLoader.init();
 	}
 	
 	@EventHandler
