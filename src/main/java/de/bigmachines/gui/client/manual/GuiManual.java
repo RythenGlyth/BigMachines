@@ -98,33 +98,9 @@ public class GuiManual extends GuiScreen {
 					selectedIndex == i ? 0 : 27, 512, 512, selectedIndex == i ? zLevel + 1 : zLevel);
 		}
 		
-		
-        Tessellator t = Tessellator.getInstance();
-		BufferBuilder bb = t.getBuffer();
-		
-        GlStateManager.disableTexture2D();
+		RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 6, guiTop + 4, 22, 17, 479, 0, 512, 512, zLevel);
 
-        RenderHelper.setColorFromInt(0xffffff);
-		
-        bb.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
-        
-		bb.pos(3.5,   20, 0).endVertex();
-		bb.pos(23,  20, 0).endVertex();
-		bb.pos(11.8, 4, 0).endVertex();
-		
-		t.draw();
-        
-        RenderHelper.setColorFromInt(0x8b8b8b);
-		
-        bb.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
-		
-		bb.pos(5, 20, 0).endVertex();
-		bb.pos(23,20, 0).endVertex();
-		bb.pos(14.5, 5, 0).endVertex();
-		
-		t.draw();
-		
-		GlStateManager.enableTexture2D();
+		RenderHelper.drawTexturedModalRectOnHead(guiLeft - tabWidth + 6, guiTop + guiHeight - 4, 22, 17, 479, 0, 512, 512, 0);
 
 		if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
 				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
@@ -143,12 +119,20 @@ public class GuiManual extends GuiScreen {
 			if (mouseX > - tabWidth + 3 && mouseX < 3
 					&& mouseY > firstTabOffset && mouseY < guiHeight - firstTabOffset) {
 				// TODO needs max
-				if (dWheel < 0) scrollIndexOffset = Math.min(ManualLoader.getTabs().size() - maxTabs, scrollIndexOffset + 1);
-				else scrollIndexOffset = Math.max(0, scrollIndexOffset - 1);
+				if (dWheel < 0) scrollDown();
+				else scrollUp();
 
 			}
 		}
 		super.handleMouseInput();
+	}
+	
+	private void scrollDown() {
+		scrollIndexOffset = Math.min(ManualLoader.getTabs().size() - maxTabs, scrollIndexOffset + 1);
+	}
+	
+	private void scrollUp() {
+		scrollIndexOffset = Math.max(0, scrollIndexOffset - 1);
 	}
 	
 	@Override
@@ -158,9 +142,12 @@ public class GuiManual extends GuiScreen {
 				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
 			final int tab = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffset;
 			selectedIndex = tab;
-		} else if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
-				&& mouseY > guiTop && mouseY  == 0 && false) {
-		
+		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
+				&& mouseY > guiTop + 4 && mouseY < guiTop + 4 + 17) {
+			scrollUp();
+		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
+				&& mouseY > guiTop + guiHeight - 4 - 22 && mouseY < guiTop + guiHeight - 4) {
+			scrollDown();
 		} else if (mouseX > guiLeft + 3 && mouseX < guiLeft + guiWidth
 				&& mouseY > guiTop && mouseY < guiTop + guiHeight) {
 			

@@ -30,10 +30,10 @@ public class RenderHelper {
 	}
 	
 	public static void setColorFromIntAlpha(int color) {
-		float red   = (float) (color >> 24 & 255) / 255.0F;
-		float green = (float) (color >> 16 & 255) / 255.0F;
-		float blue  = (float) (color >>  8 & 255) / 255.0F;
-		float alpha = (float) (color >>  0 & 255) / 255.0F;
+		float alpha = (float) (color >> 24 & 255) / 255.0F;
+		float red   = (float) (color >> 16 & 255) / 255.0F;
+		float green = (float) (color >>  8 & 255) / 255.0F;
+		float blue  = (float) (color >>  0 & 255) / 255.0F;
 		GlStateManager.color(red, green, blue, alpha);
 	}
 	
@@ -59,6 +59,14 @@ public class RenderHelper {
 	 */
 	public static void drawTexturedModalRect(int x, int y, int width, int height, int u, int v, float texW, float texH, double zLevel) {
 		drawSizedTexturedModalRect(x, y, width, height, u, v, (u + width), (v + height), texW, texH, zLevel);
+	}
+	
+	public static void drawTexturedModalRectOnHead(int x, int y, int width, int height, int u, int v, float texW, float texH, double zLevel) {
+		GlStateManager.translate(x + width / 2, y + height / 2, zLevel);
+		GlStateManager.rotate(180, 0, 0, 1);
+		drawSizedTexturedModalRect(- width / 2, + height / 2, width, height, u, v, (u + width), (v + height), texW, texH, zLevel);
+		GlStateManager.rotate(180, 0, 0, -1);
+		GlStateManager.translate( - (x + width / 2), - (y + height / 2), -zLevel);
 	}
 	
 	/**
