@@ -1,0 +1,10 @@
+{
+    "icon": "textures/item/wrench.png",
+    "title": "Big Machines Home",
+    "contents": [
+        {"type": "title", "contents": "Big Machines"},
+        {"type": "text", "contents": "asdfasdf"},
+        {"type": "title", "contents": "Materials" },
+        {"type": "crafting", "contents": "lead_ingot_from_nugget.json" }
+    ]
+}
