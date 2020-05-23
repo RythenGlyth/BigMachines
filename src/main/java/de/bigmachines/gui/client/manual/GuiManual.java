@@ -5,12 +5,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -93,11 +97,39 @@ public class GuiManual extends GuiScreen {
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 3, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight, tabWidth, tabHeight - 1, 447,
 					selectedIndex == i ? 0 : 27, 512, 512, selectedIndex == i ? zLevel + 1 : zLevel);
 		}
+		
+		
+        Tessellator t = Tessellator.getInstance();
+		BufferBuilder bb = t.getBuffer();
+		
+        GlStateManager.disableTexture2D();
+
+        RenderHelper.setColorFromInt(0xffffff);
+		
+        bb.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
+        
+		bb.pos(3.5,   20, 0).endVertex();
+		bb.pos(23,  20, 0).endVertex();
+		bb.pos(11.8, 4, 0).endVertex();
+		
+		t.draw();
+        
+        RenderHelper.setColorFromInt(0x8b8b8b);
+		
+        bb.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
+		
+		bb.pos(5, 20, 0).endVertex();
+		bb.pos(23,20, 0).endVertex();
+		bb.pos(14.5, 5, 0).endVertex();
+		
+		t.draw();
+		
+		GlStateManager.enableTexture2D();
 
 		if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
 				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
 			final int tab = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffset;
-			tooltips.add(tabs.get(tab).getTitle());
+			if(tabs.size() > tab && tab >= 0) tooltips.add(tabs.get(tab).getTitle());
 		}
 	}
 	
@@ -110,10 +142,9 @@ public class GuiManual extends GuiScreen {
 		if (dWheel != 0) {
 			if (mouseX > - tabWidth + 3 && mouseX < 3
 					&& mouseY > firstTabOffset && mouseY < guiHeight - firstTabOffset) {
-				System.out.println("moin" + scrollIndexOffset);
 				// TODO needs max
-				if (dWheel < 0) scrollIndexOffset++;
-				else scrollIndexOffset = Math.min(0, scrollIndexOffset - 1);
+				if (dWheel < 0) scrollIndexOffset = Math.min(ManualLoader.getTabs().size() - maxTabs, scrollIndexOffset + 1);
+				else scrollIndexOffset = Math.max(0, scrollIndexOffset - 1);
 
 			}
 		}
