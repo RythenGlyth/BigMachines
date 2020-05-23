@@ -94,7 +94,7 @@ public class BlockPipeBase extends BlockBase {
 
 		if (tile instanceof TileEntityPipeBase) {
 			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			for(EnumFacing side : tileEntityPipeBase.attachments) {
+			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 				collidingBoxes.add(getBox(side));
 			}
 		}

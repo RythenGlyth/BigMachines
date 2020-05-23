@@ -42,7 +42,7 @@ public class PipeOutlineHandler {
 				
 				lines.addAll(Arrays.asList(RenderHelper.getLinesFromCube(BlockPipeBase.getBox(null))));
 				
-				for(EnumFacing side : tileEntityPipeBase.getAttachments()) {
+				for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 			        AxisAlignedBB box = BlockPipeBase.getBox(side);
 			        
 			        boolean isBox = box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
