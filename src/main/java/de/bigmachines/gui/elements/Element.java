@@ -3,6 +3,7 @@ package de.bigmachines.gui.elements;
 import java.util.List;
 
 import de.bigmachines.gui.GuiContainerBase;
+import de.bigmachines.utils.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class Element {
@@ -84,7 +85,7 @@ public abstract class Element {
 	}
 	
 	public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, float textureW, float textureH) {
-		gui.drawTexturedModalRect(x, y, width, height, u, v, textureW, textureH);
+		RenderHelper.drawTexturedModalRect(x, y, width, height, u, v, textureW, textureH, gui.getZLevel());
 	}
 
 	

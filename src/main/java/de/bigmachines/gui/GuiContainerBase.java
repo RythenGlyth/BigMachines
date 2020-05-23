@@ -44,6 +44,10 @@ public class GuiContainerBase extends GuiContainer {
 		super(container);
 		this.texture = texture;
 	}
+    
+    public float getZLevel() {
+    	return zLevel;
+    }
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -119,9 +123,9 @@ public class GuiContainerBase extends GuiContainer {
 		mc.renderEngine.bindTexture(texture);
 		
 		if (xSize > 256 || ySize > 256) {
-			drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize, 512, 512);
+			RenderHelper.drawTexturedModalRect(guiLeft, guiTop, xSize, ySize, 0, 0, 512, 512, zLevel);
 		} else {
-			drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+			RenderHelper.drawTexturedModalRect(guiLeft, guiTop, xSize, ySize, 0, 0, 256, 256, zLevel);
 		}
 		
 		this.mouseX = mouseX - guiLeft;
@@ -184,116 +188,6 @@ public class GuiContainerBase extends GuiContainer {
 			element.drawBackground(mouseX, mouseY, partialTicks);
 		});
 	}
-
-	/**
-	 * Draw a not streched texture
-	 * @param x position of painting
-	 * @param y position of painting
-	 * @param width of painting
-	 * @param height of painting
-	 * @param u in texture
-	 * @param v in texture
-	 * @param texW the full texture width
-	 * @param texH the full texture height
-	 */
-	public void drawTexturedModalRect(int x, int y, int width, int height, int u, int v, float texW, float texH) {
-		this.drawSizedTexturedModalRect(x, y, width, height, u, v, (u + width), (v + height), texW, texH);
-	}
-	
-	/**
-	 * Draw texture
-	 * @param x position of painting
-	 * @param y position of painting
-	 * @param width of painting
-	 * @param height of painting
-	 * @param minU in texture
-	 * @param minV in texture
-	 * @param maxU in texture
-	 * @param maxV in texture
-	 * @param texW the full texture width
-	 * @param texH the full texture height
-	 */
-	public void drawSizedTexturedModalRect(int x, int y, int width, int height, float minU, float minV, float maxU, float maxV, float texW, float texH) {
-        final float uScale = 1f / texW;
-        final float vScale = 1f / texH;
-
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos(x        , y + height, this.zLevel).tex(minU * uScale, (maxV * vScale)).endVertex();
-        buffer.pos(x + width, y + height, this.zLevel).tex(maxU * uScale, (maxV * vScale)).endVertex();
-        buffer.pos(x + width, y         , this.zLevel).tex(maxU * uScale, (minV * vScale)).endVertex();
-        buffer.pos(x        , y         , this.zLevel).tex(minU * uScale, (minV * vScale)).endVertex();
-        tessellator.draw();
-    }
-	
-	/**
-	 * Draw Texture Tiled (with 16 width of each tile)
-	 * @param x position of painting
-	 * @param y position of painting
-	 * @param width of painting
-	 * @param height of painting
-	 * @param minU in texture
-	 * @param minV in texture
-	 * @param texW the full texture width
-	 * @param texH the full texture height
-	 */
-	public void drawTiledTexture(int x, int y, int width, int height, float minU, float minV, float texW, float texH) {
-		this.drawTiledTexture(x, y, width, height, 16, 16, minU, minV, minU + 16, minV + 16, texW, texH);
-	}
-	
-	/**
-	 * Draw Texture Tiled
-	 * @param x position of painting
-	 * @param y position of painting
-	 * @param width of painting
-	 * @param height of painting
-	 * @param drawWidth of each tile
-	 * @param drawHeight of each tile
-	 * @param minU in texture
-	 * @param minV in texture
-	 * @param maxU in texture
-	 * @param maxV in texture
-	 * @param texW the full texture width
-	 * @param texH the full texture height
-	 */
-	public void drawTiledTexture(int x, int y, int width, int height, int drawWidth, int drawHeight, float minU, float minV, float maxU, float maxV, float texW, float texH) {
-		int i;
-		int j;
-
-		for (i = 0; i < width; i += drawWidth) {
-			for (j = 0; j < height; j += drawHeight) {
-				drawSizedTexturedModalRect(x + i, y + j, Math.min(width - i, drawWidth), Math.min(height - j, drawHeight), minU, minV, maxU, maxV, texW, texH);
-			}
-		}
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-	}
-	
-	/**
-	 * Draw Texture Tiled of TextureAtlasSprite
-	 * @param x position of painting
-	 * @param y position of painting
-	 * @param width of painting
-	 * @param height of painting
-	 * @param icon the TextureAtlasSprite of texture
-	 */
-	public void drawTiledTextureIcon(int x, int y, int width, int height, TextureAtlasSprite icon) {
-		drawTiledTexture(x, y, width, height, 16, 16, icon.getMinU(), icon.getMinV(), icon.getMaxU(), icon.getMaxV(), 1, 1);
-	}
-	
-	public void drawFluid(int x, int y, FluidStack fluid, int width, int height) {
-		if (fluid == null) return;
-		
-		GL11.glPushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		RenderHelper.setBlockTextureSheet();
-		int color = fluid.getFluid().getColor(fluid);
-		RenderHelper.setColorFromInt(color);
-		drawTiledTextureIcon(x, y, width, height, RenderHelper.getTexture(fluid.getFluid().getStill(fluid)));
-		GL11.glPopMatrix();
-	}
 	
 	protected int getCenteredOffset(String string) {
 		return this.getCenteredOffset(string, xSize / 2);
@@ -303,6 +197,4 @@ public class GuiContainerBase extends GuiContainer {
 		return xPos - (fontRenderer.getStringWidth(string) / 2);
 	}
 
-	
-	
 }
