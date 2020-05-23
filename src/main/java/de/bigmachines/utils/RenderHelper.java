@@ -2,11 +2,43 @@ package de.bigmachines.utils;
 
 import java.util.Objects;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 
 public class RenderHelper {
+	
+	public static final ResourceLocation MC_BLOCK_SHEET = new ResourceLocation("textures/atlas/blocks.png");
+	
+	public static void setBlockTextureSheet() {
+		Minecraft.getMinecraft().renderEngine.bindTexture(MC_BLOCK_SHEET);
+	}
+	
+	public static void setColorFromInt(int color) {
+		float red   = (float) (color >> 16 & 255) / 255.0F;
+		float green = (float) (color >>  8 & 255) / 255.0F;
+		float blue  = (float) (color >>  0 & 255) / 255.0F;
+		GlStateManager.color(red, green, blue, 1.0F);
+	}
+	
+	public static void setColorFromIntAlpha(int color) {
+		float red   = (float) (color >> 24 & 255) / 255.0F;
+		float green = (float) (color >> 16 & 255) / 255.0F;
+		float blue  = (float) (color >>  8 & 255) / 255.0F;
+		float alpha = (float) (color >>  0 & 255) / 255.0F;
+		GlStateManager.color(red, green, blue, alpha);
+	}
+	
+	public static TextureAtlasSprite getTexture(String location) {
+		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location);
+	}
+	
+	public static TextureAtlasSprite getTexture(ResourceLocation location) {
+		return getTexture(location.toString());
+	}
 	
 	public static Line3D[] getLinesFromCube(AxisAlignedBB cube) {
 		Line3D[] lines = new Line3D[] {
