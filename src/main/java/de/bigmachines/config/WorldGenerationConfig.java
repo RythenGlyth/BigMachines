@@ -56,10 +56,6 @@ public class WorldGenerationConfig {
 	    			try {
 						if(WorldGeneratorBase.worldGeneratorTypes.containsKey(generator.get("type").getAsString())) {
 							
-							System.out.println("--------------------------------------------------------------------------------");
-							System.out.println(generator.get("type"));
-							System.out.println(WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
-							
 							WorldGeneratorBase gen = WorldGenerationConfig.gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
 							
 							ModWorldGenerator.addGenerator(gen);
