@@ -127,12 +127,21 @@ public class GuiManual extends GuiScreen {
 		super.handleMouseInput();
 	}
 	
+	private boolean checkIfValidOffset(final int offset) {
+		final int len = ManualLoader.getTabs().size() - maxTabs;
+		if (offset < 0) return false;
+		if (offset >= len) return false;
+		return true;
+	}
+	
 	private void scrollDown() {
-		scrollIndexOffset = Math.min(ManualLoader.getTabs().size() - maxTabs, scrollIndexOffset + 1);
+		if (checkIfValidOffset(scrollIndexOffset + 1))
+			scrollIndexOffset++;
 	}
 	
 	private void scrollUp() {
-		scrollIndexOffset = Math.max(0, scrollIndexOffset - 1);
+		if (checkIfValidOffset(scrollIndexOffset - 1))
+			scrollIndexOffset--;
 	}
 	
 	@Override

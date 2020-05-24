@@ -1,11 +1,17 @@
 package de.bigmachines.config;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.bigmachines.Reference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+
 import de.bigmachines.gui.client.manual.ManualTab;
-import net.minecraft.util.ResourceLocation;
+import de.bigmachines.utils.FileHelper;
 
 public class ManualLoader {
     private static final List<ManualTab> tabs = new ArrayList<ManualTab>();
@@ -15,7 +21,17 @@ public class ManualLoader {
 	}
     
     public static void init() {
-    	for (int i = 25; i-- > 0;)
-    	tabs.add(new ManualTab(new ResourceLocation(Reference.MOD_ID, "textures/item/wrench.png"), "servus" + i));
+    	//for (int i = 25; i-- > 0;)
+    	//tabs.add(new ManualTab(new ResourceLocation(Reference.MOD_ID, "textures/item/wrench.png"), "servus" + i));
+    	final Gson gson = new GsonBuilder().registerTypeAdapter(ManualTab.class, new ManualTab.ManualDeserializer()).create();
+    	try {
+	    	final List<File> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/");
+	    	for (File f : files)
+	    		if (FileHelper.getExtension(f).equals("json")) {
+	    			tabs.add(gson.fromJson(new BufferedReader(new FileReader(f)), ManualTab.class));
+	    		}
+    	} catch (Exception ex) {
+    		ex.printStackTrace();
+    	}
     }
 }

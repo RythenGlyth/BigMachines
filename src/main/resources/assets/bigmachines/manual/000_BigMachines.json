@@ -1,5 +1,5 @@
 {
-    "icon": "textures/item/wrench.png",
+    "icon": "bigmachines:textures/item/wrench.png",
     "title": "Big Machines Home",
     "contents": [
         {"type": "title", "contents": "Big Machines"},
