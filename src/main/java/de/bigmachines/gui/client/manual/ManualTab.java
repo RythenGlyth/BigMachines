@@ -11,7 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import de.bigmachines.Reference;
 import net.minecraft.util.ResourceLocation;
 
 public class ManualTab {
@@ -27,6 +26,10 @@ public class ManualTab {
 	
 	public boolean addContents(ManualContent c) {
 		return contents.add(c);
+	}
+	
+	public List<ManualContent> getContents() {
+		return new ArrayList<ManualContent>(contents);
 	}
 	
 	public ResourceLocation getIcon() {
@@ -45,14 +48,29 @@ public class ManualTab {
 			final String icon = tab.has("icon") ? tab.get("icon").getAsString() : "";
 			final String title = tab.has("title") ? tab.get("title").getAsString() : "";
 			
-			final ManualTab mtab = new ManualTab(new ResourceLocation(icon), title);
+			final ManualTab mtab = new ManualTab(new ResourceLocation(icon.split(":")[0], icon.split(":")[1]), title);
 			
 			if(tab.has("contents")) {
-				JsonArray contentsJson = tab.get("contents").getAsJsonArray();
-				/*contentsJson.forEach(contentJson -> {
-					//mtab.addContents(c)
-				});*/
-				
+				final JsonArray contentsJson = tab.get("contents").getAsJsonArray();
+				for (JsonElement obj : contentsJson) {
+					final JsonObject jobj = obj.getAsJsonObject();
+					final String contents = jobj.has("contents") ? jobj.get("contents").getAsString() : "";
+					final boolean inline = jobj.has("inline") ? jobj.get("inline").getAsBoolean() : false;
+					if (jobj.has("type"))
+						switch (jobj.get("type").getAsString()) {
+						case "title":
+							mtab.addContents(new ManualContent.ManualTitle(contents, inline));
+							break;
+						case "text":
+							mtab.addContents(new ManualContent.ManualText(contents, inline));
+							break;
+						case "crafting":
+							
+							break;
+						default:
+							break;
+						}
+				}
 			}
 			
 			return mtab;

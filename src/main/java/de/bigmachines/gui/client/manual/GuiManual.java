@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
+import de.bigmachines.utils.Pair;
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -44,9 +45,10 @@ public class GuiManual extends GuiScreen {
     	this.tooltips = new LinkedList<String>();
     	
     	this.selectedIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
+    	
+    	this.selectedIndex = Math.min(ManualLoader.getTabs().size() - 1, selectedIndex);
+    	this.selectedIndex = Math.max(0, selectedIndex);
     }
-    
-    // TODO tooltip
     
     @Override
     public void initGui() {
@@ -82,21 +84,28 @@ public class GuiManual extends GuiScreen {
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffset; i < tabs.size() && i - scrollIndexOffset < maxTabs; i++) {
 			this.mc.getTextureManager().bindTexture(tabs.get(i - scrollIndexOffset).getIcon());
-			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 3 + 8, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 2);
+			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2 + 8, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 1);
 		}
+		
+		Pair<Integer, Integer> last = new Pair<Integer, Integer>(guiLeft + 8, guiTop + 8);
+		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null)
+			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
+				last = mc.draw(last.x, last.y, mouseX, mouseY, partialTicks);
+			}
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
 	}
     
 	private void drawBackground(int mouseX, int mouseY, float partialTicks) {
 		this.mc.getTextureManager().bindTexture(background);
-		RenderHelper.drawTexturedModalRect(guiLeft, guiTop, guiWidth, guiHeight, 0, 0, 512, 512, zLevel + 1);
 		
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffset; i < tabs.size() && i - scrollIndexOffset < maxTabs; i++) {
-			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 3, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight, tabWidth, tabHeight - 1, 447,
+			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight, tabWidth, tabHeight - 1, 447,
 					selectedIndex == i ? 0 : 27, 512, 512, selectedIndex == i ? zLevel + 1 : zLevel);
 		}
+
+		RenderHelper.drawTexturedModalRect(guiLeft, guiTop, guiWidth, guiHeight, 0, 0, 512, 512, zLevel);
 		
 		RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 6, guiTop + 4, 22, 17, 479, 0, 512, 512, zLevel);
 

@@ -1,0 +1,15 @@
+{
+    "icon": "bigmachines:textures/item/manual.png",
+    "title": "Big Machines Welcome",
+    "contents": [{
+            "type": "title",
+            "contents": "Hehe Machines",
+            "inline": "false"
+        },
+        {
+            "type": "text",
+            "contents": "Du bisch dumm",
+            "inline": "false"
+        }
+    ]
+}
