@@ -15,15 +15,17 @@ import de.bigmachines.utils.FileHelper;
 
 public class ManualLoader {
     private static final List<ManualTab> tabs = new ArrayList<ManualTab>();
+    public static Gson gson;
 
     public static List<ManualTab> getTabs() {
 		return new ArrayList<ManualTab>(tabs);
 	}
     
     public static void init() {
-    	//for (int i = 25; i-- > 0;)
-    	//tabs.add(new ManualTab(new ResourceLocation(Reference.MOD_ID, "textures/item/wrench.png"), "servus" + i));
-    	final Gson gson = new GsonBuilder().registerTypeAdapter(ManualTab.class, new ManualTab.ManualDeserializer()).create();
+    	gson = new GsonBuilder()
+    			.registerTypeAdapter(ManualTab.class, new ManualTab.ManualDeserializer())
+    	.create();
+    	
     	try {
 	    	final List<File> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/");
 	    	for (File f : files)

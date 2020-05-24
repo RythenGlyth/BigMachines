@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -46,7 +47,13 @@ public class ManualTab {
 			
 			final ManualTab mtab = new ManualTab(new ResourceLocation(icon), title);
 			
-			
+			if(tab.has("contents")) {
+				JsonArray contentsJson = tab.get("contents").getAsJsonArray();
+				/*contentsJson.forEach(contentJson -> {
+					//mtab.addContents(c)
+				});*/
+				
+			}
 			
 			return mtab;
 		}
