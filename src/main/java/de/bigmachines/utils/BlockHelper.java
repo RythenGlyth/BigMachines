@@ -1,9 +1,15 @@
 package de.bigmachines.utils;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -29,6 +35,24 @@ public class BlockHelper {
 
 	public void callNeighborTileChange(World world, BlockPos pos) {
 		world.updateComparatorOutputLevel(pos, world.getBlockState(pos).getBlock());
+	}
+	
+	@Nullable
+	public static RayTraceResult rayTrace(double blockReachDistance, BlockPos pos, AxisAlignedBB boundingBox) {
+		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
+        /*Vec3d vec3d = Minecraft.getMinecraft().player.getPositionEyes(partialTicks);
+        Vec3d vec3d1 = Minecraft.getMinecraft().player.getPositionEyes(partialTicks).addVector(vec3d.x * blockReachDistance, vec3d.y * blockReachDistance, vec3d.z * blockReachDistance)
+        		.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        */
+		Vec3d vec3d = Minecraft.getMinecraft().player.getPositionEyes(partialTicks);
+        Vec3d vec3d1 = Minecraft.getMinecraft().player.getLook(partialTicks);
+        Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
+        
+        vec3d = vec3d.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        vec3d2 = vec3d2.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        
+        RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
+        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), raytraceresult.sideHit, pos);
 	}
 	
 }

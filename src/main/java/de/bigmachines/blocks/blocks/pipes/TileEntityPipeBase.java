@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileEntityPipeBase extends TileEntityBase {
+public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 	
 	public int pass;
 	
@@ -37,6 +38,11 @@ public class TileEntityPipeBase extends TileEntityBase {
 		super();
 		attachments = new HashMap<EnumFacing, PipeAttachment>();
 		this.capability = capability;
+	}
+
+	@Override
+	public void update() {
+		
 	}
 	
 	@Override
@@ -118,6 +124,7 @@ public class TileEntityPipeBase extends TileEntityBase {
 		}
 		
 		compound.setTag("Attachments", attachments);
+		
 		super.writeCustomNBT(compound, updatePacket);
 		
 	}
@@ -138,9 +145,58 @@ public class TileEntityPipeBase extends TileEntityBase {
 			);
 		}
 		
+		@Override
+		public String toString() {
+			return "{\"canExtract\": " + canExtract + ", \"canExtract\": " + canInsert + "}";
+		}
+		
+		public void setCanExtract(boolean canExtract) {
+			this.canExtract = canExtract;
+		}
+		
+		public void setCanInsert(boolean canInsert) {
+			this.canInsert = canInsert;
+		}
+		
 		public PipeAttachment(boolean canExtract, boolean canInsert) {
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
+		}
+		
+		public void cycleThrough(boolean direction) {
+			if(canExtract && canInsert) {
+				if(direction) {
+					canExtract = false;
+					canInsert = true;
+				} else {
+					canExtract = false;
+					canInsert = false;
+				}
+			} else if(!canExtract && !canInsert) {
+				if(direction) {
+					canExtract = true;
+					canInsert = true;
+				} else {
+					canExtract = true;
+					canInsert = false;
+				}
+			} else if(canExtract && !canInsert) {
+				if(direction) {
+					canExtract = false;
+					canInsert = false;
+				} else {
+					canExtract = false;
+					canInsert = true;
+				}
+			} else if(!canExtract && canInsert) {
+				if(direction) {
+					canExtract = true;
+					canInsert = false;
+				} else {
+					canExtract = true;
+					canInsert = true;
+				}
+			}
 		}
 		
 		public boolean canExtract() {
@@ -153,8 +209,8 @@ public class TileEntityPipeBase extends TileEntityBase {
 		
 		public NBTTagCompound getNBTTag() {
 			NBTTagCompound attachmentTag = new NBTTagCompound();
-			attachmentTag.setBoolean("canExtract", canExtract);
-			attachmentTag.setBoolean("canInsert", canInsert);
+			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
+			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
 			return attachmentTag;
 		}
 		

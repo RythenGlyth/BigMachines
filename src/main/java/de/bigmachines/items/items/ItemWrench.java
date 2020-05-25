@@ -1,14 +1,21 @@
 package de.bigmachines.items.items;
 
+import de.bigmachines.BigMachines;
+import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
+import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
+import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
-import de.bigmachines.interfaces.IModelRegister;
 import de.bigmachines.items.ItemBase;
+import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
+import de.bigmachines.utils.Pair;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -90,17 +97,25 @@ public class ItemWrench extends ItemBase {
 		@SubscribeEvent
 		public void onScroll(MouseEvent e) {
 			if(ModKeybinds.wrench.isKeyDown()) {
-				int dwheel = e.getDwheel();
-				if(dwheel > 0) {
-					System.out.println(dwheel);
-					e.setCanceled(true);
-				} else if(dwheel < 0) {
-					System.out.println(dwheel);
-					e.setCanceled(true);
+				if(Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench) {
+					int dwheel = e.getDwheel();
+					if(dwheel != 0) {
+						e.setCanceled(true);
+						Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
+						if(slectedSide != null) {
+							TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(slectedSide.y);
+							if(tile instanceof TileEntityPipeBase) {
+								TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
+								PipeAttachment attachment = tileEntityPipeBase.getAttachment(slectedSide.x);
+								attachment.cycleThrough(dwheel > 0);
+								BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(slectedSide.y, slectedSide.x, attachment.canExtract(), attachment.canInsert()));
+								
+							}
+						}
+					}
 				}
 			}
 		}
-		
 	}
 	
 	

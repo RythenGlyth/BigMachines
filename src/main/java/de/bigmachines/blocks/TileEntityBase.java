@@ -44,7 +44,6 @@ public abstract class TileEntityBase extends TileEntity {
 	//Synchronise between Client and Server
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		System.out.println("----------------------------------GET-UPDATETAG");
 		NBTTagCompound compound = super.getUpdateTag();
 		if(compound == null) compound = new NBTTagCompound();
 		this.writeCustomNBT(compound, true);

@@ -9,6 +9,8 @@ config.bigmachines.showHUDWhileChatting.title=Show HUD while chatting
 config.bigmachines.showHUDWhileChatting.description=Shows the HUD while chat is open
 config.bigmachines.hudPosition.title=HUD position
 config.bigmachines.hudPosition.description=position of the mod's HUD
+config.bigmachines.pipeStatusOverlayAlwaysOn.title=Show pipe attachments status always
+config.bigmachines.pipeStatusOverlayAlwaysOn.description=switch between show status of pipe attachments always (enabled) and only with wrench in hand
 
 #Keybindings
 key.categories.bigmachines=Big Machines

@@ -9,6 +9,8 @@ config.bigmachines.showHUDWhileChatting.title=Zeige HUD währen Chatten
 config.bigmachines.showHUDWhileChatting.description=Zeigt die HUD während der Chat offen ist
 config.bigmachines.hudPosition.title=HUD Position
 config.bigmachines.hudPosition.description=Die Position der HUD der Mod
+config.bigmachines.pipeStatusOverlayAlwaysOn.title=Zeigt Status von Rohr Verbindungen
+config.bigmachines.pipeStatusOverlayAlwaysOn.description=wechsle zwischen status von Rohr Verbindungen immer (aktiviert) zeigen und nur wenn ein Schraubenschlüssel in der Hand ist zeigen
 
 #Keybindings
 key.categories.bigmachines=Big Machines

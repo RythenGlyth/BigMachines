@@ -3,6 +3,8 @@ package de.bigmachines.blocks.blocks.pipes;
 import org.lwjgl.opengl.GL11;
 
 import de.bigmachines.Reference;
+import de.bigmachines.config.Config;
+import de.bigmachines.items.items.ItemWrench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.animation.FastTESR;
 import net.minecraftforge.fluids.Fluid;
@@ -55,12 +58,11 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 			bindTexture(texture);
 			
 			drawBase();
-			if(te.hasAttachment(EnumFacing.DOWN)) drawAttachment(EnumFacing.DOWN);
-			if(te.hasAttachment(EnumFacing.EAST)) drawAttachment(EnumFacing.EAST);
-			if(te.hasAttachment(EnumFacing.NORTH)) drawAttachment(EnumFacing.NORTH);
-			if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachment(EnumFacing.SOUTH);
-			if(te.hasAttachment(EnumFacing.UP)) drawAttachment(EnumFacing.UP);
-			if(te.hasAttachment(EnumFacing.WEST)) drawAttachment(EnumFacing.WEST);
+			for(EnumFacing side : EnumFacing.VALUES) {
+				if(te.hasAttachment(side)) drawAttachment(side, te.getAttachment(side));
+			}
+			
+			
 		} else {
 			drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
 		}
@@ -157,7 +159,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		tessellator.draw();
 	}
 	
-	public void drawAttachment(EnumFacing side) {
+	public void drawAttachment(EnumFacing side, TileEntityPipeBase.PipeAttachment attachment) {
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder buffer = tessellator.getBuffer();
@@ -238,6 +240,41 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
 		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
 		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		
+		//System.out.println(Config.pipeStatusOverlayAlwaysOn);
+		
+		if((Config.pipeStatusOverlayAlwaysOn || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
+			double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * this.pixelTextureWitdh : 12 * this.pixelTextureWitdh);
+			
+			//OUTSIDE STATUS
+			
+			//NORTH
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+
+			//WEST
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+
+			//SOUTH
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+
+			//EAST
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+			
+			
+		}
+		
 		
 		tessellator.draw();
 		GL11.glPopMatrix();
