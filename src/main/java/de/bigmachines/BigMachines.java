@@ -6,6 +6,7 @@ import de.bigmachines.config.Config;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.gui.GuiHandler;
+import de.bigmachines.handler.GiveItemManualHandler;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
 import de.bigmachines.handler.SlimeBootsHandler;
@@ -16,8 +17,10 @@ import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.init.ModMaterials;
 import de.bigmachines.init.ModTileEntities;
 import de.bigmachines.items.items.ItemWrench;
+import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -27,7 +30,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Main
@@ -43,6 +48,8 @@ public class BigMachines {
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
+	
+	public static final SimpleNetworkWrapper networkHandlerMain = NetworkRegistry.INSTANCE.newSimpleChannel(new ResourceLocation(Reference.MOD_ID, "main").toString());
 	
 	public BigMachines() {
 		INSTANCE = this;
@@ -61,6 +68,8 @@ public class BigMachines {
 		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
+		MinecraftForge.EVENT_BUS.register(new Config());
+		MinecraftForge.EVENT_BUS.register(new GiveItemManualHandler());
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 		
@@ -72,6 +81,9 @@ public class BigMachines {
 		ModTileEntities.init();
 
 		proxy.preInit();
+		
+		int messageID = 0;
+		networkHandlerMain.registerMessage(MessageChangePipeAttachmentMode.Handler.class, MessageChangePipeAttachmentMode.class, messageID++, Side.SERVER);
 	}
 	
 	@EventHandler

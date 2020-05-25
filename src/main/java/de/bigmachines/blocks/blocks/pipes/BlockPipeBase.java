@@ -1,6 +1,7 @@
 package de.bigmachines.blocks.blocks.pipes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -10,8 +11,9 @@ import com.google.common.collect.Lists;
 
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
+import de.bigmachines.utils.BlockHelper;
+import de.bigmachines.utils.Pair;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -147,6 +149,40 @@ public class BlockPipeBase extends BlockBase {
         }
         
 		return returnRayTraceResult;
+	}
+
+	@Nullable
+	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace() {
+		RayTraceResult rayTraceResult1 = Minecraft.getMinecraft().player
+				.rayTrace(Minecraft.getMinecraft().playerController.getBlockReachDistance(), Minecraft.getMinecraft().getRenderPartialTicks());
+		
+		BlockPos pos = rayTraceResult1.getBlockPos();
+		
+		TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(pos);
+		if(tile instanceof TileEntityPipeBase) {
+			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
+			HashMap<RayTraceResult, EnumFacing> list = new HashMap<RayTraceResult, EnumFacing>();
+			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
+		        AxisAlignedBB box = BlockPipeBase.getBox(side);
+		        RayTraceResult result = BlockHelper.rayTrace(Minecraft.getMinecraft().playerController.getBlockReachDistance(), rayTraceResult1.getBlockPos(), box);
+		        if(result != null) list.put(result, side);
+			}
+			
+			RayTraceResult returnRayTraceResult = null;
+	        double lastDistance = 0.0D;
+	        
+	        for (RayTraceResult raytraceresult : list.keySet()) {
+	            if (raytraceresult != null) {
+	                double distance = raytraceresult.hitVec.squareDistanceTo(Minecraft.getMinecraft().player.getLookVec());
+	                if (distance > lastDistance) {
+	                	returnRayTraceResult = raytraceresult;
+	                	lastDistance = distance;
+	                }
+	            }
+	        }
+	        return returnRayTraceResult == null ? null : new Pair(list.get(returnRayTraceResult), pos);
+		} else
+			return null;
 	}
 	
 	@Override

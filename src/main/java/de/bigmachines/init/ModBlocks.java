@@ -7,6 +7,7 @@ import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
+import de.bigmachines.items.items.BlockPinkDirt;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -26,12 +27,15 @@ public class ModBlocks {
 	
 	public static BlockHeatPipe heatPipe;
 	public static BlockFluidPipe fluidPipe;
+	public static BlockPinkDirt pink_dirt;
 
     public static void preInit() {
         heatPipe = new BlockHeatPipe();
         BLOCKS.add(heatPipe);
         fluidPipe = new BlockFluidPipe();
         BLOCKS.add(fluidPipe);
+    	pink_dirt = new BlockPinkDirt();
+    	BLOCKS.add(pink_dirt);
     }
     
     @SubscribeEvent

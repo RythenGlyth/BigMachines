@@ -21,7 +21,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 
 public class Config {
-	
+
+	public static boolean pipeStatusOverlayAlwaysOn;
 	public static boolean displayCookTime;
 	public static boolean displayHarvestLevel;
 	public static boolean showHUDWhileChatting;
@@ -72,7 +73,6 @@ public class Config {
 	
 	private static void loadConfig() {
 		// deprecated because "localization should rarely happen on the server" BUT it does
-		
 		Property property = Config.config.get("general", "displayCookTime", true);
 		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".displayCookTime.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".displayCookTime.title");
@@ -82,6 +82,11 @@ public class Config {
 		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".displayHarvestLevel.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".displayHarvestLevel.title");
         displayHarvestLevel = property.getBoolean();
+        
+		property = Config.config.get("general", "pipeStatusOverlayAlwaysOn", true);
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".pipeStatusOverlayAlwaysOn.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".pipeStatusOverlayAlwaysOn.title");
+		pipeStatusOverlayAlwaysOn = property.getBoolean();
         
         property = Config.config.get("general", "showHUDWhileChatting", true);
 		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".showHUDWhileChatting.description"));
@@ -100,6 +105,4 @@ public class Config {
         	Config.config.save();
         }
 	}
-
-	
 }
