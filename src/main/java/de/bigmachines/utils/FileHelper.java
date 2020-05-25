@@ -1,9 +1,11 @@
 package de.bigmachines.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -13,12 +15,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.core.util.Loader;
 
+import de.bigmachines.BigMachines;
 import de.bigmachines.config.ManualLoader;
 
 public class FileHelper {
@@ -43,6 +48,34 @@ public class FileHelper {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static HashMap<String, String> oldGetResourcesFolder(String folder) {
+		final HashMap<String, String> files = new HashMap<String, String>();
+		
+		try {
+			//final ClassLoader loader = BigMachines.class.getClassLoader();
+			
+			//final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			//final InputStream in = loader.getResourceAsStream(folder);
+			final InputStream in = Loader.getResource(folder, null).openStream();
+			final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			
+			System.out.println("------------------------------");
+			while(reader.ready()) {
+				final String line = reader.readLine();
+				System.out.println(line);
+				final BufferedReader file = new BufferedReader(new InputStreamReader(Loader.getResource(folder + line, null).openStream()));
+				files.put(line, file.lines().collect(Collectors.joining("\n")));
+			}
+			System.out.println("------------------------------");
+			reader.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		
+		return files;
 	}
 	
 	public static List<File> getResourcesFolder(String folder) {
@@ -70,12 +103,16 @@ public class FileHelper {
 		return files;
 	}
 	
-	public static String getExtension(File f) {
-		String[] name = f.getName().split("\\.");
+	public static String getExtension(String s) {
+		String[] name = s.split("\\.");
 		if (name.length > 0)
 			return name[name.length - 1];
 		else
 			return "";
+	}
+	
+	public static String getExtension(File f) {
+		return getExtension(f.getName());
 	}
 	
 	public static void copyFileUsingStreamAndLoader(String source, File dest) {

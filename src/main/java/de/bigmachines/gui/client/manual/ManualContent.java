@@ -40,6 +40,7 @@ public abstract class ManualContent {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(left, top, 0);
 			GlStateManager.scale(SCALE, SCALE, 1);
+			// FIXME
 			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 			return new Pair<Integer, Integer>(inline ? left + Minecraft.getMinecraft().fontRenderer.getStringWidth(content) * SCALE : left, 
