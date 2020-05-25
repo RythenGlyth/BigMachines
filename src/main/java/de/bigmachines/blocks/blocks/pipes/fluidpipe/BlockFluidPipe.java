@@ -22,7 +22,7 @@ public class BlockFluidPipe extends BlockPipeBase implements ITileEntityProvider
 	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(pos);
+		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileEntityFluidPipe) {
 			TileEntityFluidPipe tileEntityPipeBase = (TileEntityFluidPipe) tile;
 			if(tileEntityPipeBase.fluidStorage.getContents() != null) {
