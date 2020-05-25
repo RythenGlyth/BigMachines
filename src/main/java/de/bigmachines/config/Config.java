@@ -61,7 +61,6 @@ public class Config {
 	
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        	System.out.println("saving");
 		if (event.getModID().equalsIgnoreCase(Reference.MOD_ID)) {
             loadConfig();
         }
@@ -74,7 +73,6 @@ public class Config {
     }
 	
 	private static void loadConfig() {
-		System.out.println(I18n.class);
 		
 		// deprecated because "localization should rarely happen on the server" BUT it does
 		Property property = Config.config.get("general", "displayCookTime", true);

@@ -91,7 +91,6 @@ public class BigMachines {
 		proxy.init();
 		
 		WorldGenerationConfig.loadConfig();
-		ManualLoader.init();
 	}
 	
 	@EventHandler

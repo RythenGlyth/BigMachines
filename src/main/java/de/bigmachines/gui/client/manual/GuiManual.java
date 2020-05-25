@@ -11,14 +11,17 @@ import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.Pair;
 import de.bigmachines.utils.RenderHelper;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class GuiManual extends GuiScreen {
     private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
@@ -160,12 +163,17 @@ public class GuiManual extends GuiScreen {
 				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
 			final int tab = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffset;
 			selectedIndex = tab;
+			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
 		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
 				&& mouseY > guiTop + 4 && mouseY < guiTop + 4 + 17) {
-			scrollUp();
+			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
+			//scrollUp();
+			selectedIndex = Math.max(selectedIndex - 1, 0);
 		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
 				&& mouseY > guiTop + guiHeight - 4 - 22 && mouseY < guiTop + guiHeight - 4) {
-			scrollDown();
+			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
+			//scrollDown();
+			selectedIndex = Math.min(selectedIndex + 1, Math.max(ManualLoader.getTabs().size() - 1, 0));
 		} else if (mouseX > guiLeft + 3 && mouseX < guiLeft + guiWidth
 				&& mouseY > guiTop && mouseY < guiTop + guiHeight) {
 			

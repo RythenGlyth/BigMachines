@@ -2,6 +2,7 @@ package de.bigmachines.proxy;
 
 import java.util.ArrayList;
 
+import de.bigmachines.config.ManualLoader;
 import de.bigmachines.handler.CooktimeDisplay;
 import de.bigmachines.handler.HarvestLevelDisplay;
 import de.bigmachines.handler.PipeOutlineHandler;
@@ -33,7 +34,7 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void init() {
-
+		ManualLoader.init();
 	}
 
 	@Override

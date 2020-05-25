@@ -82,10 +82,10 @@ public class FileHelper {
 		List<File> files = new ArrayList<File>();
 		Stream<Path> walker;
 		try {
-			URI uri = ManualLoader.class.getResource(folder).toURI();
+			URI uri = BigMachines.class.getResource(folder).toURI();
 	    	Path myPath;
 	    	if (uri.getScheme().equals("jar")) {
-	    		FileSystem fs = FileSystems.newFileSystem(uri, Collections.<String, Object> emptyMap());
+	    		FileSystem fs = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
 	    		myPath = fs.getPath(folder);
 	    	} else
 	    		myPath = Paths.get(uri);
