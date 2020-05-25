@@ -49,7 +49,7 @@ public class GuiManual extends GuiScreen {
     	
     	this.selectedIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
     	
-    	this.selectedIndex = Math.min(ManualLoader.getTabs().size() - 1, selectedIndex);
+    	this.selectedIndex = Math.min(Math.max(0, ManualLoader.getTabs().size() - 1), selectedIndex);
     	this.selectedIndex = Math.max(0, selectedIndex);
     }
     

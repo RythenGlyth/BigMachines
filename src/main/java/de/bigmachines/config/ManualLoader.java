@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.jline.utils.InputStreamReader;
 
@@ -34,17 +36,9 @@ public class ManualLoader {
     	.create();
     	
     	try {
-    		//List<IResource> files = Minecraft.getMinecraft().getResourceManager().getAllResources(new ResourceLocation(Reference.MOD_ID, "assets/bigmachines/manual/"));
-	    	final List<File> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/");
-	    	//for (IResource resource : files) {
-	    	for (File resource : files) {
-	    		System.out.println(resource.getName());
-	    		//System.out.println(resource.getResourceLocation());
-	    		//if (FileHelper.getExtension(resource.getResourceLocation().getResourcePath()).equals("json")) {
-	    		if (FileHelper.getExtension(resource.getName()).equals("json")) {
-	    			//tabs.add(gson.fromJson(new BufferedReader(new InputStreamReader(resource.getInputStream())), ManualTab.class));
-	    			tabs.add(gson.fromJson(new BufferedReader(new FileReader(resource)), ManualTab.class));
-	    		}
+	    	final HashMap<String, String> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/", "json");
+	    	for (Entry<String, String> resource : files.entrySet()) {
+	    		tabs.add(gson.fromJson(resource.getValue(), ManualTab.class));
 	    	}
     	} catch (Exception ex) {
     		ex.printStackTrace();

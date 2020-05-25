@@ -78,8 +78,8 @@ public class FileHelper {
 		return files;
 	}
 	
-	public static List<File> getResourcesFolder(String folder) {
-		List<File> files = new ArrayList<File>();
+	public static HashMap<String, String> getResourcesFolder(String folder, String extensionName) {
+		HashMap<String, String> files = new HashMap<String, String>();
 		Stream<Path> walker;
 		try {
 			URI uri = BigMachines.class.getResource(folder).toURI();
@@ -90,11 +90,19 @@ public class FileHelper {
 	    	} else
 	    		myPath = Paths.get(uri);
 	    	
-	    	walker = Files.walk(myPath, 1);
+	    	walker = Files.walk(myPath);
 	    	for (Iterator<Path> it = walker.iterator(); it.hasNext(); ) {
-	    		File f = it.next().toFile();
-	    		if (f.isFile())
-	    			files.add(f);
+	    		Path p = it.next();
+	    		if(FileHelper.getExtension(p.getFileName().toString()).equals("json")) {
+					final BufferedReader bufferedReader = new BufferedReader(
+							new InputStreamReader(
+									BigMachines.class.getResource(folder + p.getFileName().toString())
+									.openStream()
+							)
+					);
+					
+		    		files.put(p.getFileName().toString(), bufferedReader.lines().collect(Collectors.joining("\n")));
+	    		}
 	    	}
 			walker.close();
 		} catch (Exception ex) {
