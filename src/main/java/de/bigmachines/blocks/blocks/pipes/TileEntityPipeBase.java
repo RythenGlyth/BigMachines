@@ -28,7 +28,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 	
-	public int pass;
+	int pass;
 	
 	//protected HashSet<EnumFacing> attachments;
 	protected HashMap<EnumFacing, PipeAttachment> attachments;

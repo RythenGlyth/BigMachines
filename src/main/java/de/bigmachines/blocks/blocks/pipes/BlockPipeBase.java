@@ -180,7 +180,7 @@ public class BlockPipeBase extends BlockBase {
 	                }
 	            }
 	        }
-	        return returnRayTraceResult == null ? null : new Pair(list.get(returnRayTraceResult), pos);
+	        return returnRayTraceResult == null ? null : new Pair<EnumFacing, BlockPos>(list.get(returnRayTraceResult), pos);
 		} else
 			return null;
 	}
