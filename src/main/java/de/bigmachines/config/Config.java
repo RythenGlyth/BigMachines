@@ -6,7 +6,9 @@ import java.util.List;
 
 import de.bigmachines.Reference;
 import de.bigmachines.utils.EnumHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -72,6 +74,8 @@ public class Config {
     }
 	
 	private static void loadConfig() {
+		System.out.println(I18n.class);
+		
 		// deprecated because "localization should rarely happen on the server" BUT it does
 		Property property = Config.config.get("general", "displayCookTime", true);
 		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".displayCookTime.description"));

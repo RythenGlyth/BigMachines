@@ -42,7 +42,7 @@ public abstract class ManualContent {
 			GlStateManager.scale(SCALE, SCALE, 1);
 			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
-			return new Pair(inline ? left + Minecraft.getMinecraft().fontRenderer.getStringWidth(content) * SCALE : left, 
+			return new Pair<Integer, Integer>(inline ? left + Minecraft.getMinecraft().fontRenderer.getStringWidth(content) * SCALE : left, 
 					top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE);
 		}
 		
@@ -59,7 +59,7 @@ public abstract class ManualContent {
 			GlStateManager.pushMatrix();
 			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, left, top, 1000, 0xff000000);
 			GlStateManager.popMatrix();
-			return new Pair(inline ? left + Minecraft.getMinecraft().fontRenderer.getStringWidth(content) : left, 
+			return new Pair<Integer, Integer>(inline ? left + Minecraft.getMinecraft().fontRenderer.getStringWidth(content) : left, 
 					top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT);
 		}
 		
