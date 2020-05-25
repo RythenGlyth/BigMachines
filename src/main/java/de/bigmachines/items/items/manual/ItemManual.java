@@ -20,6 +20,7 @@ public class ItemManual extends ItemBase {
 	public ItemManual() {
 		super("manual");
 		setCreativeTab(ModCreativeTabs.modTab);
+		setMaxStackSize(1);
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -56,6 +56,7 @@ tile.bigmachines.ore_aluminium.name=Aluminiumerz
 
 tile.bigmachines.pipe_heat.name=Hitze Rohr
 tile.bigmachines.pipe_fluid.name=Flüssigkeiten Rohr
+tile.bigmachines.pink_dirt.name=Pinke Erde
 
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details

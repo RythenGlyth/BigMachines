@@ -6,6 +6,7 @@ import de.bigmachines.config.Config;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.gui.GuiHandler;
+import de.bigmachines.handler.GiveItemManualHandler;
 import de.bigmachines.handler.HUDTickHandler;
 import de.bigmachines.handler.ItemInformationHandler;
 import de.bigmachines.handler.SlimeBootsHandler;
@@ -68,6 +69,7 @@ public class BigMachines {
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
 		MinecraftForge.EVENT_BUS.register(new Config());
+		MinecraftForge.EVENT_BUS.register(new GiveItemManualHandler());
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 		

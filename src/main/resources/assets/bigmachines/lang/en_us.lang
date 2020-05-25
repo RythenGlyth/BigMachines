@@ -56,6 +56,7 @@ tile.bigmachines.ore_aluminium.name=Aluminium Ore
 
 tile.bigmachines.pipe_heat.name=Heat Pipe
 tile.bigmachines.pipe_fluid.name=Fluid Pipe
+tile.bigmachines.pink_dirt.name=Pink Dirt
 
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details

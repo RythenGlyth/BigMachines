@@ -129,6 +129,13 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		
 	}
 	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if(capability == null || this.capability == null) return false;
+		if(capability.equals(this.capability)) return true;
+		return super.hasCapability(capability, facing);
+	}
+	
 	public static class PipeAttachment {
 		
 		protected boolean canExtract;

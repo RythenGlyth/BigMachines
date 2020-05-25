@@ -55,7 +55,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	}
     
 	public void writeToNBT(NBTTagCompound tag) {
-        contents.writeToNBT(tag);
+        if(contents != null) contents.writeToNBT(tag);
 	}
 	
 	public void readFromNBT(NBTTagCompound tag) {
@@ -72,15 +72,13 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 		if(!(contents == null || contents.amount <= 0) && !canFillFluidType(resource)) {
 			return 0;
 		}
-        final int fill = Math.min(resource.amount, (contents == null ? maxReceive : Math.min(contents.amount, maxReceive)));
+        final int fill = MathHelper.min(resource.amount, (contents == null ? maxReceive : Math.min(getCapacity() - getAmount(), maxReceive)));
         if (doFill) {
         	if(contents == null || contents.amount <= 0) {
         		contents = new FluidStack(resource.getFluid(), fill);
-        	} else {
-            	contents.amount += fill;
         	}
+        	contents.amount += fill;
         }
-        System.out.println(fill);
         return fill;
 	}
 

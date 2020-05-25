@@ -64,7 +64,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 			
 			
 		} else {
-			drawFluid(new FluidStack(FluidRegistry.WATER, 1), te);
+			drawFluid(te);
 		}
 		
 		
@@ -280,23 +280,27 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 	
-	public void drawFluid(FluidStack stack, TileEntityPipeBase te) {
+	public void drawFluid(TileEntityPipeBase te) {
 		bindTexture(new ResourceLocation("textures/atlas/blocks.png"));
-		TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(stack.getFluid().getStill().toString());
 		
-		double size = 0;
+		
 		if(te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
 			IFluidTankProperties property = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties()[0];
-			if(property.getContents() != null) size = property.getContents().amount / property.getCapacity();
+			if(property.getContents() != null) {
+				double size = property.getContents().amount / property.getCapacity();
+				
+				
+				TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(property.getContents().getFluid().getStill().toString());
+				
+				drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.DOWN)) drawAttachmentFluid(EnumFacing.DOWN, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.EAST)) drawAttachmentFluid(EnumFacing.EAST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.NORTH)) drawAttachmentFluid(EnumFacing.NORTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachmentFluid(EnumFacing.SOUTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.UP)) drawAttachmentFluid(EnumFacing.UP, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+				if(te.hasAttachment(EnumFacing.WEST)) drawAttachmentFluid(EnumFacing.WEST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
+			}
 		}
-		
-		drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.DOWN)) drawAttachmentFluid(EnumFacing.DOWN, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.EAST)) drawAttachmentFluid(EnumFacing.EAST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.NORTH)) drawAttachmentFluid(EnumFacing.NORTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachmentFluid(EnumFacing.SOUTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.UP)) drawAttachmentFluid(EnumFacing.UP, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-		if(te.hasAttachment(EnumFacing.WEST)) drawAttachmentFluid(EnumFacing.WEST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
 		
 	}
 	
@@ -404,6 +408,18 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
 		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
 		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//UP
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 10.5 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, maxV).endVertex();
+
+		//UP
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(minU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 10.5 * pixelWitdh).tex(maxU, minV).endVertex();
+		buffer.pos(10.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(maxU, maxV).endVertex();
+		buffer.pos(5.5 * pixelWitdh, 16 * pixelWitdh, 5.5 * pixelWitdh).tex(minU, maxV).endVertex();
 		
 		tessellator.draw();
 		GL11.glPopMatrix();
