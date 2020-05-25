@@ -27,6 +27,10 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		fluidStorage = new FluidStorage(1000);
 	}
 	
+	public FluidStorage getFluidStorage() {
+		return fluidStorage;
+	}
+	
 	@Override
 	public void update() {
 		super.update();
