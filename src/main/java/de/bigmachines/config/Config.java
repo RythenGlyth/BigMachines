@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.bigmachines.Reference;
 import de.bigmachines.utils.EnumHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -58,6 +58,7 @@ public class Config {
 	
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        	System.out.println("saving");
 		if (event.getModID().equalsIgnoreCase(Reference.MOD_ID)) {
             loadConfig();
         }
@@ -70,18 +71,20 @@ public class Config {
     }
 	
 	private static void loadConfig() {
+		// deprecated because "localization should rarely happen on the server" BUT it does
+		
 		Property property = Config.config.get("general", "displayCookTime", true);
-		property.setComment(I18n.format("config." + Reference.MOD_ID + ".displayCookTime.description"));
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".displayCookTime.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".displayCookTime.title");
         displayCookTime = property.getBoolean();
         
 		property = Config.config.get("general", "displayHarvestLevel", true);
-		property.setComment(I18n.format("config." + Reference.MOD_ID + ".displayHarvestLevel.description"));
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".displayHarvestLevel.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".displayHarvestLevel.title");
         displayHarvestLevel = property.getBoolean();
         
         property = Config.config.get("general", "showHUDWhileChatting", true);
-		property.setComment(I18n.format("config." + Reference.MOD_ID + ".showHUDWhileChatting.description"));
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".showHUDWhileChatting.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".showHUDWhileChatting.title");
         showHUDWhileChatting = property.getBoolean();
         
@@ -89,10 +92,9 @@ public class Config {
         //		I18n.translateToLocal(Reference.MOD_ID + ".config.hudPosition.description"), EnumUtils.getNames(Settings.HUDPostitions.class));
         property = Config.config.get("general", "hudPosition", HUDPostitions.BOTTOM_RIGHT.toString());
 		property.setValidValues(EnumHelper.getNames(HUDPostitions.class));
-		property.setComment(I18n.format("config." + Reference.MOD_ID + ".hudPosition.description"));
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".hudPosition.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".hudPosition.title");
         hudPosition = HUDPostitions.valueOf(property.getString());
-        
         
         if (Config.config.hasChanged()) {
         	Config.config.save();
