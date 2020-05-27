@@ -1,16 +1,22 @@
 package de.bigmachines.items.items;
 
+import java.util.List;
+
 import de.bigmachines.BigMachines;
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
+import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -22,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemWrench extends ItemBase {
+public class ItemWrench extends ItemBase implements IInfoProviderShift {
 
 	public ItemWrench() {
 		super("wrench");
@@ -117,6 +123,11 @@ public class ItemWrench extends ItemBase {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void addShiftInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, ITooltipFlag flags) {
+		toolTip.add(I18n.format("info.bigmachines.wrench.shift"));
 	}
 	
 	

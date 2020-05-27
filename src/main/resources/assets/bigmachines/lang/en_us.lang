@@ -65,6 +65,7 @@ info.bigmachines.press_strg=Hold §e§l[STRG]§r§7 for Details
 
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
 info.bigmachines.harvestlevel.shift=Abbau-Level
+info.bigmachines.wrench.shift=If wrench key pressed, scroll over side of a machine to cycle through settings
 
 info.bigmachines.burntime=Burntime
 info.bigmachines.charge=Charge

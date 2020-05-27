@@ -146,20 +146,6 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	}
 	
 	public boolean hasChanged() {
-		/*if(other == null) return true;
-		System.out.println("-------------------------------------------------------");
-		System.out.println(this.contents);
-		System.out.println(other.contents);
-		System.out.println(this.contents != null && other.contents == null);
-		if(this.contents != null && other.contents == null) return true;
-		if(this.contents == null && other.contents != null) return true;
-		if(this.contents != null && other.contents != null) {
-			System.out.println(!this.contents.getFluid().equals(other.contents.getFluid()));
-			System.out.println((this.contents.amount != other.contents.amount));
-		}
-		if((this.contents != null && other.contents != null) && (!this.contents.getFluid().equals(other.contents.getFluid()) || (this.contents.amount != other.contents.amount))) return true;
-		return false;*/
-		
 		return hasChanged;
 	}
 }
