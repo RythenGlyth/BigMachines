@@ -2,18 +2,14 @@ package de.bigmachines.blocks.blocks.pipes.fluidpipe;
 
 import de.bigmachines.blocks.FluidStorage;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
-import de.bigmachines.blocks.blocks.pipes.heatpipe.TileEntityHeatPipe;
-import de.bigmachines.utils.MathHelper;
-import net.minecraft.client.Minecraft;
+import de.bigmachines.utils.RedstoneMode;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -74,60 +70,78 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 			}
 			if(hasAttachment(facing)) {
 				PipeAttachment pipeAttachment = getAttachment(facing);
-				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new AttachmentFluidStorage(fluidStorage, pipeAttachment));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new AttachmentFluidStorage(this, pipeAttachment, facing));
 			}
 		}
 		return super.getCapability(capability, facing);
 	}
 	
+	public int getRedstonePower(EnumFacing facing) {
+		if (!world.isBlockLoaded(getPos())) return 0;
+		
+		IBlockState state = world.getBlockState(getPos());
+		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? getWorld().getStrongPower(getPos()) : state.getWeakPower(getWorld(), getPos(), facing);
+	}
+	
 	public static class AttachmentFluidStorage implements IFluidHandler, IFluidTankProperties {
 		
 		private PipeAttachment attachment;
-		private FluidStorage fluidStorage;
+		private TileEntityFluidPipe tileEntityFluidPipe;
+		private EnumFacing facing;
 		
-		public AttachmentFluidStorage(FluidStorage fluidStorage, PipeAttachment attachment) {
-			this.fluidStorage = fluidStorage;
+		public AttachmentFluidStorage(TileEntityFluidPipe tileEntityFluidPipe, PipeAttachment attachment, EnumFacing facing) {
+			this.tileEntityFluidPipe = tileEntityFluidPipe;
 			this.attachment = attachment;
+			this.facing = facing;
 		}
 
 		@Override
 		public FluidStack getContents() {
-			return fluidStorage.getContents();
+			return tileEntityFluidPipe.fluidStorage.getContents();
 		}
 
 		@Override
 		public int getCapacity() {
-			return fluidStorage.getCapacity();
+			return tileEntityFluidPipe.fluidStorage.getCapacity();
 		}
 
 		@Override
 		public boolean canFill() {
-			return attachment.canInsert() && fluidStorage.canFill();
+			if(attachment.canInsert() && tileEntityFluidPipe.fluidStorage.canFill()) {
+				if(attachment.getRedstoneMode() == RedstoneMode.IGNORED) return true;
+				boolean returning = tileEntityFluidPipe.getRedstonePower(facing) > 0;
+				if(attachment.getRedstoneMode() == RedstoneMode.NEEDS_INVERTED) returning = !returning;
+				return returning;
+			}
+			return false;
 		}
 
 		@Override
 		public boolean canDrain() {
-			return attachment.canExtract() && fluidStorage.canDrain();
+			if(attachment.canExtract() && tileEntityFluidPipe.fluidStorage.canDrain()) {
+				
+			}
+			return false;
 		}
 
 		@Override
 		public boolean canFillFluidType(FluidStack fluidStack) {
-			return fluidStorage.canFillFluidType(fluidStack);
+			return tileEntityFluidPipe.fluidStorage.canFillFluidType(fluidStack);
 		}
 
 		@Override
 		public boolean canDrainFluidType(FluidStack fluidStack) {
-			return fluidStorage.canDrainFluidType(fluidStack);
+			return tileEntityFluidPipe.fluidStorage.canDrainFluidType(fluidStack);
 		}
 
 		@Override
 		public IFluidTankProperties[] getTankProperties() {
-			return fluidStorage.getTankProperties();
+			return tileEntityFluidPipe.fluidStorage.getTankProperties();
 		}
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
-			return attachment.canInsert() ? fluidStorage.fill(resource, doFill) : 0;
+			return attachment.canInsert() ? tileEntityFluidPipe.fluidStorage.fill(resource, doFill) : 0;
 		}
 
 		@Override
@@ -138,8 +152,8 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 
 		@Override
 		public FluidStack drain(int maxDrain, boolean doDrain) {
-			if(fluidStorage.getContents() == null || !attachment.canExtract()) return new FluidStack(FluidRegistry.WATER, 0);
-	        return fluidStorage.drain(maxDrain, doDrain);
+			if(tileEntityFluidPipe.fluidStorage.getContents() == null || !attachment.canExtract()) return new FluidStack(FluidRegistry.WATER, 0);
+	        return tileEntityFluidPipe.fluidStorage.drain(maxDrain, doDrain);
 		}
 		
 		

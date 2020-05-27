@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import de.bigmachines.blocks.TileEntityBase;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.NBTHelper;
+import de.bigmachines.utils.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -141,15 +142,32 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		protected boolean canExtract;
 		protected boolean canInsert;
 		
+		protected RedstoneMode redstoneMode;
+		
 		public PipeAttachment() {
-			this(true, true);
+			this(true, true, RedstoneMode.IGNORED);
 		}
 		
 		public PipeAttachment(NBTTagCompound attachmentTag) {
 			this(
 					attachmentTag.hasKey("canExtract") ? attachmentTag.getBoolean("canExtract") : true,
-					attachmentTag.hasKey("canInsert") ? attachmentTag.getBoolean("canInsert") : true
+					attachmentTag.hasKey("canInsert") ? attachmentTag.getBoolean("canInsert") : true,
+					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("canInsert")] : RedstoneMode.IGNORED
 			);
+		}
+		
+		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode) {
+			this.canExtract = canExtract;
+			this.canInsert = canInsert;
+			this.redstoneMode = redstoneMode;
+		}
+		
+		public void setRedstoneMode(RedstoneMode redstoneMode) {
+			this.redstoneMode = redstoneMode;
+		}
+		
+		public RedstoneMode getRedstoneMode() {
+			return redstoneMode;
 		}
 		
 		@Override
@@ -162,11 +180,6 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		}
 		
 		public void setCanInsert(boolean canInsert) {
-			this.canInsert = canInsert;
-		}
-		
-		public PipeAttachment(boolean canExtract, boolean canInsert) {
-			this.canExtract = canExtract;
 			this.canInsert = canInsert;
 		}
 		
@@ -218,6 +231,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 			NBTTagCompound attachmentTag = new NBTTagCompound();
 			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
 			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
+			if(!(redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
 			return attachmentTag;
 		}
 		
