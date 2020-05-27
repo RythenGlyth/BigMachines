@@ -30,12 +30,33 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	public FluidStorage getFluidStorage() {
 		return fluidStorage;
 	}
+
+	/**
+	 * Variable for last FluidStorage to check if it has changed before sending the packet to the client
+	 */
+	private FluidStorage lastFluidStorage;
 	
 	@Override
 	public void update() {
 		super.update();
+		
+		//UPDATING ON CLIENT IF CHANGED
 		if(!world.isRemote) {
-			updated();
+			if(fluidStorage != null && fluidStorage.hasChanged()) {
+				fluidStorage.setHasChanged(false);
+				System.out.println("updated");
+				updated();
+			}
+			/*System.out.println("---------------------------------------------------------------");
+			FluidStorage fl1 = new FluidStorage(500);
+			FluidStorage fl2 = fl1;
+			System.out.println(fl1.getContents());
+			System.out.println(fl2.getContents());
+			fl1.fill(new FluidStack(FluidRegistry.WATER, 50), true);
+			System.out.println(fl1.getContents());
+			System.out.println(fl2.getContents());*/
+		} else {
+			//if(fluidStorage != null && fluidStorage.getContents() != null) System.out.println(fluidStorage.getContents().amount);
 		}
 	}
 	

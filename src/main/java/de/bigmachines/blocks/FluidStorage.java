@@ -15,6 +15,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	private final int maxExtract;
 	private final boolean canReceive;
 	private final boolean canExtract;
+	private boolean hasChanged;
 
 	private FluidStack contents;
 
@@ -78,6 +79,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
         		contents = new FluidStack(resource.getFluid(), fill);
         	}
         	contents.amount += fill;
+        	hasChanged = true;
         }
         return fill;
 	}
@@ -93,11 +95,17 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if(contents == null) return new FluidStack(FluidRegistry.WATER, 0);
         final int drain = MathHelper.min(maxDrain, maxExtract, contents.amount);
-        if (doDrain)
+        if (doDrain) {
         	contents.amount -= drain;
+        	hasChanged = true;
+        }
         final FluidStack drained = contents.copy();
         drained.amount = drain;
         return drained;
+	}
+	
+	public void setHasChanged(boolean hasChanged) {
+		this.hasChanged = hasChanged;
 	}
 
 	public int getAmount() {
@@ -135,5 +143,23 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	@Override
 	public boolean canDrainFluidType(FluidStack fluidStack) {
         return fluidStack.isFluidEqual(contents);
+	}
+	
+	public boolean hasChanged() {
+		/*if(other == null) return true;
+		System.out.println("-------------------------------------------------------");
+		System.out.println(this.contents);
+		System.out.println(other.contents);
+		System.out.println(this.contents != null && other.contents == null);
+		if(this.contents != null && other.contents == null) return true;
+		if(this.contents == null && other.contents != null) return true;
+		if(this.contents != null && other.contents != null) {
+			System.out.println(!this.contents.getFluid().equals(other.contents.getFluid()));
+			System.out.println((this.contents.amount != other.contents.amount));
+		}
+		if((this.contents != null && other.contents != null) && (!this.contents.getFluid().equals(other.contents.getFluid()) || (this.contents.amount != other.contents.amount))) return true;
+		return false;*/
+		
+		return hasChanged;
 	}
 }
