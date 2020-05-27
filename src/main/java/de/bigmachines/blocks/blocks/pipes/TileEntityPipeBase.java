@@ -137,6 +137,14 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		return super.hasCapability(capability, facing);
 	}
 	
+	public int getRedstonePower(EnumFacing facing) {
+		if (!world.isBlockLoaded(getPos())) return 0;
+		
+		IBlockState state = world.getBlockState(getPos());
+		
+		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? state.getWeakPower(getWorld(), getPos(), facing) : getWorld().getStrongPower(getPos());
+	}
+	
 	public static class PipeAttachment {
 		
 		protected boolean canExtract;

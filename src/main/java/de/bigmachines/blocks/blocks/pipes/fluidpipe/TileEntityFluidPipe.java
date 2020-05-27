@@ -76,13 +76,6 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		return super.getCapability(capability, facing);
 	}
 	
-	public int getRedstonePower(EnumFacing facing) {
-		if (!world.isBlockLoaded(getPos())) return 0;
-		
-		IBlockState state = world.getBlockState(getPos());
-		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? getWorld().getStrongPower(getPos()) : state.getWeakPower(getWorld(), getPos(), facing);
-	}
-	
 	public static class AttachmentFluidStorage implements IFluidHandler, IFluidTankProperties {
 		
 		private PipeAttachment attachment;
@@ -119,19 +112,22 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		@Override
 		public boolean canDrain() {
 			if(attachment.canExtract() && tileEntityFluidPipe.fluidStorage.canDrain()) {
-				
+				if(attachment.getRedstoneMode() == RedstoneMode.IGNORED) return true;
+				boolean returning = tileEntityFluidPipe.getRedstonePower(facing) > 0;
+				if(attachment.getRedstoneMode() == RedstoneMode.NEEDS_INVERTED) returning = !returning;
+				return returning;
 			}
 			return false;
 		}
 
 		@Override
 		public boolean canFillFluidType(FluidStack fluidStack) {
-			return tileEntityFluidPipe.fluidStorage.canFillFluidType(fluidStack);
+			return canFill() && tileEntityFluidPipe.fluidStorage.canFillFluidType(fluidStack);
 		}
 
 		@Override
 		public boolean canDrainFluidType(FluidStack fluidStack) {
-			return tileEntityFluidPipe.fluidStorage.canDrainFluidType(fluidStack);
+			return canDrain() && tileEntityFluidPipe.fluidStorage.canDrainFluidType(fluidStack);
 		}
 
 		@Override
@@ -141,7 +137,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
-			return attachment.canInsert() ? tileEntityFluidPipe.fluidStorage.fill(resource, doFill) : 0;
+			return attachment.canInsert() && canFill() ? tileEntityFluidPipe.fluidStorage.fill(resource, doFill) : 0;
 		}
 
 		@Override
@@ -152,7 +148,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 
 		@Override
 		public FluidStack drain(int maxDrain, boolean doDrain) {
-			if(tileEntityFluidPipe.fluidStorage.getContents() == null || !attachment.canExtract()) return new FluidStack(FluidRegistry.WATER, 0);
+			if(tileEntityFluidPipe.fluidStorage.getContents() == null || !attachment.canExtract() || !canDrain()) return new FluidStack(FluidRegistry.WATER, 0);
 	        return tileEntityFluidPipe.fluidStorage.drain(maxDrain, doDrain);
 		}
 		
