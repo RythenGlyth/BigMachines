@@ -1,5 +1,6 @@
 package de.bigmachines.gui;
 
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec2f;
 import net.minecraftforge.fluids.FluidStack;
 
 public class GuiContainerBase extends GuiContainer {
@@ -101,6 +103,7 @@ public class GuiContainerBase extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		GlStateManager.color(1, 1, 1, 1);
 		if (drawTitle & name != null) {
 			fontRenderer.drawString(I18n.format(name), getCenteredOffset(I18n.format(name)), 6, 0x404040);
 		}
@@ -111,10 +114,7 @@ public class GuiContainerBase extends GuiContainer {
 		this.mouseX = mouseX - guiLeft;
 		this.mouseY = mouseY - guiTop;
 		
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(guiLeft, guiTop, 0.0F);
-		drawElementsForeground(mouseX, mouseY);
-		GlStateManager.popMatrix();
+		drawElementsForeground(this.mouseX, this.mouseY);
 	}
 	
 	@Override
@@ -133,7 +133,7 @@ public class GuiContainerBase extends GuiContainer {
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(guiLeft, guiTop, 0.0F);
-		drawElementsBackground(mouseX, mouseY, partialTicks);
+		drawElementsBackground(this.mouseX, this.mouseY, partialTicks);
 		GlStateManager.popMatrix();
 	}
 	
@@ -171,7 +171,7 @@ public class GuiContainerBase extends GuiContainer {
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		elements.forEach(element -> {
-			element.mouseClicked(mouseX, mouseY, mouseButton);
+			element.mouseClicked(mouseX - guiLeft, mouseY - guiTop, mouseButton);
 		});
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
@@ -195,6 +195,11 @@ public class GuiContainerBase extends GuiContainer {
 
 	protected int getCenteredOffset(String string, int xPos) {
 		return xPos - (fontRenderer.getStringWidth(string) / 2);
+	}
+
+	public List<Rectangle> getGuiExtraAreas() {
+		List<Rectangle> extras = new ArrayList<Rectangle>();
+		return extras;
 	}
 
 }

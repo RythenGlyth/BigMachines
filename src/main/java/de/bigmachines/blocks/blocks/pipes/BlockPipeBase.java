@@ -8,7 +8,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multiset.Entry;
 
+import de.bigmachines.BigMachines;
+import de.bigmachines.Reference;
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.utils.BlockHelper;
@@ -223,7 +226,15 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile instanceof TileEntityPipeBase) {
+			for(EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {
+				if(getBox(side).grow(0.02D).contains(new Vec3d(hitX, hitY, hitZ))) {
+					playerIn.openGui(BigMachines.INSTANCE, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+					return true;
+				}
+			}
+		}
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
 	}
 	

@@ -8,12 +8,25 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import de.bigmachines.BigMachines;
+import de.bigmachines.blocks.IHasGui;
 import de.bigmachines.blocks.TileEntityBase;
+import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
+import de.bigmachines.gui.client.GuiPipeAttachment;
+import de.bigmachines.gui.container.ContainerPipeAttachment;
+import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.NBTHelper;
+import de.bigmachines.utils.Pair;
 import de.bigmachines.utils.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -22,12 +35,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class TileEntityPipeBase extends TileEntityBase implements ITickable {
+public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHasGui {
 	
 	public int pass;
 	
@@ -39,6 +55,24 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		super();
 		attachments = new HashMap<EnumFacing, PipeAttachment>();
 		this.capability = capability;
+	}
+
+	@Override
+	public Object getGuiServer(InventoryPlayer inventory) {
+		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
+		if(slectedSide != null) {
+			return new ContainerPipeAttachment(inventory, this, slectedSide.x);
+		}
+		return null;
+	}
+
+	@Override
+	public Object getGuiClient(InventoryPlayer inventory) {
+		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
+		if(slectedSide != null) {
+			return new GuiPipeAttachment(inventory, this, slectedSide.x);
+		}
+		return null;
 	}
 
 	@Override
@@ -152,24 +186,43 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		
 		protected RedstoneMode redstoneMode;
 		
+		/**
+		 * Filter Mode
+		 * true=whitelist
+		 * false=blacklist
+		 */
+		protected boolean whitelist;
+		
+		protected ItemStack[] itemStacks;
+		
 		public PipeAttachment() {
-			this(true, true, RedstoneMode.IGNORED);
+			this(true, true, RedstoneMode.IGNORED, false);
 		}
 		
 		public PipeAttachment(NBTTagCompound attachmentTag) {
 			this(
 					attachmentTag.hasKey("canExtract") ? attachmentTag.getBoolean("canExtract") : true,
 					attachmentTag.hasKey("canInsert") ? attachmentTag.getBoolean("canInsert") : true,
-					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("canInsert")] : RedstoneMode.IGNORED
+					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("canInsert")] : RedstoneMode.IGNORED,
+					attachmentTag.hasKey("whitelist") ? attachmentTag.getBoolean("whitelist") : false
 			);
 		}
 		
-		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode) {
+		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode, boolean whitelist) {
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
 			this.redstoneMode = redstoneMode;
+			this.whitelist = whitelist;
 		}
 		
+		public void setWhitelist(boolean whitelist) {
+			this.whitelist = whitelist;
+		}
+		
+		public boolean isWhitelist() {
+			return whitelist;
+		}
+
 		public void setRedstoneMode(RedstoneMode redstoneMode) {
 			this.redstoneMode = redstoneMode;
 		}
@@ -181,6 +234,27 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 		@Override
 		public String toString() {
 			return "{\"canExtract\": " + canExtract + ", \"canExtract\": " + canInsert + "}";
+		}
+		
+		public void setInsertationByIndex(int index) {
+			switch(index) {
+				case 1:
+					canExtract = true;
+					canInsert = false;
+					break;
+				case 2:
+					canExtract = false;
+					canInsert = true;
+					break;
+				case 3:
+					canExtract = false;
+					canInsert = false;
+					break;
+				default:
+					canExtract = true;
+					canInsert = true;
+					break;
+			}
 		}
 		
 		public void setCanExtract(boolean canExtract) {
@@ -240,6 +314,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable {
 			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
 			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
 			if(!(redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
+			if(whitelist) attachmentTag.setBoolean("whitelist", whitelist);
 			return attachmentTag;
 		}
 		
