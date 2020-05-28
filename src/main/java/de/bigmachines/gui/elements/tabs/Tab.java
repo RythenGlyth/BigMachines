@@ -17,11 +17,11 @@ public class Tab {
 	
 	public int y;
 	
-	public int minWidth = 22;
-	public int maxWidth = 22;
+	public int minWidth = 24;
+	public int maxWidth = 24;
 	
-	public int minHeight = 22;
-	public int maxHeight = 22;
+	public int minHeight = 24;
+	public int maxHeight = 24;
 	
 	public int ticksToExpand = 10;
 	public boolean expanded = false;
