@@ -55,17 +55,16 @@ public class ManualTab {
 				for (JsonElement obj : contentsJson) {
 					final JsonObject jobj = obj.getAsJsonObject();
 					final String contents = jobj.has("contents") ? jobj.get("contents").getAsString() : "";
-					final boolean inline = jobj.has("inline") ? jobj.get("inline").getAsBoolean() : false;
 					if (jobj.has("type"))
 						switch (jobj.get("type").getAsString()) {
 						case "title":
-							mtab.addContents(new ManualContent.ManualTitle(contents, inline));
+							mtab.addContents(new ManualContent.ManualTitle(contents));
 							break;
 						case "text":
-							mtab.addContents(new ManualContent.ManualText(contents, inline));
+							mtab.addContents(new ManualContent.ManualText(contents));
 							break;
 						case "crafting":
-							
+							mtab.addContents(new ManualContent.ManualCrafting(contents));
 							break;
 						default:
 							break;

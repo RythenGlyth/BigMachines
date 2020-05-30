@@ -90,10 +90,10 @@ public class GuiManual extends GuiScreen {
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2 + 8, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 1);
 		}
 		
-		Pair<Integer, Integer> last = new Pair<Integer, Integer>(guiLeft + 8, guiTop + 8);
+		int last = guiTop + 10;
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null)
 			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
-				last = mc.draw(last.x, last.y, mouseX, mouseY, partialTicks);
+				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, partialTicks, this.zLevel + 1);
 			}
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
@@ -187,27 +187,3 @@ public class GuiManual extends GuiScreen {
         return false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

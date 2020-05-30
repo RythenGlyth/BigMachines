@@ -3,13 +3,11 @@
     "title": "Big Machines Welcome",
     "contents": [{
             "type": "title",
-            "contents": "Hehe Machines",
-            "inline": "false"
+            "contents": "Hehe Machines"
         },
         {
             "type": "text",
-            "contents": "Du bisch dumm",
-            "inline": "false"
+            "contents": "Du bisch dumm"
         }
     ]
 }

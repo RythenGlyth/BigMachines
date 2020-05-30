@@ -46,7 +46,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHasGui {
 	
-	public int pass;
+	int pass;
 	
 	//protected HashSet<EnumFacing> attachments;
 	protected HashMap<EnumFacing, PipeAttachment> attachments;
