@@ -11,7 +11,7 @@ import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
-import de.bigmachines.utils.Pair;
+import de.bigmachines.utils.classes.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;

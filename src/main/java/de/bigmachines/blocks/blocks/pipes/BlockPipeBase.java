@@ -15,7 +15,7 @@ import de.bigmachines.Reference;
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.utils.BlockHelper;
-import de.bigmachines.utils.Pair;
+import de.bigmachines.utils.classes.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;

@@ -17,8 +17,9 @@ import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.NBTHelper;
-import de.bigmachines.utils.Pair;
-import de.bigmachines.utils.RedstoneMode;
+import de.bigmachines.utils.classes.IHasRedstoneControl;
+import de.bigmachines.utils.classes.Pair;
+import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -179,7 +180,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? state.getWeakPower(getWorld(), getPos(), facing) : getWorld().getStrongPower(getPos());
 	}
 	
-	public static class PipeAttachment {
+	public static class PipeAttachment implements IHasRedstoneControl {
 		
 		protected boolean canExtract;
 		protected boolean canInsert;

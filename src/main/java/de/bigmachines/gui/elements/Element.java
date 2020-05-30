@@ -1,5 +1,6 @@
 package de.bigmachines.gui.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.bigmachines.gui.GuiContainerBase;
@@ -11,8 +12,8 @@ public abstract class Element {
 	protected GuiContainerBase gui;
 	protected ResourceLocation texture;
 	
-	protected int posX;
-	protected int posY;
+	public int posX;
+	public int posY;
 
 	protected int sizeX;
 	protected int sizeY;
@@ -20,10 +21,10 @@ public abstract class Element {
 	protected int textureW = 256;
 	protected int textureH = 256;
 	
+	public List<String> tooltips = new ArrayList<String>();
+	
 	public Element(GuiContainerBase gui, int posX, int posY) {
-		this.gui = gui;
-		this.posX = posX;
-		this.posY = posY;
+		this(gui, posX, posY, 16, 16);
 	}
 
 	public Element(GuiContainerBase gui, int posX, int posY, int width, int height) {
@@ -36,7 +37,7 @@ public abstract class Element {
 	
 	public abstract void drawForeground(int mouseX, int mouseY);
 	
-	public abstract void drawBackground(int mouseX, int mouseY, float partialTick);
+	public abstract void drawBackground(int mouseX, int mouseY, float partialTicks);
 	
 	public Element setSize(int sizeX, int sizeY) {
 		this.sizeX = sizeX;
@@ -64,16 +65,16 @@ public abstract class Element {
 		
 	}
 	
-	public boolean onMouseWheel(int mouseX, int mouseY, int dWheel) {
-		return false;
+	public void onMouseWheel(int mouseX, int mouseY, int dWheel) {
+		
 	}
 
-	public boolean onKeyTyped(char typedChar, int keyCode) {
-		return false;
+	public void onKeyTyped(char typedChar, int keyCode) {
+		
 	}
 	
-	public void addTooltip(List<String> list) {
-		
+	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
+		tooltips.addAll(this.tooltips);
 	}
 	
 	public boolean isVisible() {
@@ -86,6 +87,10 @@ public abstract class Element {
 	
 	public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, float textureW, float textureH) {
 		RenderHelper.drawTexturedModalRect(x, y, width, height, u, v, textureW, textureH, gui.getZLevel());
+	}
+
+	public void update(int mouseX, int mouseY) {
+		
 	}
 
 	

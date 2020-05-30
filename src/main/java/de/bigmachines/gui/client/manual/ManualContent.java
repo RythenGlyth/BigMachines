@@ -1,6 +1,6 @@
 package de.bigmachines.gui.client.manual;
 
-import de.bigmachines.utils.Pair;
+import de.bigmachines.utils.classes.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 

@@ -1,4 +1,4 @@
-package de.bigmachines.utils;
+package de.bigmachines.utils.classes;
 
 public class Pair<X, Y> { 
 	public final X x; 

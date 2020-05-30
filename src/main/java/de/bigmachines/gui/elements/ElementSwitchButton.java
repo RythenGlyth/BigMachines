@@ -1,5 +1,7 @@
 package de.bigmachines.gui.elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import de.bigmachines.gui.GuiContainerBase;
@@ -16,6 +18,9 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	
 	protected Consumer<Boolean> onChanged;
 	
+	public List<String> normalTooltips = new ArrayList<String>();
+	public List<String> switchedTooltips = new ArrayList<String>();
+	
 	public ElementSwitchButton(GuiContainerBase gui, int posX, int posY, int normalU, int normalV, int switchU, int switchV) {
 		super(gui, posX, posY, normalU, normalV);
 		this.normalU = normalU;
@@ -30,6 +35,13 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	
 	public void setSwitched(boolean switched) {
 		this.switched = switched;
+	}
+	
+	public void doSwitch() {
+		switched = !switched;
+		onChanged.accept(switched);
+		tooltips.clear();
+		tooltips.addAll(switched ? switchedTooltips : normalTooltips);
 	}
 	
 	@Override
@@ -48,8 +60,7 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		boolean clicked = super.mouseClicked(mouseX, mouseY, mouseButton);
 		if(clicked) {
-			switched = !switched;
-			onChanged.accept(switched);
+			doSwitch();
 		}
 		return clicked;
 	}

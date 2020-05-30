@@ -2,7 +2,7 @@ package de.bigmachines.blocks.blocks.pipes.fluidpipe;
 
 import de.bigmachines.blocks.FluidStorage;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
-import de.bigmachines.utils.RedstoneMode;
+import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

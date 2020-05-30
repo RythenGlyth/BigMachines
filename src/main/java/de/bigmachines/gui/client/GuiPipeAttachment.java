@@ -8,6 +8,9 @@ import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.gui.elements.ElementSwitchButton;
+import de.bigmachines.gui.elements.tabs.Tab;
+import de.bigmachines.gui.elements.tabs.TabRedstoneControl;
+import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumFacing;
@@ -32,15 +35,17 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		this.ySize = 157;
 		
 		elementSelectionButtons = (ElementSelectionButtons) addElement(new ElementSelectionButtons(this));
-		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 00, 18, 48, 16));
-		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 16, 18, 16, 16));
-		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 32, 18, 32, 16));
-		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 48, 18, 0, 16));
+		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 00, 18, 48, 16)).tooltips.add("In- and Output");
+		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 16, 18, 16, 16)).tooltips.add("Output");
+		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 32, 18, 32, 16)).tooltips.add("Input");
+		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 48, 18, 0, 16)).tooltips.add("Ignored");
 
 		elementSwitchWhiteBlackButton = (ElementSwitchButton) addElement(new ElementSwitchButton(this, 26, 43, 80, 16, 64, 16));
-
+		
         if(!tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
+		
+		addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment));
         
 		if(attachment.canExtract() && attachment.canInsert()) {
 			elementSelectionButtons.select(0);
@@ -53,11 +58,29 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		}
 		
 		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
+		elementSwitchWhiteBlackButton.normalTooltips.add("Whitelist");
+		elementSwitchWhiteBlackButton.switchedTooltips.add("Blacklist");
 		
 		elementSelectionButtons.setOnChange((index) -> attachment.setInsertationByIndex(index));
 		elementSwitchWhiteBlackButton.setOnChanged((switched) -> attachment.setWhitelist(switched));
 	}
 	
-	
+	@Override
+	public void updateElements() {
+		super.updateElements();
+		
+        if(tileEntityPipeBase.isInvalid() || !tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
+        final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
+        
+		if(attachment.canExtract() && attachment.canInsert()) {
+			elementSelectionButtons.select(0);
+		} else if(attachment.canExtract()) {
+			elementSelectionButtons.select(1);
+		} else if(attachment.canInsert()) {
+			elementSelectionButtons.select(2);
+		} else {
+			elementSelectionButtons.select(3);
+		}
+	}
 	
 }

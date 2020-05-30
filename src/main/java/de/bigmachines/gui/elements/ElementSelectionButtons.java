@@ -2,6 +2,8 @@ package de.bigmachines.gui.elements;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
@@ -9,6 +11,7 @@ import java.util.function.Function;
 
 import akka.actor.dsl.Inbox.Select;
 import de.bigmachines.gui.GuiContainerBase;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class ElementSelectionButtons extends Element {
 	
@@ -34,9 +37,22 @@ public class ElementSelectionButtons extends Element {
 		this.selectedIndex = selectedIndex;
 	}
 	
-	public ElementSelectionButtons addButton(ElementButtonIcon elementButton) {
+	public ElementButtonIcon addButton(ElementButtonIcon elementButton) {
 		buttons.add(elementButton);
-		return this;
+		
+		this.posX = Collections.min(buttons, Comparator.comparing(button -> button.posX)).posX;
+		this.posY = Collections.min(buttons, Comparator.comparing(button -> button.posY)).posY;
+		this.sizeX = Collections.max(buttons, Comparator.comparing(button -> button.posX)).posX + 16 - this.posX;
+		this.sizeY = Collections.max(buttons, Comparator.comparing(button -> button.posY)).posY + 16 - this.posY;
+		
+		return elementButton;
+	}
+	
+	@Override
+	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
+		for(ElementButtonIcon button : buttons) {
+			if(button.intersectsWith(mouseX, mouseY)) button.addTooltip(mouseX, mouseY, tooltips);
+		}
 	}
 
 	@Override
@@ -48,6 +64,8 @@ public class ElementSelectionButtons extends Element {
 
 	@Override
 	public void drawBackground(int mouseX, int mouseY, float partialTick) {
+		//gui.drawRect(this.posX - 4, this.posY - 4, this.posX + this.sizeX + 4, this.posY + this.sizeY + 4, 0x33000000);
+		GlStateManager.color(1f, 1f, 1f, 1f);
 		buttons.forEach(button -> {
 			button.drawBackground(mouseX, mouseY, partialTick);
 		});
@@ -66,6 +84,7 @@ public class ElementSelectionButtons extends Element {
 		for(int i = 0; i < buttons.size(); i++) {
 			if(buttons.get(i).mouseClicked(mouseX, mouseY, mouseButton)) {
 				select(i);
+				return true;
 			}
 		}
 		return false;

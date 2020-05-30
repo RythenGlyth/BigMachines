@@ -10,7 +10,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import de.bigmachines.gui.elements.Element;
+import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
+import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,6 +36,7 @@ public class GuiContainerBase extends GuiContainer {
 	protected ResourceLocation texture;
 
 	protected ArrayList<Element> elements = new ArrayList<>();
+	protected ArrayList<Tab> tabs = new ArrayList<>();
 	
 	protected List<String> tooltips = new LinkedList<>();
 	protected boolean drawTooltips = true;
@@ -54,6 +57,7 @@ public class GuiContainerBase extends GuiContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		updateElements();
+		updateTabs();
 		
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -70,7 +74,24 @@ public class GuiContainerBase extends GuiContainer {
 	}
 	
 	public void updateElements() {
-		
+		for (int i = elements.size(); i-- > 0; ) {
+			Element element = elements.get(i);
+			if (element.isVisible()) element.update(mouseX, mouseY);
+		}
+	}
+	
+	public void updateTabs() {
+		int currentOffsetYLeft = 3;
+		int currentOffsetYRight = 3;
+		for (int i = tabs.size() - 1; i >= 0; i--) {
+			Tab tab = tabs.get(i);
+			tab.update(mouseX, mouseY, tab.side == EnumSide.LEFT ? currentOffsetYLeft : currentOffsetYRight);
+			if(tab.side == EnumSide.LEFT) {
+				currentOffsetYLeft += tab.currentHeight;
+			} else {
+				currentOffsetYRight += tab.currentHeight;
+			}
+		}
 	}
 	
 	public Element addElement(Element element) {
@@ -78,27 +99,56 @@ public class GuiContainerBase extends GuiContainer {
 		return element;
 	}
 	
+	public Tab addTab(Tab tab) {
+		tabs.add(tab);
+		return tab;
+	}
+	
 	public void drawTooltip(List<String> list) {
 		drawHoveringText(list, mouseX + guiLeft, mouseY + guiTop, fontRenderer);
 		tooltips.clear();
 	}
 	
-	public void addTooltips(List<String> tooltip) {
+	public void addTooltips(List<String> tooltips) {
 		Element element = getElementAtPosition(mouseX, mouseY);
-		
+		Tab tab = getTabAtPosition(mouseX, mouseY);
+
+		if (tab != null) {
+			tab.addTooltip(mouseX, mouseY, tooltips);
+		}
 		if (element != null && element.isVisible()) {
-			element.addTooltip(tooltip);
+			element.addTooltip(mouseX, mouseY, tooltips);
 		}
 	}
 	
 	protected Element getElementAtPosition(int mouseX, int mouseY) {
-		for (int i = elements.size() - 1; i >= 0; i--) {
-			Element element = elements.get(i);
+		for (Element element : elements) {
 			if (element.intersectsWith(mouseX, mouseY)) {
 				return element;
 			}
 		}
 		return null;
+	}
+	
+	protected Tab getTabAtPosition(int mouseX, int mouseY) {
+		for (Tab tab : tabs) {
+			if (tab.intersectsWith(mouseX, mouseY)) {
+				return tab;
+			}
+		}
+		return null;
+	}
+	
+	public void closeAllTabs(EnumSide side) {
+		if(side == null) {
+			for (Tab tab : tabs) {
+				tab.opening = false;
+			}
+		} else {
+			for (Tab tab : tabs) {
+				if(tab.side.equals(side)) tab.opening = false;
+			}
+		}
 	}
 	
 	@Override
@@ -115,6 +165,7 @@ public class GuiContainerBase extends GuiContainer {
 		this.mouseY = mouseY - guiTop;
 		
 		drawElementsForeground(this.mouseX, this.mouseY);
+		drawTabsForeground(this.mouseX, this.mouseY);
 	}
 	
 	@Override
@@ -134,6 +185,7 @@ public class GuiContainerBase extends GuiContainer {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(guiLeft, guiTop, 0.0F);
 		drawElementsBackground(this.mouseX, this.mouseY, partialTicks);
+		drawTabsBackground(this.mouseX, this.mouseY, partialTicks);
 		GlStateManager.popMatrix();
 	}
 	
@@ -142,6 +194,9 @@ public class GuiContainerBase extends GuiContainer {
 		super.keyTyped(typedChar, keyCode);
 		elements.forEach(element -> {
 			element.onKeyTyped(typedChar, keyCode);
+		});
+		tabs.forEach(tab -> {
+			tab.onKeyTyped(typedChar, keyCode); 
 		});
 	}
 	
@@ -155,6 +210,9 @@ public class GuiContainerBase extends GuiContainer {
 			elements.forEach(element -> {
 				element.onMouseWheel(mouseX, mouseY, dWheel);
 			});
+			tabs.forEach(tab -> {
+				tab.onMouseWheel(mouseX, mouseY, dWheel);
+			});
 		}
 		
 		super.handleMouseInput();
@@ -165,6 +223,9 @@ public class GuiContainerBase extends GuiContainer {
 		elements.forEach(element -> {
 			element.mouseReleased(mouseX, mouseY, state);
 		});
+		tabs.forEach(tab -> {
+			tab.mouseReleased(mouseX, mouseY, state);
+		});
 		super.mouseReleased(mouseX, mouseY, state);
 	}
 	
@@ -172,6 +233,9 @@ public class GuiContainerBase extends GuiContainer {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		elements.forEach(element -> {
 			element.mouseClicked(mouseX - guiLeft, mouseY - guiTop, mouseButton);
+		});
+		tabs.forEach(tab -> {
+			tab.mouseClicked(mouseX - guiLeft, mouseY - guiTop, mouseButton);
 		});
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
@@ -189,6 +253,21 @@ public class GuiContainerBase extends GuiContainer {
 		});
 	}
 	
+	
+	public void drawTabsForeground(int mouseX, int mouseY) {
+		for(int i = 0; i < tabs.size(); i++) {
+			Tab tab = tabs.get(i);
+			tab.drawForeground(mouseX, mouseY);
+		}
+	}
+	
+	public void drawTabsBackground(int mouseX, int mouseY, float partialTicks) {
+		for(int i = 0; i < tabs.size(); i++) {
+			Tab tab = tabs.get(i);
+			tab.drawBackground(mouseX, mouseY, partialTicks);
+		}
+	}
+	
 	protected int getCenteredOffset(String string) {
 		return this.getCenteredOffset(string, xSize / 2);
 	}
@@ -199,6 +278,9 @@ public class GuiContainerBase extends GuiContainer {
 
 	public List<Rectangle> getGuiExtraAreas() {
 		List<Rectangle> extras = new ArrayList<Rectangle>();
+		tabs.forEach(tab -> {
+			tab.addGuiExtras(extras);
+		});
 		return extras;
 	}
 

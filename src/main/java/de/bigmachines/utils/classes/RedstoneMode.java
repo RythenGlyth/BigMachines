@@ -1,4 +1,4 @@
-package de.bigmachines.utils;
+package de.bigmachines.utils.classes;
 
 public enum RedstoneMode {
 	IGNORED,
