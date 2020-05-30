@@ -1,18 +1,21 @@
 package de.bigmachines.gui.elements.tabs;
 
+import java.util.concurrent.Callable;
+
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.utils.classes.EnumSide;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.RedstoneMode;
+import net.minecraft.tileentity.TileEntity;
 
 public class TabRedstoneControl extends Tab {
 	
 	public IHasRedstoneControl redstoneControl;
 	public ElementSelectionButtons elementSelectionButtons;
 	
-	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl) {
+	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);
 		this.maxHeight = 60;
 		
@@ -28,7 +31,10 @@ public class TabRedstoneControl extends Tab {
 		
 		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal());
 		
-		elementSelectionButtons.setOnChange((index) -> redstoneControl.setRedstoneMode(RedstoneMode.values()[index]));
+		elementSelectionButtons.setOnChange((index) -> {
+			redstoneControl.setRedstoneMode(RedstoneMode.values()[index]);
+			sendUpdateToServer.run();
+		});
 	}
 	
 	@Override

@@ -209,6 +209,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			);
 		}
 		
+		public void sendUpdateToServer(BlockPos pos, EnumFacing side) {
+			BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(pos, side, getRedstoneMode(), isWhitelist(), canExtract(), canInsert()));
+		}
+		
 		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode, boolean whitelist) {
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
