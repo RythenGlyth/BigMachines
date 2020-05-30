@@ -12,13 +12,11 @@
         },
         {
             "type": "title",
-            "contents": "Materials",
-            "inline": "false"
+            "contents": "Materials"
         },
         {
             "type": "crafting",
-            "contents": "lead_ingot_from_nugget.json",
-            "inline": "false"
+            "contents": "lead_ingot_from_nugget.json"
         }
     ]
 }
