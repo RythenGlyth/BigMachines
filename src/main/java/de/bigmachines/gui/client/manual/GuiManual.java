@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
-import de.bigmachines.utils.Pair;
 import de.bigmachines.utils.RenderHelper;
+import de.bigmachines.utils.classes.Pair;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;

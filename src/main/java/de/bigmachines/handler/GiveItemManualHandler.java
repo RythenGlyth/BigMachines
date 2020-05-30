@@ -13,10 +13,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class GiveItemManualHandler {
 	
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent e)  { //TODO only when first join
-		if(e.getEntity() instanceof EntityPlayer) {
-			System.out.println("onEntityJoinWorld");
+	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+		if(e.getEntity() instanceof EntityPlayer && !(((EntityPlayer)e.getEntity()).getEntityData().hasKey("HasBook") && ((EntityPlayer)e.getEntity()).getEntityData().getBoolean("HasBook"))) {
 			((EntityPlayer)e.getEntity()).inventory.addItemStackToInventory(new ItemStack(ModItems.manual, 1));
+			((EntityPlayer)e.getEntity()).getEntityData().setBoolean("HasBook", true);
 		}
 	}
 	

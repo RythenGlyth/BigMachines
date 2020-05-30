@@ -9,7 +9,10 @@ import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.items.items.manual.ItemManual;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Item Registry
@@ -39,7 +42,7 @@ public class ModItems {
 	public void registerItems(RegistryEvent.Register<Item> event) {
         ITEMS.forEach(item -> {
 			event.getRegistry().register(item);
-			if(item instanceof IInitializer) ((IInitializer)item).postRegister();
+			if(item instanceof IInitializer && FMLCommonHandler.instance().getSide().equals(Side.CLIENT)) ((IInitializer)item).postRegister();
 		});
 		
 	}
