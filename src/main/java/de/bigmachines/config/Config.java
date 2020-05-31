@@ -22,11 +22,11 @@ import java.util.List;
 
 public class Config {
 
-	public static boolean pipeStatusOverlayAlwaysOn;
-	public static boolean displayCookTime;
-	public static boolean displayHarvestLevel;
-	public static boolean showHUDWhileChatting;
-	public static HUDPostitions hudPosition;
+	private static boolean pipeStatusOverlayAlwaysOn;
+	private static boolean displayCookTime;
+	private static boolean displayHarvestLevel;
+	private static boolean showHUDWhileChatting;
+	private static HUDPostitions hudPosition;
 	
 	public enum HUDPostitions {
 		TOP_LEFT,
@@ -38,8 +38,26 @@ public class Config {
 		BOTTOM_RIGHT
 	}
 
-	
-	
+	public static boolean isPipeStatusOverlayAlwaysOn() {
+		return pipeStatusOverlayAlwaysOn;
+	}
+
+	public static boolean isDisplayCookTime() {
+		return displayCookTime;
+	}
+
+	public static boolean isDisplayHarvestLevel() {
+		return displayHarvestLevel;
+	}
+
+	public static boolean isShowHUDWhileChatting() {
+		return showHUDWhileChatting;
+	}
+
+	public static HUDPostitions getHudPosition() {
+		return hudPosition;
+	}
+
 	public static Configuration config;
     private static File configDir;
 	

@@ -47,8 +47,9 @@ public class PipeOutlineHandler {
 			        }
 			        
 			        for(Line3D line : RenderHelper.getLinesFromCube(box)) {
-		        		if(lines.contains(line)) {
-		        		}
+			            // FIXME??
+//		        		if(lines.contains(line)) {
+//		        		}
 			        	if(!lines.add(line)) {
 			        		blacklist.add(line);
 			        	}

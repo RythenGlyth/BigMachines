@@ -9,8 +9,8 @@ import de.bigmachines.utils.classes.RedstoneMode;
 
 public class TabRedstoneControl extends Tab {
 	
-	public IHasRedstoneControl redstoneControl;
-	public ElementSelectionButtons elementSelectionButtons;
+	public final IHasRedstoneControl redstoneControl;
+	public final ElementSelectionButtons elementSelectionButtons;
 	
 	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);

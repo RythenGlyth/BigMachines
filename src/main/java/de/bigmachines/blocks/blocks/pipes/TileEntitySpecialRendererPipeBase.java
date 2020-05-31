@@ -229,7 +229,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		
 		//System.out.println(Config.pipeStatusOverlayAlwaysOn);
 		
-		if((Config.pipeStatusOverlayAlwaysOn || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
+		if((Config.isPipeStatusOverlayAlwaysOn() || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
 			double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * this.pixelTextureWitdh : 12 * this.pixelTextureWitdh);
 			
 			//OUTSIDE STATUS

@@ -22,6 +22,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +32,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	int pass;
 	
 	//protected HashSet<EnumFacing> attachments;
-	protected HashMap<EnumFacing, PipeAttachment> attachments;
-	protected Capability capability;
+	protected final HashMap<EnumFacing, PipeAttachment> attachments;
+	protected final Capability capability;
 	
 	public TileEntityPipeBase(Capability capability) {
 		super();
@@ -95,6 +97,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
     
 	@Override
+	@Nonnull
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(getPos(), getPos().add(1, 1, 1));
 	}
@@ -147,7 +150,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(@Nullable Capability<?> capability, @Nonnull EnumFacing facing) {
 		if(capability == null || this.capability == null) return false;
 		if(capability.equals(this.capability)) return true;
 		return super.hasCapability(capability, facing);

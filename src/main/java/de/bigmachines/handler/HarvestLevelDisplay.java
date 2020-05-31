@@ -16,7 +16,7 @@ public class HarvestLevelDisplay {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onTooltip(ItemTooltipEvent e) {
-		if(Config.displayHarvestLevel && e.getItemStack().getItem() instanceof ItemTool) {
+		if(Config.isDisplayHarvestLevel() && e.getItemStack().getItem() instanceof ItemTool) {
 			ItemTool tool = (ItemTool) e.getItemStack().getItem();
 			List<String> toolips = new ArrayList<>();
 			ItemInformationHandler.addShiftInfo((itemStack, entityPlayer, toolTip, flags) -> {

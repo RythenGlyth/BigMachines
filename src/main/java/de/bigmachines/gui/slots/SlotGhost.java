@@ -5,6 +5,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class SlotGhost extends Slot {
 
 	public SlotGhost(IInventory inventoryIn, int index, int xPosition, int yPosition) {
@@ -12,17 +15,17 @@ public class SlotGhost extends Slot {
 	}
 	
 	@Override
-	public boolean canTakeStack(EntityPlayer playerIn) {
+	public boolean canTakeStack(@Nullable EntityPlayer playerIn) {
 		return false;
 	}
 	
 	@Override
-	public boolean isItemValid(ItemStack stack) {
+	public boolean isItemValid(@Nullable ItemStack stack) {
 		return true;
 	}
 	
 	@Override
-	public void putStack(ItemStack stack) {
+	public void putStack(@Nonnull ItemStack stack) {
 		if (!isItemValid(stack)) return;
 		
 		if (!stack.isEmpty()) stack.setCount(1);
@@ -33,7 +36,7 @@ public class SlotGhost extends Slot {
 	
 	public static class Validated extends SlotGhost {
 		
-		ISlotValidator validator;
+		final ISlotValidator validator;
 
 		public Validated(IInventory inventoryIn, int index, int xPosition, int yPosition, ISlotValidator validator) {
 			super(inventoryIn, index, xPosition, yPosition);

@@ -24,6 +24,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemWrench extends ItemBase implements IInfoProviderShift {
@@ -35,7 +37,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
+	public boolean showDurabilityBar(@Nonnull ItemStack stack) {
 		return getDamage(stack) > 0;
 	}
 	
@@ -59,7 +61,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	}*/
 	
 	@Override
-	public int getMaxDamage(ItemStack stack) {
+	public int getMaxDamage(@Nullable ItemStack stack) {
 		/*switch(stack.getMetadata()) {
 			case 0: //Copper
 				return 200;

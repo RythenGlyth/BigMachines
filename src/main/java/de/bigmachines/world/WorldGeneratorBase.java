@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class WorldGeneratorBase {
 	
-	public static HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes = new HashMap<>();
+	public static final HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes = new HashMap<>();
 	
 	public static void addWorldGeneratorType(String name, Class<? extends WorldGeneratorBase> worldGeneratorType) {
 		worldGeneratorTypes.put(name, worldGeneratorType);

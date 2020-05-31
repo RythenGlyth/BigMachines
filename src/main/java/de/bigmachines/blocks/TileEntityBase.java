@@ -6,6 +6,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import javax.annotation.Nonnull;
+
 public abstract class TileEntityBase extends TileEntity {
 	
 	public TileEntityBase() {
@@ -19,14 +21,16 @@ public abstract class TileEntityBase extends TileEntity {
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
+	@Nonnull
+	public void readFromNBT(@Nonnull NBTTagCompound compound) {
 		
 		this.readCustomNBT(compound, false);
 		super.readFromNBT(compound);
 	}
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	@Nonnull
+	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
 		this.writeCustomNBT(compound, false);
 		super.writeToNBT(compound);
 		
@@ -41,6 +45,7 @@ public abstract class TileEntityBase extends TileEntity {
 	
 	//Synchronise between Client and Server
 	@Override
+	@Nonnull
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound compound = super.getUpdateTag();
 		if(compound == null) compound = new NBTTagCompound();
@@ -56,13 +61,13 @@ public abstract class TileEntityBase extends TileEntity {
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(@Nonnull NetworkManager net, @Nonnull SPacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
 		this.readCustomNBT(pkt.getNbtCompound(), true);
 	}
 	
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
 		this.readCustomNBT(tag, true);
 	}

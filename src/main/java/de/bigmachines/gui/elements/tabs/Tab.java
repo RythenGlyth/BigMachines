@@ -20,11 +20,11 @@ public class Tab {
 	
 	public int offsetY;
 	
-	public int minWidth = 24;
-	public int maxWidth = 122;
+	public final int minWidth = 24;
+	public final int maxWidth = 122;
 	public int currentWidth = minWidth;
 	
-	public int minHeight = 24;
+	public final int minHeight = 24;
 	public int maxHeight = 122;
 	public int currentHeight = minHeight;
 	
@@ -40,13 +40,13 @@ public class Tab {
 	public float colorB = 1f;
 	public float colorA = 1f;
 	
-	public List<Element> elements = new ArrayList<>();
+	public final List<Element> elements = new ArrayList<>();
 	
-	public GuiContainerBase gui;
+	public final GuiContainerBase gui;
 	
 	public EnumSide side = EnumSide.RIGHT;
 	
-	public ResourceLocation tabTexture = new ResourceLocation(Reference.MOD_ID, "textures/gui/tab.png");
+	public final ResourceLocation tabTexture = new ResourceLocation(Reference.MOD_ID, "textures/gui/tab.png");
 	
 	public String name;
 	
@@ -335,7 +335,7 @@ public class Tab {
 	
 	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
 		if(!this.expanded) {
-			if(this.name != null && this.name != "") {
+			if(this.name != null && !this.name.equals("")) {
 				tooltips.add(this.name);
 				return;
 			}

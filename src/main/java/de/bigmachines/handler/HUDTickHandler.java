@@ -30,7 +30,7 @@ public class HUDTickHandler {
 			return;
 		}
 		if (mc.player != null) {
-			if ((mc.currentScreen == null || Config.showHUDWhileChatting && mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative) && !mc.gameSettings.hideGUI && !mc.gameSettings.showDebugInfo) {
+			if ((mc.currentScreen == null || Config.isShowHUDWhileChatting() && mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative) && !mc.gameSettings.hideGUI && !mc.gameSettings.showDebugInfo) {
 				List<String> info = new ArrayList<>();
 				
 				ItemStack head = mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);

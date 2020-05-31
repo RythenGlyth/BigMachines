@@ -47,9 +47,9 @@ public class BigMachines {
 	}
 	
 	@EventHandler
-	public void preinit(FMLPreInitializationEvent e) {
-		Config.init(e.getModConfigurationDirectory());
-		WorldGenerationConfig.init(new File(e.getModConfigurationDirectory(), Reference.MOD_ID));
+	public void preinit(FMLPreInitializationEvent ev) {
+		Config.init(ev.getModConfigurationDirectory());
+		WorldGenerationConfig.init(new File(ev.getModConfigurationDirectory(), Reference.MOD_ID));
 		
         MinecraftForge.EVENT_BUS.register(proxy);
 
@@ -74,14 +74,14 @@ public class BigMachines {
 	}
 	
 	@EventHandler
-	public void init(FMLInitializationEvent e) {
+	public void init(FMLInitializationEvent ev) {
 		proxy.init();
 		
 		WorldGenerationConfig.loadConfig();
 	}
 	
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
+	public void postInit(FMLPostInitializationEvent ev) {
 		GameRegistry.registerWorldGenerator(new ModWorldGenerator(), 0);
 		proxy.postInit();
 	}

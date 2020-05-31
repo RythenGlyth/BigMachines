@@ -8,18 +8,18 @@ import java.util.function.Consumer;
 
 public class ElementSwitchButton extends ElementButtonIcon {
 	
-	protected int switchU;
-	protected int switchV;
+	protected final int switchU;
+	protected final int switchV;
 	
-	protected int normalU;
-	protected int normalV;
+	protected final int normalU;
+	protected final int normalV;
 	
 	boolean switched;
 	
 	protected Consumer<Boolean> onChanged;
 	
-	public List<String> normalTooltips = new ArrayList<>();
-	public List<String> switchedTooltips = new ArrayList<>();
+	public final List<String> normalTooltips = new ArrayList<>();
+	public final List<String> switchedTooltips = new ArrayList<>();
 	
 	public ElementSwitchButton(GuiContainerBase gui, int posX, int posY, int normalU, int normalV, int switchU, int switchV) {
 		super(gui, posX, posY, normalU, normalV);

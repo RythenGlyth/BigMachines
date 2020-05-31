@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class Element {
 	
-	protected GuiContainerBase gui;
+	protected final GuiContainerBase gui;
 	protected ResourceLocation texture;
 	
 	public int posX;
@@ -21,7 +21,7 @@ public abstract class Element {
 	protected int textureW = 256;
 	protected int textureH = 256;
 	
-	public List<String> tooltips = new ArrayList<>();
+	public final List<String> tooltips = new ArrayList<>();
 	
 	public Element(GuiContainerBase gui, int posX, int posY) {
 		this(gui, posX, posY, 16, 16);

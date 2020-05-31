@@ -4,9 +4,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nonnull;
+
 public class SlotValidated extends Slot {
 	
-	ISlotValidator validator;
+	final ISlotValidator validator;
 	
 	public SlotValidated(IInventory inventoryIn, int index, int xPosition, int yPosition, ISlotValidator validator) {
 		super(inventoryIn, index, xPosition, yPosition);
@@ -14,7 +16,7 @@ public class SlotValidated extends Slot {
 	}
 	
 	@Override
-	public boolean isItemValid(ItemStack stack) {
+	public boolean isItemValid(@Nonnull ItemStack stack) {
 		return this.validator.isItemValid(stack);
 	}
 	

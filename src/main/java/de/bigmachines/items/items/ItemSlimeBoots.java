@@ -19,6 +19,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -29,7 +31,7 @@ import java.util.List;
 
 public class ItemSlimeBoots extends ItemArmor implements IInfoProviderShift, IModelRegister {
     
-    protected String name;
+    protected final String name;
 
     public ItemSlimeBoots() {
         super(EnumHelper.addArmorMaterial("slime", "slime_boots", 0, new int[] {3, 6, 8, 3}, 10, SoundEvents.BLOCK_SLIME_PLACE, 0), 2, EntityEquipmentSlot.FEET);
@@ -42,7 +44,7 @@ public class ItemSlimeBoots extends ItemArmor implements IInfoProviderShift, IMo
     }
     
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    public void onArmorTick(@Nullable World world, @Nullable EntityPlayer player, @Nonnull ItemStack itemStack) {
     	if(player == null) return;
     	
         if(!(itemStack.getItem() instanceof ItemSlimeBoots)) {

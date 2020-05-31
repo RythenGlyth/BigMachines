@@ -4,6 +4,7 @@ import de.bigmachines.gui.GuiContainerBase;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 
@@ -16,12 +17,14 @@ public class ContainerBaseExtraAreas implements IAdvancedGuiHandler<GuiContainer
 	}
 	
 	@Override
-	public Object getIngredientUnderMouse(GuiContainerBase guiContainer, int mouseX, int mouseY) {
+	@Nullable
+	public Object getIngredientUnderMouse(@Nullable GuiContainerBase guiContainer, int mouseX, int mouseY) {
 		return null;
 	}
 	
 	@Override
-	public List<Rectangle> getGuiExtraAreas(GuiContainerBase guiContainer) {
+	@Nonnull
+	public List<Rectangle> getGuiExtraAreas(@Nonnull GuiContainerBase guiContainer) {
 		return guiContainer.getGuiExtraAreas();
 	}
 	

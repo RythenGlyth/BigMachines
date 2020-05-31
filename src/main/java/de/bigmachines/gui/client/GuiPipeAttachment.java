@@ -16,12 +16,12 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiPipeAttachment extends GuiContainerBase {
 	
-	TileEntityPipeBase tileEntityPipeBase;
-	EnumFacing side;
+	final TileEntityPipeBase tileEntityPipeBase;
+	final EnumFacing side;
 	
-	ElementSelectionButtons elementSelectionButtons;
-	ElementSwitchButton elementSwitchWhiteBlackButton;
-	TabRedstoneControl redstoneTab;
+	final ElementSelectionButtons elementSelectionButtons;
+	final ElementSwitchButton elementSwitchWhiteBlackButton;
+	final TabRedstoneControl redstoneTab;
 	
 	public GuiPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super(new ContainerPipeAttachment(inventory, tileEntityPipeBase, side), new ResourceLocation(Reference.MOD_ID, "textures/gui/duct.png"));

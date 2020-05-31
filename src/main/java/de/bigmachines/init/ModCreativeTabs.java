@@ -4,6 +4,8 @@ import de.bigmachines.Reference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * CreativeTab Registry
  * 
@@ -19,6 +21,7 @@ public class ModCreativeTabs {
 		modTab = new CreativeTabs(Reference.MOD_ID + "." + "mainTab") {
 			
 			@Override
+			@Nonnull
 			public ItemStack getTabIconItem() {
 				return new ItemStack(ModItems.wrench);
 			}
@@ -26,6 +29,7 @@ public class ModCreativeTabs {
 		materialsTab = new CreativeTabs(Reference.MOD_ID + "." + "materialsTab") {
 			
 			@Override
+			@Nonnull
 			public ItemStack getTabIconItem() {
 				return new ItemStack(ModMaterials.ingot_lead);
 			}

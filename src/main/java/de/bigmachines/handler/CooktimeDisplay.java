@@ -18,7 +18,7 @@ public class CooktimeDisplay {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onTooltip(ItemTooltipEvent e) {
-		if(Config.displayCookTime && TileEntityFurnace.isItemFuel(e.getItemStack())) {
+		if(Config.isDisplayCookTime() && TileEntityFurnace.isItemFuel(e.getItemStack())) {
 			List<String> toolips = new ArrayList<>();
 			ItemInformationHandler.addShiftInfo((itemStack, entityPlayer, toolTip, flags) -> {
 				toolTip.add(I18n.format("info." + Reference.MOD_ID + ".burntime") + ": " + TileEntityFurnace.getItemBurnTime(e.getItemStack()));

@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class TileEntityFluidPipe extends TileEntityPipeBase {
 	
-	FluidStorage fluidStorage;
+	final FluidStorage fluidStorage;
 	
 	public TileEntityFluidPipe() {
 		super(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);

@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class ElementSelectionButtons extends Element {
 	
-	public List<ElementButtonIcon> buttons;
+	public final List<ElementButtonIcon> buttons;
 	public int selectedIndex;
 	protected Consumer<Integer> onChange;
 	

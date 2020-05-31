@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class BlockBase extends Block {
     
-	protected ItemBlock itemBlock;
+	protected final ItemBlock itemBlock;
 	
     protected String name;
     

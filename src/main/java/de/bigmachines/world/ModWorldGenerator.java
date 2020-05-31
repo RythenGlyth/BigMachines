@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class ModWorldGenerator implements IWorldGenerator {
 
-	public static List<WorldGeneratorBase> generators = new ArrayList<>();
+	public static final List<WorldGeneratorBase> generators = new ArrayList<>();
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {

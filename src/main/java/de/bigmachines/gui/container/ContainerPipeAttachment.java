@@ -7,10 +7,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumFacing;
 
+import javax.annotation.Nullable;
+
 public class ContainerPipeAttachment extends Container {
 	
-	private TileEntityPipeBase tileEntityPipeBase;
-	private EnumFacing side;
+	private final TileEntityPipeBase tileEntityPipeBase;
+	private final EnumFacing side;
 	
 	public ContainerPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		this.tileEntityPipeBase = tileEntityPipeBase;
@@ -22,7 +24,7 @@ public class ContainerPipeAttachment extends Container {
 	}
 	
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(@Nullable EntityPlayer playerIn) {
 		return true;
 	}
 	

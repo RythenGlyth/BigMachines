@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ModBlocks {
 	
-	public static ArrayList<BlockBase> BLOCKS = new ArrayList<>();
+	public static final ArrayList<BlockBase> BLOCKS = new ArrayList<>();
 	
 	public static BlockHeatPipe heatPipe;
 	public static BlockFluidPipe fluidPipe;

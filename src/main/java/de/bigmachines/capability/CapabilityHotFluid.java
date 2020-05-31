@@ -6,7 +6,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 public class CapabilityHotFluid {
 	
 	@CapabilityInject(IHotFluidHandler.class)
-	public static Capability<IHotFluidHandler> HOT_FLUID = null;
+	public static final Capability<IHotFluidHandler> HOT_FLUID = null;
 	
 	public static void register()
     {

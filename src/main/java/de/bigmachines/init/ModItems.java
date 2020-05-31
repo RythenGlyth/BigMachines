@@ -25,7 +25,7 @@ public class ModItems {
 	public static ItemWrench wrench;
 	public static ItemManual manual;
 	
-    public static ArrayList<Item> ITEMS = new ArrayList<>();
+    public static final ArrayList<Item> ITEMS = new ArrayList<>();
 
     public static void preInit() {
     	slimeBoots = new ItemSlimeBoots();
