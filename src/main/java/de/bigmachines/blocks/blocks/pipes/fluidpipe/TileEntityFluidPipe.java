@@ -12,6 +12,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityFluidPipe extends TileEntityPipeBase {
 	
 	final FluidStorage fluidStorage;
@@ -56,7 +58,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
 		return super.hasCapability(capability, facing);
 	}
 	

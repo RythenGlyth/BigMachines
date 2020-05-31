@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GuiContainerBase extends GuiContainer {
 	
-	protected final boolean drawTitle = true;
+	protected static final boolean drawTitle = true;
 	protected boolean drawInventory = true;
 	protected int mouseX = 0;
 	protected int mouseY = 0;
@@ -31,7 +31,7 @@ public class GuiContainerBase extends GuiContainer {
 	protected final ArrayList<Tab> tabs = new ArrayList<>();
 	
 	protected final List<String> tooltips = new LinkedList<>();
-	protected final boolean drawTooltips = true;
+	protected static final boolean drawTooltips = true;
 	
 	public GuiContainerBase(Container container) {
 		super(container);

@@ -85,9 +85,9 @@ public class GuiManual extends GuiScreen {
 		
 		int last = guiTop + 10;
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
-			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
+			for (final ManualContent manualContent : tabs.get(selectedIndex).getContents()) {
 				try {
-					last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
+					last = manualContent.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
 					if (last > guiTop + guiHeight) break;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
@@ -143,7 +143,7 @@ public class GuiManual extends GuiScreen {
 		super.handleMouseInput();
 	}
 	
-	private boolean checkIfValidOffset(final int offset) {
+	private static boolean checkIfValidOffset(final int offset) {
 		final int len = ManualLoader.getTabs().size() - maxTabs;
 		if (offset < 0) return false;
 		return offset < len;

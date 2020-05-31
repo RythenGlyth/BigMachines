@@ -73,7 +73,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 		if(!(contents == null || contents.amount <= 0) && !canFillFluidType(resource)) {
 			return 0;
 		}
-        final int fill = MathHelper.min(resource.amount, (contents == null ? maxReceive : Math.min(getCapacity() - getAmount(), maxReceive)));
+        final int fill = MathHelper.min(resource.amount, (contents == null ? maxReceive : Math.min(capacity - getAmount(), maxReceive)));
         if (doFill) {
         	if(contents == null || contents.amount <= 0) {
         		contents = new FluidStack(resource.getFluid(), fill);

@@ -297,7 +297,6 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder buffer = tessellator.getBuffer();
 		
-
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		
 		//OUTSIDE

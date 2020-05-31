@@ -29,11 +29,11 @@ public class BlockHelper {
 		world.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.DEFAULT);
 	}
 	
-	public void callNeighborStateChange(World world, BlockPos pos) {
+	public static void callNeighborStateChange(World world, BlockPos pos) {
 		world.notifyNeighborsOfStateChange(pos, world.getBlockState(pos).getBlock(), false);
 	}
 
-	public void callNeighborTileChange(World world, BlockPos pos) {
+	public static void callNeighborTileChange(World world, BlockPos pos) {
 		world.updateComparatorOutputLevel(pos, world.getBlockState(pos).getBlock());
 	}
 	

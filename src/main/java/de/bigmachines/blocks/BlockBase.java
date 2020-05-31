@@ -23,9 +23,9 @@ public class BlockBase extends Block {
     
     public BlockBase(Material materialIn, String name) {
         super(materialIn);
-		setName(name);
-		setRegistryName(new ResourceLocation(Reference.MOD_ID, getName()));
-		setUnlocalizedName(Reference.MOD_ID + "." + getName());
+		this.name = name;
+		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
+		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
 		this.itemBlock = new ItemBlockBase(this);
     }
     

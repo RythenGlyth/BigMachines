@@ -21,7 +21,6 @@ public abstract class TileEntityBase extends TileEntity {
 	}
 	
 	@Override
-	@Nonnull
 	public void readFromNBT(@Nonnull NBTTagCompound compound) {
 		
 		this.readCustomNBT(compound, false);

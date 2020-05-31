@@ -20,8 +20,8 @@ public final class FileHelper {
 	}
 	
 	public static void copyFile(File source, File destination) {
-    	try {
-    		FileInputStream inputStream = new FileInputStream(source);
+		try {
+			FileInputStream inputStream = new FileInputStream(source);
 			FileOutputStream outputStream = new FileOutputStream(destination);
 			byte[] buffer = new byte[1024];
             int length;
@@ -32,11 +32,11 @@ public final class FileHelper {
             
             inputStream.close();
             outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
-	
+
 	public static HashMap<String, String> oldGetResourcesFolder(String folder) {
 		final HashMap<String, String> files = new HashMap<>();
 		

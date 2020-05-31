@@ -22,9 +22,9 @@ public class ItemBase extends Item implements IModelRegister {
     protected String name;
     
     public ItemBase(String name) {
-        setName(name);
-		setRegistryName(new ResourceLocation(Reference.MOD_ID, getName()));
-		setUnlocalizedName(Reference.MOD_ID + "." + getName());
+        this.name = name;
+		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
+		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
 		BigMachines.proxy.addIModelRegister(this);
     }
 	

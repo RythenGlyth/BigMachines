@@ -20,11 +20,11 @@ public class Tab {
 	
 	public int offsetY;
 	
-	public final int minWidth = 24;
-	public final int maxWidth = 122;
+	public static final int minWidth = 24;
+	public static final int maxWidth = 122;
 	public int currentWidth = minWidth;
 	
-	public final int minHeight = 24;
+	public static final int minHeight = 24;
 	public int maxHeight = 122;
 	public int currentHeight = minHeight;
 	
@@ -93,9 +93,9 @@ public class Tab {
 		}
 		if(this.expanded) {
 			GL11.glPushMatrix();
-			GL11.glTranslated(getTranslationX(), getTranslationY(), 0);
+			GL11.glTranslated(posX, getTranslationY(), 0);
 			
-			drawElementsForeground(mouseX - getTranslationX(), mouseY - getTranslationY());
+			drawElementsForeground(mouseX - posX, mouseY - getTranslationY());
 			GL11.glPopMatrix();
 		}
 	}
@@ -218,9 +218,9 @@ public class Tab {
 		}
 		if(this.expanded) {
 			GL11.glPushMatrix();
-			GL11.glTranslated(getTranslationX(), getTranslationY(), 0);
+			GL11.glTranslated(posX, getTranslationY(), 0);
 			
-			drawElementsBackground(mouseX - getTranslationX(), mouseY - getTranslationY(), partialTicks);
+			drawElementsBackground(mouseX - posX, mouseY - getTranslationY(), partialTicks);
 			
 			GL11.glPopMatrix();
 		}
@@ -290,14 +290,14 @@ public class Tab {
 	public void onMouseWheel(int mouseX, int mouseY, int dWheel) {
 		if(!expanded) return;
 		for(Element element : elements) {
-			element.onMouseWheel(mouseX - getTranslationX(), mouseY - getTranslationY(), dWheel);
+			element.onMouseWheel(mouseX - posX, mouseY - getTranslationY(), dWheel);
 		}
 	}
 	
 	public void mouseReleased(int mouseX, int mouseY, int state) {
 		if(!expanded) return;
 		for(Element element : elements) {
-			element.mouseReleased(mouseX - getTranslationX(), mouseY - getTranslationY(), state);
+			element.mouseReleased(mouseX - posX, mouseY - getTranslationY(), state);
 		}
 		/*elements.forEach(element -> {
 			element.mouseReleased(mouseX - this.posX, mouseY - this.posY, state);
@@ -308,7 +308,7 @@ public class Tab {
 		if(intersectsWith(mouseX, mouseY)) {
 			if(this.expanded) {
 				for(Element element : elements) {
-					if(element.mouseClicked(mouseX - getTranslationX(), mouseY - getTranslationY(), mouseButton)) {
+					if(element.mouseClicked(mouseX - posX, mouseY - getTranslationY(), mouseButton)) {
 						return true;
 					}
 				}
@@ -335,14 +335,14 @@ public class Tab {
 	
 	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
 		if(!this.expanded) {
-			if(this.name != null && !this.name.equals("")) {
+			if(this.name != null && !this.name.isEmpty()) {
 				tooltips.add(this.name);
 				return;
 			}
 		}
-		Element element = getElementAtPosition(mouseX - getTranslationX(), mouseY - getTranslationY());
+		Element element = getElementAtPosition(mouseX - posX, mouseY - getTranslationY());
 		if(element != null && element.isVisible()) {
-			element.addTooltip(mouseX - getTranslationX(), mouseY - getTranslationY(), tooltips);
+			element.addTooltip(mouseX - posX, mouseY - getTranslationY(), tooltips);
 		}
 	}
 	

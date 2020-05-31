@@ -81,7 +81,7 @@ public class BlockPipeBase extends BlockBase {
 		for (AxisAlignedBB box : boxes) addCollisionBoxToList(pos, entityBox, collidingBoxes, box);
 	}
 	
-	public List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
+	public static List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
 		List<AxisAlignedBB> collidingBoxes = new ArrayList<>();
 		
 		collidingBoxes.add(box_base);
@@ -241,22 +241,22 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public boolean isNormalCube(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos) {
 		return false;
 	}
 	
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(@Nullable IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(@Nullable IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
+	public EnumBlockRenderType getRenderType(@Nullable IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
 	
