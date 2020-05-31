@@ -91,8 +91,8 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		} else {
 			elementSelectionButtons.select(3, false);
 		}
-		
-		
+		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
+
 	}
 	
 }
