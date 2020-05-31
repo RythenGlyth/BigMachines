@@ -108,14 +108,15 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 					int dwheel = e.getDwheel();
 					if(dwheel != 0) {
 						e.setCanceled(true);
-						Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
-						if(slectedSide != null) {
-							TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(slectedSide.y);
+						Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace();
+						if(selectedSide != null) {
+							TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(selectedSide.y);
 							if(tile instanceof TileEntityPipeBase) {
 								TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-								PipeAttachment attachment = tileEntityPipeBase.getAttachment(slectedSide.x);
+								PipeAttachment attachment = tileEntityPipeBase.getAttachment(selectedSide.x);
 								attachment.cycleThrough(dwheel > 0);
-								BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(slectedSide.y, slectedSide.x, attachment.canExtract(), attachment.canInsert()));
+								attachment.sendUpdateToServer(selectedSide.y, selectedSide.x);
+								//BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(selectedSide.y, selectedSide.x, attachment.getRedstoneMode(), attachment.isWhitelist(), attachment.canExtract(), attachment.canInsert()));
 								
 							}
 						}

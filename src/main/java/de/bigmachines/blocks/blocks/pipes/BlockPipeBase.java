@@ -35,6 +35,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockPipeBase extends BlockBase {
 	
@@ -134,6 +136,7 @@ public class BlockPipeBase extends BlockBase {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
     @Nullable
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
