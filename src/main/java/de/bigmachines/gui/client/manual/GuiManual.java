@@ -86,7 +86,12 @@ public class GuiManual extends GuiScreen {
 		int last = guiTop + 10;
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
 			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
-				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
+				try {
+					last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
+				} catch (RuntimeException ex) {
+					System.out.println("Could not render mc:");
+					ex.printStackTrace();
+				}
 			}
 		}
 		

@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.List;
 
@@ -95,7 +97,13 @@ public abstract class ManualContent {
 			IRecipe r = CraftingManager.getRecipe(new ResourceLocation(content));
 			if (r instanceof ShapedRecipes) drawRecipe((ShapedRecipes) r, left, top);
 			else if (r instanceof ShapelessRecipes) drawRecipe((ShapelessRecipes) r, left, top);
-			else throw new UnsupportedOperationException("not implemented");
+			else {
+				System.out.println("trying to draw unsupported recipe:");
+				System.out.println(r instanceof ShapelessOreRecipe);
+				System.out.println(r instanceof ShapedOreRecipe);
+				System.out.println(r);
+				throw new UnsupportedOperationException("not implemented");
+			}
 			GlStateManager.popMatrix();
 
 			hover(mouseX, mouseY, left, top, zLevel, r, tooltips);
@@ -108,7 +116,8 @@ public abstract class ManualContent {
 		}
 
 		private void drawRecipe(ShapelessRecipes r, int left, int top) {
-			System.out.println("lol");
+			System.out.println("trying to draw shapeless");
+			throw new UnsupportedOperationException("not implemented");
 		}
 
 		private void drawRecipe(ShapedRecipes r, int left, int top) {
@@ -118,9 +127,9 @@ public abstract class ManualContent {
 
 			for (int x = 0; x < r.recipeWidth; x++) for (int y = 0; y < r.recipeHeight; y++) {
 				final Ingredient i = is.get(y * r.recipeWidth + x);
-				// TODO cycle through matching stacks
+
 				if (i.getMatchingStacks().length == 0) continue;
-				final ItemStack itemStack = i.getMatchingStacks()[0];
+				final ItemStack itemStack = i.getMatchingStacks()[(int) (Minecraft.getMinecraft().player.getEntityWorld().getTotalWorldTime() / 40 % i.getMatchingStacks().length)];
 				renderItem.renderItemAndEffectIntoGUI(itemStack, left + 2 + x * 18, top + 2 + y * 18);
 				renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, itemStack, left + 2 + x * 18, top + 2 + y * 18, "");
 			}
@@ -139,7 +148,8 @@ public abstract class ManualContent {
 					// FIXME this magic 3 should *certainly* not be here; we have to instead somehow check for recipe width or idk
 					final ItemStack[] in = r.getIngredients().get(hoverY * 3 + hoverX).getMatchingStacks();
 					if (in.length > 0)
-						tooltips.addAll(in[0].getTooltip(Minecraft.getMinecraft().player,
+						tooltips.addAll(in[(int) (Minecraft.getMinecraft().player.getEntityWorld().getTotalWorldTime() / 40 % in.length)].getTooltip(
+								Minecraft.getMinecraft().player,
 								Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL));
 				} else if (mouseX >= left + 95 && mouseX < left + 113 && mouseY >= top + 19 && mouseY < top + 37) {
 					j1 = left + 1 + 95;

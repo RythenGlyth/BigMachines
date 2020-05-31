@@ -16,7 +16,19 @@
         },
         {
             "type": "crafting",
-            "contents": "lead_ingot_from_nugget.json"
+            "contents": "bigmachines:lead_ingot_from_nugget"
+        },
+        {
+            "type": "crafting",
+            "contents": "bigmachines:lead_ingot_from_nugget"
+        },
+        {
+            "type": "crafting",
+            "contents": "bigmachines:lead_ingot_from_nugget"
+        },
+        {
+            "type": "crafting",
+            "contents": "bigmachines:lead_ingot_from_nugget"
         }
     ]
 }
