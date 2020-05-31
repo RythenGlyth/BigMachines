@@ -71,19 +71,20 @@ public class ElementSelectionButtons extends Element {
 		});
 	}
 	
-	public void select(int index) {
+	public void select(int index, boolean changed) {
 		buttons.forEach(button -> {
 			button.selected = false;
 		});
+		//System.out.println(index);
 		if(index >= 0 && index < buttons.size()) buttons.get(index).selected = true;
-		if(onChange != null) onChange.accept(index);
+		if(changed && onChange != null) onChange.accept(index);
 	}
 	
 	@Override
 	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		for(int i = 0; i < buttons.size(); i++) {
 			if(buttons.get(i).mouseClicked(mouseX, mouseY, mouseButton)) {
-				select(i);
+				select(i, true);
 				return true;
 			}
 		}

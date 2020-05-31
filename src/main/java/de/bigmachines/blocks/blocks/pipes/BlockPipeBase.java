@@ -25,6 +25,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -35,6 +36,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -136,7 +138,6 @@ public class BlockPipeBase extends BlockBase {
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
     @Nullable
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
@@ -161,31 +162,29 @@ public class BlockPipeBase extends BlockBase {
         
 		return returnRayTraceResult;
 	}
-
-	@Nullable
-	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace() {
-		RayTraceResult rayTraceResult1 = Minecraft.getMinecraft().player
-				.rayTrace(Minecraft.getMinecraft().playerController.getBlockReachDistance(), Minecraft.getMinecraft().getRenderPartialTicks());
+	
+	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(EntityPlayer player) {
+		RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
 		
 		BlockPos pos = rayTraceResult1.getBlockPos();
 		
-		TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(pos);
+		TileEntity tile = player.world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
 			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
 			HashMap<RayTraceResult, EnumFacing> list = new HashMap<RayTraceResult, EnumFacing>();
 			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 		        AxisAlignedBB box = BlockPipeBase.getBox(side);
-		        RayTraceResult result = BlockHelper.rayTrace(Minecraft.getMinecraft().playerController.getBlockReachDistance(), rayTraceResult1.getBlockPos(), box);
+		        RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
 		        if(result != null) list.put(result, side);
 			}
 			
 			RayTraceResult returnRayTraceResult = null;
-	        double lastDistance = 0.0D;
+	        double lastDistance = Double.MAX_VALUE;
 	        
 	        for (RayTraceResult raytraceresult : list.keySet()) {
 	            if (raytraceresult != null) {
-	                double distance = raytraceresult.hitVec.squareDistanceTo(Minecraft.getMinecraft().player.getLookVec());
-	                if (distance > lastDistance) {
+	                double distance = raytraceresult.hitVec.squareDistanceTo(player.getPositionEyes(1F));
+	                if (distance < lastDistance) {
 	                	returnRayTraceResult = raytraceresult;
 	                	lastDistance = distance;
 	                }
@@ -194,6 +193,16 @@ public class BlockPipeBase extends BlockBase {
 	        return returnRayTraceResult == null ? null : new Pair<EnumFacing, BlockPos>(list.get(returnRayTraceResult), pos);
 		} else
 			return null;
+	}
+	
+	public static float getBlockReachDistance(EntityPlayer player) {
+        float attrib = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+        return player.capabilities.isCreativeMode ? attrib : attrib - 0.5F;
+    }
+
+	@Nullable
+	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace() {
+		return getSelectedRayTrace(Minecraft.getMinecraft().player);
 	}
 	
 	@Override

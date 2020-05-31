@@ -60,7 +60,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 
 	@Override
 	public Object getGuiServer(InventoryPlayer inventory) {
-		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
+		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace(inventory.player);
 		if(slectedSide != null) {
 			return new ContainerPipeAttachment(inventory, this, slectedSide.x);
 		}
@@ -204,7 +204,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			this(
 					attachmentTag.hasKey("canExtract") ? attachmentTag.getBoolean("canExtract") : true,
 					attachmentTag.hasKey("canInsert") ? attachmentTag.getBoolean("canInsert") : true,
-					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("canInsert")] : RedstoneMode.IGNORED,
+					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
 					attachmentTag.hasKey("whitelist") ? attachmentTag.getBoolean("whitelist") : false
 			);
 		}
@@ -318,7 +318,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			NBTTagCompound attachmentTag = new NBTTagCompound();
 			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
 			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
-			if(!(redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
+			if((redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
 			if(whitelist) attachmentTag.setBoolean("whitelist", whitelist);
 			return attachmentTag;
 		}

@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -38,14 +39,14 @@ public class BlockHelper {
 	}
 	
 	@Nullable
-	public static RayTraceResult rayTrace(double blockReachDistance, BlockPos pos, AxisAlignedBB boundingBox) {
-		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
+	public static RayTraceResult rayTrace(EntityPlayer player, double blockReachDistance, BlockPos pos, AxisAlignedBB boundingBox) {
+		float partialTicks = 1F; //Minecraft.getMinecraft().getRenderPartialTicks();
         /*Vec3d vec3d = Minecraft.getMinecraft().player.getPositionEyes(partialTicks);
         Vec3d vec3d1 = Minecraft.getMinecraft().player.getPositionEyes(partialTicks).addVector(vec3d.x * blockReachDistance, vec3d.y * blockReachDistance, vec3d.z * blockReachDistance)
         		.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
         */
-		Vec3d vec3d = Minecraft.getMinecraft().player.getPositionEyes(partialTicks);
-        Vec3d vec3d1 = Minecraft.getMinecraft().player.getLook(partialTicks);
+		Vec3d vec3d = player.getPositionEyes(partialTicks);
+        Vec3d vec3d1 = player.getLook(partialTicks);
         Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
         
         vec3d = vec3d.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());

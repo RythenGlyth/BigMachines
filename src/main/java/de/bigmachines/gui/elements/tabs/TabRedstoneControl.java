@@ -29,7 +29,7 @@ public class TabRedstoneControl extends Tab {
 		elementSelectionButtons.addButton(new ElementButtonIcon(gui, maxWidth / 2 - 8, 24, 128, 16)).tooltips.add("High Power");
 		elementSelectionButtons.addButton(new ElementButtonIcon(gui, maxWidth / 2 + 8, 24, 144, 16)).tooltips.add("Low Power");
 		
-		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal());
+		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal(), false);
 		
 		elementSelectionButtons.setOnChange((index) -> {
 			redstoneControl.setRedstoneMode(RedstoneMode.values()[index]);
@@ -41,7 +41,7 @@ public class TabRedstoneControl extends Tab {
 	public void update(int mouseX, int mouseY, int offsetY) {
 		super.update(mouseX, mouseY, offsetY);
 		
-		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal());
+		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal(), false);
 	}
 	
 }

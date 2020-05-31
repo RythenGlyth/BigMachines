@@ -50,13 +50,13 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
         
 		if(attachment.canExtract() && attachment.canInsert()) {
-			elementSelectionButtons.select(0);
+			elementSelectionButtons.select(0, false);
 		} else if(attachment.canExtract()) {
-			elementSelectionButtons.select(1);
+			elementSelectionButtons.select(1, false);
 		} else if(attachment.canInsert()) {
-			elementSelectionButtons.select(2);
+			elementSelectionButtons.select(2, false);
 		} else {
-			elementSelectionButtons.select(3);
+			elementSelectionButtons.select(3, false);
 		}
 		
 		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
@@ -84,14 +84,16 @@ public class GuiPipeAttachment extends GuiContainerBase {
         if(attachment == null) this.mc.player.closeScreen();
         
 		if(attachment.canExtract() && attachment.canInsert()) {
-			elementSelectionButtons.select(0);
+			elementSelectionButtons.select(0, false);
 		} else if(attachment.canExtract()) {
-			elementSelectionButtons.select(1);
+			elementSelectionButtons.select(1, false);
 		} else if(attachment.canInsert()) {
-			elementSelectionButtons.select(2);
+			elementSelectionButtons.select(2, false);
 		} else {
-			elementSelectionButtons.select(3);
+			elementSelectionButtons.select(3, false);
 		}
+		
+		
 	}
 	
 }
