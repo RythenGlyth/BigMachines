@@ -160,8 +160,6 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(EntityPlayer player) {
-		Minecraft.getMinecraft().player.rayTrace(0, 0);
-		
 		RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
 		
 		BlockPos pos = rayTraceResult1.getBlockPos();
