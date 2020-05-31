@@ -35,10 +35,10 @@ public class ItemSlimeBoots extends ItemArmor implements IInfoProviderShift, IMo
 
     public ItemSlimeBoots() {
         super(EnumHelper.addArmorMaterial("slime", "slime_boots", 0, new int[] {3, 6, 8, 3}, 10, SoundEvents.BLOCK_SLIME_PLACE, 0), 2, EntityEquipmentSlot.FEET);
-        
-        this.name = "slime_boots";
-		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
-		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
+
+		name = "slime_boots";
+		setRegistryName(new ResourceLocation(Reference.MOD_ID, name));
+		setUnlocalizedName(Reference.MOD_ID + "." + name);
 		
         BigMachines.proxy.addIModelRegister(this);
     }

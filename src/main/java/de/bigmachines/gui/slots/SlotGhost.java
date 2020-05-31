@@ -30,7 +30,7 @@ public class SlotGhost extends Slot {
 		
 		if (!stack.isEmpty()) stack.setCount(1);
 		
-		inventory.setInventorySlotContents(this.getSlotIndex(), stack);
+		inventory.setInventorySlotContents(getSlotIndex(), stack);
 		onSlotChanged(); 
 	}
 	

@@ -21,29 +21,31 @@ public class MessageChangePipeAttachmentMode implements IMessage {
 	public boolean canInsert;
 	
 	public MessageChangePipeAttachmentMode(BlockPos pos, EnumFacing side, RedstoneMode redstoneMode, boolean whitelist, boolean canExtract, boolean canInsert) {
-		this.pos = pos;
-		this.side = side;
-		this.redstoneMode = redstoneMode;
-		this.whitelist = whitelist;
-		this.canExtract = canExtract;
-		this.canInsert = canInsert;
-	}
+        super();
+        this.pos = pos;
+        this.side = side;
+        this.redstoneMode = redstoneMode;
+        this.whitelist = whitelist;
+        this.canExtract = canExtract;
+        this.canInsert = canInsert;
+    }
 	
 	public MessageChangePipeAttachmentMode() {
-		
-	}
+        super();
+
+    }
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		int x = buf.readInt();
 		int y = buf.readInt();
 		int z = buf.readInt();
-		this.pos = new BlockPos(x, y, z);
-		this.side = EnumFacing.getFront(buf.readByte());
-		this.redstoneMode = RedstoneMode.values()[buf.readByte()];
-		this.whitelist = buf.readBoolean();
-		this.canExtract = buf.readBoolean();
-		this.canInsert = buf.readBoolean();
+        pos = new BlockPos(x, y, z);
+        side = EnumFacing.getFront(buf.readByte());
+        redstoneMode = RedstoneMode.values()[buf.readByte()];
+        whitelist = buf.readBoolean();
+        canExtract = buf.readBoolean();
+        canInsert = buf.readBoolean();
 	}
 
 	@Override

@@ -28,11 +28,12 @@ public abstract class Element {
 	}
 
 	public Element(GuiContainerBase gui, int posX, int posY, int width, int height) {
+		super();
 		this.gui = gui;
 		this.posX = posX;
 		this.posY = posY;
-		this.sizeX = width;
-		this.sizeY = height;
+		sizeX = width;
+		sizeY = height;
 	}
 	
 	public abstract void drawForeground(int mouseX, int mouseY);
@@ -82,7 +83,7 @@ public abstract class Element {
 	}
 	
 	public boolean intersectsWith(int mouseX, int mouseY) {
-		return mouseX >= this.posX && mouseX < this.posX + this.sizeX && mouseY >= this.posY && mouseY < this.posY + this.sizeY;
+		return mouseX >= posX && mouseX < posX + sizeX && mouseY >= posY && mouseY < posY + sizeY;
 	}
 	
 	public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, float textureW, float textureH) {

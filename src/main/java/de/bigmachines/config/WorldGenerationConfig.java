@@ -28,17 +28,17 @@ public final class WorldGenerationConfig {
 		
     	WorldGenerationConfig.worldGenerationConfigDir = worldGenerationConfigDir;
 		WorldGenerationConfig.worldGenerationConfigDir.mkdir();
-        WorldGenerationConfig.worldGenerationConfig = new File(worldGenerationConfigDir, "worldGeneration.json");
-        if(!WorldGenerationConfig.worldGenerationConfig.exists()) {
+        worldGenerationConfig = new File(worldGenerationConfigDir, "worldGeneration.json");
+        if(!worldGenerationConfig.exists()) {
         	
-        	FileHelper.copyFileUsingStreamAndLoader("assets/" + Reference.MOD_ID + "/world/worldGeneration.json", WorldGenerationConfig.worldGenerationConfig);
+        	FileHelper.copyFileUsingStreamAndLoader("assets/" + Reference.MOD_ID + "/world/worldGeneration.json", worldGenerationConfig);
         }
 	}
     
     public static void loadConfig() {
     	ModWorldGenerator.generators.clear();
 		try {
-	    	JsonReader reader = new JsonReader(new FileReader(WorldGenerationConfig.worldGenerationConfig));
+	    	JsonReader reader = new JsonReader(new FileReader(worldGenerationConfig));
 	    	JsonArray json = gson.fromJson(reader, JsonArray.class);
 	    	json.forEach(generatorEl -> {
 	    		JsonObject generator = generatorEl.getAsJsonObject();
@@ -46,7 +46,7 @@ public final class WorldGenerationConfig {
 	    			try {
 						if(WorldGeneratorBase.worldGeneratorTypes.containsKey(generator.get("type").getAsString())) {
 							
-							WorldGeneratorBase gen = WorldGenerationConfig.gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
+							WorldGeneratorBase gen = gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
 							
 							ModWorldGenerator.addGenerator(gen);
 						}
@@ -57,7 +57,7 @@ public final class WorldGenerationConfig {
 	    	});
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			WorldGenerationConfig.init(WorldGenerationConfig.worldGenerationConfigDir);
+			init(worldGenerationConfigDir);
 		}
     }
 	

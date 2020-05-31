@@ -25,13 +25,13 @@ public class GuiPipeAttachment extends GuiContainerBase {
 	
 	public GuiPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super(new ContainerPipeAttachment(inventory, tileEntityPipeBase, side), new ResourceLocation(Reference.MOD_ID, "textures/gui/duct.png"));
-		
-		this.drawInventory = true;
+
+		drawInventory = true;
 		this.tileEntityPipeBase = tileEntityPipeBase;
 		this.side = side;
-		
-		this.xSize = 176;
-		this.ySize = 157;
+
+		xSize = 176;
+		ySize = 157;
 		
 		elementSelectionButtons = (ElementSelectionButtons) addElement(new ElementSelectionButtons(this));
 		elementSelectionButtons.addButton(new ElementButtonIcon(this, 56 + 00, 18, 48, 16)).tooltips.add("In- and Output");
@@ -41,7 +41,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
 
 		elementSwitchWhiteBlackButton = (ElementSwitchButton) addElement(new ElementSwitchButton(this, 26, 43, 80, 16, 64, 16));
 		
-        if(!tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
+        if(!tileEntityPipeBase.hasAttachment(side)) mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
 		
 		redstoneTab = (TabRedstoneControl) addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
@@ -76,10 +76,10 @@ public class GuiPipeAttachment extends GuiContainerBase {
 	public void updateElements() {
 		super.updateElements();
 		
-        if(tileEntityPipeBase.isInvalid() || !tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
+        if(tileEntityPipeBase.isInvalid() || !tileEntityPipeBase.hasAttachment(side)) mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
         if(attachment == null) {
-        	this.mc.player.closeScreen();
+			mc.player.closeScreen();
         	return;
 		}
         

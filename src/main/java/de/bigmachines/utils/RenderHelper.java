@@ -203,10 +203,10 @@ public final class RenderHelper {
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		RenderHelper.setBlockTextureSheet();
+		setBlockTextureSheet();
 		int color = fluid.getFluid().getColor(fluid);
-		RenderHelper.setColorFromInt(color);
-		drawTiledTextureIcon(x, y, width, height, RenderHelper.getTexture(fluid.getFluid().getStill(fluid)), zLevel);
+		setColorFromInt(color);
+		drawTiledTextureIcon(x, y, width, height, getTexture(fluid.getFluid().getStill(fluid)), zLevel);
 		GL11.glPopMatrix();
 	}
 
@@ -246,7 +246,8 @@ public final class RenderHelper {
 		public final double x1, y1, z1, x2, y2, z2;
 		
 		public Line3D(double x1, double y1, double z1, double x2, double y2, double z2) {
-			if(x1 < x2 || (x1 == x2 && (y1 < y2 || (y1 == y2 && z1 < z2)))) {
+			super();
+			if (x1 < x2 || (x1 == x2 && (y1 < y2 || (y1 == y2 && z1 < z2)))) {
 				this.x1 = x1;
 				this.y1 = y1;
 				this.z1 = z1;
@@ -261,7 +262,7 @@ public final class RenderHelper {
 				this.y2 = y1;
 				this.z2 = z1;
 			}
-			
+
 		}
 		
 		@Override
@@ -275,12 +276,12 @@ public final class RenderHelper {
 			if(obj == null) return false;
 			if(obj instanceof Line3D) {
 				Line3D other = (Line3D) obj;
-				return (this.x1 == other.x1 || this.x1 == other.x2)
-						&& (this.y1 == other.y1 || this.y1 == other.y2)
-						&& (this.z1 == other.z1 || this.z1 == other.z2)
-						&& (this.x2 == other.x2 || this.x2 == other.x1)
-						&& (this.y2 == other.y2 || this.y2 == other.y1)
-						&& (this.z2 == other.z2 || this.z2 == other.z1);
+				return (x1 == other.x1 || x1 == other.x2)
+						&& (y1 == other.y1 || y1 == other.y2)
+						&& (z1 == other.z1 || z1 == other.z2)
+						&& (x2 == other.x2 || x2 == other.x1)
+						&& (y2 == other.y2 || y2 == other.y1)
+						&& (z2 == other.z2 || z2 == other.z1);
 			}
 			return false;
 		}

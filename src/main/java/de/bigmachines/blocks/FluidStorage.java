@@ -48,6 +48,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	}
 
 	public FluidStorage(int capacity, int maxReceive, int maxExtract, boolean canReceive, boolean canExtract) {
+		super();
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;

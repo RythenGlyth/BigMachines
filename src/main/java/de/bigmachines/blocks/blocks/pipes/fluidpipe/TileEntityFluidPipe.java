@@ -83,6 +83,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		private final EnumFacing facing;
 		
 		public AttachmentFluidStorage(TileEntityFluidPipe tileEntityFluidPipe, PipeAttachment attachment, EnumFacing facing) {
+			super();
 			this.tileEntityFluidPipe = tileEntityFluidPipe;
 			this.attachment = attachment;
 			this.facing = facing;

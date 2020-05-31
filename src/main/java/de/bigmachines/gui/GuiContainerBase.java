@@ -259,7 +259,7 @@ public class GuiContainerBase extends GuiContainer {
 	}
 	
 	protected int getCenteredOffset(String string) {
-		return this.getCenteredOffset(string, xSize / 2);
+		return getCenteredOffset(string, xSize / 2);
 	}
 
 	protected int getCenteredOffset(String string, int xPos) {

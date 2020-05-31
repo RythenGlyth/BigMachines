@@ -126,7 +126,7 @@ public class BlockPipeBase extends BlockBase {
 		List<RayTraceResult> list = Lists.newArrayList();
 
         for (AxisAlignedBB axisalignedbb : getCollisionBoxList(worldIn, pos)) {
-            list.add(this.rayTrace(pos, start, end, axisalignedbb));
+            list.add(rayTrace(pos, start, end, axisalignedbb));
         }
         
         RayTraceResult returnRayTraceResult = null;
@@ -155,7 +155,7 @@ public class BlockPipeBase extends BlockBase {
 			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
 			HashMap<RayTraceResult, EnumFacing> list = new HashMap<>();
 			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
-		        AxisAlignedBB box = BlockPipeBase.getBox(side);
+		        AxisAlignedBB box = getBox(side);
 		        RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
 		        if(result != null) list.put(result, side);
 			}

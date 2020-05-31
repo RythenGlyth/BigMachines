@@ -14,10 +14,10 @@ public class TabRedstoneControl extends Tab {
 	
 	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);
-		this.maxHeight = 60;
+		maxHeight = 60;
 		
 		this.redstoneControl = redstoneControl;
-		this.name = "Redstone Control";
+		name = "Redstone Control";
 		setColor(0xffff0000);
 		
 		elementSelectionButtons = (ElementSelectionButtons)addElement(new ElementSelectionButtons(gui));

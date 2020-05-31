@@ -25,8 +25,9 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 	private final double pixelTextureWitdh;
 	
 	public TileEntitySpecialRendererPipeBase(ResourceLocation texture, double textureWidth) {
+		super();
 		this.texture = texture;
-		this.pixelTextureWitdh = 1D / textureWidth;
+		pixelTextureWitdh = 1D / textureWidth;
 	}
 	
 	@Override
@@ -69,78 +70,78 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		//OUTSIDE
 		
 		//NORTH
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 
 		//WEST
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(18 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
 
 		//SOUTH
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
 
 		//EAST
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(0 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 
 		//UP
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 
 		//DOWN
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(18 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 		
 		//INSIDE
 		
 		//NORTH
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 6 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 6 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 6 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 6 * pixelWitdh).tex(6 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
 
 		//WEST
-		buffer.pos(6 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(18 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 
 		//SOUTH
-		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 10 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 10 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 5 * pixelWitdh, 10 * pixelWitdh).tex(18 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 5 * pixelWitdh, 10 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 
 		//EAST
-		buffer.pos(10 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 12 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 5 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 5 * pixelWitdh, 5 * pixelWitdh).tex(0 * pixelTextureWitdh, 12 * pixelTextureWitdh).endVertex();
 
 		//UP
-		buffer.pos(5 * pixelWitdh, 10 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 10 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 10 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 10 * pixelWitdh, 11 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 10 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 10 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 10 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 10 * pixelWitdh, 11 * pixelWitdh).tex(6 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
 
 		//DOWN
-		buffer.pos(5 * pixelWitdh, 6 * pixelWitdh, 11 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 6 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 0 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 6 * pixelWitdh, 5 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 6 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 6 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 6 * pixelWitdh, 11 * pixelWitdh).tex(12 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 6 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 0 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 6 * pixelWitdh, 5 * pixelWitdh).tex(18 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 6 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 6 * pixelTextureWitdh).endVertex();
 		
 		tessellator.draw();
 	}
@@ -177,86 +178,86 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		//OUTSIDE
 		
 		//NORTH
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//WEST
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//SOUTH
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(24 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(24 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//EAST
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 		
 		
 		//INSIDE
 		
 		//NORTH
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 6 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 6 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(6 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 6 * pixelWitdh).tex(6 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 6 * pixelWitdh).tex(12 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 6 * pixelWitdh).tex(12 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//WEST
-		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(12 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(6 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(18 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//SOUTH
-		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(18 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(18 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(18 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 
 		//EAST
-		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 16 * this.pixelTextureWitdh).endVertex();
-		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * this.pixelTextureWitdh, 21 * this.pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
+		buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(6 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 		
 		//System.out.println(Config.pipeStatusOverlayAlwaysOn);
 		
 		if((Config.isPipeStatusOverlayAlwaysOn() || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
-			double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * this.pixelTextureWitdh : 12 * this.pixelTextureWitdh);
+			double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * pixelTextureWitdh : 12 * pixelTextureWitdh);
 			
 			//OUTSIDE STATUS
 			
 			//NORTH
-			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 29 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * pixelTextureWitdh).endVertex();
 
 			//WEST
-			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 29 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * pixelTextureWitdh).endVertex();
 
 			//SOUTH
-			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 29 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * pixelTextureWitdh).endVertex();
 
 			//EAST
-			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 29 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * this.pixelTextureWitdh, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * this.pixelTextureWitdh).endVertex();
-			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * this.pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 29 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 24 * pixelTextureWitdh).endVertex();
+			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU, 29 * pixelTextureWitdh).endVertex();
 			
 			
 		}

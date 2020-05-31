@@ -27,13 +27,14 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 	private final List<Integer> blacklistedDimensions;
 
 	public WorldGeneratorMineable(IBlockState blockState, int maxPerChunk, int maxVeinSize, int minHeight, int maxHeight, List<Integer> blacklistedDimensions, List<Block> replaceable) {
+		super();
 		this.maxPerChunk = maxPerChunk;
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
 		this.blacklistedDimensions = blacklistedDimensions;
 
-		this.generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
-			if(input == null) return false;
+		generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
+			if (input == null) return false;
 			for (Block block : replaceable) if (input.getBlock().equals(block)) return true;
 			return false;
 		});
@@ -45,11 +46,11 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 			//chunk to world coordinates
 			int x = chunkX * 16;
 			int z = chunkY * 16;
-			for (int i = 0; i < this.maxPerChunk; i++) {
+			for (int i = 0; i < maxPerChunk; i++) {
 				int randPosX = x + random.nextInt(16);
-				int randPosY = random.nextInt(this.maxHeight - this.minHeight) + this.minHeight;
+				int randPosY = random.nextInt(maxHeight - minHeight) + minHeight;
 				int randPosZ = z + random.nextInt(16);
-				this.generator.generate(world, random, new BlockPos(randPosX, randPosY, randPosZ));
+				generator.generate(world, random, new BlockPos(randPosX, randPosY, randPosZ));
 			}
 			
 		}

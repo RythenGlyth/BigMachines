@@ -34,17 +34,18 @@ public class GuiManual extends GuiScreen {
     private int selectedIndex;
     private int scrollIndexOffset;
     
-    final private ItemStack item;
+    private final ItemStack item;
     
     public GuiManual(ItemStack item) {
-    	this.item = item;
-    	this.tooltips = new LinkedList<>();
-    	
-    	this.selectedIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
-    	
-    	this.selectedIndex = Math.min(Math.max(0, ManualLoader.getTabs().size() - 1), selectedIndex);
-    	this.selectedIndex = Math.max(0, selectedIndex);
-    }
+		super();
+		this.item = item;
+		tooltips = new LinkedList<>();
+
+		selectedIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
+
+		selectedIndex = Math.min(Math.max(0, ManualLoader.getTabs().size() - 1), selectedIndex);
+		selectedIndex = Math.max(0, selectedIndex);
+	}
     
     @Override
     public void initGui() {
@@ -79,7 +80,7 @@ public class GuiManual extends GuiScreen {
 	private void drawForeground(int mouseX, int mouseY, float partialTicks) {
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffset; i < tabs.size() && i - scrollIndexOffset < maxTabs; i++) {
-			this.mc.getTextureManager().bindTexture(tabs.get(i - scrollIndexOffset).getIcon());
+			mc.getTextureManager().bindTexture(tabs.get(i - scrollIndexOffset).getIcon());
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2 + 8, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 1);
 		}
 		
@@ -87,7 +88,7 @@ public class GuiManual extends GuiScreen {
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
 			for (final ManualContent manualContent : tabs.get(selectedIndex).getContents()) {
 				try {
-					last = manualContent.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
+					last = manualContent.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, zLevel + 1, tooltips);
 					if (last > guiTop + guiHeight) break;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
@@ -100,11 +101,11 @@ public class GuiManual extends GuiScreen {
 	}
 
 	private void drawScrollbar() {
-		this.mc.getTextureManager().bindTexture(background);
+		mc.getTextureManager().bindTexture(background);
 	}
     
 	private void drawBackground(int mouseX, int mouseY, float partialTicks) {
-		this.mc.getTextureManager().bindTexture(background);
+		mc.getTextureManager().bindTexture(background);
 		
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffset; i < tabs.size() && i - scrollIndexOffset < maxTabs; i++) {

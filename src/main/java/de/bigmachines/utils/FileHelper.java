@@ -80,11 +80,10 @@ public final class FileHelper {
 	    	walker = Files.walk(myPath);
 	    	for (Iterator<Path> it = walker.iterator(); it.hasNext(); ) {
 	    		Path p = it.next();
-	    		if(FileHelper.getExtension(p.getFileName().toString()).equals("json")) {
+	    		if(getExtension(p.getFileName().toString()).equals("json")) {
 					final BufferedReader bufferedReader = new BufferedReader(
 							new InputStreamReader(
-									BigMachines.class.getResource(folder + p.getFileName().toString())
-									.openStream()
+									BigMachines.class.getResource(folder + p.getFileName()).openStream()
 							)
 					);
 					

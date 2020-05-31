@@ -13,9 +13,10 @@ public final class ManualTab {
 	private final List<ManualContent> contents;
 	
 	private ManualTab(ResourceLocation icon, String title) {
+		super();
 		this.icon = icon;
 		this.title = title;
-		this.contents = new ArrayList<>();
+		contents = new ArrayList<>();
 	}
 	
 	public boolean addContents(ManualContent c) {

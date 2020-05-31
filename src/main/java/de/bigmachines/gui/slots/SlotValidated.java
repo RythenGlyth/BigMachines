@@ -17,7 +17,7 @@ public class SlotValidated extends Slot {
 	
 	@Override
 	public boolean isItemValid(@Nonnull ItemStack stack) {
-		return this.validator.isItemValid(stack);
+		return validator.isItemValid(stack);
 	}
 	
 }

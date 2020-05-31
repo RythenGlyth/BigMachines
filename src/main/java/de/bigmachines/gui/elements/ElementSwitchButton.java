@@ -47,11 +47,11 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	@Override
 	public void drawForeground(int mouseX, int mouseY) {
 		if(switched) {
-			this.u = switchU;
-			this.v = switchV;
+			u = switchU;
+			v = switchV;
 		} else {
-			this.u = normalU;
-			this.v = normalV;
+			u = normalU;
+			v = normalV;
 		}
 		super.drawForeground(mouseX, mouseY);
 	}

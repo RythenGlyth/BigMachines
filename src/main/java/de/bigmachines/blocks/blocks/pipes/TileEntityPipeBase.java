@@ -174,6 +174,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		}
 		
 		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode, boolean whitelist) {
+			super();
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
 			this.redstoneMode = redstoneMode;

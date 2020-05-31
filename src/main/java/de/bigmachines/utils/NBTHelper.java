@@ -6,7 +6,7 @@ public final class NBTHelper {
 		int shift = 0;
 		int result = 0;
 		for (boolean bool : bools) {
-			result = result | (bool ? 1 << shift : 0x0);
+			result |= (bool ? 1 << shift : 0x0);
 			shift++;
 		}
 		return result;

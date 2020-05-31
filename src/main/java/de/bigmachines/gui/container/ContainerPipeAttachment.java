@@ -15,11 +15,12 @@ public class ContainerPipeAttachment extends Container {
 	private final EnumFacing side;
 	
 	public ContainerPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
+		super();
 		this.tileEntityPipeBase = tileEntityPipeBase;
 		this.side = side;
-		
+
 		addPlayerInventorySlots(inventory);
-		
+
 		//addSlotToContainer(new SlotGhost(inventoryIn, index, xPosition, yPosition))
 	}
 	

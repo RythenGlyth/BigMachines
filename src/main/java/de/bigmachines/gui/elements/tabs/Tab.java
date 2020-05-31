@@ -51,10 +51,12 @@ public class Tab {
 	public String name;
 	
 	public Tab(GuiContainerBase gui) {
+		super();
 		this.gui = gui;
 	}
 	
 	public Tab(GuiContainerBase gui, EnumSide side) {
+		super();
 		this.gui = gui;
 		this.side = side;
 	}
@@ -79,19 +81,19 @@ public class Tab {
 	 * values between 0 and 1
 	 */
 	public void setColor(float red, float green, float blue, float alpha) {
-		this.colorR = red;
-		this.colorG = green;
-		this.colorB = blue;
-		this.colorA = alpha;
+		colorR = red;
+		colorG = green;
+		colorB = blue;
+		colorA = alpha;
 	}
 	
 	public void drawForeground(int mouseX, int mouseY) {
 		GlStateManager.color(1, 1, 1, 1);
 		
-		if(this.expanded) {
-			gui.mc.fontRenderer.drawStringWithShadow(this.name, side == EnumSide.RIGHT ? this.posX + 22 : this.posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(this.name), posY + offsetY + 5, 0xffffaa00);
+		if(expanded) {
+			gui.mc.fontRenderer.drawStringWithShadow(name, side == EnumSide.RIGHT ? posX + 22 : posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(name), posY + offsetY + 5, 0xffffaa00);
 		}
-		if(this.expanded) {
+		if(expanded) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(posX, getTranslationY(), 0);
 			
@@ -102,8 +104,8 @@ public class Tab {
 	
 	public void drawBackground(int mouseX, int mouseY, float partialTicks) {
 		gui.mc.renderEngine.bindTexture(tabTexture);
-		
-		this.ticksToExpand = 15;
+
+		ticksToExpand = 15;
 		
 		if(side == EnumSide.RIGHT) {
 			//TOP
@@ -216,7 +218,7 @@ public class Tab {
 					32, 32,
 					gui.getZLevel());
 		}
-		if(this.expanded) {
+		if(expanded) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(posX, getTranslationY(), 0);
 			
@@ -306,17 +308,17 @@ public class Tab {
 	
 	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		if(intersectsWith(mouseX, mouseY)) {
-			if(this.expanded) {
+			if(expanded) {
 				for(Element element : elements) {
 					if(element.mouseClicked(mouseX - posX, mouseY - getTranslationY(), mouseButton)) {
 						return true;
 					}
 				}
-				this.opening = false;
+				opening = false;
 			} else {
-				boolean lastOpening = this.opening;
+				boolean lastOpening = opening;
 				gui.closeAllTabs(side);
-				this.opening = !lastOpening;
+				opening = !lastOpening;
 			}
 			return true;
 		}
@@ -329,14 +331,14 @@ public class Tab {
 	
 	public boolean intersectsWith(int mouseX, int mouseY) {
 		return 
-				mouseX >= (this.posX) && mouseX < (this.posX) + this.currentWidth
-			 && mouseY >= (this.posY + this.offsetY) && mouseY < (this.posY + this.offsetY) + this.currentHeight;
+				mouseX >= (posX) && mouseX < (posX) + currentWidth
+			 && mouseY >= (posY + offsetY) && mouseY < (posY + offsetY) + currentHeight;
 	}
 	
 	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
-		if(!this.expanded) {
-			if(this.name != null && !this.name.isEmpty()) {
-				tooltips.add(this.name);
+		if(!expanded) {
+			if(name != null && !name.isEmpty()) {
+				tooltips.add(name);
 				return;
 			}
 		}

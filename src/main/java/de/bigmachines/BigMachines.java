@@ -43,6 +43,7 @@ public class BigMachines {
 	public static final SimpleNetworkWrapper networkHandlerMain = NetworkRegistry.INSTANCE.newSimpleChannel(new ResourceLocation(Reference.MOD_ID, "main").toString());
 	
 	public BigMachines() {
+		super();
 		INSTANCE = this;
 	}
 	

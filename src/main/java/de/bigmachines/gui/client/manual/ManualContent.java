@@ -18,7 +18,8 @@ public abstract class ManualContent {
 	protected final String content;
 	
 	public ManualContent(final String input) {
-		this.content = input;
+		super();
+		content = input;
 	}
 	
 	/**
@@ -36,7 +37,7 @@ public abstract class ManualContent {
 	
 	static class ManualTitle extends ManualContent {
 		
-		private final static int SCALE = 2;
+		private static final int SCALE = 2;
 
 		public ManualTitle(String input) {
 			super(input);

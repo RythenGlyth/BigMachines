@@ -26,7 +26,7 @@ public class BlockBase extends Block {
 		this.name = name;
 		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
 		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
-		this.itemBlock = new ItemBlockBase(this);
+		itemBlock = new ItemBlockBase(this);
     }
     
     public ItemBlock getItemBlock() {
