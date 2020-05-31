@@ -8,10 +8,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multiset.Entry;
 
 import de.bigmachines.BigMachines;
-import de.bigmachines.Reference;
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.utils.BlockHelper;
@@ -25,7 +23,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -36,7 +33,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -164,6 +160,8 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(EntityPlayer player) {
+		Minecraft.getMinecraft().player.rayTrace(0, 0);
+		
 		RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
 		
 		BlockPos pos = rayTraceResult1.getBlockPos();
@@ -200,6 +198,7 @@ public class BlockPipeBase extends BlockBase {
         return player.capabilities.isCreativeMode ? attrib : attrib - 0.5F;
     }
 
+	@SideOnly(Side.CLIENT)
 	@Nullable
 	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace() {
 		return getSelectedRayTrace(Minecraft.getMinecraft().player);

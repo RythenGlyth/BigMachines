@@ -120,6 +120,6 @@ def pullModID() {
 
 sourceSets {
     main {
-        output.resourcesDir = output.classesDir
+    
     }
 }
