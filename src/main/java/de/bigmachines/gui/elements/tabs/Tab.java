@@ -1,24 +1,18 @@
 package de.bigmachines.gui.elements.tabs;
 
-import java.awt.Rectangle;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.Element;
-import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
 import de.bigmachines.utils.classes.TextureIcon;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tab {
 
@@ -27,11 +21,11 @@ public class Tab {
 	
 	public int offsetY;
 	
-	public int minWidth = 24;
-	public int maxWidth = 122;
+	public static final int minWidth = 24;
+	public static final int maxWidth = 122;
 	public int currentWidth = minWidth;
 	
-	public int minHeight = 24;
+	public static final int minHeight = 24;
 	public int maxHeight = 122;
 	public int currentHeight = minHeight;
 	
@@ -47,9 +41,9 @@ public class Tab {
 	public float colorB = 1f;
 	public float colorA = 1f;
 	
-	public List<Element> elements = new ArrayList<Element>();
+	public final List<Element> elements = new ArrayList<>();
 	
-	public GuiContainerBase gui;
+	public final GuiContainerBase gui;
 	
 	public EnumSide side = EnumSide.RIGHT;
 	
@@ -60,10 +54,12 @@ public class Tab {
 	public String name;
 	
 	public Tab(GuiContainerBase gui) {
+		super();
 		this.gui = gui;
 	}
 	
 	public Tab(GuiContainerBase gui, EnumSide side) {
+		super();
 		this.gui = gui;
 		this.side = side;
 	}
@@ -88,23 +84,23 @@ public class Tab {
 	 * values between 0 and 1
 	 */
 	public void setColor(float red, float green, float blue, float alpha) {
-		this.colorR = red;
-		this.colorG = green;
-		this.colorB = blue;
-		this.colorA = alpha;
+		colorR = red;
+		colorG = green;
+		colorB = blue;
+		colorA = alpha;
 	}
 	
 	public void drawForeground(int mouseX, int mouseY) {
 		GlStateManager.color(1, 1, 1, 1);
 		
-		if(this.expanded) {
-			gui.mc.fontRenderer.drawStringWithShadow(this.name, side == EnumSide.RIGHT ? this.posX + 22 : this.posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(this.name), posY + offsetY + 5, 0xffffaa00);
+		if(expanded) {
+			gui.mc.fontRenderer.drawStringWithShadow(name, side == EnumSide.RIGHT ? posX + 22 : posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(name), posY + offsetY + 5, 0xffffaa00);
 		}
-		if(this.expanded) {
+		if(expanded) {
 			GL11.glPushMatrix();
-			GL11.glTranslated(getTranslationX(), getTranslationY(), 0);
+			GL11.glTranslated(posX, getTranslationY(), 0);
 			
-			drawElementsForeground(mouseX - getTranslationX(), mouseY - getTranslationY());
+			drawElementsForeground(mouseX - posX, mouseY - getTranslationY());
 			GL11.glPopMatrix();
 		}
 		
@@ -116,8 +112,8 @@ public class Tab {
 	
 	public void drawBackground(int mouseX, int mouseY, float partialTicks) {
 		gui.mc.renderEngine.bindTexture(tabTexture);
-		
-		this.ticksToExpand = 15;
+
+		ticksToExpand = 15;
 		
 		if(side == EnumSide.RIGHT) {
 			//TOP
@@ -230,11 +226,11 @@ public class Tab {
 					32, 32,
 					gui.getZLevel());
 		}
-		if(this.expanded) {
+		if(expanded) {
 			GL11.glPushMatrix();
-			GL11.glTranslated(getTranslationX(), getTranslationY(), 0);
+			GL11.glTranslated(posX, getTranslationY(), 0);
 			
-			drawElementsBackground(mouseX - getTranslationX(), mouseY - getTranslationY(), partialTicks);
+			drawElementsBackground(mouseX - posX, mouseY - getTranslationY(), partialTicks);
 			
 			GL11.glPopMatrix();
 		}
@@ -304,14 +300,14 @@ public class Tab {
 	public void onMouseWheel(int mouseX, int mouseY, int dWheel) {
 		if(!expanded) return;
 		for(Element element : elements) {
-			element.onMouseWheel(mouseX - getTranslationX(), mouseY - getTranslationY(), dWheel);
+			element.onMouseWheel(mouseX - posX, mouseY - getTranslationY(), dWheel);
 		}
 	}
 	
 	public void mouseReleased(int mouseX, int mouseY, int state) {
 		if(!expanded) return;
 		for(Element element : elements) {
-			element.mouseReleased(mouseX - getTranslationX(), mouseY - getTranslationY(), state);
+			element.mouseReleased(mouseX - posX, mouseY - getTranslationY(), state);
 		}
 		/*elements.forEach(element -> {
 			element.mouseReleased(mouseX - this.posX, mouseY - this.posY, state);
@@ -320,17 +316,17 @@ public class Tab {
 	
 	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		if(intersectsWith(mouseX, mouseY)) {
-			if(this.expanded) {
+			if(expanded) {
 				for(Element element : elements) {
-					if(element.mouseClicked(mouseX - getTranslationX(), mouseY - getTranslationY(), mouseButton)) {
+					if(element.mouseClicked(mouseX - posX, mouseY - getTranslationY(), mouseButton)) {
 						return true;
 					}
 				}
-				this.opening = false;
+				opening = false;
 			} else {
-				boolean lastOpening = this.opening;
+				boolean lastOpening = opening;
 				gui.closeAllTabs(side);
-				this.opening = !lastOpening;
+				opening = !lastOpening;
 			}
 			return true;
 		}
@@ -343,20 +339,20 @@ public class Tab {
 	
 	public boolean intersectsWith(int mouseX, int mouseY) {
 		return 
-				mouseX >= (this.posX) && mouseX < (this.posX) + this.currentWidth
-			 && mouseY >= (this.posY + this.offsetY) && mouseY < (this.posY + this.offsetY) + this.currentHeight;
+				mouseX >= (posX) && mouseX < (posX) + currentWidth
+			 && mouseY >= (posY + offsetY) && mouseY < (posY + offsetY) + currentHeight;
 	}
 	
 	public void addTooltip(int mouseX, int mouseY, List<String> tooltips) {
-		if(!this.expanded) {
-			if(this.name != null && this.name != "") {
-				tooltips.add(this.name);
+		if(!expanded) {
+			if(name != null && !name.isEmpty()) {
+				tooltips.add(name);
 				return;
 			}
 		}
-		Element element = getElementAtPosition(mouseX - getTranslationX(), mouseY - getTranslationY());
+		Element element = getElementAtPosition(mouseX - posX, mouseY - getTranslationY());
 		if(element != null && element.isVisible()) {
-			element.addTooltip(mouseX - getTranslationX(), mouseY - getTranslationY(), tooltips);
+			element.addTooltip(mouseX - posX, mouseY - getTranslationY(), tooltips);
 		}
 	}
 	

@@ -1,54 +1,44 @@
 package de.bigmachines.config;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.logging.log4j.core.util.Loader;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-
 import de.bigmachines.Reference;
 import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 import de.bigmachines.world.WorldGeneratorMineable;
 
-public class WorldGenerationConfig {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+public final class WorldGenerationConfig {
 	
-	public static Gson gson;
+	public static Gson gson = new GsonBuilder().setPrettyPrinting()
+			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer()).create();
 
     private static File worldGenerationConfig;
     private static File worldGenerationConfigDir;
     
     public static void init(File worldGenerationConfigDir) {
-    	gson = new GsonBuilder()
-    			.setPrettyPrinting()
-    			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer())
-    			.create();
-    	WorldGeneratorBase.registerGenerators();
+		WorldGeneratorBase.registerGenerators();
 		
     	WorldGenerationConfig.worldGenerationConfigDir = worldGenerationConfigDir;
 		WorldGenerationConfig.worldGenerationConfigDir.mkdir();
-        WorldGenerationConfig.worldGenerationConfig = new File(worldGenerationConfigDir, "worldGeneration.json");
-        if(!WorldGenerationConfig.worldGenerationConfig.exists()) {
+        worldGenerationConfig = new File(worldGenerationConfigDir, "worldGeneration.json");
+        if(!worldGenerationConfig.exists()) {
         	
-        	FileHelper.copyFileUsingStreamAndLoader("assets/" + Reference.MOD_ID + "/world/worldGeneration.json", WorldGenerationConfig.worldGenerationConfig);
+        	FileHelper.copyFileUsingStreamAndLoader("assets/" + Reference.MOD_ID + "/world/worldGeneration.json", worldGenerationConfig);
         }
 	}
     
     public static void loadConfig() {
     	ModWorldGenerator.generators.clear();
 		try {
-	    	JsonReader reader = new JsonReader(new FileReader(WorldGenerationConfig.worldGenerationConfig));
+	    	JsonReader reader = new JsonReader(new FileReader(worldGenerationConfig));
 	    	JsonArray json = gson.fromJson(reader, JsonArray.class);
 	    	json.forEach(generatorEl -> {
 	    		JsonObject generator = generatorEl.getAsJsonObject();
@@ -56,7 +46,7 @@ public class WorldGenerationConfig {
 	    			try {
 						if(WorldGeneratorBase.worldGeneratorTypes.containsKey(generator.get("type").getAsString())) {
 							
-							WorldGeneratorBase gen = WorldGenerationConfig.gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
+							WorldGeneratorBase gen = gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
 							
 							ModWorldGenerator.addGenerator(gen);
 						}
@@ -67,7 +57,7 @@ public class WorldGenerationConfig {
 	    	});
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			WorldGenerationConfig.init(WorldGenerationConfig.worldGenerationConfigDir);
+			init(worldGenerationConfigDir);
 		}
     }
 	

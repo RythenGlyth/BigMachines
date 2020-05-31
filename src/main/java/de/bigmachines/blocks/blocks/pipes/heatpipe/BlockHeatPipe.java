@@ -2,9 +2,10 @@ package de.bigmachines.blocks.blocks.pipes.heatpipe;
 
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 public class BlockHeatPipe extends BlockPipeBase implements ITileEntityProvider {
 
@@ -13,7 +14,7 @@ public class BlockHeatPipe extends BlockPipeBase implements ITileEntityProvider 
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
 		return new TileEntityHeatPipe();
 	}
 	

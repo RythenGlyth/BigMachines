@@ -1,12 +1,12 @@
 package de.bigmachines.blocks;
 
 import de.bigmachines.utils.BlockHelper;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nonnull;
 
 public abstract class TileEntityBase extends TileEntity {
 	
@@ -16,20 +16,21 @@ public abstract class TileEntityBase extends TileEntity {
 	
 	//sync and dirty (save later)
 	public void updated() {
-		BlockHelper.callBlockUpdate(this.getWorld(), this.getPos());
+		BlockHelper.callBlockUpdate(getWorld(), getPos());
 		markDirty();
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		
-		this.readCustomNBT(compound, false);
+	public void readFromNBT(@Nonnull NBTTagCompound compound) {
+
+		readCustomNBT(compound, false);
 		super.readFromNBT(compound);
 	}
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		this.writeCustomNBT(compound, false);
+	@Nonnull
+	public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
+		writeCustomNBT(compound, false);
 		super.writeToNBT(compound);
 		
 		return compound;
@@ -43,30 +44,31 @@ public abstract class TileEntityBase extends TileEntity {
 	
 	//Synchronise between Client and Server
 	@Override
+	@Nonnull
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound compound = super.getUpdateTag();
 		if(compound == null) compound = new NBTTagCompound();
-		this.writeCustomNBT(compound, true);
+		writeCustomNBT(compound, true);
 		return compound;
 	}
 	
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound compound = new NBTTagCompound();
-		this.writeCustomNBT(compound, true);
+		writeCustomNBT(compound, true);
 		return new SPacketUpdateTileEntity(getPos(), -1, compound);
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	public void onDataPacket(@Nonnull NetworkManager net, @Nonnull SPacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
-		this.readCustomNBT(pkt.getNbtCompound(), true);
+		readCustomNBT(pkt.getNbtCompound(), true);
 	}
 	
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
-		this.readCustomNBT(tag, true);
+		readCustomNBT(tag, true);
 	}
 
 	

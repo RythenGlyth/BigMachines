@@ -1,13 +1,13 @@
 package de.bigmachines.blocks;
 
-import javax.annotation.Nullable;
-
 import de.bigmachines.utils.MathHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+
+import javax.annotation.Nullable;
 
 public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	private final int capacity;
@@ -40,14 +40,15 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 	 * 
 	 * @param capacity max fluid capacity
 	 * @param maxTransfer max values for both receive & extract
-	 * @param canReceive
-	 * @param canExtract
+	 * @param canReceive whether this fluid storage can receive every fluid at any time
+	 * @param canExtract whether this fluid storage can give out any fluid at any time
 	 */
 	public FluidStorage(int capacity, int maxTransfer, boolean canReceive, boolean canExtract) {
 		this(capacity, maxTransfer, maxTransfer, canReceive, canExtract);
 	}
 
 	public FluidStorage(int capacity, int maxReceive, int maxExtract, boolean canReceive, boolean canExtract) {
+		super();
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
@@ -73,7 +74,7 @@ public class FluidStorage implements IFluidHandler, IFluidTankProperties {
 		if(!(contents == null || contents.amount <= 0) && !canFillFluidType(resource)) {
 			return 0;
 		}
-        final int fill = MathHelper.min(resource.amount, (contents == null ? maxReceive : Math.min(getCapacity() - getAmount(), maxReceive)));
+        final int fill = MathHelper.min(resource.amount, (contents == null ? maxReceive : Math.min(capacity - getAmount(), maxReceive)));
         if (doFill) {
         	if(contents == null || contents.amount <= 0) {
         		contents = new FluidStack(resource.getFluid(), fill);

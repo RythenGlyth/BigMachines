@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class ElementSelectionButtons extends Element {
 	
-	public List<ElementButtonIcon> buttons;
+	public final List<ElementButtonIcon> buttons;
 	public int selectedIndex;
 	protected Consumer<Integer> onChange;
 	
@@ -21,7 +21,7 @@ public class ElementSelectionButtons extends Element {
 	
 	public ElementSelectionButtons(GuiContainerBase gui, int selectedIndex) {
 		super(gui, 0, 0);
-		this.buttons = new ArrayList<ElementButtonIcon>();
+		buttons = new ArrayList<>();
 		this.selectedIndex = selectedIndex;
 	}
 	
@@ -35,11 +35,11 @@ public class ElementSelectionButtons extends Element {
 	
 	public ElementButtonIcon addButton(ElementButtonIcon elementButton) {
 		buttons.add(elementButton);
-		
-		this.posX = Collections.min(buttons, Comparator.comparing(button -> button.posX)).posX;
-		this.posY = Collections.min(buttons, Comparator.comparing(button -> button.posY)).posY;
-		this.sizeX = Collections.max(buttons, Comparator.comparing(button -> button.posX)).posX + 16 - this.posX;
-		this.sizeY = Collections.max(buttons, Comparator.comparing(button -> button.posY)).posY + 16 - this.posY;
+
+		posX = Collections.min(buttons, Comparator.comparing(button -> button.posX)).posX;
+		posY = Collections.min(buttons, Comparator.comparing(button -> button.posY)).posY;
+		sizeX = Collections.max(buttons, Comparator.comparing(button -> button.posX)).posX + 16 - posX;
+		sizeY = Collections.max(buttons, Comparator.comparing(button -> button.posY)).posY + 16 - posY;
 		
 		return elementButton;
 	}
@@ -68,8 +68,9 @@ public class ElementSelectionButtons extends Element {
 	}
 
 	/**
+	 * Selects #index mode from the available modes.
 	 *
-	 * @param index
+	 * @param index which mode to select
 	 * @param changed if set to true, update will be sent to server
 	 */
 	public void select(int index, boolean changed) {

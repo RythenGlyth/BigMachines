@@ -1,8 +1,5 @@
 package de.bigmachines.items.items;
 
-import java.util.List;
-
-import de.bigmachines.BigMachines;
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
@@ -10,7 +7,6 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
-import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.classes.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -28,6 +24,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ItemWrench extends ItemBase implements IInfoProviderShift {
 
 	public ItemWrench() {
@@ -37,7 +37,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
+	public boolean showDurabilityBar(@Nonnull ItemStack stack) {
 		return getDamage(stack) > 0;
 	}
 	
@@ -61,7 +61,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	}*/
 	
 	@Override
-	public int getMaxDamage(ItemStack stack) {
+	public int getMaxDamage(@Nullable ItemStack stack) {
 		/*switch(stack.getMetadata()) {
 			case 0: //Copper
 				return 200;

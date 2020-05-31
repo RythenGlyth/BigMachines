@@ -117,9 +117,3 @@ def pullModID() {
     }
     return modid
 }
-
-sourceSets {
-    main {
-    
-    }
-}

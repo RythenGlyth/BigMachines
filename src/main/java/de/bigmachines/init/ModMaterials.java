@@ -5,10 +5,8 @@ import de.bigmachines.blocks.BlockBaseOreDict;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.items.ItemBaseOreDict;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
-public class ModMaterials {
+public final class ModMaterials {
 
     public static ItemBase ingot_copper;
     public static ItemBase ingot_lead;
@@ -38,7 +36,7 @@ public class ModMaterials {
         initMetals();
     }
 
-    private static final void initMetals() {
+    private static void initMetals() {
     	// ingots
 
         ingot_copper = new ItemBaseOreDict("ingot_copper", "ingotCopper");

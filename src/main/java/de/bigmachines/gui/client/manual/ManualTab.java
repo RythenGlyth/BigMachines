@@ -1,27 +1,22 @@
 package de.bigmachines.gui.client.manual;
 
+import com.google.gson.*;
+import net.minecraft.util.ResourceLocation;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
-import net.minecraft.util.ResourceLocation;
-
-public class ManualTab {
-	private ResourceLocation icon;
-	private String title;
-	private List<ManualContent> contents;
+public final class ManualTab {
+	private final ResourceLocation icon;
+	private final String title;
+	private final List<ManualContent> contents;
 	
 	private ManualTab(ResourceLocation icon, String title) {
+		super();
 		this.icon = icon;
 		this.title = title;
-		this.contents = new ArrayList<ManualContent>();
+		contents = new ArrayList<>();
 	}
 	
 	public boolean addContents(ManualContent c) {
@@ -29,7 +24,7 @@ public class ManualTab {
 	}
 	
 	public List<ManualContent> getContents() {
-		return new ArrayList<ManualContent>(contents);
+		return new ArrayList<>(contents);
 	}
 	
 	public ResourceLocation getIcon() {

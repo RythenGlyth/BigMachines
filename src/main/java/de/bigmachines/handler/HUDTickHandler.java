@@ -1,10 +1,5 @@
 package de.bigmachines.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.config.Config;
 import de.bigmachines.items.IHUDInfoProvider;
 import net.minecraft.client.Minecraft;
@@ -18,6 +13,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class HUDTickHandler {
@@ -31,8 +30,8 @@ public class HUDTickHandler {
 			return;
 		}
 		if (mc.player != null) {
-			if ((mc.currentScreen == null || Config.showHUDWhileChatting && mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative) && !mc.gameSettings.hideGUI && !mc.gameSettings.showDebugInfo) {
-				List<String> info = new ArrayList<String>();
+			if ((mc.currentScreen == null || Config.isShowHUDWhileChatting() && mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative) && !mc.gameSettings.hideGUI && !mc.gameSettings.showDebugInfo) {
+				List<String> info = new ArrayList<>();
 				
 				ItemStack head = mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 				if (head != null && head.getItem() instanceof IHUDInfoProvider) {

@@ -20,24 +20,21 @@ import java.util.Random;
 public class WorldGeneratorMineable extends WorldGeneratorBase {
 	
 	private final WorldGenMinable generator;
-	
-	private final IBlockState blockState;
+
 	private final int maxPerChunk;
-	private final int maxVeinSize;
 	private final int minHeight;
 	private final int maxHeight;
 	private final List<Integer> blacklistedDimensions;
 
 	public WorldGeneratorMineable(IBlockState blockState, int maxPerChunk, int maxVeinSize, int minHeight, int maxHeight, List<Integer> blacklistedDimensions, List<Block> replaceable) {
-		this.blockState = blockState;
+		super();
 		this.maxPerChunk = maxPerChunk;
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
 		this.blacklistedDimensions = blacklistedDimensions;
-		this.maxVeinSize = maxVeinSize;
-		
-		this.generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
-			if(input == null) return false;
+
+		generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
+			if (input == null) return false;
 			for (Block block : replaceable) if (input.getBlock().equals(block)) return true;
 			return false;
 		});
@@ -49,11 +46,11 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 			//chunk to world coordinates
 			int x = chunkX * 16;
 			int z = chunkY * 16;
-			for (int i = 0; i < this.maxPerChunk; i++) {
+			for (int i = 0; i < maxPerChunk; i++) {
 				int randPosX = x + random.nextInt(16);
-				int randPosY = random.nextInt(this.maxHeight - this.minHeight) + this.minHeight;
+				int randPosY = random.nextInt(maxHeight - minHeight) + minHeight;
 				int randPosZ = z + random.nextInt(16);
-				this.generator.generate(world, random, new BlockPos(randPosX, randPosY, randPosZ));
+				generator.generate(world, random, new BlockPos(randPosX, randPosY, randPosZ));
 			}
 			
 		}
@@ -80,11 +77,11 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 			if(jsonObj.has("blacklisted-dimensions") && jsonObj.get("blacklisted-dimensions").isJsonArray()) {
 				blacklistedDimensions = WorldGenerationConfig.gson.fromJson(jsonObj.get("blacklisted-dimensions").getAsJsonArray(), new TypeToken<List<Integer>>(){}.getType());
 			} else {
-				blacklistedDimensions = new ArrayList<Integer>();
+				blacklistedDimensions = new ArrayList<>();
 			}
 			
 			
-			List<Block> replaceables = new ArrayList<Block>();
+			List<Block> replaceables = new ArrayList<>();
 			if(jsonObj.has("replaceable-blocks") && jsonObj.get("replaceable-blocks").isJsonArray()) {
 				JsonArray replaceableBlocks = jsonObj.get("replaceable-blocks").getAsJsonArray();
 				for(int i = 0; i < replaceableBlocks.size(); i++) {

@@ -7,29 +7,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
 
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec2f;
-import net.minecraftforge.fluids.FluidStack;
 
 public class GuiContainerBase extends GuiContainer {
 	
-	protected boolean drawTitle = true;
+	protected static final boolean drawTitle = true;
 	protected boolean drawInventory = true;
 	protected int mouseX = 0;
 	protected int mouseY = 0;
@@ -37,11 +28,11 @@ public class GuiContainerBase extends GuiContainer {
 	protected String name;
 	protected ResourceLocation texture;
 
-	protected ArrayList<Element> elements = new ArrayList<>();
-	protected ArrayList<Tab> tabs = new ArrayList<>();
+	protected final ArrayList<Element> elements = new ArrayList<>();
+	protected final ArrayList<Tab> tabs = new ArrayList<>();
 	
-	protected List<String> tooltips = new LinkedList<>();
-	protected boolean drawTooltips = true;
+	protected final List<String> tooltips = new LinkedList<>();
+	protected static final boolean drawTooltips = true;
 	
 	public GuiContainerBase(Container container) {
 		super(container);
@@ -259,21 +250,19 @@ public class GuiContainerBase extends GuiContainer {
 	
 	
 	public void drawTabsForeground(int mouseX, int mouseY) {
-		for(int i = 0; i < tabs.size(); i++) {
-			Tab tab = tabs.get(i);
+		for (Tab tab : tabs) {
 			tab.drawForeground(mouseX, mouseY);
 		}
 	}
 	
 	public void drawTabsBackground(int mouseX, int mouseY, float partialTicks) {
-		for(int i = 0; i < tabs.size(); i++) {
-			Tab tab = tabs.get(i);
+		for (Tab tab : tabs) {
 			tab.drawBackground(mouseX, mouseY, partialTicks);
 		}
 	}
 	
 	protected int getCenteredOffset(String string) {
-		return this.getCenteredOffset(string, xSize / 2);
+		return getCenteredOffset(string, xSize / 2);
 	}
 
 	protected int getCenteredOffset(String string, int xPos) {
@@ -281,7 +270,7 @@ public class GuiContainerBase extends GuiContainer {
 	}
 
 	public List<Rectangle> getGuiExtraAreas() {
-		List<Rectangle> extras = new ArrayList<Rectangle>();
+		List<Rectangle> extras = new ArrayList<>();
 		tabs.forEach(tab -> {
 			tab.addGuiExtras(extras);
 		});

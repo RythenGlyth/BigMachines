@@ -1,7 +1,5 @@
 package de.bigmachines.items.items;
 
-import java.util.List;
-
 import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.interfaces.IModelRegister;
@@ -9,7 +7,6 @@ import de.bigmachines.items.IInfoProviderShift;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -19,10 +16,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Slime Boots (not working)
@@ -32,20 +31,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSlimeBoots extends ItemArmor implements IInfoProviderShift, IModelRegister {
     
-    protected String name;
+    protected final String name;
 
     public ItemSlimeBoots() {
         super(EnumHelper.addArmorMaterial("slime", "slime_boots", 0, new int[] {3, 6, 8, 3}, 10, SoundEvents.BLOCK_SLIME_PLACE, 0), 2, EntityEquipmentSlot.FEET);
-        
-        this.name = "slime_boots";
-		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
-		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
+
+		name = "slime_boots";
+		setRegistryName(new ResourceLocation(Reference.MOD_ID, name));
+		setUnlocalizedName(Reference.MOD_ID + "." + name);
 		
         BigMachines.proxy.addIModelRegister(this);
     }
     
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    public void onArmorTick(@Nullable World world, @Nullable EntityPlayer player, @Nonnull ItemStack itemStack) {
     	if(player == null) return;
     	
         if(!(itemStack.getItem() instanceof ItemSlimeBoots)) {

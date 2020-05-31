@@ -12,17 +12,17 @@ import net.minecraft.util.ResourceLocation;
 
 public class TabRedstoneControl extends Tab {
 	
-	public IHasRedstoneControl redstoneControl;
-	public ElementSelectionButtons elementSelectionButtons;
+	public final IHasRedstoneControl redstoneControl;
+	public final ElementSelectionButtons elementSelectionButtons;
 	
 	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);
-		this.maxHeight = 60;
+		maxHeight = 60;
 		
 		this.icon = new TextureIcon(0, 0, 16, 16, 16, 16, new ResourceLocation("textures/items/redstone_dust.png"));
 		
 		this.redstoneControl = redstoneControl;
-		this.name = "Redstone Control";
+		name = "Redstone Control";
 		setColor(0xffff0000);
 		
 		elementSelectionButtons = (ElementSelectionButtons)addElement(new ElementSelectionButtons(gui));

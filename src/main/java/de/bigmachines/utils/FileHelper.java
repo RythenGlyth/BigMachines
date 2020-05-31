@@ -13,15 +13,15 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FileHelper {
+public final class FileHelper {
 	
 	public static void copyFile(String source, String destination) {
 		copyFile(new File(source), new File(destination));
 	}
 	
 	public static void copyFile(File source, File destination) {
-    	try {
-    		FileInputStream inputStream = new FileInputStream(source);
+		try {
+			FileInputStream inputStream = new FileInputStream(source);
 			FileOutputStream outputStream = new FileOutputStream(destination);
 			byte[] buffer = new byte[1024];
             int length;
@@ -32,13 +32,13 @@ public class FileHelper {
             
             inputStream.close();
             outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
-	
+
 	public static HashMap<String, String> oldGetResourcesFolder(String folder) {
-		final HashMap<String, String> files = new HashMap<String, String>();
+		final HashMap<String, String> files = new HashMap<>();
 		
 		try {
 			//final ClassLoader loader = BigMachines.class.getClassLoader();
@@ -66,7 +66,7 @@ public class FileHelper {
 	}
 	
 	public static HashMap<String, String> getResourcesFolder(String folder, String extensionName) {
-		HashMap<String, String> files = new HashMap<String, String>();
+		HashMap<String, String> files = new HashMap<>();
 		Stream<Path> walker;
 		try {
 			URI uri = BigMachines.class.getResource(folder).toURI();
@@ -80,11 +80,10 @@ public class FileHelper {
 	    	walker = Files.walk(myPath);
 	    	for (Iterator<Path> it = walker.iterator(); it.hasNext(); ) {
 	    		Path p = it.next();
-	    		if(FileHelper.getExtension(p.getFileName().toString()).equals("json")) {
+	    		if(getExtension(p.getFileName().toString()).equals("json")) {
 					final BufferedReader bufferedReader = new BufferedReader(
 							new InputStreamReader(
-									BigMachines.class.getResource(folder + p.getFileName().toString())
-									.openStream()
+									BigMachines.class.getResource(folder + p.getFileName()).openStream()
 							)
 					);
 					

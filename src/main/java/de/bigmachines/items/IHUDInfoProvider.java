@@ -1,8 +1,8 @@
 package de.bigmachines.items;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Interface for Items which provide a hud
@@ -13,7 +13,5 @@ import net.minecraft.item.ItemStack;
 public interface IHUDInfoProvider {
 
 	void addHUDInfo(List<String> info, ItemStack chestplate);
-	
-	
 	
 }

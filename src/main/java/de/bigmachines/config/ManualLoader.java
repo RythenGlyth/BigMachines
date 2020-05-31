@@ -10,20 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class ManualLoader {
+public final class ManualLoader {
     private static final List<ManualTab> tabs = new ArrayList<>();
-    public static Gson gson;
+    static final Gson gson = new GsonBuilder()
+			.registerTypeAdapter(ManualTab.class, new ManualTab.ManualDeserializer()).create();
 
     public static List<ManualTab> getTabs() {
 		return tabs;
 	}
     
     public static void init() {
-    	gson = new GsonBuilder()
-    			.registerTypeAdapter(ManualTab.class, new ManualTab.ManualDeserializer())
-    	.create();
-    	
-    	try {
+
+		try {
 	    	final HashMap<String, String> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/", "json");
 	    	for (Entry<String, String> resource : files.entrySet()) {
 	    		tabs.add(gson.fromJson(resource.getValue(), ManualTab.class));

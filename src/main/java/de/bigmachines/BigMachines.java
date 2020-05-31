@@ -1,22 +1,11 @@
 package de.bigmachines;
 
-import java.io.File;
-
 import de.bigmachines.config.Config;
-import de.bigmachines.config.ManualLoader;
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.gui.GuiHandler;
 import de.bigmachines.handler.GiveItemManualHandler;
-import de.bigmachines.handler.HUDTickHandler;
-import de.bigmachines.handler.ItemInformationHandler;
 import de.bigmachines.handler.SlimeBootsHandler;
-import de.bigmachines.init.ModBlocks;
-import de.bigmachines.init.ModCreativeTabs;
-import de.bigmachines.init.ModItems;
-import de.bigmachines.init.ModKeybinds;
-import de.bigmachines.init.ModMaterials;
-import de.bigmachines.init.ModTileEntities;
-import de.bigmachines.items.items.ItemWrench;
+import de.bigmachines.init.*;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
@@ -33,6 +22,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.io.File;
 
 /**
  * Main
@@ -52,13 +43,14 @@ public class BigMachines {
 	public static final SimpleNetworkWrapper networkHandlerMain = NetworkRegistry.INSTANCE.newSimpleChannel(new ResourceLocation(Reference.MOD_ID, "main").toString());
 	
 	public BigMachines() {
+		super();
 		INSTANCE = this;
 	}
 	
 	@EventHandler
-	public void preinit(FMLPreInitializationEvent e) {
-		Config.init(e.getModConfigurationDirectory());
-		WorldGenerationConfig.init(new File(e.getModConfigurationDirectory(), Reference.MOD_ID));
+	public void preinit(FMLPreInitializationEvent ev) {
+		Config.init(ev.getModConfigurationDirectory());
+		WorldGenerationConfig.init(new File(ev.getModConfigurationDirectory(), Reference.MOD_ID));
 		
         MinecraftForge.EVENT_BUS.register(proxy);
 
@@ -83,14 +75,14 @@ public class BigMachines {
 	}
 	
 	@EventHandler
-	public void init(FMLInitializationEvent e) {
+	public void init(FMLInitializationEvent ev) {
 		proxy.init();
 		
 		WorldGenerationConfig.loadConfig();
 	}
 	
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
+	public void postInit(FMLPostInitializationEvent ev) {
 		GameRegistry.registerWorldGenerator(new ModWorldGenerator(), 0);
 		proxy.postInit();
 	}

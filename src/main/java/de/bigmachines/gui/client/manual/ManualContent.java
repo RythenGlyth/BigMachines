@@ -18,7 +18,8 @@ public abstract class ManualContent {
 	protected final String content;
 	
 	public ManualContent(final String input) {
-		this.content = input;
+		super();
+		content = input;
 	}
 	
 	/**
@@ -36,7 +37,7 @@ public abstract class ManualContent {
 	
 	static class ManualTitle extends ManualContent {
 		
-		private final static int SCALE = 2;
+		private static final int SCALE = 2;
 
 		public ManualTitle(String input) {
 			super(input);
@@ -115,12 +116,12 @@ public abstract class ManualContent {
 			return top + 56 + 4;
 		}
 
-		private void drawRecipe(ShapelessRecipes r, int left, int top) {
+		private static void drawRecipe(ShapelessRecipes r, int left, int top) {
 			System.out.println("trying to draw shapeless");
 			throw new UnsupportedOperationException("not implemented");
 		}
 
-		private void drawRecipe(ShapedRecipes r, int left, int top) {
+		private static void drawRecipe(ShapedRecipes r, int left, int top) {
 			renderItem.renderItemAndEffectIntoGUI(r.getRecipeOutput(), left + 95 + 1, top + 19 + 1);
 			renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, r.getRecipeOutput(), left + 95, top + 19, "");
 			NonNullList<Ingredient> is = r.getIngredients();
@@ -135,7 +136,7 @@ public abstract class ManualContent {
 			}
 		}
 
-		private void hover(int mouseX, int mouseY, int left, int top, float zLevel, IRecipe r, List<String> tooltips) {
+		private static void hover(int mouseX, int mouseY, int left, int top, float zLevel, IRecipe r, List<String> tooltips) {
 			GlStateManager.pushMatrix();
 			if (mouseX >= left && mouseY >= top) {
 				final int hoverX = (mouseX - left) / 18;

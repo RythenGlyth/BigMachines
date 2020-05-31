@@ -2,13 +2,11 @@ package de.bigmachines.blocks;
 
 import de.bigmachines.interfaces.IInitializer;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IRegistryDelegate;
 
 public class BlockBaseOreDict extends BlockBase implements IInitializer {
 	
-	String oreDict;
+	final String oreDict;
 	
 	public BlockBaseOreDict(Material materialIn, String name, String oreDict) {
 		super(materialIn, name);

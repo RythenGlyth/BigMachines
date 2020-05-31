@@ -81,8 +81,8 @@ public class BlockPipeBase extends BlockBase {
 		for (AxisAlignedBB box : boxes) addCollisionBoxToList(pos, entityBox, collidingBoxes, box);
 	}
 	
-	public List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-		List<AxisAlignedBB> collidingBoxes = new ArrayList<AxisAlignedBB>();
+	public static List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
+		List<AxisAlignedBB> collidingBoxes = new ArrayList<>();
 		
 		collidingBoxes.add(box_base);
 		
@@ -126,7 +126,7 @@ public class BlockPipeBase extends BlockBase {
 		List<RayTraceResult> list = Lists.newArrayList();
 
         for (AxisAlignedBB axisalignedbb : getCollisionBoxList(worldIn, pos)) {
-            list.add(this.rayTrace(pos, start, end, axisalignedbb));
+            list.add(rayTrace(pos, start, end, axisalignedbb));
         }
         
         RayTraceResult returnRayTraceResult = null;
@@ -153,9 +153,9 @@ public class BlockPipeBase extends BlockBase {
 		TileEntity tile = player.world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
 			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			HashMap<RayTraceResult, EnumFacing> list = new HashMap<RayTraceResult, EnumFacing>();
+			HashMap<RayTraceResult, EnumFacing> list = new HashMap<>();
 			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
-		        AxisAlignedBB box = BlockPipeBase.getBox(side);
+		        AxisAlignedBB box = getBox(side);
 		        RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
 		        if(result != null) list.put(result, side);
 			}
@@ -172,7 +172,7 @@ public class BlockPipeBase extends BlockBase {
 	                }
 	            }
 	        }
-	        return returnRayTraceResult == null ? null : new Pair<EnumFacing, BlockPos>(list.get(returnRayTraceResult), pos);
+	        return returnRayTraceResult == null ? null : new Pair<>(list.get(returnRayTraceResult), pos);
 		} else
 			return null;
 	}
@@ -234,28 +234,29 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	@Nonnull
+	public AxisAlignedBB getBoundingBox(@Nullable IBlockState state, @Nullable IBlockAccess source, @Nullable BlockPos pos) {
 		return getBox(null);
 		//return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 	
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+	public boolean isNormalCube(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos) {
 		return false;
 	}
 	
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube(@Nullable IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube(@Nullable IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
+	public EnumBlockRenderType getRenderType(@Nullable IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
 	

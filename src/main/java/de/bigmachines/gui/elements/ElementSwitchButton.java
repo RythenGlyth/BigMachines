@@ -1,25 +1,25 @@
 package de.bigmachines.gui.elements;
 
+import de.bigmachines.gui.GuiContainerBase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import de.bigmachines.gui.GuiContainerBase;
-
 public class ElementSwitchButton extends ElementButtonIcon {
 	
-	protected int switchU;
-	protected int switchV;
+	protected final int switchU;
+	protected final int switchV;
 	
-	protected int normalU;
-	protected int normalV;
+	protected final int normalU;
+	protected final int normalV;
 	
 	boolean switched;
 	
 	protected Consumer<Boolean> onChanged;
 	
-	public List<String> normalTooltips = new ArrayList<String>();
-	public List<String> switchedTooltips = new ArrayList<String>();
+	public final List<String> normalTooltips = new ArrayList<>();
+	public final List<String> switchedTooltips = new ArrayList<>();
 	
 	public ElementSwitchButton(GuiContainerBase gui, int posX, int posY, int normalU, int normalV, int switchU, int switchV) {
 		super(gui, posX, posY, normalU, normalV);
@@ -47,11 +47,11 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	@Override
 	public void drawForeground(int mouseX, int mouseY) {
 		if(switched) {
-			this.u = switchU;
-			this.v = switchV;
+			u = switchU;
+			v = switchV;
 		} else {
-			this.u = normalU;
-			this.v = normalV;
+			u = normalU;
+			v = normalV;
 		}
 		super.drawForeground(mouseX, mouseY);
 	}

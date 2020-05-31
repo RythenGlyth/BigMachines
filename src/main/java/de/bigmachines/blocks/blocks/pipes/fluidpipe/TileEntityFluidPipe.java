@@ -12,9 +12,11 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityFluidPipe extends TileEntityPipeBase {
 	
-	FluidStorage fluidStorage;
+	final FluidStorage fluidStorage;
 	
 	public TileEntityFluidPipe() {
 		super(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
@@ -56,7 +58,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
 		return super.hasCapability(capability, facing);
 	}
 	
@@ -81,6 +83,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		private final EnumFacing facing;
 		
 		public AttachmentFluidStorage(TileEntityFluidPipe tileEntityFluidPipe, PipeAttachment attachment, EnumFacing facing) {
+			super();
 			this.tileEntityFluidPipe = tileEntityFluidPipe;
 			this.attachment = attachment;
 			this.facing = facing;

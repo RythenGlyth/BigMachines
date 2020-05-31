@@ -1,6 +1,6 @@
 package de.bigmachines.utils;
 
-public class MathHelper {
+public final class MathHelper {
 	
 	public static int min(int... numbers) {
         int min = numbers[0];

@@ -15,6 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class ItemManual extends ItemBase {
 	
 	public ItemManual() {
@@ -25,7 +28,9 @@ public class ItemManual extends ItemBase {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	@Nonnull
+	public EnumActionResult onItemUse(@Nonnull EntityPlayer player, @Nonnull World worldIn, @Nullable BlockPos pos, @Nullable EnumHand hand,
+									  @Nullable EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			Minecraft.getMinecraft().displayGuiScreen(new GuiManual(player.getHeldItem(hand)));
 			return EnumActionResult.SUCCESS;
@@ -35,10 +40,11 @@ public class ItemManual extends ItemBase {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	@Nonnull
+	public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, @Nonnull EntityPlayer playerIn, @Nullable EnumHand handIn) {
 		if (playerIn.getHeldItem(handIn).getItem() instanceof ItemManual) {
 			Minecraft.getMinecraft().displayGuiScreen(new GuiManual(playerIn.getHeldItem(handIn)));
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+			return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}
 		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
