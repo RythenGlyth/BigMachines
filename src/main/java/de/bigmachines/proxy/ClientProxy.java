@@ -1,21 +1,15 @@
 package de.bigmachines.proxy;
 
-import java.util.ArrayList;
-
 import de.bigmachines.config.ManualLoader;
-import de.bigmachines.handler.CooktimeDisplay;
-import de.bigmachines.handler.HUDTickHandler;
-import de.bigmachines.handler.HarvestLevelDisplay;
-import de.bigmachines.handler.ItemInformationHandler;
-import de.bigmachines.handler.PipeOutlineHandler;
+import de.bigmachines.handler.*;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.interfaces.IModelRegister;
 import de.bigmachines.items.items.ItemWrench;
-import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.ArrayList;
 
 /**
  * Main class for Client
@@ -26,7 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy implements CommonProxy {
 
-	private static ArrayList<IModelRegister> modelList = new ArrayList<>();
+	private static final ArrayList<IModelRegister> modelList = new ArrayList<>();
 
 	@Override
 	public void preInit() {

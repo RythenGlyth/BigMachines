@@ -1,14 +1,6 @@
 package de.bigmachines.blocks.blocks.pipes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import de.bigmachines.BigMachines;
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
@@ -36,6 +28,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class BlockPipeBase extends BlockBase {
 	
 	private static final double offsetBox = 0.1;
@@ -61,10 +59,10 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityLivingBase placer, @Nonnull ItemStack stack) {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
-		TileEntity tile = worldIn.getTileEntity(pos);
+		@Nullable TileEntity tile = worldIn.getTileEntity(pos);
 
 		if (tile instanceof TileEntityPipeBase) {
 			((TileEntityPipeBase) tile).onBlockPlaced(state, placer, stack);
@@ -72,30 +70,18 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean canConnectRedstone(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos, @Nullable EnumFacing side) {
 		return true;
 	}
 	
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
-		/*addCollisionBoxToList(pos, entityBox, collidingBoxes, getBoundingBox(state, worldIn, pos));
-		
-		TileEntity tile = worldIn.getTileEntity(pos);
-
-		if (tile instanceof TileEntityPipeBase) {
-			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			for(EnumFacing side : EnumFacing.VALUES) {
-				if(tileEntityPipeBase.hasAttachment(side)) addCollisionBoxToList(pos, entityBox, collidingBoxes, getBox(side));
-			}
-		}*/
+	public void addCollisionBoxToList(@Nullable IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox,
+									  @Nonnull List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
 		List<AxisAlignedBB> boxes = getCollisionBoxList(worldIn, pos);
-		for(int i = 0; i < boxes.size(); i++) {
-			addCollisionBoxToList(pos, entityBox, collidingBoxes, boxes.get(i));
-		}
-		//collidingBoxes.addAll(getCollisionBoxList(worldIn, pos));
+		for (AxisAlignedBB box : boxes) addCollisionBoxToList(pos, entityBox, collidingBoxes, box);
 	}
 	
-	public List<AxisAlignedBB> getCollisionBoxList(World worldIn, BlockPos pos) {
+	public List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
 		List<AxisAlignedBB> collidingBoxes = new ArrayList<AxisAlignedBB>();
 		
 		collidingBoxes.add(box_base);
@@ -136,8 +122,8 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
     @Nullable
-	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
-		List<RayTraceResult> list = Lists.<RayTraceResult>newArrayList();
+	public RayTraceResult collisionRayTrace(@Nullable IBlockState blockState, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Vec3d start, @Nonnull Vec3d end) {
+		List<RayTraceResult> list = Lists.newArrayList();
 
         for (AxisAlignedBB axisalignedbb : getCollisionBoxList(worldIn, pos)) {
             list.add(this.rayTrace(pos, start, end, axisalignedbb));
@@ -205,13 +191,12 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public boolean hasTileEntity(IBlockState state) {
+	public boolean hasTileEntity(@Nullable IBlockState state) {
 		return super.hasTileEntity(state);
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-		//System.out.println("1:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
+	public void neighborChanged(@Nullable IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable Block blockIn, @Nullable BlockPos fromPos) {
 		if(!worldIn.isRemote) {
 			TileEntity tile = worldIn.getTileEntity(pos);
 			if(tile instanceof TileEntityPipeBase) {
@@ -221,8 +206,7 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		//System.out.println("2:" + pos.getX() + ":" + pos.getY() + ":" + pos.getZ());
+	public void onNeighborChange(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull BlockPos neighbor) {
 		super.onNeighborChange(world, pos, neighbor);
 		TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
@@ -231,12 +215,14 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+	@Nonnull
+	public BlockFaceShape getBlockFaceShape(@Nullable IBlockAccess worldIn, @Nullable IBlockState state, @Nullable BlockPos pos, @Nullable EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable IBlockState state, @Nonnull EntityPlayer playerIn,
+									@Nullable EnumHand hand, @Nullable EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
 			for(EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {

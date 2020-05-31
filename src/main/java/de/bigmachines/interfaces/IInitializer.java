@@ -6,6 +6,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface IInitializer {
 	
 	@SideOnly(Side.CLIENT)
-	public void postRegister();
+    void postRegister();
 	
 }

@@ -1,19 +1,7 @@
 package de.bigmachines.world;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import com.google.common.base.Predicate;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-
 import de.bigmachines.config.WorldGenerationConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -24,16 +12,21 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class WorldGeneratorMineable extends WorldGeneratorBase {
 	
-	private WorldGenMinable generator;
+	private final WorldGenMinable generator;
 	
-	private IBlockState blockState;
-	private int maxPerChunk;
-	private int maxVeinSize;
-	private int minHeight;
-	private int maxHeight;
-	private List<Integer> blacklistedDimensions;
+	private final IBlockState blockState;
+	private final int maxPerChunk;
+	private final int maxVeinSize;
+	private final int minHeight;
+	private final int maxHeight;
+	private final List<Integer> blacklistedDimensions;
 
 	public WorldGeneratorMineable(IBlockState blockState, int maxPerChunk, int maxVeinSize, int minHeight, int maxHeight, List<Integer> blacklistedDimensions, List<Block> replaceable) {
 		this.blockState = blockState;
@@ -43,16 +36,10 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 		this.blacklistedDimensions = blacklistedDimensions;
 		this.maxVeinSize = maxVeinSize;
 		
-		this.generator = new WorldGenMinable(blockState, maxVeinSize, new Predicate<IBlockState>() {
-			
-			@Override
-			public boolean apply(IBlockState input) {
-				if(input == null) return false;
-				for(int i = 0; i < replaceable.size(); i++) if(input.getBlock().equals(replaceable.get(i))) {
-					return true;
-				}
-				return false;
-			}
+		this.generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
+			if(input == null) return false;
+			for (Block block : replaceable) if (input.getBlock().equals(block)) return true;
+			return false;
 		});
 	}
 	
@@ -73,9 +60,7 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 	}
 
 	private boolean isDimensionBlacklisted(int dimension) {
-		for(int i = 0; i < blacklistedDimensions.size(); i++) {
-			if(blacklistedDimensions.get(i) == dimension) return true;
-		}
+		for (Integer blacklistedDimension : blacklistedDimensions) if (blacklistedDimension == dimension) return true;
 		return false;
 	}
 

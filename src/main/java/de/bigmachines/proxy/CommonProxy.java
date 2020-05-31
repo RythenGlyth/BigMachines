@@ -10,12 +10,12 @@ import de.bigmachines.interfaces.IModelRegister;
 
 public interface CommonProxy {
 	
-	public void preInit();
+	void preInit();
 	
-	public void init();
+	void init();
 	
-	public void postInit();
+	void postInit();
 
-	public void addIModelRegister(IModelRegister modelRegister);
+	void addIModelRegister(IModelRegister modelRegister);
 	
 }

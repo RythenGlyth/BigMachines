@@ -27,7 +27,7 @@ public class GuiManual extends GuiScreen {
     private static int guiLeft;
     private static int guiTop;
     
-    private List<String> tooltips;
+    private final List<String> tooltips;
     
     private static final String nbtIndex = "openedPage";
     
@@ -88,6 +88,7 @@ public class GuiManual extends GuiScreen {
 			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
 				try {
 					last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
+					if (last > guiTop + guiHeight) break;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
 					ex.printStackTrace();
@@ -96,6 +97,10 @@ public class GuiManual extends GuiScreen {
 		}
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
+	}
+
+	private void drawScrollbar() {
+		this.mc.getTextureManager().bindTexture(background);
 	}
     
 	private void drawBackground(int mouseX, int mouseY, float partialTicks) {

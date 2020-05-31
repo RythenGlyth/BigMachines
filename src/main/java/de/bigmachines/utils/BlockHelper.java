@@ -1,9 +1,6 @@
 package de.bigmachines.utils;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +10,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
 
 public class BlockHelper {
 	
@@ -49,11 +48,11 @@ public class BlockHelper {
         Vec3d vec3d1 = player.getLook(partialTicks);
         Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
         
-        vec3d = vec3d.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
-        vec3d2 = vec3d2.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        vec3d = vec3d.subtract(pos.getX(), pos.getY(), pos.getZ());
+        vec3d2 = vec3d2.subtract(pos.getX(), pos.getY(), pos.getZ());
         
         RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
-        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), raytraceresult.sideHit, pos);
+        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector(pos.getX(), pos.getY(), pos.getZ()), raytraceresult.sideHit, pos);
 	}
 	
 }
