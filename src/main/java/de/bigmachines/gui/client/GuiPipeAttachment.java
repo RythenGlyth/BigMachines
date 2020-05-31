@@ -21,6 +21,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
 	
 	ElementSelectionButtons elementSelectionButtons;
 	ElementSwitchButton elementSwitchWhiteBlackButton;
+	TabRedstoneControl redstoneTab;
 	
 	public GuiPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super(new ContainerPipeAttachment(inventory, tileEntityPipeBase, side), new ResourceLocation(Reference.MOD_ID, "textures/gui/duct.png"));
@@ -43,7 +44,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
         if(!tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
 		
-		addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
+		redstoneTab = (TabRedstoneControl) addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
         
 		if(attachment.canExtract() && attachment.canInsert()) {
 			elementSelectionButtons.select(0, false);
@@ -92,6 +93,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
 			elementSelectionButtons.select(3, false);
 		}
 		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
+		redstoneTab.elementSelectionButtons.select(attachment.getRedstoneMode().ordinal(), false);
 
 	}
 	

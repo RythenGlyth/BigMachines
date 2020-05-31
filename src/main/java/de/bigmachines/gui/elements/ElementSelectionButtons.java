@@ -1,17 +1,13 @@
 package de.bigmachines.gui.elements;
 
-import java.awt.event.ActionListener;
+import de.bigmachines.gui.GuiContainerBase;
+import net.minecraft.client.renderer.GlStateManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
-import java.util.function.Function;
-
-import akka.actor.dsl.Inbox.Select;
-import de.bigmachines.gui.GuiContainerBase;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class ElementSelectionButtons extends Element {
 	
@@ -70,7 +66,12 @@ public class ElementSelectionButtons extends Element {
 			button.drawBackground(mouseX, mouseY, partialTick);
 		});
 	}
-	
+
+	/**
+	 *
+	 * @param index
+	 * @param changed if set to true, update will be sent to server
+	 */
 	public void select(int index, boolean changed) {
 		buttons.forEach(button -> {
 			button.selected = false;

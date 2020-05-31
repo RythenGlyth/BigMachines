@@ -1,14 +1,11 @@
 package de.bigmachines.gui.elements.tabs;
 
-import java.util.concurrent.Callable;
-
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.utils.classes.EnumSide;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.RedstoneMode;
-import net.minecraft.tileentity.TileEntity;
 
 public class TabRedstoneControl extends Tab {
 	
@@ -41,7 +38,7 @@ public class TabRedstoneControl extends Tab {
 	public void update(int mouseX, int mouseY, int offsetY) {
 		super.update(mouseX, mouseY, offsetY);
 		
-		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal(), false);
+//		elementSelectionButtons.select(redstoneControl.getRedstoneMode().ordinal(), false);
 	}
 	
 }
