@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+// TODO scrollbar
 public class GuiManual extends GuiScreen {
     private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
     private static final int guiWidth = 395;
@@ -84,13 +85,8 @@ public class GuiManual extends GuiScreen {
 		
 		int last = guiTop + 10;
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
-			ManualContent mc0 = tabs.get(0).getContents().get(0); // "Big Machines" title
-			ManualContent mc1 = tabs.get(0).getContents().get(1); // "asdfasdf" contents
-			ManualContent mc2 = tabs.get(0).getContents().get(2); // "Materials" title
-			ManualContent mc3 = tabs.get(0).getContents().get(3); // "aluminium block" crafting recipe
-
 			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
-				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1);
+				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1, tooltips);
 			}
 		}
 		

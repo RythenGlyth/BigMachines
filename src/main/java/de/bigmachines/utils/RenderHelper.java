@@ -45,7 +45,8 @@ public class RenderHelper {
 	}
     
 	/**
-	 * Draw a not streched texture
+	 * Draw a not stretched texture
+	 *
 	 * @param x position of painting
 	 * @param y position of painting
 	 * @param width of painting
@@ -70,6 +71,7 @@ public class RenderHelper {
 	
 	/**
 	 * Draw texture
+	 *
 	 * @param x position of painting
 	 * @param y position of painting
 	 * @param width of painting
@@ -98,6 +100,7 @@ public class RenderHelper {
 	
 	/**
 	 * Draw Texture Tiled (with 16 width of each tile)
+	 *
 	 * @param x position of painting
 	 * @param y position of painting
 	 * @param width of painting
@@ -114,6 +117,7 @@ public class RenderHelper {
 	
 	/**
 	 * Draw Texture Tiled
+	 *
 	 * @param x position of painting
 	 * @param y position of painting
 	 * @param width of painting
@@ -139,9 +143,9 @@ public class RenderHelper {
 		}
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
-	
+
 	/**
-	 * Draw a color gradient rectangle.
+	 * Draw a color gradient rectangle in a gui.
 	 * 
 	 * @param left starting x
 	 * @param top starting y
