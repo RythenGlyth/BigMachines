@@ -1,9 +1,5 @@
 package de.bigmachines.utils;
 
-import java.util.Objects;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,6 +9,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Objects;
 
 public class RenderHelper {
 	
@@ -142,6 +141,45 @@ public class RenderHelper {
 	}
 	
 	/**
+	 * Draw a color gradient rectangle.
+	 * 
+	 * @param left starting x
+	 * @param top starting y
+	 * @param right ending x
+	 * @param bottom ending y
+	 * @param startColor first color
+	 * @param endColor last color
+	 * @param zLevel z level to draw on
+	 */
+	public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor, float zLevel) {
+        float f = (float)(startColor >> 24 & 255) / 255.0F;
+        float f1 = (float)(startColor >> 16 & 255) / 255.0F;
+        float f2 = (float)(startColor >> 8 & 255) / 255.0F;
+        float f3 = (float)(startColor & 255) / 255.0F;
+        float f4 = (float)(endColor >> 24 & 255) / 255.0F;
+        float f5 = (float)(endColor >> 16 & 255) / 255.0F;
+        float f6 = (float)(endColor >> 8 & 255) / 255.0F;
+        float f7 = (float)(endColor & 255) / 255.0F;
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(right, top, zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos(left, top, zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos(left, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
+        bufferbuilder.pos(right, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+	
+	/**
 	 * Draw Texture Tiled of TextureAtlasSprite
 	 * @param x position of painting
 	 * @param y position of painting
@@ -167,7 +205,13 @@ public class RenderHelper {
 		drawTiledTextureIcon(x, y, width, height, RenderHelper.getTexture(fluid.getFluid().getStill(fluid)), zLevel);
 		GL11.glPopMatrix();
 	}
-	
+
+	/**
+	 * Get all edges of a cube. The order in which they are stored is not defined.
+	 *
+	 * @param cube the cube to use
+	 * @return an array of Line3D of all edges.
+	 */
 	public static Line3D[] getLinesFromCube(AxisAlignedBB cube) {
 		Line3D[] lines = new Line3D[] {
 			new Line3D(cube.minX, cube.minY, cube.minZ, cube.maxX, cube.minY, cube.minZ),

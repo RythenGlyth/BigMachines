@@ -1,27 +1,19 @@
 package de.bigmachines.gui.client.manual;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.RenderHelper;
-import de.bigmachines.utils.classes.Pair;
-import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GuiManual extends GuiScreen {
     private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
@@ -45,7 +37,7 @@ public class GuiManual extends GuiScreen {
     
     public GuiManual(ItemStack item) {
     	this.item = item;
-    	this.tooltips = new LinkedList<String>();
+    	this.tooltips = new LinkedList<>();
     	
     	this.selectedIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
     	
@@ -91,10 +83,16 @@ public class GuiManual extends GuiScreen {
 		}
 		
 		int last = guiTop + 10;
-		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null)
+		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
+			ManualContent mc0 = tabs.get(0).getContents().get(0); // "Big Machines" title
+			ManualContent mc1 = tabs.get(0).getContents().get(1); // "asdfasdf" contents
+			ManualContent mc2 = tabs.get(0).getContents().get(2); // "Materials" title
+			ManualContent mc3 = tabs.get(0).getContents().get(3); // "aluminium block" crafting recipe
+
 			for (final ManualContent mc : tabs.get(selectedIndex).getContents()) {
-				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, partialTicks, this.zLevel + 1);
+				last = mc.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, this.zLevel + 1);
 			}
+		}
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
 	}
@@ -142,8 +140,7 @@ public class GuiManual extends GuiScreen {
 	private boolean checkIfValidOffset(final int offset) {
 		final int len = ManualLoader.getTabs().size() - maxTabs;
 		if (offset < 0) return false;
-		if (offset >= len) return false;
-		return true;
+		return offset < len;
 	}
 	
 	private void scrollDown() {
@@ -176,7 +173,7 @@ public class GuiManual extends GuiScreen {
 			selectedIndex = Math.min(selectedIndex + 1, Math.max(ManualLoader.getTabs().size() - 1, 0));
 		} else if (mouseX > guiLeft + 3 && mouseX < guiLeft + guiWidth
 				&& mouseY > guiTop && mouseY < guiTop + guiHeight) {
-			
+			// TODO
 		}
 		
 		super.mouseClicked(mouseX, mouseY, mouseButton);

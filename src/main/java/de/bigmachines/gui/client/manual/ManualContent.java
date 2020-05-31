@@ -17,12 +17,12 @@ public abstract class ManualContent {
 	 * 
 	 * @param left where this section should start when inline
 	 * @param top where this section starts.
-	 * @param mouseX
-	 * @param mouseY
-	 * @param partialTicks
+	 * @param mouseX current mouse X location for highlighting hovered areas
+	 * @param mouseY current mouse Y location
+	 * @param partialTicks time between last game tick and current render "partial" tick
 	 * @return the height of the drawn block
 	 */
-	public abstract int draw(int left, int top, int mouseX, int mouseY, float partialTicks, float zLevel);
+	public abstract int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel);
 	
 	static class ManualTitle extends ManualContent {
 		
@@ -33,13 +33,12 @@ public abstract class ManualContent {
 		}
 
 		@Override
-		public int draw(int left, int top, int mousex, int mousey, float partialticks, float zLevel) {
+		public int draw(int left, int top, int mousex, int mousey, int width, float partialticks, float zLevel) {
 			// 0x ff 00 00 00 alpha r g b
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(left, top, 0);
 			GlStateManager.scale(SCALE, SCALE, 1);
-			// FIXME
-			//Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
+			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 			return top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
 		}
@@ -53,9 +52,11 @@ public abstract class ManualContent {
 		}
 
 		@Override
-		public int draw(int left, int top, int mouseX, int mouseY, float partialTicks, float zLevel) {
+		public int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel) {
 			GlStateManager.pushMatrix();
-			//Minecraft.getMinecraft().fontRenderer.drawSplitString(content, left, top, 1000, 0xff000000);
+			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, left, top, 1000, 0xff000000);
+			//Minecraft.getMinecraft().fontRenderer.drawString(content, left, top, 0xff000000);
+			//GlStateManager.disableAlpha();
 			GlStateManager.popMatrix();
 			return top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
 		}
@@ -71,12 +72,30 @@ public abstract class ManualContent {
 		}
 
 		@Override
-		public int draw(int left, int top, int mouseX, int mouseY, float partialTicks, float zLevel) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/crafting_table.png"));
-			System.out.println("hey");
-			// Minecraft.getMinecraft().getTextureManager().bindTexture(CRAFTING_GRID_TEXTURE);
-			RenderHelper.drawTexturedModalRect(5, 5, 56, 56, 0, 0, 256, 256, zLevel);
-			return 0;
+		public int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel) {
+			//Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/crafting_table.png"));
+			GlStateManager.color(1, 1, 1, 1);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(CRAFTING_GRID_TEXTURE);
+			left = (width - 56) / 2;
+			RenderHelper.drawTexturedModalRect(left, top, 56, 56, 28, 15, 256, 256, zLevel);
+			if (mouseX >= left && mouseY >= top) {
+				final int hoverX = (mouseX - left) / 18;
+				final int hoverY = (mouseY - top) / 18;
+				if (hoverX < 3 && hoverY < 3) {
+					GlStateManager.disableAlpha();
+					GlStateManager.disableLighting();
+	                GlStateManager.disableDepth();
+	                int j1 = hoverX * 18 + left + 2;
+	                int k1 = hoverY * 18 + top + 2;
+	                GlStateManager.colorMask(true, true, true, false);
+	                RenderHelper.drawGradientRect(j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433, zLevel);
+	                GlStateManager.colorMask(true, true, true, true);
+	                GlStateManager.enableLighting();
+	                GlStateManager.enableDepth();
+				}
+			}
+			GlStateManager.resetColor();
+			return top + 56 + 4;
 		}
 		
 	}
