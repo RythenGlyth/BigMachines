@@ -1,9 +1,5 @@
 package de.bigmachines.config;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bigmachines.Reference;
 import de.bigmachines.utils.EnumHelper;
 import net.minecraft.util.text.translation.I18n;
@@ -13,6 +9,10 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Configuration for the mod
@@ -65,8 +65,7 @@ public class Config {
 	}
 	
 	public static List<IConfigElement> getConfigElements() {
-        final List<IConfigElement> list = new ArrayList<IConfigElement>();
-        list.addAll(new ConfigElement(Config.config.getCategory("general")).getChildElements());
+		final List<IConfigElement> list = new ArrayList<IConfigElement>(new ConfigElement(Config.config.getCategory("general")).getChildElements());
         return list;
     }
 	

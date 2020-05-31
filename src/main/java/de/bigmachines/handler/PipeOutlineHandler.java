@@ -1,20 +1,11 @@
 package de.bigmachines.handler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.RenderHelper.Line3D;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +16,10 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class PipeOutlineHandler {
 	
@@ -36,11 +31,10 @@ public class PipeOutlineHandler {
 			if(tile instanceof TileEntityPipeBase) {
 				event.setCanceled(true);
 				TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-				
-				HashSet<Line3D> lines = new HashSet<>();
+
 				HashSet<Line3D> blacklist = new HashSet<>();
-				
-				lines.addAll(Arrays.asList(RenderHelper.getLinesFromCube(BlockPipeBase.getBox(null))));
+
+				HashSet<Line3D> lines = new HashSet<>(Arrays.asList(RenderHelper.getLinesFromCube(BlockPipeBase.getBox(null))));
 				
 				for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 			        AxisAlignedBB box = BlockPipeBase.getBox(side);
