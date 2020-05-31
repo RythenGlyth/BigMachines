@@ -8,11 +8,13 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -56,10 +58,12 @@ public class GuiContainerBase extends GuiContainer {
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		
 		updateElements();
 		updateTabs();
 		
 		drawDefaultBackground();
+		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
 		if (drawTooltips && mc.player.inventory.getItemStack().isEmpty()) {

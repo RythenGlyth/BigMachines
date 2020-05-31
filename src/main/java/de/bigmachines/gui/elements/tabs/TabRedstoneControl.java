@@ -1,11 +1,14 @@
 package de.bigmachines.gui.elements.tabs;
 
+import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.utils.classes.EnumSide;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.RedstoneMode;
+import de.bigmachines.utils.classes.TextureIcon;
+import net.minecraft.util.ResourceLocation;
 
 public class TabRedstoneControl extends Tab {
 	
@@ -15,6 +18,8 @@ public class TabRedstoneControl extends Tab {
 	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);
 		this.maxHeight = 60;
+		
+		this.icon = new TextureIcon(0, 0, 16, 16, 16, 16, new ResourceLocation("textures/items/redstone_dust.png"));
 		
 		this.redstoneControl = redstoneControl;
 		this.name = "Redstone Control";

@@ -3,11 +3,17 @@ package de.bigmachines.gui.elements;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
+
 import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 
@@ -40,6 +46,7 @@ public class ElementButtonIcon extends Element {
 
 	@Override
 	public void drawBackground(int mouseX, int mouseY, float partialTick) {
+		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		if(selected) {
 			RenderHelper.drawTexturedModalRect(this.posX, this.posY, 16, 16, 48, 0, 256, 256, gui.getZLevel());
