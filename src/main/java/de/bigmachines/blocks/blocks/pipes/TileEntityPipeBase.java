@@ -35,7 +35,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	
 	public TileEntityPipeBase(Capability capability) {
 		super();
-		attachments = new HashMap<EnumFacing, PipeAttachment>();
+		attachments = new HashMap<>();
 		this.capability = capability;
 	}
 
@@ -77,7 +77,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 	
 	public void updateAttachments() {
-		HashMap<EnumFacing, PipeAttachment> lastAttachments = new HashMap<EnumFacing, PipeAttachment>(attachments);
+		HashMap<EnumFacing, PipeAttachment> lastAttachments = new HashMap<>(attachments);
 		attachments.clear();
 		for(EnumFacing side : EnumFacing.VALUES) {
 			TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);

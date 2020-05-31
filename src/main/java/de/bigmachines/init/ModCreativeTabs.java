@@ -2,7 +2,6 @@ package de.bigmachines.init;
 
 import de.bigmachines.Reference;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 /**

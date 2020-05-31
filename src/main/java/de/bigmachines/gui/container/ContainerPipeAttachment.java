@@ -1,7 +1,6 @@
 package de.bigmachines.gui.container;
 
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
-import de.bigmachines.gui.slots.SlotGhost;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,8 +9,8 @@ import net.minecraft.util.EnumFacing;
 
 public class ContainerPipeAttachment extends Container {
 	
-	TileEntityPipeBase tileEntityPipeBase;
-	EnumFacing side;
+	private TileEntityPipeBase tileEntityPipeBase;
+	private EnumFacing side;
 	
 	public ContainerPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		this.tileEntityPipeBase = tileEntityPipeBase;

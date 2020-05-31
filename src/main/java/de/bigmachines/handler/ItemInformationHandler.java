@@ -1,10 +1,6 @@
 package de.bigmachines.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bigmachines.Reference;
-import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.items.IInfoProviderAlt;
 import de.bigmachines.items.IInfoProviderCtrl;
 import de.bigmachines.items.IInfoProviderShift;
@@ -19,12 +15,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemInformationHandler {
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onTooltip(ItemTooltipEvent e) {
-		List<String> toolips = new ArrayList<String>();
+		List<String> toolips = new ArrayList<>();
 		
 		if(e.getItemStack().getItem() instanceof IInfoProviderShift) {
 			addShiftInfo((IInfoProviderShift)e.getItemStack().getItem(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());

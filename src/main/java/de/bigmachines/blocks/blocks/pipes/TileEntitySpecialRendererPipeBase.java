@@ -20,14 +20,12 @@ import org.lwjgl.opengl.GL11;
 public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer<TileEntityPipeBase> {
 	
 	private final ResourceLocation texture;
-	
-	private final double textureWidth;
+
 	private static final double pixelWitdh = 1D / 16D;
 	private final double pixelTextureWitdh;
 	
 	public TileEntitySpecialRendererPipeBase(ResourceLocation texture, double textureWidth) {
 		this.texture = texture;
-		this.textureWidth = textureWidth;
 		this.pixelTextureWitdh = 1D / textureWidth;
 	}
 	

@@ -47,9 +47,7 @@ public class ClientProxy implements CommonProxy {
 
 	@SubscribeEvent
 	public void registerItems(ModelRegistryEvent event) {
-		modelList.forEach(modelRegister -> {
-			modelRegister.registerModels();
-		});
+		modelList.forEach(IModelRegister::registerModels);
 	}
 	
 	public void addIModelRegister(IModelRegister modelRegister) {

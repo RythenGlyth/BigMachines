@@ -217,24 +217,23 @@ public class RenderHelper {
 	 * @return an array of Line3D of all edges.
 	 */
 	public static Line3D[] getLinesFromCube(AxisAlignedBB cube) {
-		Line3D[] lines = new Line3D[] {
+		return new Line3D[] {
 			new Line3D(cube.minX, cube.minY, cube.minZ, cube.maxX, cube.minY, cube.minZ),
 			new Line3D(cube.minX, cube.minY, cube.minZ, cube.minX, cube.maxY, cube.minZ),
 			new Line3D(cube.minX, cube.minY, cube.minZ, cube.minX, cube.minY, cube.maxZ),
-			
+
 			new Line3D(cube.maxX, cube.maxY, cube.minZ, cube.minX, cube.maxY, cube.minZ),
 			new Line3D(cube.maxX, cube.maxY, cube.minZ, cube.maxX, cube.minY, cube.minZ),
 			new Line3D(cube.maxX, cube.maxY, cube.minZ, cube.maxX, cube.maxY, cube.maxZ),
-			
+
 			new Line3D(cube.minX, cube.maxY, cube.maxZ, cube.maxX, cube.maxY, cube.maxZ),
 			new Line3D(cube.minX, cube.maxY, cube.maxZ, cube.minX, cube.minY, cube.maxZ),
 			new Line3D(cube.minX, cube.maxY, cube.maxZ, cube.minX, cube.maxY, cube.minZ),
-			
+
 			new Line3D(cube.maxX, cube.minY, cube.maxZ, cube.minX, cube.minY, cube.maxZ),
 			new Line3D(cube.maxX, cube.minY, cube.maxZ, cube.maxX, cube.maxY, cube.maxZ),
 			new Line3D(cube.maxX, cube.minY, cube.maxZ, cube.maxX, cube.minY, cube.minZ),
 		};
-		return lines;
 	}
 	
 	/**

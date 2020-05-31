@@ -1,23 +1,17 @@
 package de.bigmachines.gui.elements.tabs;
 
-import java.awt.Rectangle;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.Element;
-import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tab {
 
@@ -46,7 +40,7 @@ public class Tab {
 	public float colorB = 1f;
 	public float colorA = 1f;
 	
-	public List<Element> elements = new ArrayList<Element>();
+	public List<Element> elements = new ArrayList<>();
 	
 	public GuiContainerBase gui;
 	

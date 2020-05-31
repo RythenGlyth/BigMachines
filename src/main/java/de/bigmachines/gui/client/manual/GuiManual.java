@@ -164,8 +164,7 @@ public class GuiManual extends GuiScreen {
 		
 		if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
 				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
-			final int tab = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffset;
-			selectedIndex = tab;
+			selectedIndex = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffset;
 			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
 		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
 				&& mouseY > guiTop + 4 && mouseY < guiTop + 4 + 17) {

@@ -1,11 +1,11 @@
 package de.bigmachines.gui.elements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Element {
 	
@@ -21,7 +21,7 @@ public abstract class Element {
 	protected int textureW = 256;
 	protected int textureH = 256;
 	
-	public List<String> tooltips = new ArrayList<String>();
+	public List<String> tooltips = new ArrayList<>();
 	
 	public Element(GuiContainerBase gui, int posX, int posY) {
 		this(gui, posX, posY, 16, 16);

@@ -1,14 +1,16 @@
 package de.bigmachines.plugins.jei;
 
-import java.awt.Rectangle;
-import java.util.List;
-
 import de.bigmachines.gui.GuiContainerBase;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
+
+import javax.annotation.Nonnull;
+import java.awt.*;
+import java.util.List;
 
 public class ContainerBaseExtraAreas implements IAdvancedGuiHandler<GuiContainerBase> {
 
 	@Override
+	@Nonnull
 	public Class getGuiContainerClass() {
 		return GuiContainerBase.class;
 	}

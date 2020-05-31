@@ -1,16 +1,10 @@
 package de.bigmachines.blocks;
 
-import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
-import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 
 /**
  * Core Block

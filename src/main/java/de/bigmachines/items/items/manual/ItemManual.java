@@ -38,7 +38,7 @@ public class ItemManual extends ItemBase {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if (playerIn.getHeldItem(handIn).getItem() instanceof ItemManual) {
 			Minecraft.getMinecraft().displayGuiScreen(new GuiManual(playerIn.getHeldItem(handIn)));
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+			return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}
 		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}

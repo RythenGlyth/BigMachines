@@ -20,22 +20,18 @@ import java.util.Random;
 public class WorldGeneratorMineable extends WorldGeneratorBase {
 	
 	private final WorldGenMinable generator;
-	
-	private final IBlockState blockState;
+
 	private final int maxPerChunk;
-	private final int maxVeinSize;
 	private final int minHeight;
 	private final int maxHeight;
 	private final List<Integer> blacklistedDimensions;
 
 	public WorldGeneratorMineable(IBlockState blockState, int maxPerChunk, int maxVeinSize, int minHeight, int maxHeight, List<Integer> blacklistedDimensions, List<Block> replaceable) {
-		this.blockState = blockState;
 		this.maxPerChunk = maxPerChunk;
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
 		this.blacklistedDimensions = blacklistedDimensions;
-		this.maxVeinSize = maxVeinSize;
-		
+
 		this.generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
 			if(input == null) return false;
 			for (Block block : replaceable) if (input.getBlock().equals(block)) return true;
@@ -80,11 +76,11 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 			if(jsonObj.has("blacklisted-dimensions") && jsonObj.get("blacklisted-dimensions").isJsonArray()) {
 				blacklistedDimensions = WorldGenerationConfig.gson.fromJson(jsonObj.get("blacklisted-dimensions").getAsJsonArray(), new TypeToken<List<Integer>>(){}.getType());
 			} else {
-				blacklistedDimensions = new ArrayList<Integer>();
+				blacklistedDimensions = new ArrayList<>();
 			}
 			
 			
-			List<Block> replaceables = new ArrayList<Block>();
+			List<Block> replaceables = new ArrayList<>();
 			if(jsonObj.has("replaceable-blocks") && jsonObj.get("replaceable-blocks").isJsonArray()) {
 				JsonArray replaceableBlocks = jsonObj.get("replaceable-blocks").getAsJsonArray();
 				for(int i = 0; i < replaceableBlocks.size(); i++) {

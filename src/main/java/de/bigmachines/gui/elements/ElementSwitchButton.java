@@ -1,10 +1,10 @@
 package de.bigmachines.gui.elements;
 
+import de.bigmachines.gui.GuiContainerBase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import de.bigmachines.gui.GuiContainerBase;
 
 public class ElementSwitchButton extends ElementButtonIcon {
 	
@@ -18,8 +18,8 @@ public class ElementSwitchButton extends ElementButtonIcon {
 	
 	protected Consumer<Boolean> onChanged;
 	
-	public List<String> normalTooltips = new ArrayList<String>();
-	public List<String> switchedTooltips = new ArrayList<String>();
+	public List<String> normalTooltips = new ArrayList<>();
+	public List<String> switchedTooltips = new ArrayList<>();
 	
 	public ElementSwitchButton(GuiContainerBase gui, int posX, int posY, int normalU, int normalV, int switchU, int switchV) {
 		super(gui, posX, posY, normalU, normalV);

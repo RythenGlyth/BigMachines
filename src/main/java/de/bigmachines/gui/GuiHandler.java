@@ -7,9 +7,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
+import javax.annotation.Nonnull;
+
 public class GuiHandler implements IGuiHandler {
 
 	@Override
+	@Nonnull
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 			case 0:
@@ -22,6 +25,7 @@ public class GuiHandler implements IGuiHandler {
 	}
 	
 	@Override
+	@Nonnull
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 			case 0:

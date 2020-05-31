@@ -3,7 +3,6 @@ package de.bigmachines.blocks.blocks.pipes.fluidpipe;
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;

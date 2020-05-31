@@ -1,14 +1,12 @@
 package de.bigmachines.utils;
 
-import net.minecraft.util.EnumFacing;
-
 public class NBTHelper {
 	
 	public static int writeBooleansToInt(boolean... bools) {
 		int shift = 0;
 		int result = 0;
-		for(int i = 0; i < bools.length; i++) {
-			result = result | (bools[i] ? 1 << shift : 0x0);
+		for (boolean bool : bools) {
+			result = result | (bool ? 1 << shift : 0x0);
 			shift++;
 		}
 		return result;

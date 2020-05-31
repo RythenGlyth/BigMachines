@@ -1,8 +1,5 @@
 package de.bigmachines.items.items;
 
-import java.util.List;
-
-import de.bigmachines.BigMachines;
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
@@ -10,7 +7,6 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
-import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.classes.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -27,6 +23,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemWrench extends ItemBase implements IInfoProviderShift {
 

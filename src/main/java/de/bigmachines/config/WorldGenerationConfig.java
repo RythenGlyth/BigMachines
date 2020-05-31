@@ -1,26 +1,19 @@
 package de.bigmachines.config;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.logging.log4j.core.util.Loader;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-
 import de.bigmachines.Reference;
 import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 import de.bigmachines.world.WorldGeneratorMineable;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class WorldGenerationConfig {
 	

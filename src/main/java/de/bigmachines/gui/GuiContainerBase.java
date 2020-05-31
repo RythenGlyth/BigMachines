@@ -1,29 +1,21 @@
 package de.bigmachines.gui;
 
-import java.awt.Rectangle;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec2f;
-import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GuiContainerBase extends GuiContainer {
 	
@@ -255,15 +247,13 @@ public class GuiContainerBase extends GuiContainer {
 	
 	
 	public void drawTabsForeground(int mouseX, int mouseY) {
-		for(int i = 0; i < tabs.size(); i++) {
-			Tab tab = tabs.get(i);
+		for (Tab tab : tabs) {
 			tab.drawForeground(mouseX, mouseY);
 		}
 	}
 	
 	public void drawTabsBackground(int mouseX, int mouseY, float partialTicks) {
-		for(int i = 0; i < tabs.size(); i++) {
-			Tab tab = tabs.get(i);
+		for (Tab tab : tabs) {
 			tab.drawBackground(mouseX, mouseY, partialTicks);
 		}
 	}
@@ -277,7 +267,7 @@ public class GuiContainerBase extends GuiContainer {
 	}
 
 	public List<Rectangle> getGuiExtraAreas() {
-		List<Rectangle> extras = new ArrayList<Rectangle>();
+		List<Rectangle> extras = new ArrayList<>();
 		tabs.forEach(tab -> {
 			tab.addGuiExtras(extras);
 		});

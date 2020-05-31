@@ -1,8 +1,5 @@
 package de.bigmachines.gui.elements;
 
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
-
 import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.utils.RenderHelper;

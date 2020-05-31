@@ -65,8 +65,7 @@ public class Config {
 	}
 	
 	public static List<IConfigElement> getConfigElements() {
-		final List<IConfigElement> list = new ArrayList<IConfigElement>(new ConfigElement(Config.config.getCategory("general")).getChildElements());
-        return list;
+		return new ArrayList<>(new ConfigElement(Config.config.getCategory("general")).getChildElements());
     }
 	
 	private static void loadConfig() {

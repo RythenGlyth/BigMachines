@@ -21,7 +21,7 @@ public class ElementSelectionButtons extends Element {
 	
 	public ElementSelectionButtons(GuiContainerBase gui, int selectedIndex) {
 		super(gui, 0, 0);
-		this.buttons = new ArrayList<ElementButtonIcon>();
+		this.buttons = new ArrayList<>();
 		this.selectedIndex = selectedIndex;
 	}
 	
@@ -68,8 +68,9 @@ public class ElementSelectionButtons extends Element {
 	}
 
 	/**
+	 * Selects #index mode from the available modes.
 	 *
-	 * @param index
+	 * @param index which mode to select
 	 * @param changed if set to true, update will be sent to server
 	 */
 	public void select(int index, boolean changed) {

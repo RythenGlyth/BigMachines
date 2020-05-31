@@ -1,12 +1,10 @@
 package de.bigmachines.blocks;
 
 import de.bigmachines.utils.BlockHelper;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
 
 public abstract class TileEntityBase extends TileEntity {
 	

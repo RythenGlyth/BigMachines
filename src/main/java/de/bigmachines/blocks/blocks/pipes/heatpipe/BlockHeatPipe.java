@@ -2,7 +2,6 @@ package de.bigmachines.blocks.blocks.pipes.heatpipe;
 
 import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

@@ -1,18 +1,15 @@
 package de.bigmachines.world;
 
-import java.util.HashMap;
-import java.util.Random;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
+
+import java.util.HashMap;
+import java.util.Random;
 
 public abstract class WorldGeneratorBase {
 	
-	public static HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes = new HashMap<String, Class<? extends WorldGeneratorBase>>();
+	public static HashMap<String, Class<? extends WorldGeneratorBase>> worldGeneratorTypes = new HashMap<>();
 	
 	public static void addWorldGeneratorType(String name, Class<? extends WorldGeneratorBase> worldGeneratorType) {
 		worldGeneratorTypes.put(name, worldGeneratorType);

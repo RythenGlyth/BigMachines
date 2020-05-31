@@ -4,7 +4,6 @@ import de.bigmachines.Reference;
 import de.bigmachines.blocks.blocks.pipes.TileEntitySpecialRendererPipeBase;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.TileEntityHeatPipe;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;

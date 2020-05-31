@@ -38,7 +38,7 @@ public class FileHelper {
 	}
 	
 	public static HashMap<String, String> oldGetResourcesFolder(String folder) {
-		final HashMap<String, String> files = new HashMap<String, String>();
+		final HashMap<String, String> files = new HashMap<>();
 		
 		try {
 			//final ClassLoader loader = BigMachines.class.getClassLoader();
@@ -66,7 +66,7 @@ public class FileHelper {
 	}
 	
 	public static HashMap<String, String> getResourcesFolder(String folder, String extensionName) {
-		HashMap<String, String> files = new HashMap<String, String>();
+		HashMap<String, String> files = new HashMap<>();
 		Stream<Path> walker;
 		try {
 			URI uri = BigMachines.class.getResource(folder).toURI();
