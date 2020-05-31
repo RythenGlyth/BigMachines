@@ -3,10 +3,8 @@ package de.bigmachines.blocks.blocks.pipes.fluidpipe;
 import de.bigmachines.blocks.FluidStorage;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.utils.classes.RedstoneMode;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -78,9 +76,9 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	
 	public static class AttachmentFluidStorage implements IFluidHandler, IFluidTankProperties {
 		
-		private PipeAttachment attachment;
-		private TileEntityFluidPipe tileEntityFluidPipe;
-		private EnumFacing facing;
+		private final PipeAttachment attachment;
+		private final TileEntityFluidPipe tileEntityFluidPipe;
+		private final EnumFacing facing;
 		
 		public AttachmentFluidStorage(TileEntityFluidPipe tileEntityFluidPipe, PipeAttachment attachment, EnumFacing facing) {
 			this.tileEntityFluidPipe = tileEntityFluidPipe;

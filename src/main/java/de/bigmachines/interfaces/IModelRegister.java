@@ -9,6 +9,6 @@ package de.bigmachines.interfaces;
 
 public interface IModelRegister {
     
-    public void registerModels();
+    void registerModels();
 
 }

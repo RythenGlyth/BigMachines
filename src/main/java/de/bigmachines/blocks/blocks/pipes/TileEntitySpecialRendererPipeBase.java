@@ -1,41 +1,29 @@
 package de.bigmachines.blocks.blocks.pipes;
 
-import org.lwjgl.opengl.GL11;
-
-import de.bigmachines.Reference;
 import de.bigmachines.config.Config;
 import de.bigmachines.items.items.ItemWrench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.animation.FastTESR;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.lwjgl.opengl.GL11;
 
 public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer<TileEntityPipeBase> {
 	
-	private ResourceLocation texture;
+	private final ResourceLocation texture;
 	
-	private double textureWidth;
-	private static double pixelWitdh = 1D / 16D;
-	private double pixelTextureWitdh;
+	private final double textureWidth;
+	private static final double pixelWitdh = 1D / 16D;
+	private final double pixelTextureWitdh;
 	
 	public TileEntitySpecialRendererPipeBase(ResourceLocation texture, double textureWidth) {
 		this.texture = texture;
@@ -285,11 +273,12 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		
 		
 		if(te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+		    if (te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties() == null ||
+			te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties().length == 0) return;
 			IFluidTankProperties property = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties()[0];
 			if(property.getContents() != null) {
-				double size = property.getContents().amount / property.getCapacity();
-				
-				
+				double size = property.getContents().amount / (double) property.getCapacity();
+
 				TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(property.getContents().getFluid().getStill().toString());
 				
 				drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());

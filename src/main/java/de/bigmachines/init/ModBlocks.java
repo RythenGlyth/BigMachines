@@ -1,20 +1,18 @@
 package de.bigmachines.init;
 
-import java.util.ArrayList;
-
 import de.bigmachines.blocks.BlockBase;
-import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
+import de.bigmachines.blocks.blocks.BlockPinkDirt;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
-import de.bigmachines.items.items.BlockPinkDirt;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.util.ArrayList;
 
 /**
  * Block Registry
@@ -25,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ModBlocks {
 	
-	public static ArrayList<BlockBase> BLOCKS = new ArrayList<BlockBase>();
+	public static ArrayList<BlockBase> BLOCKS = new ArrayList<>();
 	
 	public static BlockHeatPipe heatPipe;
 	public static BlockFluidPipe fluidPipe;

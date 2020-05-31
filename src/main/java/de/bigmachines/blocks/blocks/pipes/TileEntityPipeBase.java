@@ -1,48 +1,29 @@
 package de.bigmachines.blocks.blocks.pipes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import de.bigmachines.BigMachines;
 import de.bigmachines.blocks.IHasGui;
 import de.bigmachines.blocks.TileEntityBase;
-import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
 import de.bigmachines.gui.client.GuiPipeAttachment;
 import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
-import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.Pair;
 import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.InvWrapper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHasGui {
 	
@@ -202,10 +183,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		
 		public PipeAttachment(NBTTagCompound attachmentTag) {
 			this(
-					attachmentTag.hasKey("canExtract") ? attachmentTag.getBoolean("canExtract") : true,
-					attachmentTag.hasKey("canInsert") ? attachmentTag.getBoolean("canInsert") : true,
+					!attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
+					!attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
 					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
-					attachmentTag.hasKey("whitelist") ? attachmentTag.getBoolean("whitelist") : false
+					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
 		}
 		

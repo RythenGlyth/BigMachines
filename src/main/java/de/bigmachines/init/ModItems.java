@@ -1,9 +1,6 @@
 package de.bigmachines.init;
 
-import java.util.ArrayList;
-
 import de.bigmachines.interfaces.IInitializer;
-import de.bigmachines.items.items.BlockPinkDirt;
 import de.bigmachines.items.items.ItemSlimeBoots;
 import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.items.items.manual.ItemManual;
@@ -12,7 +9,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 /**
  * Item Registry
@@ -27,7 +25,7 @@ public class ModItems {
 	public static ItemWrench wrench;
 	public static ItemManual manual;
 	
-    public static ArrayList<Item> ITEMS = new ArrayList<Item>();
+    public static ArrayList<Item> ITEMS = new ArrayList<>();
 
     public static void preInit() {
     	slimeBoots = new ItemSlimeBoots();

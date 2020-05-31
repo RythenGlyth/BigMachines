@@ -1,6 +1,5 @@
 package de.bigmachines.gui.client;
 
-import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
@@ -9,12 +8,9 @@ import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.gui.elements.ElementSwitchButton;
-import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.gui.elements.tabs.TabRedstoneControl;
-import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -25,6 +21,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
 	
 	ElementSelectionButtons elementSelectionButtons;
 	ElementSwitchButton elementSwitchWhiteBlackButton;
+	TabRedstoneControl redstoneTab;
 	
 	public GuiPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super(new ContainerPipeAttachment(inventory, tileEntityPipeBase, side), new ResourceLocation(Reference.MOD_ID, "textures/gui/duct.png"));
@@ -47,7 +44,7 @@ public class GuiPipeAttachment extends GuiContainerBase {
         if(!tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
 		
-		addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
+		redstoneTab = (TabRedstoneControl) addTab(new TabRedstoneControl(this, EnumSide.RIGHT, attachment, () -> attachment.sendUpdateToServer(tileEntityPipeBase.getPos(), side)));
         
 		if(attachment.canExtract() && attachment.canInsert()) {
 			elementSelectionButtons.select(0, false);
@@ -81,7 +78,10 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		
         if(tileEntityPipeBase.isInvalid() || !tileEntityPipeBase.hasAttachment(side)) this.mc.player.closeScreen();
         final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
-        if(attachment == null) this.mc.player.closeScreen();
+        if(attachment == null) {
+        	this.mc.player.closeScreen();
+        	return;
+		}
         
 		if(attachment.canExtract() && attachment.canInsert()) {
 			elementSelectionButtons.select(0, false);
@@ -92,8 +92,9 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		} else {
 			elementSelectionButtons.select(3, false);
 		}
-		
-		
+		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
+		redstoneTab.elementSelectionButtons.select(attachment.getRedstoneMode().ordinal(), false);
+
 	}
 	
 }
