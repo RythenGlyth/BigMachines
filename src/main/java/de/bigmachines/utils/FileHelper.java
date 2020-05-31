@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FileHelper {
+public final class FileHelper {
 	
 	public static void copyFile(String source, String destination) {
 		copyFile(new File(source), new File(destination));

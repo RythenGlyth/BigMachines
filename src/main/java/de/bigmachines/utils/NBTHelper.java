@@ -1,6 +1,6 @@
 package de.bigmachines.utils;
 
-public class NBTHelper {
+public final class NBTHelper {
 	
 	public static int writeBooleansToInt(boolean... bools) {
 		int shift = 0;

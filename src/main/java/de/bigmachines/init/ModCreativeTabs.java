@@ -12,14 +12,14 @@ import javax.annotation.Nonnull;
  * @author RythenGlyth
  */
 
-public class ModCreativeTabs {
+public final class ModCreativeTabs {
     
     public static CreativeTabs modTab;
     public static CreativeTabs materialsTab;
 	
 	public static void init() {
 		modTab = new CreativeTabs(Reference.MOD_ID + "." + "mainTab") {
-			
+
 			@Override
 			@Nonnull
 			public ItemStack getTabIconItem() {

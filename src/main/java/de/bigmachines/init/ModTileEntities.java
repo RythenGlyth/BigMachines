@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModTileEntities {
+public final class ModTileEntities {
 	
 	public static void init() {
 		GameRegistry.registerTileEntity(TileEntityHeatPipe.class, new ResourceLocation(Reference.MOD_ID, "pipe_heat"));

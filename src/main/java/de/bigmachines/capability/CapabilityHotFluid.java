@@ -3,8 +3,8 @@ package de.bigmachines.capability;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
-public class CapabilityHotFluid {
-	
+public final class CapabilityHotFluid {
+
 	@CapabilityInject(IHotFluidHandler.class)
 	public static final Capability<IHotFluidHandler> HOT_FLUID = null;
 	

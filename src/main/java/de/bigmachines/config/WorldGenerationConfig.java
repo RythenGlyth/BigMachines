@@ -15,19 +15,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-public class WorldGenerationConfig {
+public final class WorldGenerationConfig {
 	
-	public static Gson gson;
+	public static Gson gson = new GsonBuilder().setPrettyPrinting()
+			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer()).create();
 
     private static File worldGenerationConfig;
     private static File worldGenerationConfigDir;
     
     public static void init(File worldGenerationConfigDir) {
-    	gson = new GsonBuilder()
-    			.setPrettyPrinting()
-    			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer())
-    			.create();
-    	WorldGeneratorBase.registerGenerators();
+		WorldGeneratorBase.registerGenerators();
 		
     	WorldGenerationConfig.worldGenerationConfigDir = worldGenerationConfigDir;
 		WorldGenerationConfig.worldGenerationConfigDir.mkdir();

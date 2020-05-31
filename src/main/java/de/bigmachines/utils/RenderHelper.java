@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Objects;
 
-public class RenderHelper {
+public final class RenderHelper {
 	
 	public static final ResourceLocation MC_BLOCK_SHEET = new ResourceLocation("textures/atlas/blocks.png");
 	

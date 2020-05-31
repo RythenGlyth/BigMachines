@@ -2,7 +2,7 @@ package de.bigmachines.utils;
 
 import org.lwjgl.input.Keyboard;
 
-public class KeyHelper {
+public final class KeyHelper {
 	
 	public static boolean isAltKeyDown() {
 		return Keyboard.isKeyDown(Keyboard.KEY_LMENU) || Keyboard.isKeyDown(Keyboard.KEY_RMENU);

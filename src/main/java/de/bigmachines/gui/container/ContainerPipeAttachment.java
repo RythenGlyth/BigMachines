@@ -43,11 +43,11 @@ public class ContainerPipeAttachment extends Container {
 	}
 	
 	
-	protected int getPlayerInventoryVerticalOffset() {
+	protected static int getPlayerInventoryVerticalOffset() {
 		return 75;
 	}
 	
-	protected int getPlayerInventoryHorizontalOffset() {
+	protected static int getPlayerInventoryHorizontalOffset() {
 		return 8;
 	}
 	

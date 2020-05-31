@@ -6,7 +6,7 @@ package de.bigmachines;
  *
  */
 
-public class Reference {
+public final class Reference {
 	
 	public static final String MOD_ID = "bigmachines";
 	public static final String MOD_NAME = "Big Machines";
