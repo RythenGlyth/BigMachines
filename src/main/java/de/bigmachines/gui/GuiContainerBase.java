@@ -1,5 +1,13 @@
 package de.bigmachines.gui;
 
+import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.lwjgl.input.Mouse;
+
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
@@ -9,13 +17,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Mouse;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GuiContainerBase extends GuiContainer {
 	
@@ -48,10 +49,12 @@ public class GuiContainerBase extends GuiContainer {
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		
 		updateElements();
 		updateTabs();
 		
 		drawDefaultBackground();
+		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		
 		if (drawTooltips && mc.player.inventory.getItemStack().isEmpty()) {

@@ -8,6 +8,7 @@ import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
 import de.bigmachines.gui.elements.ElementSwitchButton;
+import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.gui.elements.tabs.TabRedstoneControl;
 import de.bigmachines.utils.classes.EnumSide;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -25,8 +26,9 @@ public class GuiPipeAttachment extends GuiContainerBase {
 	
 	public GuiPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super(new ContainerPipeAttachment(inventory, tileEntityPipeBase, side), new ResourceLocation(Reference.MOD_ID, "textures/gui/duct.png"));
-
-		drawInventory = true;
+		this.name = "Pipe Attachment " + side.toString().substring(0, 1).toUpperCase() + side.toString().substring(1).toLowerCase();
+		
+		this.drawInventory = true;
 		this.tileEntityPipeBase = tileEntityPipeBase;
 		this.side = side;
 
@@ -57,8 +59,9 @@ public class GuiPipeAttachment extends GuiContainerBase {
 		}
 		
 		elementSwitchWhiteBlackButton.setSwitched(attachment.isWhitelist());
-		elementSwitchWhiteBlackButton.normalTooltips.add("Whitelist");
-		elementSwitchWhiteBlackButton.switchedTooltips.add("Blacklist");
+		elementSwitchWhiteBlackButton.tooltips.add("Blacklist");
+		elementSwitchWhiteBlackButton.normalTooltips.add("Blacklist");
+		elementSwitchWhiteBlackButton.switchedTooltips.add("Whitelist");
 		
 		elementSelectionButtons.setOnChange((index) -> {
 			attachment.setInsertationByIndex(index);

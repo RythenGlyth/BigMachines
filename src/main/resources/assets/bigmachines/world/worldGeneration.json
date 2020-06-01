@@ -53,5 +53,16 @@
         "blacklisted-dimensions": [
             -1, 1
         ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:pink_dirt",
+        "max-per-chunk": 20,
+        "max-vein-size": 8,
+        "min-height": 0,
+        "max-height": 255,
+        "replaceable-blocks": [
+            "minecraft:dirt"
+        ]
     }
 ]

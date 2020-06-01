@@ -5,6 +5,7 @@ import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.utils.RenderHelper;
 import de.bigmachines.utils.classes.EnumSide;
+import de.bigmachines.utils.classes.TextureIcon;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -47,6 +48,8 @@ public class Tab {
 	public EnumSide side = EnumSide.RIGHT;
 	
 	public final ResourceLocation tabTexture = new ResourceLocation(Reference.MOD_ID, "textures/gui/tab.png");
+	
+	public TextureIcon icon;
 	
 	public String name;
 	
@@ -99,6 +102,11 @@ public class Tab {
 			
 			drawElementsForeground(mouseX - posX, mouseY - getTranslationY());
 			GL11.glPopMatrix();
+		}
+		
+		if(icon != null) {
+			gui.mc.renderEngine.bindTexture(icon.texture);
+			RenderHelper.drawSizedTexturedModalRect(side == EnumSide.RIGHT ? gui.getXSize() + 1 : - 16 - 1, this.posY + this.offsetY + 3, 16, 16, icon.minU, icon.minV, icon.maxU, icon.maxV, icon.texW, icon.texH, gui.getZLevel());
 		}
 	}
 	

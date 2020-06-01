@@ -37,6 +37,7 @@ public class ElementButtonIcon extends Element {
 
 	@Override
 	public void drawBackground(int mouseX, int mouseY, float partialTick) {
+		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		if(selected) {
 			RenderHelper.drawTexturedModalRect(posX, posY, 16, 16, 48, 0, 256, 256, gui.getZLevel());
