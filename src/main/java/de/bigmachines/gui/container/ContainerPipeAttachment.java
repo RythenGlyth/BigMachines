@@ -2,6 +2,7 @@ package de.bigmachines.gui.container;
 
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
+import de.bigmachines.gui.slots.ISlotValidator;
 import de.bigmachines.gui.slots.SlotGhost;
 import de.bigmachines.utils.classes.Inventory;
 import net.minecraft.entity.player.EntityPlayer;

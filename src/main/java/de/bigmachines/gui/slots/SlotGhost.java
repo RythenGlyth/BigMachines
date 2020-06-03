@@ -45,7 +45,7 @@ public class SlotGhost extends Slot {
 		
 		@Override
 		public boolean isItemValid(ItemStack stack) {
-			return validator.isItemValid(stack);
+			return validator.isItemValid(stack) || stack.isEmpty();
 		}
 		
 	}

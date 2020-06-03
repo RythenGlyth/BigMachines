@@ -5,6 +5,7 @@ import de.bigmachines.blocks.IHasGui;
 import de.bigmachines.blocks.TileEntityBase;
 import de.bigmachines.gui.client.GuiPipeAttachment;
 import de.bigmachines.gui.container.ContainerPipeAttachment;
+import de.bigmachines.gui.slots.ISlotValidator;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
@@ -41,6 +42,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		super();
 		attachments = new HashMap<>();
 		this.capability = capability;
+	}
+	
+	public Capability getCapability() {
+		return capability;
 	}
 
 	@Override
