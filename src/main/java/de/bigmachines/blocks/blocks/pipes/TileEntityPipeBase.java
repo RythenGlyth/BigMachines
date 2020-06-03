@@ -8,11 +8,13 @@ import de.bigmachines.gui.container.ContainerPipeAttachment;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
+import de.bigmachines.utils.classes.Inventory;
 import de.bigmachines.utils.classes.Pair;
 import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -147,14 +149,14 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		
 		protected RedstoneMode redstoneMode;
 		
+		protected Inventory inventory;
+		
 		/**
 		 * Filter Mode
 		 * true=whitelist
 		 * false=blacklist
 		 */
 		protected boolean whitelist;
-		
-		protected ItemStack[] itemStacks;
 		
 		public PipeAttachment() {
 			this(true, true, RedstoneMode.IGNORED, false);
@@ -167,6 +169,11 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
 					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
+			if(attachmentTag.hasKey("Items")) this.inventory.readFromNBT(attachmentTag);
+		}
+		
+		public Inventory getInventory() {
+			return inventory;
 		}
 		
 		public void sendUpdateToServer(BlockPos pos, EnumFacing side) {
@@ -179,6 +186,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			this.canInsert = canInsert;
 			this.redstoneMode = redstoneMode;
 			this.whitelist = whitelist;
+			this.inventory = new Inventory("", 5);
 		}
 		
 		public void setWhitelist(boolean whitelist) {
@@ -281,6 +289,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
 			if((redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
 			if(whitelist) attachmentTag.setBoolean("whitelist", whitelist);
+			if(!this.inventory.isEmpty()) this.inventory.writeToNBT(attachmentTag);
 			return attachmentTag;
 		}
 		

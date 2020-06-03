@@ -1,48 +1,45 @@
 package de.bigmachines.gui.container;
 
 import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
+import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
+import de.bigmachines.gui.slots.SlotGhost;
+import de.bigmachines.utils.classes.Inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 import javax.annotation.Nullable;
 
-public class ContainerPipeAttachment extends Container {
+public class ContainerPipeAttachment extends ContainerBase {
 	
 	private final TileEntityPipeBase tileEntityPipeBase;
+	private final Inventory inventory;
 	private final EnumFacing side;
 	
 	public ContainerPipeAttachment(InventoryPlayer inventory, TileEntityPipeBase tileEntityPipeBase, EnumFacing side) {
 		super();
 		this.tileEntityPipeBase = tileEntityPipeBase;
 		this.side = side;
-
+		
+        final PipeAttachment attachment = tileEntityPipeBase.getAttachment(side);
+        this.inventory = attachment.getInventory();
+        
+		addSlotToContainer(new SlotGhost(this.inventory, 0, 44 + 18 * 0, 43));
+		addSlotToContainer(new SlotGhost(this.inventory, 1, 44 + 18 * 1, 43));
+		addSlotToContainer(new SlotGhost(this.inventory, 2, 44 + 18 * 2, 43));
+		addSlotToContainer(new SlotGhost(this.inventory, 3, 44 + 18 * 3, 43));
+		addSlotToContainer(new SlotGhost(this.inventory, 4, 44 + 18 * 4, 43));
+        
 		addPlayerInventorySlots(inventory);
-
-		//addSlotToContainer(new SlotGhost(inventoryIn, index, xPosition, yPosition))
 	}
 	
 	@Override
-	public boolean canInteractWith(@Nullable EntityPlayer playerIn) {
-		return true;
+	protected int getInventorySize() {
+		return inventory.getSizeInventory();
 	}
-	
-	protected void addPlayerInventorySlots(InventoryPlayer inventoryPlayer) {
-		int xOffset = getPlayerInventoryHorizontalOffset();
-		int yOffset = getPlayerInventoryVerticalOffset();
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, xOffset + j * 18, yOffset + i * 18));
-			}
-		}
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, xOffset + i * 18, yOffset + 58));
-		}
-	}
-	
 	
 	protected static int getPlayerInventoryVerticalOffset() {
 		return 75;
