@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -57,7 +58,7 @@ public class BlockPipeBase extends BlockBase {
 	public BlockPipeBase(String name) {
 		super(Material.GLASS, name);
 		setCreativeTab(ModCreativeTabs.modTab);
-		setHardness(1.0F);
+		setHardness(0.5F);
 		setResistance(10.0F);
 		setSoundType(SoundType.STONE);
 	}
@@ -262,6 +263,11 @@ public class BlockPipeBase extends BlockBase {
 	@Override
 	public EnumBlockRenderType getRenderType(@Nullable IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
+	}
+	
+	@Override
+	public boolean hasCustomBreakingProgress(IBlockState state) {
+		return true;
 	}
 	
 }

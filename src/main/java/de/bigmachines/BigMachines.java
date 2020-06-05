@@ -66,7 +66,6 @@ public class BigMachines {
 		ModItems.preInit();
 		ModBlocks.preInit();
 		ModMaterials.preInit();
-		ModRecipes.preInit();
 		ModTileEntities.init();
 
 		proxy.preInit();
@@ -78,6 +77,8 @@ public class BigMachines {
 	@EventHandler
 	public void init(FMLInitializationEvent ev) {
 		proxy.init();
+		
+		ModRecipes.preInit();
 		
 		WorldGenerationConfig.loadConfig();
 	}
