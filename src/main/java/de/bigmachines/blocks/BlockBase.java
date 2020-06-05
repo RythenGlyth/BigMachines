@@ -2,6 +2,7 @@ package de.bigmachines.blocks;
 
 import de.bigmachines.Reference;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +29,11 @@ public class BlockBase extends Block {
 		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
 		itemBlock = new ItemBlockBase(this);
     }
+    
+    @Override
+	public Block setSoundType(SoundType sound) {
+		return super.setSoundType(sound);
+	}
     
     public ItemBlock getItemBlock() {
 		return itemBlock;

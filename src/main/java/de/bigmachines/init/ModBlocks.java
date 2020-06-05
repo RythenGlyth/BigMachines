@@ -1,11 +1,14 @@
 package de.bigmachines.init;
 
 import de.bigmachines.blocks.BlockBase;
+import de.bigmachines.blocks.BlockBaseOreDict;
 import de.bigmachines.blocks.blocks.BlockPinkDirt;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -24,18 +27,15 @@ import java.util.ArrayList;
 public class ModBlocks {
 	
 	public static final ArrayList<BlockBase> BLOCKS = new ArrayList<>();
-	
+
 	public static BlockHeatPipe heatPipe;
 	public static BlockFluidPipe fluidPipe;
-	public static BlockPinkDirt pink_dirt;
 
     public static void preInit() {
         heatPipe = new BlockHeatPipe();
         BLOCKS.add(heatPipe);
         fluidPipe = new BlockFluidPipe();
         BLOCKS.add(fluidPipe);
-    	pink_dirt = new BlockPinkDirt();
-    	BLOCKS.add(pink_dirt);
     }
     
     @SubscribeEvent

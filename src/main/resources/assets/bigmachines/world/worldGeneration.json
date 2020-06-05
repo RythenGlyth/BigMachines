@@ -64,5 +64,13 @@
         "replaceable-blocks": [
             "minecraft:dirt"
         ]
+    },
+    {
+        "type": "mineable",
+        "block-id": "bigmachines:limestone",
+        "max-per-chunk": 8,
+        "max-vein-size": 33,
+        "min-height": 0,
+        "max-height": 80
     }
 ]

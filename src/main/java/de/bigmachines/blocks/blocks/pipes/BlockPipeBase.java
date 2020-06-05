@@ -7,6 +7,7 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.classes.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -56,6 +57,9 @@ public class BlockPipeBase extends BlockBase {
 	public BlockPipeBase(String name) {
 		super(Material.GLASS, name);
 		setCreativeTab(ModCreativeTabs.modTab);
+		setHardness(1.0F);
+		setResistance(10.0F);
+		setSoundType(SoundType.STONE);
 	}
 	
 	@Override
