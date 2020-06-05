@@ -1,21 +1,17 @@
 package de.bigmachines.init;
 
+import java.util.ArrayList;
+
 import de.bigmachines.blocks.BlockBase;
-import de.bigmachines.blocks.BlockBaseOreDict;
-import de.bigmachines.blocks.blocks.BlockPinkDirt;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.ArrayList;
 
 /**
  * Block Registry

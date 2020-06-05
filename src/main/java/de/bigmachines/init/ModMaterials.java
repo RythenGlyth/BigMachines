@@ -38,6 +38,13 @@ public final class ModMaterials {
 
     public static void preInit() {
         initMetals();
+        
+        
+    	pink_dirt = (BlockBase) new BlockBaseOreDict(Material.GROUND, "pink_dirt", "dirt").setSoundType(SoundType.GROUND).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	limestone = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone", "limestone").setSoundType(SoundType.STONE).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	
+    	ModBlocks.BLOCKS.add(pink_dirt);
+    	ModBlocks.BLOCKS.add(limestone);
     }
 
     private static void initMetals() {
@@ -144,13 +151,6 @@ public final class ModMaterials {
         ModBlocks.BLOCKS.add(block_tin);
         ModBlocks.BLOCKS.add(block_silver);
         ModBlocks.BLOCKS.add(block_aluminium);
-        
-        
-    	pink_dirt = (BlockBase) new BlockBaseOreDict(Material.GROUND, "pink_dirt", "dirt").setSoundType(SoundType.GROUND).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
-    	limestone = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone", "limestone").setSoundType(SoundType.STONE).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
-    	
-    	ModBlocks.BLOCKS.add(pink_dirt);
-    	ModBlocks.BLOCKS.add(limestone);
         
     }
     
