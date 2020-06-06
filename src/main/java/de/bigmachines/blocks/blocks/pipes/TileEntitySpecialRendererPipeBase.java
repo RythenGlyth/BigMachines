@@ -40,7 +40,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GlStateManager.disableLighting();
         
 		GlStateManager.enableBlend();
-		if(destroyStage < 0) GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		/*if(destroyStage < 0)*/ GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         
 		
 		if(te.pass == 0) {
@@ -301,16 +301,6 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 				if(te.hasAttachment(EnumFacing.UP)) drawAttachmentFluid(EnumFacing.UP, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
 				if(te.hasAttachment(EnumFacing.WEST)) drawAttachmentFluid(EnumFacing.WEST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
 			}
-
-			TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(FluidRegistry.WATER.getStill().toString());
-			
-			drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.DOWN)) drawAttachmentFluid(EnumFacing.DOWN, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.EAST)) drawAttachmentFluid(EnumFacing.EAST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.NORTH)) drawAttachmentFluid(EnumFacing.NORTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.SOUTH)) drawAttachmentFluid(EnumFacing.SOUTH, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.UP)) drawAttachmentFluid(EnumFacing.UP, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
-			if(te.hasAttachment(EnumFacing.WEST)) drawAttachmentFluid(EnumFacing.WEST, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
 		}
 		
 	}
