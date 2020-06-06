@@ -262,7 +262,7 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	public EnumBlockRenderType getRenderType(@Nullable IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 	
 	@Override
