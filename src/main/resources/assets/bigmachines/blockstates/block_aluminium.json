@@ -1,6 +1,0 @@
-{
-    "variants": {
-        "normal": {"model": "bigmachines:block_aluminium"},
-        "inventory": {"model": "bigmachines:block_aluminium"}
-    }
-}

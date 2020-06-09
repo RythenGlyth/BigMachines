@@ -3,11 +3,11 @@
 	"ingredients": [
 		{
 			"type": "forge:ore_dict",
-			"ore": "ingotAluminium"
+			"ore": "ingotAluminum"
 		}
 	],
 	"result": {
-		"item": "bigmachines:nugget_aluminium",
+		"item": "bigmachines:nugget_aluminum",
 		"count": 9
 	}
 }

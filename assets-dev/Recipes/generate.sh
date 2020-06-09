@@ -1,6 +1,6 @@
 #!/bin/bash
 
-metals=( aluminium copper lead silver tin )
+metals=( aluminum copper lead silver tin )
 # destination folder
 destF=./dest/
 

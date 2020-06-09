@@ -9,12 +9,12 @@
 	"key": {
 		"#": {
 			"type": "forge:ore_dict",
-			"ore": "ingotAluminium"
+			"ore": "nuggetAluminum"
 
 		}
+
 	},
 	"result": {
-		"item": "bigmachines:block_aluminium"
-
+		"item": "bigmachines:ingot_aluminum"
 	}
 }

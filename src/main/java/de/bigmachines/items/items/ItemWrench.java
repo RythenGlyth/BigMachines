@@ -47,8 +47,8 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 		switch(stack.getMetadata()) {
 			case 0: //Copper
 				return unlocalizedName + "_copper";
-			case 1: //Aluminium
-				return unlocalizedName + "_aluminium";
+			case 1: //Aluminum
+				return unlocalizedName + "_aluminum";
 			case 2: //Lead
 				return unlocalizedName + "_lead";
 			case 3: //Silver
@@ -65,7 +65,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 		/*switch(stack.getMetadata()) {
 			case 0: //Copper
 				return 200;
-			case 1: //Aluminium
+			case 1: //Aluminum
 				return 300;
 			case 2: //Lead
 				return 400;
@@ -81,7 +81,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (this.isInCreativeTab(tab)) {
             items.add(new ItemStack(this, 1, 0)); //Copper
-            items.add(new ItemStack(this, 1, 1)); //Aluminium
+            items.add(new ItemStack(this, 1, 1)); //Aluminum
             items.add(new ItemStack(this, 1, 2)); //Lead
             items.add(new ItemStack(this, 1, 3)); //Silver
             items.add(new ItemStack(this, 1, 4)); //Tin
@@ -93,7 +93,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 	public void registerModels() {
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 		/*ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "type=copper")); //Copper
-		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(getRegistryName(), "type=aluminium")); //Aluminium
+		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(getRegistryName(), "type=aluminum")); //Aluminum
 		ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(getRegistryName(), "type=lead")); //Lead
 		ModelLoader.setCustomModelResourceLocation(this, 3, new ModelResourceLocation(getRegistryName(), "type=silver")); //Silver
 		ModelLoader.setCustomModelResourceLocation(this, 4, new ModelResourceLocation(getRegistryName(), "type=tin")); //Tin*/

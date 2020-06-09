@@ -45,7 +45,7 @@
     },
     {
         "type": "mineable",
-        "block-id": "bigmachines:ore_aluminium",
+        "block-id": "bigmachines:ore_aluminum",
         "max-per-chunk": 10,
         "max-vein-size": 8,
         "min-height": 0,

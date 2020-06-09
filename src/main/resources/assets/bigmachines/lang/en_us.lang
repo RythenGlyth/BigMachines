@@ -25,19 +25,19 @@ item.bigmachines.ingot_copper.name=Copper Ingot
 item.bigmachines.ingot_tin.name=Tin Ingot
 item.bigmachines.ingot_silver.name=Silver Ingot
 item.bigmachines.ingot_lead.name=Lead Ingot
-item.bigmachines.ingot_aluminium.name=Aluminium Ingot
+item.bigmachines.ingot_aluminum.name=Aluminum Ingot
 item.bigmachines.nugget_copper.name=Copper Nugget
 item.bigmachines.nugget_tin.name=Tin Nugget
 item.bigmachines.nugget_silver.name=Silver Nugget
 item.bigmachines.nugget_lead.name=Lead Nugget
-item.bigmachines.nugget_aluminium.name=Aluminium Nugget
+item.bigmachines.nugget_aluminum.name=Aluminum Nugget
 
 item.bigmachines.slime_boots.name=Slime Boots
 item.bigmachines.manual.name=Big Machines Manual
 
 item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_copper.name=Copper wrench
-#item.bigmachines.wrench_aluminium.name=Aluminium wrench
+#item.bigmachines.wrench_aluminum.name=Aluminum wrench
 #item.bigmachines.wrench_lead.name=Lead wrench
 #item.bigmachines.wrench_silver.name=Silver wrench
 #item.bigmachines.wrench_tin.name=Tin wrench
@@ -47,12 +47,12 @@ tile.bigmachines.block_copper.name=Block of Copper
 tile.bigmachines.block_tin.name=Block of Tin
 tile.bigmachines.block_silver.name=Block of Silver
 tile.bigmachines.block_lead.name=Block of Lead
-tile.bigmachines.block_aluminium.name=Block of Aluminium
+tile.bigmachines.block_aluminum.name=Block of Aluminum
 tile.bigmachines.ore_copper.name=Copper Ore
 tile.bigmachines.ore_tin.name=Tin Ore
 tile.bigmachines.ore_silver.name=Silver Ore
 tile.bigmachines.ore_lead.name=Lead Ore
-tile.bigmachines.ore_aluminium.name=Aluminium Ore
+tile.bigmachines.ore_aluminum.name=Aluminum Ore
 
 tile.bigmachines.pipe_heat.name=Heat Pipe
 tile.bigmachines.pipe_fluid.name=Fluid Pipe

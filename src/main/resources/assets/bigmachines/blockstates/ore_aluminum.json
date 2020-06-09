@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:ore_aluminum"},
+        "inventory": {"model": "bigmachines:ore_aluminum"}
+    }
+}
