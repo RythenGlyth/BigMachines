@@ -3,7 +3,6 @@ package de.bigmachines.gui.client.manual;
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.RenderHelper;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
@@ -11,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -20,8 +18,8 @@ import java.util.List;
 // TODO scrollbar
 public class GuiManual extends GuiScreen {
     private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
-    private static final int guiWidth = 394;
-    private static final int guiHeight = 221;
+    private static final int guiWidth = 395;
+    private static final int guiHeight = 222;
     private static final int tabWidth = 30;
     private static final int tabHeight = 28;
     private static final int maxTabs = 6;
@@ -85,38 +83,12 @@ public class GuiManual extends GuiScreen {
 			mc.getTextureManager().bindTexture(tabs.get(i - scrollIndexOffset).getIcon());
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2 + 8, guiTop + firstTabOffset + (i - scrollIndexOffset) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 1);
 		}
-
-		GlStateManager.pushMatrix();
-		GlStateManager.disableDepth();
-		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GlStateManager.colorMask(false, false, false, false);
-		GlStateManager.depthMask(false);
-		GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xFF);
-		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
-
-		GL11.glStencilMask(0xFF);
-		GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
-		// draw mask:
-		Gui.drawRect(guiLeft, guiTop, guiLeft + guiWidth, guiTop + guiHeight, 0xffffffff);
-
-		GlStateManager.colorMask(true, true, true, true);
-		GlStateManager.depthMask(true);
-		GL11.glStencilMask(0x00);
-		GL11.glStencilFunc(GL11.GL_EQUAL, 0, 0xFF); // draw only where stencil mask is 0
-		// nothing to draw
-		GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF);
-		Gui.drawRect(100, 200, 200, 300, 0xff550000);
-		GL11.glDisable(GL11.GL_STENCIL_TEST);
-//		GlStateManager.colorMask(true, true, true, false);
-//		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		// draw background:
-//		Gui.drawRect(100, 200, 200, 300, 0xff550000);
-
+		
 		int last = guiTop + 10;
 		if (tabs.size() > selectedIndex && tabs.get(selectedIndex) != null) {
 			for (final ManualContent manualContent : tabs.get(selectedIndex).getContents()) {
 				try {
-					//last = manualContent.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, zLevel + 1, tooltips);
+					last = manualContent.draw(guiLeft + 10, last, mouseX, mouseY, width, partialTicks, zLevel + 1, tooltips);
 					if (last > guiTop + guiHeight) break;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
@@ -124,27 +96,6 @@ public class GuiManual extends GuiScreen {
 				}
 			}
 		}
-
-//        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
-//        GlStateManager.colorMask( false, false, false, true);
-		// draw mask:
-//		GlStateManager.clearColor(0, 0, 0, 0);
-//		GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT);
-//
-
-//		GlStateManager.colorMask(true, true, true, true);
-//		GlStateManager.blendFunc(GlStateManager.SourceFactor.DST_ALPHA, GlStateManager.DestFactor.ONE_MINUS_DST_ALPHA);
-//		GlStateManager.enableBlend();
-//		GlStateManager.glBlendEquation(GL11.GL_ADD);
-//		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_ALPHA, GlStateManager.DestFactor.DST_ALPHA,
-//				GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
-		// draw foreground:
-
-		Gui.drawRect(90, 180, 220, 320, 0xff000000);
-
-
-//		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
 	}

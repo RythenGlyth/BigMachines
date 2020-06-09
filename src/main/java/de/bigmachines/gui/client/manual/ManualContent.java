@@ -130,7 +130,7 @@ public abstract class ManualContent {
 				final Ingredient i = is.get(y * r.recipeWidth + x);
 
 				if (i.getMatchingStacks().length == 0) continue;
-				final ItemStack itemStack = i.getMatchingStacks()[(int) (System.currentTimeMillis() / 2000 % i.getMatchingStacks().length)];
+				final ItemStack itemStack = i.getMatchingStacks()[(int) (Minecraft.getMinecraft().player.getEntityWorld().getTotalWorldTime() / 40 % i.getMatchingStacks().length)];
 				renderItem.renderItemAndEffectIntoGUI(itemStack, left + 2 + x * 18, top + 2 + y * 18);
 				renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, itemStack, left + 2 + x * 18, top + 2 + y * 18, "");
 			}
@@ -149,7 +149,7 @@ public abstract class ManualContent {
 					// FIXME this magic 3 should *certainly* not be here; we have to instead somehow check for recipe width or idk
 					final ItemStack[] in = r.getIngredients().get(hoverY * 3 + hoverX).getMatchingStacks();
 					if (in.length > 0)
-						tooltips.addAll(in[(int) (System.currentTimeMillis() / 2000 % in.length)].getTooltip(
+						tooltips.addAll(in[(int) (Minecraft.getMinecraft().player.getEntityWorld().getTotalWorldTime() / 40 % in.length)].getTooltip(
 								Minecraft.getMinecraft().player,
 								Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL));
 				} else if (mouseX >= left + 95 && mouseX < left + 113 && mouseY >= top + 19 && mouseY < top + 37) {
