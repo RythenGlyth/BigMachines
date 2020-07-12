@@ -4,7 +4,7 @@ import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.utils.RenderHelper;
-import de.bigmachines.utils.classes.EnumSide;
+import de.bigmachines.utils.classes.EnumPosition;
 import de.bigmachines.utils.classes.TextureIcon;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -45,7 +45,7 @@ public class Tab {
 	
 	public final GuiContainerBase gui;
 	
-	public EnumSide side = EnumSide.RIGHT;
+	public EnumPosition.EnumSide side = EnumPosition.EnumSide.RIGHT;
 	
 	public final ResourceLocation tabTexture = new ResourceLocation(Reference.MOD_ID, "textures/gui/tab.png");
 	
@@ -58,7 +58,7 @@ public class Tab {
 		this.gui = gui;
 	}
 	
-	public Tab(GuiContainerBase gui, EnumSide side) {
+	public Tab(GuiContainerBase gui, EnumPosition.EnumSide side) {
 		super();
 		this.gui = gui;
 		this.side = side;
@@ -94,7 +94,7 @@ public class Tab {
 		GlStateManager.color(1, 1, 1, 1);
 		
 		if(expanded) {
-			gui.mc.fontRenderer.drawStringWithShadow(name, side == EnumSide.RIGHT ? posX + 22 : posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(name), posY + offsetY + 5, 0xffffaa00);
+			gui.mc.fontRenderer.drawStringWithShadow(name, side == EnumPosition.EnumSide.RIGHT ? posX + 22 : posX + currentWidth - 22 - gui.mc.fontRenderer.getStringWidth(name), posY + offsetY + 5, 0xffffaa00);
 		}
 		if(expanded) {
 			GL11.glPushMatrix();
@@ -106,7 +106,7 @@ public class Tab {
 		
 		if(icon != null) {
 			gui.mc.renderEngine.bindTexture(icon.texture);
-			RenderHelper.drawSizedTexturedModalRect(side == EnumSide.RIGHT ? gui.getXSize() + 1 : - 16 - 1, this.posY + this.offsetY + 3, 16, 16, icon.minU, icon.minV, icon.maxU, icon.maxV, icon.texW, icon.texH, gui.getZLevel());
+			RenderHelper.drawSizedTexturedModalRect(side == EnumPosition.EnumSide.RIGHT ? gui.getXSize() + 1 : - 16 - 1, this.posY + this.offsetY + 3, 16, 16, icon.minU, icon.minV, icon.maxU, icon.maxV, icon.texW, icon.texH, gui.getZLevel());
 		}
 	}
 	
@@ -115,7 +115,7 @@ public class Tab {
 
 		ticksToExpand = 15;
 		
-		if(side == EnumSide.RIGHT) {
+		if(side == EnumPosition.EnumSide.RIGHT) {
 			//TOP
 			GlStateManager.color(colorR, colorG, colorB, colorA);
 			RenderHelper.drawTiledTexture(
@@ -267,7 +267,7 @@ public class Tab {
 		
 		expanded = (currentWidth == maxWidth) && (currentHeight == maxHeight);
 		
-		if(side == EnumSide.RIGHT) {
+		if(side == EnumPosition.EnumSide.RIGHT) {
 			posX = gui.getXSize() - 1;
 		} else {
 			posX = 1 - currentWidth;

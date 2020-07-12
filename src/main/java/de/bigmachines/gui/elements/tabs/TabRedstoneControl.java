@@ -1,10 +1,10 @@
 package de.bigmachines.gui.elements.tabs;
 
-import de.bigmachines.Reference;
 import de.bigmachines.gui.GuiContainerBase;
 import de.bigmachines.gui.elements.ElementButtonIcon;
 import de.bigmachines.gui.elements.ElementSelectionButtons;
-import de.bigmachines.utils.classes.EnumSide;
+import de.bigmachines.utils.classes.EnumPosition.EnumSide;
+import de.bigmachines.utils.classes.EnumPosition;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.RedstoneMode;
 import de.bigmachines.utils.classes.TextureIcon;
@@ -15,7 +15,7 @@ public class TabRedstoneControl extends Tab {
 	public final IHasRedstoneControl redstoneControl;
 	public final ElementSelectionButtons elementSelectionButtons;
 	
-	public TabRedstoneControl(GuiContainerBase gui, EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
+	public TabRedstoneControl(GuiContainerBase gui, EnumPosition.EnumSide side, IHasRedstoneControl redstoneControl, Runnable sendUpdateToServer) {
 		super(gui, side);
 		maxHeight = 60;
 		

@@ -11,7 +11,8 @@ import org.lwjgl.input.Mouse;
 import de.bigmachines.gui.elements.Element;
 import de.bigmachines.gui.elements.tabs.Tab;
 import de.bigmachines.utils.RenderHelper;
-import de.bigmachines.utils.classes.EnumSide;
+import de.bigmachines.utils.classes.EnumPosition;
+import de.bigmachines.utils.classes.EnumPosition.EnumSide;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -134,7 +135,7 @@ public class GuiContainerBase extends GuiContainer {
 		return null;
 	}
 	
-	public void closeAllTabs(EnumSide side) {
+	public void closeAllTabs(EnumPosition.EnumSide side) {
 		if(side == null) {
 			for (Tab tab : tabs) {
 				tab.opening = false;
