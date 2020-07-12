@@ -11,20 +11,23 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockHelper {
-	
+
+	@Nullable
 	public static TileEntity getAdjacentTileEntity(World world, BlockPos pos, EnumFacing dir) {
 		pos = pos.offset(dir);
 		return world == null || !world.isBlockLoaded(pos) ? null : world.getTileEntity(pos);
 	}
-	
+
+	@Nullable
 	public static TileEntity getAdjacentTileEntity(TileEntity refTile, EnumFacing dir) {
 		return refTile == null ? null : getAdjacentTileEntity(refTile.getWorld(), refTile.getPos(), dir);
 	}
 	
-	public static void callBlockUpdate(World world, BlockPos pos) {
+	public static void callBlockUpdate(@Nonnull World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.DEFAULT);
 	}

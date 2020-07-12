@@ -54,7 +54,7 @@ public class BlockPipeBase extends BlockBase {
 	= new AxisAlignedBB((5D - offsetBox) / 16, (11D + offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, 1D, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_west
 	= new AxisAlignedBB(0D, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
-	
+
 	public BlockPipeBase(String name) {
 		super(Material.GLASS, name);
 		setCreativeTab(ModCreativeTabs.modTab);
@@ -68,12 +68,28 @@ public class BlockPipeBase extends BlockBase {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
 		@Nullable TileEntity tile = worldIn.getTileEntity(pos);
-
-		if (tile instanceof TileEntityPipeBase) {
+		if (tile instanceof TileEntityPipeBase)
 			((TileEntityPipeBase) tile).onBlockPlaced(state, placer, stack);
-		}
 	}
-	
+
+	@Override
+	public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+		@Nullable TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityPipeBase)
+			((TileEntityPipeBase) tile).onBlockBroken(state);
+
+		super.breakBlock(worldIn, pos, state);
+	}
+
+	@Override
+	public void onBlockClicked(final World worldIn, final BlockPos pos, final EntityPlayer playerIn) {
+		super.onBlockClicked(worldIn, pos, playerIn);
+
+		@Nullable TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityPipeBase)
+			((TileEntityPipeBase) tile).onBlockClicked(playerIn);
+	}
+
 	@Override
 	public boolean canConnectRedstone(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos, @Nullable EnumFacing side) {
 		return true;
@@ -228,12 +244,14 @@ public class BlockPipeBase extends BlockBase {
 									@Nullable EnumHand hand, @Nullable EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
-			for(EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {
-				if(getBox(side).grow(0.02D).contains(new Vec3d(hitX, hitY, hitZ))) {
-					playerIn.openGui(BigMachines.INSTANCE, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
-					return true;
+			((TileEntityPipeBase) tile).onBlockClicked(playerIn);
+			if (!playerIn.isSneaking())
+				for(EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {
+					if(getBox(side).grow(0.02D).contains(new Vec3d(hitX, hitY, hitZ))) {
+						playerIn.openGui(BigMachines.INSTANCE, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+						return true;
+					}
 				}
-			}
 		}
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
 	}
