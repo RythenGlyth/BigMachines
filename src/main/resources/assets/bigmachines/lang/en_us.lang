@@ -1,5 +1,5 @@
 #Config
-bigmachines.config.title=Big Machines Config
+config.bigmachines.title=Big Machines Config
 
 config.bigmachines.displayCookTime.title=Display cook time
 config.bigmachines.displayCookTime.description=Displays the cook time if you press STRG on an item
