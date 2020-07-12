@@ -24,6 +24,33 @@ public class PipeNetwork implements Serializable {
 		this.root = root;
 	}
 
+	/**
+	 * Reconstructs a network based on an nbt compound that was generated for it.
+	 *
+	 * @param compound an nbt compound as returned by #rootCompound()
+	 */
+	protected PipeNetwork(final Capability c, final World worldIn, final BlockPos root, final NBTTagCompound compound) {
+		this.c = c;
+		this.root = (TileEntityPipeBase) worldIn.getTileEntity(root);
+
+		// type 10 for NBTTagCompound
+		NBTTagList pipeList = compound.getTagList("pipeList", 10);
+		NBTTagList moduleList = compound.getTagList("moduleList", 10);
+
+		for (int i = 0; i < pipeList.tagCount(); i++) {
+			NBTTagCompound connection = pipeList.getCompoundTagAt(i);
+			BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
+			BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
+			Connection<TileEntityPipeBase> conn = new Connection(worldIn.getTileEntity(a), worldIn.getTileEntity(b));
+
+			// TODO restore connections
+		}
+
+		// TODO restore modules
+		// TODO testing
+        // TODO try-catch all the casting
+	}
+
 	protected TileEntityPipeBase getRoot() {
 		return root;
 	}

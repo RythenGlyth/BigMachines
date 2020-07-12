@@ -32,5 +32,9 @@ public final class NBTHelper {
 		tag.setInteger("z", pos.getZ());
 		return tag;
 	}
+
+	public static BlockPos readTagToBlockPos(NBTTagCompound compound) {
+		return new BlockPos(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
+	}
 	
 }

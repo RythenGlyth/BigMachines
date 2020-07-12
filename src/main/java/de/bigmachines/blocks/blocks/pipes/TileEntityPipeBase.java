@@ -18,14 +18,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -73,7 +71,6 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
 		if (network != null) {
-
 			NBTTagCompound networkTag = new NBTTagCompound();
 			networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
 
@@ -82,15 +79,32 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			}
 
 		    compound.setTag("network", networkTag);
-		}
+		} // FIXME else init network
 		return super.writeToNBT(compound);
 	}
 
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
 		if (compound.hasKey("network")) {
+			NBTTagCompound networkTag = compound.getCompoundTag("network");
+			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
 
-		}
+			if (this.getPos().equals(rootPos)) {
+				if (this.getNetwork() == null) {
+					// TODO create it
+				}
+			} else {
+				TileEntity root = world.getTileEntity(rootPos);
+				PipeNetwork network = ((TileEntityPipeBase) root).getNetwork();
+				if (network == null) {
+					// TODO create it
+				}
+				network = ((TileEntityPipeBase) root).getNetwork();
+				this.network = network;
+			}
+
+		} // FIXME else init network
 		super.readFromNBT(compound);
 	}
 
