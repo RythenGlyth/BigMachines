@@ -1,5 +1,6 @@
 package de.bigmachines.blocks;
 
+import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.utils.BlockHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -7,6 +8,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public abstract class TileEntityBase extends TileEntity {
 	
@@ -79,6 +81,19 @@ public abstract class TileEntityBase extends TileEntity {
 	public void readCustomNBT(NBTTagCompound compound, boolean updatePacket) {
 		
 	}
-	
-	
+
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		else if (other == null) return false;
+		if (other instanceof TileEntityBase) {
+			TileEntityBase o = (TileEntityBase) other;
+			return o.world.equals(world) && o.pos.equals(pos);
+		}
+		return false;
+	}
+
+	public int hashCode() {
+		return Objects.hash(world, pos);
+	}
+
 }
