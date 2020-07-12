@@ -16,7 +16,7 @@
         },
         {
             "type": "crafting",
-            "contents": "bigmachines:lead_ingot_from_nugget"
+            "contents": "minecraft:fence"
         },
         {
             "type": "crafting",
