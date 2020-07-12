@@ -22,7 +22,7 @@ public class BlockBase extends Block {
 	
     protected String name;
     
-    public BlockBase(Material materialIn, String name) {
+    public BlockBase(final Material materialIn, final String name) {
         super(materialIn);
 		this.name = name;
 		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
@@ -31,7 +31,7 @@ public class BlockBase extends Block {
     }
     
     @Override
-	public Block setSoundType(SoundType sound) {
+	public Block setSoundType(final SoundType sound) {
 		return super.setSoundType(sound);
 	}
     
@@ -39,7 +39,7 @@ public class BlockBase extends Block {
 		return itemBlock;
 	}
 	
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	

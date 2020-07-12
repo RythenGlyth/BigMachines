@@ -46,30 +46,30 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	}
 	
 	@Override
-	public void writeCustomNBT(NBTTagCompound compound, boolean updatePacket) {
+	public void writeCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		super.writeCustomNBT(compound, updatePacket);
 		fluidStorage.writeToNBT(compound);
 	}
 	
 	@Override
-	public void readCustomNBT(NBTTagCompound compound, boolean updatePacket) {
+	public void readCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		super.readCustomNBT(compound, updatePacket);
 		fluidStorage.readFromNBT(compound);
 	}
 	
 	@Override
-	public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+	public boolean hasCapability(@Nonnull final Capability<?> capability, @Nonnull final EnumFacing facing) {
 		return super.hasCapability(capability, facing);
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(final Capability<T> capability, final EnumFacing facing) {
 		if(capability.equals(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)) {
 			if(facing == null) {
 				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidStorage);
 			}
 			if(hasAttachment(facing)) {
-				PipeAttachment pipeAttachment = getAttachment(facing);
+				final PipeAttachment pipeAttachment = getAttachment(facing);
 				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new AttachmentFluidStorage(this, pipeAttachment, facing));
 			}
 		}
@@ -82,9 +82,8 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		private final TileEntityFluidPipe tileEntityFluidPipe;
 		private final EnumFacing facing;
 		
-		public AttachmentFluidStorage(TileEntityFluidPipe tileEntityFluidPipe, PipeAttachment attachment, EnumFacing facing) {
-			super();
-			this.tileEntityFluidPipe = tileEntityFluidPipe;
+		public AttachmentFluidStorage(final TileEntityFluidPipe tileEntityFluidPipe, final PipeAttachment attachment, final EnumFacing facing) {
+            this.tileEntityFluidPipe = tileEntityFluidPipe;
 			this.attachment = attachment;
 			this.facing = facing;
 		}
@@ -122,12 +121,12 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		}
 
 		@Override
-		public boolean canFillFluidType(FluidStack fluidStack) {
+		public boolean canFillFluidType(final FluidStack fluidStack) {
 			return canFill() && tileEntityFluidPipe.fluidStorage.canFillFluidType(fluidStack);
 		}
 
 		@Override
-		public boolean canDrainFluidType(FluidStack fluidStack) {
+		public boolean canDrainFluidType(final FluidStack fluidStack) {
 			return canDrain() && tileEntityFluidPipe.fluidStorage.canDrainFluidType(fluidStack);
 		}
 
@@ -137,18 +136,18 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		}
 
 		@Override
-		public int fill(FluidStack resource, boolean doFill) {
+		public int fill(final FluidStack resource, final boolean doFill) {
 			return attachment.canInsert() && canFill() ? tileEntityFluidPipe.fluidStorage.fill(resource, doFill) : 0;
 		}
 
 		@Override
-		public FluidStack drain(FluidStack resource, boolean doDrain) {
+		public FluidStack drain(final FluidStack resource, final boolean doDrain) {
 			if (!canDrainFluidType(resource)) return null;
 	        return drain(resource.amount, doDrain);
 		}
 
 		@Override
-		public FluidStack drain(int maxDrain, boolean doDrain) {
+		public FluidStack drain(final int maxDrain, final boolean doDrain) {
 			if(tileEntityFluidPipe.fluidStorage.getContents() == null || !attachment.canExtract() || !canDrain()) return new FluidStack(FluidRegistry.WATER, 0);
 	        return tileEntityFluidPipe.fluidStorage.drain(maxDrain, doDrain);
 		}

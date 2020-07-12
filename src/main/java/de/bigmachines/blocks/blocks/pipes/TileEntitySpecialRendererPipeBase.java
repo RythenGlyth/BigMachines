@@ -25,14 +25,13 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 	private static final double pixelWitdh = 1D / 16D;
 	private final double pixelTextureWitdh;
 	
-	public TileEntitySpecialRendererPipeBase(ResourceLocation texture, double textureWidth) {
-		super();
-		this.texture = texture;
+	public TileEntitySpecialRendererPipeBase(final ResourceLocation texture, final double textureWidth) {
+        this.texture = texture;
 		pixelTextureWitdh = 1D / textureWidth;
 	}
 	
 	@Override
-	public void render(TileEntityPipeBase te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(final TileEntityPipeBase te, final double x, final double y, final double z, final float partialTicks, final int destroyStage, final float alpha) {
 		//System.out.println(destroyStage);
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
@@ -50,7 +49,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 			bindTexture(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : texture);
 			
 			drawBase(true, !(destroyStage >= 0));
-			for(EnumFacing side : EnumFacing.VALUES) {
+			for(final EnumFacing side : EnumFacing.VALUES) {
 				if(te.hasAttachment(side)) drawAttachment(side, te.getAttachment(side), true, !(destroyStage >= 0));
 			}
 			
@@ -67,9 +66,9 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GlStateManager.popMatrix();
 	}
 	
-	public void drawBase(boolean outside, boolean inside) {
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+	public void drawBase(final boolean outside, final boolean inside) {
+		final Tessellator tessellator = Tessellator.getInstance();
+		final BufferBuilder buffer = tessellator.getBuffer();
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
 		if(outside) {
@@ -156,10 +155,10 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		tessellator.draw();
 	}
 	
-	public void drawAttachment(EnumFacing side, TileEntityPipeBase.PipeAttachment attachment, boolean outside, boolean inside) {
+	public void drawAttachment(final EnumFacing side, final TileEntityPipeBase.PipeAttachment attachment, final boolean outside, final boolean inside) {
 		GL11.glPushMatrix();
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		final Tessellator tessellator = Tessellator.getInstance();
+		final BufferBuilder buffer = tessellator.getBuffer();
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		
 		GL11.glTranslated(0.5, 0.5, 0.5);
@@ -244,7 +243,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		//System.out.println(Config.pipeStatusOverlayAlwaysOn);
 		
 		if((Config.isPipeStatusOverlayAlwaysOn() || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
-			double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * pixelTextureWitdh : 12 * pixelTextureWitdh);
+			final double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * pixelTextureWitdh : 12 * pixelTextureWitdh);
 			
 			//OUTSIDE STATUS
 			
@@ -280,18 +279,18 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 	
-	public void drawFluid(TileEntityPipeBase te) {
+	public void drawFluid(final TileEntityPipeBase te) {
 		bindTexture(new ResourceLocation("textures/atlas/blocks.png"));
 		
 		
 		if(te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
 		    if (te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties() == null ||
 			te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties().length == 0) return;
-			IFluidTankProperties property = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties()[0];
+			final IFluidTankProperties property = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties()[0];
 			if(property.getContents() != null) {
-				double size = property.getContents().amount / (double) property.getCapacity();
+				final double size = property.getContents().amount / (double) property.getCapacity();
 
-				TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(property.getContents().getFluid().getStill().toString());
+				final TextureAtlasSprite fluidTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(property.getContents().getFluid().getStill().toString());
 				
 				drawBaseFluid(fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
 				if(te.hasAttachment(EnumFacing.DOWN)) drawAttachmentFluid(EnumFacing.DOWN, fluidTexture.getMinU(), fluidTexture.getMinV(), fluidTexture.getMaxU(), fluidTexture.getMaxV());
@@ -307,9 +306,9 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 	
 
 	
-	public void drawBaseFluid(double minU, double minV, double maxU, double maxV) {
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+	public void drawBaseFluid(final double minU, final double minV, final double maxU, final double maxV) {
+		final Tessellator tessellator = Tessellator.getInstance();
+		final BufferBuilder buffer = tessellator.getBuffer();
 		
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		
@@ -354,10 +353,10 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		tessellator.draw();
 	}
 	
-	public void drawAttachmentFluid(EnumFacing side, double minU, double minV, double maxU, double maxV) {
+	public void drawAttachmentFluid(final EnumFacing side, final double minU, final double minV, final double maxU, final double maxV) {
 		GL11.glPushMatrix();
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		final Tessellator tessellator = Tessellator.getInstance();
+		final BufferBuilder buffer = tessellator.getBuffer();
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		
 		GL11.glTranslated(0.5, 0.5, 0.5);

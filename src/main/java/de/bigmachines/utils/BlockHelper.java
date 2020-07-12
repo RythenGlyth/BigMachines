@@ -17,44 +17,44 @@ import javax.annotation.Nullable;
 public class BlockHelper {
 
 	@Nullable
-	public static TileEntity getAdjacentTileEntity(World world, BlockPos pos, EnumFacing dir) {
+	public static TileEntity getAdjacentTileEntity(final World world, BlockPos pos, final EnumFacing dir) {
 		pos = pos.offset(dir);
 		return world == null || !world.isBlockLoaded(pos) ? null : world.getTileEntity(pos);
 	}
 
 	@Nullable
-	public static TileEntity getAdjacentTileEntity(TileEntity refTile, EnumFacing dir) {
+	public static TileEntity getAdjacentTileEntity(final TileEntity refTile, final EnumFacing dir) {
 		return refTile == null ? null : getAdjacentTileEntity(refTile.getWorld(), refTile.getPos(), dir);
 	}
 	
-	public static void callBlockUpdate(@Nonnull World world, BlockPos pos) {
-		IBlockState state = world.getBlockState(pos);
+	public static void callBlockUpdate(@Nonnull final World world, final BlockPos pos) {
+		final IBlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.DEFAULT);
 	}
 	
-	public static void callNeighborStateChange(World world, BlockPos pos) {
+	public static void callNeighborStateChange(final World world, final BlockPos pos) {
 		world.notifyNeighborsOfStateChange(pos, world.getBlockState(pos).getBlock(), false);
 	}
 
-	public static void callNeighborTileChange(World world, BlockPos pos) {
+	public static void callNeighborTileChange(final World world, final BlockPos pos) {
 		world.updateComparatorOutputLevel(pos, world.getBlockState(pos).getBlock());
 	}
 	
 	@Nullable
-	public static RayTraceResult rayTrace(EntityPlayer player, double blockReachDistance, BlockPos pos, AxisAlignedBB boundingBox) {
-		float partialTicks = 1F; //Minecraft.getMinecraft().getRenderPartialTicks();
+	public static RayTraceResult rayTrace(final EntityPlayer player, final double blockReachDistance, final BlockPos pos, final AxisAlignedBB boundingBox) {
+		final float partialTicks = 1F; //Minecraft.getMinecraft().getRenderPartialTicks();
         /*Vec3d vec3d = Minecraft.getMinecraft().player.getPositionEyes(partialTicks);
         Vec3d vec3d1 = Minecraft.getMinecraft().player.getPositionEyes(partialTicks).addVector(vec3d.x * blockReachDistance, vec3d.y * blockReachDistance, vec3d.z * blockReachDistance)
         		.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
         */
 		Vec3d vec3d = player.getPositionEyes(partialTicks);
-        Vec3d vec3d1 = player.getLook(partialTicks);
+        final Vec3d vec3d1 = player.getLook(partialTicks);
         Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
         
         vec3d = vec3d.subtract(pos.getX(), pos.getY(), pos.getZ());
         vec3d2 = vec3d2.subtract(pos.getX(), pos.getY(), pos.getZ());
         
-        RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
+        final RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
         return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector(pos.getX(), pos.getY(), pos.getZ()), raytraceresult.sideHit, pos);
 	}
 	

@@ -14,7 +14,7 @@ public class BlockHeatPipe extends BlockPipeBase implements ITileEntityProvider 
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nonnull final World worldIn, final int meta) {
 		return new TileEntityHeatPipe();
 	}
 	
