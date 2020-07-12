@@ -147,11 +147,13 @@ public abstract class ManualContent {
 					k1 = hoverY * 18 + top + 2;
 
 					// FIXME this magic 3 should *certainly* not be here; we have to instead somehow check for recipe width or idk
-					final ItemStack[] in = r.getIngredients().get(hoverY * 3 + hoverX).getMatchingStacks();
-					if (in.length > 0)
-						tooltips.addAll(in[(int) (System.currentTimeMillis() / 2000 % in.length)].getTooltip(
-								Minecraft.getMinecraft().player,
-								Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL));
+					if(r.getIngredients().size() > hoverY * 3 + hoverX) {
+						final ItemStack[] in = r.getIngredients().get(hoverY * 3 + hoverX).getMatchingStacks();
+						if (in.length > 0)
+							tooltips.addAll(in[(int) (System.currentTimeMillis() / 2000 % in.length)].getTooltip(
+									Minecraft.getMinecraft().player,
+									Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL));
+					}
 				} else if (mouseX >= left + 95 && mouseX < left + 113 && mouseY >= top + 19 && mouseY < top + 37) {
 					j1 = left + 1 + 95;
 					k1 = top + 1 + 19;

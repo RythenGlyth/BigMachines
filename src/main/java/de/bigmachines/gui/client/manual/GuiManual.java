@@ -48,6 +48,7 @@ public class GuiManual extends GuiScreen {
 		tooltips = new LinkedList<>();
 
 		selectedTabIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
+		scrollIndexOffsetContent = item.hasTagCompound() && item.getTagCompound().hasKey("scrollIndexOffsetContent") ? item.getTagCompound().getInteger("scrollIndexOffsetContent") : 0;
 
 		selectedTabIndex = Math.min(Math.max(0, ManualLoader.getTabs().size() - 1), selectedTabIndex);
 		selectedTabIndex = Math.max(0, selectedTabIndex);
@@ -80,6 +81,7 @@ public class GuiManual extends GuiScreen {
 	public void onGuiClosed() {
 		NBTTagCompound tag = item.hasTagCompound() ? item.getTagCompound() : new NBTTagCompound();
 		tag.setInteger(nbtIndex, selectedTabIndex);
+		tag.setInteger("scrollIndexOffsetContent", scrollIndexOffsetContent);
 		item.setTagCompound(tag);
 	}
 	
