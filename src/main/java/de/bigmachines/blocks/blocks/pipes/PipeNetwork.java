@@ -52,7 +52,8 @@ public class PipeNetwork implements Serializable {
 			template.addModule(mod);
 		}
 
-		// TODO restore modules
+		return template;
+
 		// TODO testing
         // TODO try-catch all the casting
 	}
@@ -66,7 +67,7 @@ public class PipeNetwork implements Serializable {
 	 */
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
 		other.pipes.addAll(pipes);
-		other.pipes.add(new Connection<>(merger1, merger2));
+		other.pipes.add(new Connection<TileEntityPipeBase>(merger1, merger2));
 		for (final Connection<TileEntityPipeBase> pipe : pipes) {
 			pipe.a.setNetwork(other);
 			pipe.b.setNetwork(other);

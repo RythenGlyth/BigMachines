@@ -40,18 +40,21 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	
 	//protected HashSet<EnumFacing> attachments;
 	protected final HashMap<EnumFacing, PipeAttachment> attachments;
-	protected final Capability capability;
+	protected final Capability<?> capability;
 
-	private final PipeNetworkTemplate template; // only set on root
+	private PipeNetworkTemplate template; // only set on root
+	private BlockPos rootPos; // set on all when template is set too
 	private PipeNetwork network;
 
-	public TileEntityPipeBase(final Capability capability) {
+	private static TileEntityPipeBase last;
+
+	public TileEntityPipeBase(final Capability<?> capability) {
 		super();
 		attachments = new HashMap<>();
 		this.capability = capability;
 	}
 	
-	public Capability getCapability() {
+	public Capability<?> getCapability() {
 		return capability;
 	}
 
@@ -77,7 +80,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
 	    if (!world.isRemote) {
-			if (network != null) {
+			if (network != null && !compound.hasKey("network")) {
 				NBTTagCompound networkTag = new NBTTagCompound();
 				networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
 
@@ -94,24 +97,42 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
-		if (network == null) {
+		if (template == null && rootPos == null && network == null) {
+		    boolean print;
+			if (compound.getInteger("x") == 34 && compound.getInteger("z") == 25) print = true;
+			else print = false;
+			if (print) System.out.println("=================");
+			if (print) System.out.println("I am " + this.toString());
+			if (print) System.out.println((template == null) + "" + (rootPos == null) + "" + (network == null));
+			BlockPos myPos = NBTHelper.readTagToBlockPos(compound); // x, y, z are saved on the TE as well.
+			if (print) System.out.println("compound: " + compound);
 			NBTTagCompound networkTag = compound.getCompoundTag("network");
+			if (print) System.out.println("network: " + networkTag);
 			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
-			if (rootPos.equals(getPos())) {
+			if (print) System.out.println("root: " + networkRootTag);
+			rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
+			if (rootPos.equals(myPos)) {
+				if (print) System.out.println("i am root!");
 				NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
-				PipeNetworkTemplate template = PipeNetwork.genTemplate(capability, rootPos, networkDataTag);
+				template = PipeNetwork.genTemplate(capability, rootPos, networkDataTag);
+				if (world != null)
+					network = template.realize(world);
+			} else {
+				if (print) System.out.println("i am not root: " + rootPos + " =!= " + myPos);
 			}
-			if (world != null)
-				network = template.realize(world);
+			if (print) System.out.println((template == null) + "" + (rootPos == null) + "" + (network == null));
+			if (print) System.out.println("^^^^^^^^^^^^^^^^^^^^^^^");
 		}
 		super.readFromNBT(compound);
 	}
 
 	@Override
-	public void setWorld(World worldIn) {
-		if (network == null && template != null)
+	public void setWorld(@Nonnull World worldIn) {
+		if (network == null && template != null) {
+			System.out.println("realizing template @ " + getPos());
 			network = template.realize(worldIn);
+			template = null;
+		}
 
 		super.setWorld(worldIn);
 	}
