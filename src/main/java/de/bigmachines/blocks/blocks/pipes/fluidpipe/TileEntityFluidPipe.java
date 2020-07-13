@@ -21,6 +21,18 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	public TileEntityFluidPipe() {
 		super(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 		fluidStorage = new FluidStorage(1000);
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
+		System.out.println("warning");
 	}
 	
 	public FluidStorage getFluidStorage() {

@@ -13,6 +13,7 @@ import de.bigmachines.utils.classes.Inventory;
 import de.bigmachines.utils.classes.Pair;
 import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,7 +24,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,8 +42,9 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	protected final Capability capability;
 
 	private PipeNetwork network;
-	
+
 	public TileEntityPipeBase(final Capability capability) {
+		super();
 		attachments = new HashMap<>();
 		this.capability = capability;
 	}
@@ -70,42 +74,60 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Nonnull
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
-		if (network != null) {
-			NBTTagCompound networkTag = new NBTTagCompound();
-			networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
+	    if (!world.isRemote) {
+			if (network != null) {
+				NBTTagCompound networkTag = new NBTTagCompound();
+				networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
 
-			if (this.equals(network.getRoot())) {
-				networkTag.setTag("data", network.rootCompound());
-			}
+				if (this.equals(network.getRoot())) {
+					networkTag.setTag("data", network.rootCompound());
+				}
 
-		    compound.setTag("network", networkTag);
-		} // FIXME else init network
+				compound.setTag("network", networkTag);
+				System.out.println("wrote " + compound);
+			} // FIXME else init network
+		}
 		return super.writeToNBT(compound);
 	}
 
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
-		if (compound.hasKey("network")) {
-			NBTTagCompound networkTag = compound.getCompoundTag("network");
-			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
+	    if (world != null) {
+			System.out.println(world.isRemote);
+			// TODO if is remote
+			if (compound.hasKey("network")) {
+				System.out.println("read " + compound);
+				NBTTagCompound networkTag = compound.getCompoundTag("network");
+				NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+				BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
 
-			if (this.getPos().equals(rootPos)) {
-				if (this.getNetwork() == null) {
-					// TODO create it
+				if (this.getPos().equals(rootPos)) {
+					if (this.getNetwork() == null) {
+						// TODO create it
+					}
+				} else {
+					System.out.println(Minecraft.getMinecraft().world == null);
+					System.out.println(FMLClientHandler.instance().getWorldClient() == null);
+					System.out.println(world == null);
+					System.out.println(getWorld() == null);
+					TileEntity root = world.getTileEntity(rootPos);
+					PipeNetwork network = ((TileEntityPipeBase) root).getNetwork();
+					if (network == null) {
+						// TODO create it
+					}
+					network = ((TileEntityPipeBase) root).getNetwork();
+					this.network = network;
 				}
-			} else {
-				TileEntity root = world.getTileEntity(rootPos);
-				PipeNetwork network = ((TileEntityPipeBase) root).getNetwork();
-				if (network == null) {
-					// TODO create it
-				}
-				network = ((TileEntityPipeBase) root).getNetwork();
-				this.network = network;
-			}
 
-		} // FIXME else init network
+			} // FIXME else init network
+		}
 		super.readFromNBT(compound);
+	}
+
+	@Override
+	public void setWorld(World worldIn) {
+		System.out.println("world set");
+		super.setWorld(worldIn);
 	}
 
 	@Override
