@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:blackstone"},
-        "inventory": {"model": "bigmachines:blackstone"}
+        "normal": {"model": "bigmachines:blackstone"}
     }
 }

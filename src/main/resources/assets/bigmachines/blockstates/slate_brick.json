@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:slate_brick"},
-        "inventory": {"model": "bigmachines:slate_brick"}
+        "normal": {"model": "bigmachines:slate_brick"}
     }
 }

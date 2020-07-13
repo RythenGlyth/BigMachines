@@ -91,6 +91,8 @@ public final class ModMaterials {
     	ModBlocks.BLOCKS.add(slate);
     	ModBlocks.BLOCKS.add(slate_smooth);
         ModBlocks.BLOCKS.add(slate_brick);
+        
+        
     }
 
     private static void initMetals() {
@@ -148,11 +150,11 @@ public final class ModMaterials {
 
         // Ores
 
-        ore_copper = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        ore_lead = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_lead", "oreLead").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        ore_tin = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        ore_silver = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        ore_aluminum = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_aluminum", "oreAluminum").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
+        ore_copper = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_copper", "oreCopper").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        ore_lead = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_lead", "oreLead").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        ore_tin = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_tin", "oreTin").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        ore_silver = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_silver", "oreSilver").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        ore_aluminum = (BlockBase) new BlockBaseOreDict(Material.ROCK, "ore_aluminum", "oreAluminum").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
 
         ore_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         ore_lead.setCreativeTab(ModCreativeTabs.materialsTab);
@@ -174,11 +176,11 @@ public final class ModMaterials {
 
         // storage blocks
 
-        block_copper = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_copper", "blockCopper").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        block_lead = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_lead", "blockLead").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        block_tin = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_tin", "blockTin").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        block_silver = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_silver", "blockSilver").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
-        block_aluminum = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_aluminum", "blockAluminum").setHardness(3.0F).setResistance(5.0F).setSoundType(SoundType.STONE);
+        block_copper = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_copper", "blockCopper").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        block_lead = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_lead", "blockLead").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        block_tin = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_tin", "blockTin").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        block_silver = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_silver", "blockSilver").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
+        block_aluminum = (BlockBase) new BlockBaseOreDict(Material.IRON, "block_aluminum", "blockAluminum").setSoundType(SoundType.STONE).setHardness(3.0F).setResistance(5.0F);
 
         block_copper.setCreativeTab(ModCreativeTabs.materialsTab);
         block_lead.setCreativeTab(ModCreativeTabs.materialsTab);
