@@ -1,11 +1,13 @@
 {
-    "type": "crafting_shaped",
+    "type": "minecraft:crafting_shaped",
     "pattern": [
         "#",
         "#"
     ],
     "key": {
-        "item": "bigmachines:blackstone_smooth"
+        "#": {
+            "item": "bigmachines:blackstone_smooth"
+        }
     },
     "result": {
         "item": "bigmachines:blackstone",

@@ -6,12 +6,12 @@
     ],
     "key": {
         "#": [
-            { "item": "bigmachines:blackstone" },
-            { "item": "bigmachines:blackstone_smooth" }
+            { "item": "bigmachines:slate" },
+            { "item": "bigmachines:slate_smooth" }
         ]
     },
     "result": {
-        "item": "bigmachines:blackstone_brick",
+        "item": "bigmachines:slate_brick",
         "count": 4
     }
 }

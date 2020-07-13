@@ -6,11 +6,11 @@
     ],
     "key": {
         "#": {
-            "item": "bigmachines:blackstone"
+            "item": "bigmachines:slate"
         }
     },
     "result": {
-        "item": "bigmachines:blackstone_smooth",
+        "item": "bigmachines:slate_smooth",
         "count": 2
     }
 }
