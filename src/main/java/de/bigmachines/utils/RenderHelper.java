@@ -1,6 +1,13 @@
 package de.bigmachines.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,9 +16,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
-import org.lwjgl.opengl.GL11;
-
-import java.util.Objects;
 
 public final class RenderHelper {
 	
@@ -42,6 +46,40 @@ public final class RenderHelper {
 	
 	public static TextureAtlasSprite getTexture(ResourceLocation location) {
 		return getTexture(location.toString());
+	}
+	
+	/**
+	 * draw String with w
+	 * @return height it needed
+	 */
+	public static int drawStringWordWrap(String str, int x, int y, int maxWidth, int color, boolean dropShadow) {
+		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		
+		int lineNum = 0;
+		for(String line : wrapWordString(str, maxWidth)) {
+			lineNum++;
+			fr.drawString(line, x, y + (lineNum - 1) * fr.FONT_HEIGHT, color, dropShadow);
+		}
+		
+		return lineNum * fr.FONT_HEIGHT;
+	}
+	
+	public static ArrayList<String> wrapWordString(String str, int maxWidth) {
+		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		ArrayList<String> lines = new ArrayList<String>();
+		
+		String[] words = str.split(" ");
+		String currentLine = words[0];
+		
+		for(int i = 1; i < words.length; i++) {
+			if(fr.getStringWidth(currentLine + words[i]) < maxWidth) {
+				currentLine += " " + words[i];
+			} else {
+				lines.add(currentLine);
+				currentLine = words[i];
+			}
+		}
+		return lines;
 	}
     
 	/**
