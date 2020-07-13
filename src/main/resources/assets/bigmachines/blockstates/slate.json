@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:slate"},
+        "inventory": {"model": "bigmachines:slate"}
+    }
+}

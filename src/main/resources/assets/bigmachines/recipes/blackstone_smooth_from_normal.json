@@ -1,0 +1,14 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "#",
+        "#"
+    ],
+    "key": {
+        "item": "bigmachines:blackstone"
+    },
+    "result": {
+        "item": "bigmachines:blackstone_smooth",
+        "count": 2
+    }
+}

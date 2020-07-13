@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:marble_smooth"},
+        "inventory": {"model": "bigmachines:marble_smooth"}
+    }
+}

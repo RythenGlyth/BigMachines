@@ -34,17 +34,63 @@ public final class ModMaterials {
     public static BlockBase block_aluminum;
     
 	public static BlockBase pink_dirt;
+	
+	
+	public static BlockBase blackstone;
+	public static BlockBase blackstone_smooth;
+	public static BlockBase blackstone_brick;
+	
 	public static BlockBase limestone;
+	public static BlockBase limestone_smooth;
+	public static BlockBase limestone_brick;
+	
+	public static BlockBase marble;
+	public static BlockBase marble_smooth;
+	public static BlockBase marble_brick;
+	
+	public static BlockBase slate;
+	public static BlockBase slate_smooth;
+	public static BlockBase slate_brick;
 
     public static void preInit() {
         initMetals();
+        initStones();
         
         
     	pink_dirt = (BlockBase) new BlockBaseOreDict(Material.GROUND, "pink_dirt", "dirt").setSoundType(SoundType.GROUND).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
-    	limestone = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone", "limestone").setSoundType(SoundType.STONE).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
     	
     	ModBlocks.BLOCKS.add(pink_dirt);
+    	
+    }
+
+    private static void initStones() {
+    	blackstone = (BlockBase) new BlockBaseOreDict(Material.ROCK, "blackstone", "blackstone").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	blackstone_smooth = (BlockBase) new BlockBaseOreDict(Material.ROCK, "blackstone_smooth", "blackstone_smooth").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	blackstone_brick = (BlockBase) new BlockBaseOreDict(Material.ROCK, "blackstone_brick", "blackstone_brick").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	ModBlocks.BLOCKS.add(blackstone);
+    	ModBlocks.BLOCKS.add(blackstone_smooth);
+        ModBlocks.BLOCKS.add(blackstone_brick);
+        
+    	limestone = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone", "limestone").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	limestone_smooth = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone_smooth", "limestone_smooth").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	limestone_brick = (BlockBase) new BlockBaseOreDict(Material.ROCK, "limestone_brick", "limestone_brick").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
     	ModBlocks.BLOCKS.add(limestone);
+    	ModBlocks.BLOCKS.add(limestone_smooth);
+        ModBlocks.BLOCKS.add(limestone_brick);
+        
+    	marble = (BlockBase) new BlockBaseOreDict(Material.ROCK, "marble", "marble").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	marble_smooth = (BlockBase) new BlockBaseOreDict(Material.ROCK, "marble_smooth", "marble_smooth").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	marble_brick = (BlockBase) new BlockBaseOreDict(Material.ROCK, "marble_brick", "marble_brick").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	ModBlocks.BLOCKS.add(marble);
+    	ModBlocks.BLOCKS.add(marble_smooth);
+        ModBlocks.BLOCKS.add(marble_brick);
+        
+    	slate = (BlockBase) new BlockBaseOreDict(Material.ROCK, "slate", "slate").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	slate_smooth = (BlockBase) new BlockBaseOreDict(Material.ROCK, "slate_smooth", "slate_smooth").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	slate_brick = (BlockBase) new BlockBaseOreDict(Material.ROCK, "slate_brick", "slate_brick").setSoundType(SoundType.STONE).setHardness(1.5F).setResistance(10.0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	ModBlocks.BLOCKS.add(slate);
+    	ModBlocks.BLOCKS.add(slate_smooth);
+        ModBlocks.BLOCKS.add(slate_brick);
     }
 
     private static void initMetals() {

@@ -117,3 +117,7 @@ def pullModID() {
     }
     return modid
 }
+
+jar {
+    manifest.attributes('FMLAT': 'bigmachines_at.cfg')
+}

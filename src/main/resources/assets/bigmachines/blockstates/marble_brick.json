@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": {"model": "bigmachines:marble_brick"},
+        "inventory": {"model": "bigmachines:marble_brick"}
+    }
+}
