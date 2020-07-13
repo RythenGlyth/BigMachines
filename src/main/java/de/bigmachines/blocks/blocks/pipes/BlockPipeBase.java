@@ -54,8 +54,8 @@ public class BlockPipeBase extends BlockBase {
 	= new AxisAlignedBB((5D - offsetBox) / 16, (11D + offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, 1D, (11D + offsetBox) / 16);
 	private static final AxisAlignedBB box_west
 	= new AxisAlignedBB(0D, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (5D - offsetBox) / 16, (11D + offsetBox) / 16, (11D + offsetBox) / 16);
-	
-	public BlockPipeBase(String name) {
+
+	public BlockPipeBase(final String name) {
 		super(Material.GLASS, name);
 		setCreativeTab(ModCreativeTabs.modTab);
 		setHardness(0.5F);
@@ -64,38 +64,54 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityLivingBase placer, @Nonnull ItemStack stack) {
+	public void onBlockPlacedBy(@Nonnull final World worldIn, @Nonnull final BlockPos pos, @Nonnull final IBlockState state, @Nonnull final EntityLivingBase placer, @Nonnull final ItemStack stack) {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
-		@Nullable TileEntity tile = worldIn.getTileEntity(pos);
-
-		if (tile instanceof TileEntityPipeBase) {
+		@Nullable final TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityPipeBase)
 			((TileEntityPipeBase) tile).onBlockPlaced(state, placer, stack);
-		}
 	}
-	
+
 	@Override
-	public boolean canConnectRedstone(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos, @Nullable EnumFacing side) {
+	public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+		@Nullable final TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityPipeBase)
+			((TileEntityPipeBase) tile).onBlockBroken(state);
+
+		super.breakBlock(worldIn, pos, state);
+	}
+
+	@Override
+	public void onBlockClicked(final World worldIn, final BlockPos pos, final EntityPlayer playerIn) {
+		super.onBlockClicked(worldIn, pos, playerIn);
+
+		@Nullable final TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityPipeBase)
+			((TileEntityPipeBase) tile).onBlockClicked(playerIn);
+	}
+
+	@Override
+	public boolean canConnectRedstone(@Nullable final IBlockState state, @Nullable final IBlockAccess world, @Nullable final BlockPos pos, @Nullable final EnumFacing side) {
 		return true;
 	}
 	
 	@Override
-	public void addCollisionBoxToList(@Nullable IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox,
-									  @Nonnull List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
-		List<AxisAlignedBB> boxes = getCollisionBoxList(worldIn, pos);
-		for (AxisAlignedBB box : boxes) addCollisionBoxToList(pos, entityBox, collidingBoxes, box);
+	public void addCollisionBoxToList(@Nullable final IBlockState state, @Nonnull final World worldIn, @Nonnull final BlockPos pos, @Nonnull final AxisAlignedBB entityBox,
+									  @Nonnull final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn, final boolean isActualState) {
+		final List<AxisAlignedBB> boxes = getCollisionBoxList(worldIn, pos);
+		for (final AxisAlignedBB box : boxes) addCollisionBoxToList(pos, entityBox, collidingBoxes, box);
 	}
 	
-	public static List<AxisAlignedBB> getCollisionBoxList(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-		List<AxisAlignedBB> collidingBoxes = new ArrayList<>();
+	public static List<AxisAlignedBB> getCollisionBoxList(@Nonnull final World worldIn, @Nonnull final BlockPos pos) {
+		final List<AxisAlignedBB> collidingBoxes = new ArrayList<>();
 		
 		collidingBoxes.add(box_base);
 		
-		TileEntity tile = worldIn.getTileEntity(pos);
+		final TileEntity tile = worldIn.getTileEntity(pos);
 
 		if (tile instanceof TileEntityPipeBase) {
-			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
+			final TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
+			for(final EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 				collidingBoxes.add(getBox(side));
 			}
 		}
@@ -104,7 +120,7 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Nonnull
-	public static AxisAlignedBB getBox(@Nullable EnumFacing side) {
+	public static AxisAlignedBB getBox(@Nullable final EnumFacing side) {
 		if(side == null) 
 			return box_base;
 		switch(side) {
@@ -127,19 +143,19 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
     @Nullable
-	public RayTraceResult collisionRayTrace(@Nullable IBlockState blockState, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Vec3d start, @Nonnull Vec3d end) {
-		List<RayTraceResult> list = Lists.newArrayList();
+	public RayTraceResult collisionRayTrace(@Nullable final IBlockState blockState, @Nonnull final World worldIn, @Nonnull final BlockPos pos, @Nonnull final Vec3d start, @Nonnull final Vec3d end) {
+		final List<RayTraceResult> list = Lists.newArrayList();
 
-        for (AxisAlignedBB axisalignedbb : getCollisionBoxList(worldIn, pos)) {
+        for (final AxisAlignedBB axisalignedbb : getCollisionBoxList(worldIn, pos)) {
             list.add(rayTrace(pos, start, end, axisalignedbb));
         }
         
         RayTraceResult returnRayTraceResult = null;
         double lastDistance = 0.0D;
         
-        for (RayTraceResult raytraceresult : list) {
+        for (final RayTraceResult raytraceresult : list) {
             if (raytraceresult != null) {
-                double distance = raytraceresult.hitVec.squareDistanceTo(end);
+                final double distance = raytraceresult.hitVec.squareDistanceTo(end);
                 if (distance > lastDistance) {
                 	returnRayTraceResult = raytraceresult;
                 	lastDistance = distance;
@@ -150,27 +166,27 @@ public class BlockPipeBase extends BlockBase {
 		return returnRayTraceResult;
 	}
 	
-	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(EntityPlayer player) {
-		RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
+	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(final EntityPlayer player) {
+		final RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
 		
-		BlockPos pos = rayTraceResult1.getBlockPos();
+		final BlockPos pos = rayTraceResult1.getBlockPos();
 		
-		TileEntity tile = player.world.getTileEntity(pos);
+		final TileEntity tile = player.world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
-			TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-			HashMap<RayTraceResult, EnumFacing> list = new HashMap<>();
-			for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
-		        AxisAlignedBB box = getBox(side);
-		        RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
+			final TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
+			final HashMap<RayTraceResult, EnumFacing> list = new HashMap<>();
+			for(final EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
+		        final AxisAlignedBB box = getBox(side);
+		        final RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
 		        if(result != null) list.put(result, side);
 			}
 			
 			RayTraceResult returnRayTraceResult = null;
 	        double lastDistance = Double.MAX_VALUE;
 	        
-	        for (RayTraceResult raytraceresult : list.keySet()) {
+	        for (final RayTraceResult raytraceresult : list.keySet()) {
 	            if (raytraceresult != null) {
-	                double distance = raytraceresult.hitVec.squareDistanceTo(player.getPositionEyes(1F));
+	                final double distance = raytraceresult.hitVec.squareDistanceTo(player.getPositionEyes(1F));
 	                if (distance < lastDistance) {
 	                	returnRayTraceResult = raytraceresult;
 	                	lastDistance = distance;
@@ -182,8 +198,8 @@ public class BlockPipeBase extends BlockBase {
 			return null;
 	}
 	
-	public static float getBlockReachDistance(EntityPlayer player) {
-        float attrib = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+	public static float getBlockReachDistance(final EntityPlayer player) {
+        final float attrib = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
         return player.capabilities.isCreativeMode ? attrib : attrib - 0.5F;
     }
 
@@ -194,14 +210,14 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public boolean hasTileEntity(@Nullable IBlockState state) {
+	public boolean hasTileEntity(@Nullable final IBlockState state) {
 		return super.hasTileEntity(state);
 	}
 	
 	@Override
-	public void neighborChanged(@Nullable IBlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable Block blockIn, @Nullable BlockPos fromPos) {
+	public void neighborChanged(@Nullable final IBlockState state, @Nonnull final World worldIn, @Nonnull final BlockPos pos, @Nullable final Block blockIn, @Nullable final BlockPos fromPos) {
 		if(!worldIn.isRemote) {
-			TileEntity tile = worldIn.getTileEntity(pos);
+			final TileEntity tile = worldIn.getTileEntity(pos);
 			if(tile instanceof TileEntityPipeBase) {
 				((TileEntityPipeBase) tile).updateAttachments();
 			}
@@ -209,9 +225,9 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	@Override
-	public void onNeighborChange(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull BlockPos neighbor) {
+	public void onNeighborChange(@Nonnull final IBlockAccess world, @Nonnull final BlockPos pos, @Nonnull final BlockPos neighbor) {
 		super.onNeighborChange(world, pos, neighbor);
-		TileEntity tile = world.getTileEntity(pos);
+		final TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
 			((TileEntityPipeBase) tile).updateAttachments();
 		}
@@ -219,54 +235,56 @@ public class BlockPipeBase extends BlockBase {
 	
 	@Override
 	@Nonnull
-	public BlockFaceShape getBlockFaceShape(@Nullable IBlockAccess worldIn, @Nullable IBlockState state, @Nullable BlockPos pos, @Nullable EnumFacing face) {
+	public BlockFaceShape getBlockFaceShape(@Nullable final IBlockAccess worldIn, @Nullable final IBlockState state, @Nullable final BlockPos pos, @Nullable final EnumFacing face) {
 		return BlockFaceShape.UNDEFINED;
 	}
 	
 	@Override
-	public boolean onBlockActivated(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nullable IBlockState state, @Nonnull EntityPlayer playerIn,
-									@Nullable EnumHand hand, @Nullable EnumFacing facing, float hitX, float hitY, float hitZ) {
-		TileEntity tile = worldIn.getTileEntity(pos);
+	public boolean onBlockActivated(@Nonnull final World worldIn, @Nonnull final BlockPos pos, @Nullable final IBlockState state, @Nonnull final EntityPlayer playerIn,
+									@Nullable final EnumHand hand, @Nullable final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
+		final TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TileEntityPipeBase) {
-			for(EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {
-				if(getBox(side).grow(0.02D).contains(new Vec3d(hitX, hitY, hitZ))) {
-					playerIn.openGui(BigMachines.INSTANCE, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
-					return true;
+			((TileEntityPipeBase) tile).onBlockClicked(playerIn);
+			if (!playerIn.isSneaking())
+				for(final EnumFacing side : ((TileEntityPipeBase) tile).getAttachments().keySet()) {
+					if(getBox(side).grow(0.02D).contains(new Vec3d(hitX, hitY, hitZ))) {
+						playerIn.openGui(BigMachines.INSTANCE, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+						return true;
+					}
 				}
-			}
 		}
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
 	}
 	
 	@Override
 	@Nonnull
-	public AxisAlignedBB getBoundingBox(@Nullable IBlockState state, @Nullable IBlockAccess source, @Nullable BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(@Nullable final IBlockState state, @Nullable final IBlockAccess source, @Nullable final BlockPos pos) {
 		return getBox(null);
 		//return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 	
 	@Override
-	public boolean isNormalCube(@Nullable IBlockState state, @Nullable IBlockAccess world, @Nullable BlockPos pos) {
+	public boolean isNormalCube(@Nullable final IBlockState state, @Nullable final IBlockAccess world, @Nullable final BlockPos pos) {
 		return false;
 	}
 	
 	@Override
-	public boolean isFullCube(@Nullable IBlockState state) {
+	public boolean isFullCube(@Nullable final IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(@Nullable IBlockState state) {
+	public boolean isOpaqueCube(@Nullable final IBlockState state) {
 		return false;
 	}
 	
 	@Override
-	public EnumBlockRenderType getRenderType(@Nullable IBlockState state) {
+	public EnumBlockRenderType getRenderType(@Nullable final IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 	
 	@Override
-	public boolean hasCustomBreakingProgress(IBlockState state) {
+	public boolean hasCustomBreakingProgress(final IBlockState state) {
 		return true;
 	}
 	

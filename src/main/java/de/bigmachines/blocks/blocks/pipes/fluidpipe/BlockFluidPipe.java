@@ -19,15 +19,15 @@ public class BlockFluidPipe extends BlockPipeBase implements ITileEntityProvider
 	
 	@Override
 	@Nonnull
-	public TileEntity createNewTileEntity(@Nullable World worldIn, int meta) {
+	public TileEntity createNewTileEntity(@Nullable final World worldIn, final int meta) {
 		return new TileEntityFluidPipe();
 	}
 	
 	@Override
-	public int getLightValue(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
+	public int getLightValue(@Nonnull final IBlockState state, @Nonnull final IBlockAccess world, @Nonnull final BlockPos pos) {
+		final TileEntity tile = world.getTileEntity(pos);
 		if(tile instanceof TileEntityFluidPipe) {
-			TileEntityFluidPipe tileEntityPipeBase = (TileEntityFluidPipe) tile;
+			final TileEntityFluidPipe tileEntityPipeBase = (TileEntityFluidPipe) tile;
 			if(tileEntityPipeBase.fluidStorage.getContents() != null) {
 				return tileEntityPipeBase.fluidStorage.getContents().getFluid().getLuminosity();
 			}

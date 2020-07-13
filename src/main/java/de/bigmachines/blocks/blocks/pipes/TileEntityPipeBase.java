@@ -5,17 +5,17 @@ import de.bigmachines.blocks.IHasGui;
 import de.bigmachines.blocks.TileEntityBase;
 import de.bigmachines.gui.client.GuiPipeAttachment;
 import de.bigmachines.gui.container.ContainerPipeAttachment;
-import de.bigmachines.gui.slots.ISlotValidator;
 import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.utils.BlockHelper;
+import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.IHasRedstoneControl;
 import de.bigmachines.utils.classes.Inventory;
 import de.bigmachines.utils.classes.Pair;
 import de.bigmachines.utils.classes.RedstoneMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -37,9 +37,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	//protected HashSet<EnumFacing> attachments;
 	protected final HashMap<EnumFacing, PipeAttachment> attachments;
 	protected final Capability capability;
+
+	private PipeNetwork network;
 	
-	public TileEntityPipeBase(Capability capability) {
-		super();
+	public TileEntityPipeBase(final Capability capability) {
 		attachments = new HashMap<>();
 		this.capability = capability;
 	}
@@ -49,21 +50,62 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 
 	@Override
-	public Object getGuiServer(InventoryPlayer inventory) {
-		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace(inventory.player);
-		if(slectedSide != null) {
-			return new ContainerPipeAttachment(inventory, this, slectedSide.x);
+	public Object getGuiServer(final InventoryPlayer inventory) {
+		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace(inventory.player);
+		if(selectedSide != null) {
+			return new ContainerPipeAttachment(inventory, this, selectedSide.x);
 		}
 		return null;
 	}
 
 	@Override
-	public Object getGuiClient(InventoryPlayer inventory) {
-		Pair<EnumFacing, BlockPos> slectedSide = BlockPipeBase.getSelectedRayTrace();
-		if(slectedSide != null) {
-			return new GuiPipeAttachment(inventory, this, slectedSide.x);
+	public Object getGuiClient(final InventoryPlayer inventory) {
+		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace();
+		if(selectedSide != null) {
+			return new GuiPipeAttachment(inventory, this, selectedSide.x);
 		}
 		return null;
+	}
+
+	@Nonnull
+	@Override
+	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
+		if (network != null) {
+			NBTTagCompound networkTag = new NBTTagCompound();
+			networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
+
+			if (this.equals(network.getRoot())) {
+				networkTag.setTag("data", network.rootCompound());
+			}
+
+		    compound.setTag("network", networkTag);
+		} // FIXME else init network
+		return super.writeToNBT(compound);
+	}
+
+	@Override
+	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
+		if (compound.hasKey("network")) {
+			NBTTagCompound networkTag = compound.getCompoundTag("network");
+			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
+
+			if (this.getPos().equals(rootPos)) {
+				if (this.getNetwork() == null) {
+					// TODO create it
+				}
+			} else {
+				TileEntity root = world.getTileEntity(rootPos);
+				PipeNetwork network = ((TileEntityPipeBase) root).getNetwork();
+				if (network == null) {
+					// TODO create it
+				}
+				network = ((TileEntityPipeBase) root).getNetwork();
+				this.network = network;
+			}
+
+		} // FIXME else init network
+		super.readFromNBT(compound);
 	}
 
 	@Override
@@ -72,7 +114,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 	
 	@Override
-	public boolean shouldRenderInPass(int pass) {
+	public boolean shouldRenderInPass(final int pass) {
 		this.pass = pass;
 		return true;
 	}
@@ -81,48 +123,100 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		return attachments;
 	}
 	
-	public void onBlockPlaced(IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	public void onBlockPlaced(final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
 		updateAttachments();
+
+		if (!getWorld().isRemote) {
+
+			if (network != null) throw new RuntimeException("pipe is placed with network initialized, this shouldn't be a thing!");
+
+			for (final EnumFacing side : EnumFacing.values()) {
+				if (hasAttachment(side) && BlockHelper.getAdjacentTileEntity(this, side) instanceof TileEntityPipeBase) {
+					final TileEntityPipeBase other = (TileEntityPipeBase) BlockHelper.getAdjacentTileEntity(this, side);
+					if (network == null) { // add this pipe to other's network
+						other.network.insert(other, this);
+						network = other.network;
+					} else { // merge this network into the other's network
+						network.mergeInto(this, other, other.network);
+					}
+				}
+			}
+			if (network == null) // no pipe neighbors found, initialize new network6
+				network = new PipeNetwork(capability, this);
+
+		}
 	}
-	
+
+	public void onBlockBroken(final IBlockState state) {
+		if (!getWorld().isRemote) {
+			network.remove(this);
+		}
+	}
+
+	public void onBlockClicked(final EntityPlayer player) {
+	    if (!getWorld().isRemote) {
+			if (network == null) System.out.println("network is null");
+			else network.debugInfo(this);
+		}
+	}
+
+	protected void setNetwork(final PipeNetwork network) {
+		this.network = network;
+	}
+
+	protected PipeNetwork getNetwork() {
+		return network;
+	}
+
 	public void updateAttachments() {
-		HashMap<EnumFacing, PipeAttachment> lastAttachments = new HashMap<>(attachments);
+		final HashMap<EnumFacing, PipeAttachment> lastAttachments = new HashMap<>(attachments);
 		attachments.clear();
-		for(EnumFacing side : EnumFacing.VALUES) {
-			TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
+		for(final EnumFacing side : EnumFacing.VALUES) {
+			final TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
 			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite())) attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
 		}
-		if(!lastAttachments.keySet().equals(attachments.keySet())) updated();
+		if(!lastAttachments.keySet().equals(attachments.keySet())) {
+			updated();
+
+			if (!world.isRemote) {
+				for (final EnumFacing side : EnumFacing.values()) {
+				    final TileEntity adj = BlockHelper.getAdjacentTileEntity(this, side);
+					if (hasAttachment(side) && !(adj instanceof TileEntityPipeBase))
+						network.addModule(this, adj);
+				}
+			}
+		}
+
 	}
-	
-	public boolean hasAttachment(EnumFacing side) {
+
+	public boolean hasAttachment(final EnumFacing side) {
 		return attachments.containsKey(side);
 	}
-	
-	public PipeAttachment getAttachment(EnumFacing side) {
+
+	public PipeAttachment getAttachment(final EnumFacing side) {
 		return attachments.get(side);
 	}
-    
+
 	@Override
 	@Nonnull
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(getPos(), getPos().add(1, 1, 1));
 	}
-    
+
 	@Override
-	public void readCustomNBT(NBTTagCompound compound, boolean updatePacket) {
+	public void readCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		attachments.clear();
-		for(String key : compound.getCompoundTag("Attachments").getKeySet()) {
+		for(final String key : compound.getCompoundTag("Attachments").getKeySet()) {
 			attachments.put(EnumFacing.byName(key), new PipeAttachment(compound.getCompoundTag("Attachments").getCompoundTag(key)));
 		}
 		super.readCustomNBT(compound, updatePacket);
 	}
 	
 	@Override
-	public void writeCustomNBT(NBTTagCompound compound, boolean updatePacket) {
-		NBTTagCompound attachmentTag = new NBTTagCompound();
+	public void writeCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
+		final NBTTagCompound attachmentTag = new NBTTagCompound();
 		
-		for(Map.Entry<EnumFacing, PipeAttachment> attachment : attachments.entrySet()) {
+		for(final Map.Entry<EnumFacing, PipeAttachment> attachment : attachments.entrySet()) {
 			attachmentTag.setTag(attachment.getKey().toString(), attachment.getValue().getNBTTag());
 		}
 		
@@ -133,16 +227,16 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 	
 	@Override
-	public boolean hasCapability(@Nullable Capability<?> capability, @Nullable EnumFacing facing) {
+	public boolean hasCapability(@Nullable final Capability<?> capability, @Nullable final EnumFacing facing) {
 		if(capability == null || this.capability == null) return false;
 		if(capability.equals(this.capability)) return true;
 		return super.hasCapability(capability, facing);
 	}
 	
-	public int getRedstonePower(EnumFacing facing) {
+	public int getRedstonePower(final EnumFacing facing) {
 		if (!world.isBlockLoaded(getPos())) return 0;
 		
-		IBlockState state = world.getBlockState(getPos());
+		final IBlockState state = world.getBlockState(getPos());
 		
 		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? state.getWeakPower(getWorld(), getPos(), facing) : getWorld().getStrongPower(getPos());
 	}
@@ -167,34 +261,33 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			this(true, true, RedstoneMode.IGNORED, false);
 		}
 		
-		public PipeAttachment(NBTTagCompound attachmentTag) {
+		public PipeAttachment(final NBTTagCompound attachmentTag) {
 			this(
 					!attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
 					!attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
 					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
 					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
-			if(attachmentTag.hasKey("Items")) this.inventory.readFromNBT(attachmentTag);
+			if(attachmentTag.hasKey("Items")) inventory.readFromNBT(attachmentTag);
 		}
 		
 		public Inventory getInventory() {
 			return inventory;
 		}
 		
-		public void sendUpdateToServer(BlockPos pos, EnumFacing side) {
+		public void sendUpdateToServer(final BlockPos pos, final EnumFacing side) {
 			BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(pos, side, redstoneMode, whitelist, canExtract(), canInsert()));
 		}
 		
-		public PipeAttachment(boolean canExtract, boolean canInsert, RedstoneMode redstoneMode, boolean whitelist) {
-			super();
+		public PipeAttachment(final boolean canExtract, final boolean canInsert, final RedstoneMode redstoneMode, final boolean whitelist) {
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
 			this.redstoneMode = redstoneMode;
 			this.whitelist = whitelist;
-			this.inventory = new Inventory("", 5);
+			inventory = new Inventory("", 5);
 		}
 		
-		public void setWhitelist(boolean whitelist) {
+		public void setWhitelist(final boolean whitelist) {
 			this.whitelist = whitelist;
 		}
 		
@@ -202,7 +295,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			return whitelist;
 		}
 
-		public void setRedstoneMode(RedstoneMode redstoneMode) {
+		public void setRedstoneMode(final RedstoneMode redstoneMode) {
 			this.redstoneMode = redstoneMode;
 		}
 		
@@ -215,7 +308,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			return "{\"canExtract\": " + canExtract + ", \"canExtract\": " + canInsert + "}";
 		}
 		
-		public void setInsertationByIndex(int index) {
+		public void setInsertationByIndex(final int index) {
 			switch(index) {
 				case 1:
 					canExtract = true;
@@ -236,15 +329,15 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			}
 		}
 		
-		public void setCanExtract(boolean canExtract) {
+		public void setCanExtract(final boolean canExtract) {
 			this.canExtract = canExtract;
 		}
 		
-		public void setCanInsert(boolean canInsert) {
+		public void setCanInsert(final boolean canInsert) {
 			this.canInsert = canInsert;
 		}
 		
-		public void cycleThrough(boolean direction) {
+		public void cycleThrough(final boolean direction) {
 			if(canExtract && canInsert) {
 				if(direction) {
 					canExtract = false;
@@ -289,12 +382,12 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		}
 		
 		public NBTTagCompound getNBTTag() {
-			NBTTagCompound attachmentTag = new NBTTagCompound();
+			final NBTTagCompound attachmentTag = new NBTTagCompound();
 			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
 			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
 			if((redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
 			if(whitelist) attachmentTag.setBoolean("whitelist", whitelist);
-			if(!this.inventory.isEmpty()) this.inventory.writeToNBT(attachmentTag);
+			if(!inventory.isEmpty()) inventory.writeToNBT(attachmentTag);
 			return attachmentTag;
 		}
 		
