@@ -2,6 +2,7 @@ package de.bigmachines.blocks.blocks.pipes;
 
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.NBTHelper;
+import de.bigmachines.utils.classes.Pair;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -29,9 +30,8 @@ public class PipeNetwork implements Serializable {
 	 *
 	 * @param compound an nbt compound as returned by #rootCompound()
 	 */
-	protected PipeNetwork(final Capability c, final World worldIn, final BlockPos root, final NBTTagCompound compound) {
-		this.c = c;
-		this.root = (TileEntityPipeBase) worldIn.getTileEntity(root);
+	protected static PipeNetworkTemplate genTemplate(final Capability c, final BlockPos root, final NBTTagCompound compound) {
+		PipeNetworkTemplate template = new PipeNetworkTemplate(c, root);
 
 		// type 10 for NBTTagCompound
 		NBTTagList pipeList = compound.getTagList("pipeList", 10);
@@ -39,11 +39,8 @@ public class PipeNetwork implements Serializable {
 
 		for (int i = 0; i < pipeList.tagCount(); i++) {
 			NBTTagCompound connection = pipeList.getCompoundTagAt(i);
-			BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
-			BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
-			Connection<TileEntityPipeBase> conn = new Connection(worldIn.getTileEntity(a), worldIn.getTileEntity(b));
-
-			// TODO restore connections
+			Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")), NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
+			template.addPipe(conn);
 		}
 
 		// TODO restore modules

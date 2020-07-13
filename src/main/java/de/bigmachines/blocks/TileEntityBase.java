@@ -13,8 +13,9 @@ import java.util.Objects;
 public abstract class TileEntityBase extends TileEntity {
 	
 	public TileEntityBase() {
+		super();
 	}
-	
+
 	//sync and dirty (save later)
 	public void updated() {
 		BlockHelper.callBlockUpdate(getWorld(), getPos());
