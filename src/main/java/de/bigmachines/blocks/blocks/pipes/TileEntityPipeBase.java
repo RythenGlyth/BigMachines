@@ -30,6 +30,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.nio.channels.Pipe;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	protected final HashMap<EnumFacing, PipeAttachment> attachments;
 	protected final Capability capability;
 
+	private final PipeNetworkTemplate template; // only set on root
 	private PipeNetwork network;
 
 	public TileEntityPipeBase(final Capability capability) {
@@ -92,41 +94,25 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
-	    if (world != null) {
-			System.out.println(world.isRemote);
-			// TODO if is remote
-			if (compound.hasKey("network")) {
-				System.out.println("read " + compound);
-				NBTTagCompound networkTag = compound.getCompoundTag("network");
-				NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-				BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
-
-				if (this.getPos().equals(rootPos)) {
-					if (this.getNetwork() == null) {
-						// TODO create it
-					}
-				} else {
-					System.out.println(Minecraft.getMinecraft().world == null);
-					System.out.println(FMLClientHandler.instance().getWorldClient() == null);
-					System.out.println(world == null);
-					System.out.println(getWorld() == null);
-					TileEntity root = world.getTileEntity(rootPos);
-					PipeNetwork network = ((TileEntityPipeBase) root).getNetwork();
-					if (network == null) {
-						// TODO create it
-					}
-					network = ((TileEntityPipeBase) root).getNetwork();
-					this.network = network;
-				}
-
-			} // FIXME else init network
+		if (network == null) {
+			NBTTagCompound networkTag = compound.getCompoundTag("network");
+			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
+			if (rootPos.equals(getPos())) {
+				NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
+				PipeNetworkTemplate template = PipeNetwork.genTemplate(capability, rootPos, networkDataTag);
+			}
+			if (world != null)
+				network = template.realize(world);
 		}
 		super.readFromNBT(compound);
 	}
 
 	@Override
 	public void setWorld(World worldIn) {
-		System.out.println("world set");
+		if (network == null && template != null)
+			network = template.realize(worldIn);
+
 		super.setWorld(worldIn);
 	}
 

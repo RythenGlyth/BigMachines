@@ -1,6 +1,7 @@
 package de.bigmachines.blocks.blocks.pipes;
 
 import de.bigmachines.utils.BlockHelper;
+import de.bigmachines.utils.DebugHelper;
 import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.Pair;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,9 +19,9 @@ public class PipeNetwork implements Serializable {
 	private final TileEntityPipeBase root;
 	private final Set<Connection<TileEntityPipeBase>> pipes = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
-	private final Capability c;
+	private final Capability<?> c;
 
-	protected PipeNetwork(final Capability c, final TileEntityPipeBase root) {
+	protected PipeNetwork(final Capability<?> c, final TileEntityPipeBase root) {
 		this.c = c;
 		this.root = root;
 	}
@@ -30,7 +31,7 @@ public class PipeNetwork implements Serializable {
 	 *
 	 * @param compound an nbt compound as returned by #rootCompound()
 	 */
-	protected static PipeNetworkTemplate genTemplate(final Capability c, final BlockPos root, final NBTTagCompound compound) {
+	protected static PipeNetworkTemplate genTemplate(final Capability<?> c, final BlockPos root, final NBTTagCompound compound) {
 		PipeNetworkTemplate template = new PipeNetworkTemplate(c, root);
 
 		// type 10 for NBTTagCompound
@@ -39,8 +40,16 @@ public class PipeNetwork implements Serializable {
 
 		for (int i = 0; i < pipeList.tagCount(); i++) {
 			NBTTagCompound connection = pipeList.getCompoundTagAt(i);
-			Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")), NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
+			Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")),
+					NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
 			template.addPipe(conn);
+		}
+
+		for (int i = 0; i < moduleList.tagCount(); i++) {
+			NBTTagCompound module = moduleList.getCompoundTagAt(i);
+			Pair<BlockPos, BlockPos> mod = new Pair<>(NBTHelper.readTagToBlockPos(module.getCompoundTag("a")),
+					NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+			template.addModule(mod);
 		}
 
 		// TODO restore modules
@@ -54,11 +63,10 @@ public class PipeNetwork implements Serializable {
 
 	/**
 	 * Merges this pipe network into another,
-	 * @param other
 	 */
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
 		other.pipes.addAll(pipes);
-		other.pipes.add(new Connection<TileEntityPipeBase>(merger1, merger2));
+		other.pipes.add(new Connection<>(merger1, merger2));
 		for (final Connection<TileEntityPipeBase> pipe : pipes) {
 			pipe.a.setNetwork(other);
 			pipe.b.setNetwork(other);
@@ -71,20 +79,20 @@ public class PipeNetwork implements Serializable {
 	 * @param pipe has to be directly adjacent as well as connected to the system
 	 */
 	public void insert(final TileEntityPipeBase inserter, final TileEntityPipeBase pipe) {
-		pipes.add(new Connection<TileEntityPipeBase>(inserter, pipe));
+		pipes.add(new Connection<>(inserter, pipe));
 	}
 
 	/**
 	 * Adds a module *that is not a pipe* to this network.
-	 * @param fModule
+	 * @param fModule the TileEntityPipeBase of the pipe that was destroyed
 	 */
 	public void addModule(final TileEntityPipeBase inserter, final TileEntity fModule) {
-		fModules.add(new Connection<TileEntity>(inserter, fModule));
+		fModules.add(new Connection<>(inserter, fModule));
 	}
 
 	/**
 	 * To call when a pipe of this network is destroyed.
-	 * @param pipe
+	 * @param pipe the TileEntityPipeBase of the pipe that was destroyed
 	 */
 	public void remove(final TileEntityPipeBase pipe) {
 
@@ -98,12 +106,8 @@ public class PipeNetwork implements Serializable {
 			pipes.remove(pipe);
 		}
 
-		fModules.removeIf(connection -> {
-			return connection.a.equals(pipe) || connection.b.equals(pipe);
-		});
-		this.pipes.removeIf (connection -> {
-			return connection.a.equals(pipe) || connection.b.equals(pipe);
-		});
+		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
+		this.pipes.removeIf (connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 
 		if (pipe.equals(root)) {
 			//root = getNewRoot();
@@ -140,7 +144,7 @@ public class PipeNetwork implements Serializable {
 				ds.discover();
 				groups.put(next, ds.connections);
 				unknown.removeAll(ds.lengths.keySet());
-			} catch (final NoSuchElementException ex) {} // there are no more elements
+			} catch (final NoSuchElementException ignored) {} // there are no more elements
 		}
 
 		return groups;
@@ -152,7 +156,6 @@ public class PipeNetwork implements Serializable {
 
 	/**
 	 * Clears all *modules* adjacent to the pipe at the provided position
-	 * @param pos
 	 */
 	public void clearAdjacentModules(final World world, final BlockPos pos) {
 		for (final EnumFacing side : EnumFacing.values()) {
@@ -175,16 +178,8 @@ public class PipeNetwork implements Serializable {
 		final DepthSearch ds = new DepthSearch(home);
 		ds.discover();
 
-		final List<Map.Entry<TileEntityPipeBase, Integer>> entries = new LinkedList(ds.lengths.entrySet());
-		Collections.sort(entries, new Comparator() {
-		    public int compare(final Object o1, final Object o2) {
-				return ((Map.Entry<TileEntityPipeBase, Integer>) o1).getValue()
-					- ((Map.Entry<TileEntityPipeBase, Integer>) o2).getValue();
-			}
-		});
-		final HashMap<TileEntityPipeBase, Integer> sortedLengths = new LinkedHashMap<>();
-		for (final Map.Entry<TileEntityPipeBase, Integer> entry : entries)
-			System.out.println(entry.getKey().getPos() + ", " + entry.getValue() + " away");
+		DebugHelper.printMapSortedByValue(ds.lengths, entity -> entity.getPos().toString());
+
 		System.out.println("===============================================");
 	}
 
@@ -219,7 +214,6 @@ public class PipeNetwork implements Serializable {
 	}
 
 	private class DepthSearch {
-		private final TileEntityPipeBase searchRoot;
 		private final Map<TileEntityPipeBase, Integer> lengths = new HashMap<>();
 		private final Set<Connection<TileEntityPipeBase>> connections = new HashSet<>();
 
@@ -229,7 +223,6 @@ public class PipeNetwork implements Serializable {
 		private static final long MAX_RUNS = 1000000;
 
 		private DepthSearch(final TileEntityPipeBase searchRoot) {
-			this.searchRoot = searchRoot;
 			lengths.put(searchRoot, 0);
 			unknown.put(searchRoot, 0);
 		}
@@ -250,12 +243,12 @@ public class PipeNetwork implements Serializable {
 			if (!lengths.containsKey(node) || lengths.get(node) > distance) {
 				lengths.put(node, distance);
 				unknown.put(node, distance);
-				connections.add(new Connection(inserter, node));
+				connections.add(new Connection<>(inserter, node));
 			}
 		}
 	}
 
-	private class Connection<T extends TileEntity> {
+	private static class Connection<T extends TileEntity> {
 		private final T a;
 		private final T b;
 
@@ -291,7 +284,7 @@ public class PipeNetwork implements Serializable {
 			if (this == other) return true;
 			if (other == null) return false;
 			if (other instanceof Connection) {
-				final Connection c = (Connection) other;
+				final Connection<?> c = (Connection<?>) other;
 				return a.equals(c.a) && b.equals(c.b);
 			}
 			return false;
