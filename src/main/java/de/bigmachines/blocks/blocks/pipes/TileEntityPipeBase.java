@@ -146,7 +146,6 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		} else if (network.getRoot().network == null) {
 				// FIXME this might lead to an infinite loop on startup
 				network.getRoot().update();
-			}
 		}
 	}
 	
