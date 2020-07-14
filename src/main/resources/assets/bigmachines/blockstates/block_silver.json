@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:block_silver"},
-        "inventory": {"model": "bigmachines:block_silver"}
+        "normal": {"model": "bigmachines:block_silver"}
     }
 }

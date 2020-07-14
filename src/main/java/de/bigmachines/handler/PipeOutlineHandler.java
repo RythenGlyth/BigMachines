@@ -39,7 +39,7 @@ public class PipeOutlineHandler {
 				for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
 			        AxisAlignedBB box = BlockPipeBase.getBox(side);
 			        
-			        boolean isBox = box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
+			        boolean isBox = !event.getPlayer().isSneaking() && box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
 			        
 			        if(isBox) {
 			        	lines.clear();

@@ -57,7 +57,19 @@ tile.bigmachines.ore_aluminum.name=Aluminiumerz
 tile.bigmachines.pipe_heat.name=Hitze Rohr
 tile.bigmachines.pipe_fluid.name=Flüssigkeiten Rohr
 tile.bigmachines.pink_dirt.name=Pinke Erde
+
 tile.bigmachines.limestone.name=Kalkstein
+tile.bigmachines.limestone_smooth.name=Glatter Kalkstein
+tile.bigmachines.limestone_brick.name=Kalksteinziegel
+tile.bigmachines.blackstone.name=Schwarzstein
+tile.bigmachines.blackstone_smooth.name=Glatter Schwarzstein
+tile.bigmachines.blackstone_brick.name=Schwarzsteinziegel
+tile.bigmachines.marble.name=Marmor
+tile.bigmachines.marble_smooth.name=Glatter Marmor
+tile.bigmachines.marble_brick.name=Marmorziegel
+tile.bigmachines.slate.name=Schiefer
+tile.bigmachines.slate_smooth.name=Glatter Schiefer
+tile.bigmachines.slate_brick.name=Schieferziegel
 
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
@@ -69,5 +81,4 @@ info.bigmachines.harvestlevel.shift=Abbau-Level
 info.bigmachines.wrench.shift=Wenn Schraubenschlüssel Knopf gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
 
 info.bigmachines.burntime=Brennzeit
-
 info.bigmachines.charge=Ladung

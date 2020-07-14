@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:block_copper"},
-        "inventory": {"model": "bigmachines:block_copper"}
+        "normal": {"model": "bigmachines:block_copper"}
     }
 }

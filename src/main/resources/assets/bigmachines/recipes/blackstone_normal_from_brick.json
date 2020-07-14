@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "bigmachines:blackstone_brick"
+        }
+    },
+    "result": {
+        "item": "bigmachines:blackstone",
+        "count": 4
+    }
+}

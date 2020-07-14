@@ -1,25 +1,43 @@
 package de.bigmachines.gui.client.manual;
 
+import java.util.List;
+
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import java.util.List;
-
 public abstract class ManualContent {
 	protected final String content;
+	protected int posX;
+	protected int posY;
+	protected int width;
 	
 	public ManualContent(final String input) {
 		super();
 		content = input;
+	}
+	
+	/**
+	 * 
+	 * @return the height of the block
+	 */
+	public int updatePos(int posX, int posY, int width) {
+		this.posX = posX;
+		this.posY = posY;
+		this.width = width;
+		return 0;
 	}
 	
 	/**
@@ -33,25 +51,30 @@ public abstract class ManualContent {
 	 * @param tooltips list of tooltips on parent gui to add tooltips to
 	 * @return the height of the drawn block
 	 */
-	public abstract int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel, List<String> tooltips);
+	public abstract void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips);
 	
 	static class ManualTitle extends ManualContent {
 		
-		private static final int SCALE = 2;
+		private final int SCALE = 2;
 
 		public ManualTitle(String input) {
 			super(input);
 		}
 
 		@Override
-		public int draw(int left, int top, int mousex, int mousey, int width, float partialticks, float zLevel, List<String> tooltips) {
+		public void draw(int mouseX, int mouseY, float partialticks, float zLevel, List<String> tooltips) {
 			// 0x ff 00 00 00 alpha r g b
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(left, top, 0);
+			GlStateManager.translate(this.posX, this.posY, 0);
 			GlStateManager.scale(SCALE, SCALE, 1);
 			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
-			return top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width) {
+			super.updatePos(posX, posY, width);
+			return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
 		}
 		
 	}
@@ -63,13 +86,16 @@ public abstract class ManualContent {
 		}
 
 		@Override
-		public int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel, List<String> tooltips) {
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
 			GlStateManager.pushMatrix();
-			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, left, top, 1000, 0xff000000);
-			//Minecraft.getMinecraft().fontRenderer.drawString(content, left, top, 0xff000000);
-			//GlStateManager.disableAlpha();
+			RenderHelper.drawStringWordWrap(content, this.posX, this.posY, width, 0xff000000, false);
 			GlStateManager.popMatrix();
-			return top + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width) {
+			super.updatePos(posX, posY, width);
+			return (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int)(Minecraft.getMinecraft().fontRenderer.getStringWidth(content) / width) + 1));
 		}
 		
 	}
@@ -82,22 +108,28 @@ public abstract class ManualContent {
 		public ManualCrafting(String input) {
 			super(input);
 		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width) {
+			super.updatePos(posX, posY, width);
+			return 56 + 4;
+		}
 
 		@Override
-		public int draw(int left, int top, int mouseX, int mouseY, int width, float partialTicks, float zLevel, List<String> tooltips) {
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 			net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1, 1, 1, 1);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(CRAFTING_GRID_TEXTURE);
-			left = (width - 118) / 2;
-			RenderHelper.drawTexturedModalRect(left, top, 118, 56, 28, 15, 256, 256, zLevel);
+			//int left = (width - 118) / 2;
+			RenderHelper.drawTexturedModalRect(this.posX, this.posY, 118, 56, 28, 15, 256, 256, zLevel);
 			GlStateManager.popMatrix();
 
 			GlStateManager.pushMatrix();
 			IRecipe r = CraftingManager.getRecipe(new ResourceLocation(content));
-			if (r instanceof ShapedRecipes) drawRecipe((ShapedRecipes) r, left, top);
-			else if (r instanceof ShapelessRecipes) drawRecipe((ShapelessRecipes) r, left, top);
+			if (r instanceof ShapedRecipes) drawRecipe((ShapedRecipes) r, this.posX, this.posY);
+			else if (r instanceof ShapelessRecipes) drawRecipe((ShapelessRecipes) r, this.posX, this.posY);
 			else {
 				System.out.println("trying to draw unsupported recipe:");
 				System.out.println(r instanceof ShapelessOreRecipe);
@@ -107,23 +139,21 @@ public abstract class ManualContent {
 			}
 			GlStateManager.popMatrix();
 
-			hover(mouseX, mouseY, left, top, zLevel, r, tooltips);
+			hover(mouseX, mouseY, this.posX, this.posY, zLevel, r, tooltips);
 
 
 			// needed?
 			net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
-
-			return top + 56 + 4;
 		}
 
-		private static void drawRecipe(ShapelessRecipes r, int left, int top) {
+		private static void drawRecipe(ShapelessRecipes r, int posX, int posY) {
 			System.out.println("trying to draw shapeless");
 			throw new UnsupportedOperationException("not implemented");
 		}
 
-		private static void drawRecipe(ShapedRecipes r, int left, int top) {
-			renderItem.renderItemAndEffectIntoGUI(r.getRecipeOutput(), left + 95 + 1, top + 19 + 1);
-			renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, r.getRecipeOutput(), left + 95, top + 19, "");
+		private static void drawRecipe(ShapedRecipes r, int posX, int posY) {
+			renderItem.renderItemAndEffectIntoGUI(r.getRecipeOutput(), posX + 95 + 1, posY + 19 + 1);
+			renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, r.getRecipeOutput(), posX + 95, posY + 19, "");
 			NonNullList<Ingredient> is = r.getIngredients();
 
 			for (int x = 0; x < r.recipeWidth; x++) for (int y = 0; y < r.recipeHeight; y++) {
@@ -131,8 +161,8 @@ public abstract class ManualContent {
 
 				if (i.getMatchingStacks().length == 0) continue;
 				final ItemStack itemStack = i.getMatchingStacks()[(int) (System.currentTimeMillis() / 2000 % i.getMatchingStacks().length)];
-				renderItem.renderItemAndEffectIntoGUI(itemStack, left + 2 + x * 18, top + 2 + y * 18);
-				renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, itemStack, left + 2 + x * 18, top + 2 + y * 18, "");
+				renderItem.renderItemAndEffectIntoGUI(itemStack, posX + 2 + x * 18, posY + 2 + y * 18);
+				renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, itemStack, posX + 2 + x * 18, posY + 2 + y * 18, "");
 			}
 		}
 

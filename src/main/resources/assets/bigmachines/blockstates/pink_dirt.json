@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:pink_dirt"},
-        "inventory": {"model": "bigmachines:pink_dirt"}
+        "normal": {"model": "bigmachines:pink_dirt"}
     }
 }

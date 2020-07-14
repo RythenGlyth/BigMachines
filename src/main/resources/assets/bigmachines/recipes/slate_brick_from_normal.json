@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": [
+            { "item": "bigmachines:slate" },
+            { "item": "bigmachines:slate_smooth" }
+        ]
+    },
+    "result": {
+        "item": "bigmachines:slate_brick",
+        "count": 4
+    }
+}

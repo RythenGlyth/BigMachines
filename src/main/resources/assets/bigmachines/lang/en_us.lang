@@ -57,7 +57,19 @@ tile.bigmachines.ore_aluminum.name=Aluminum Ore
 tile.bigmachines.pipe_heat.name=Heat Pipe
 tile.bigmachines.pipe_fluid.name=Fluid Pipe
 tile.bigmachines.pink_dirt.name=Pink Dirt
+
 tile.bigmachines.limestone.name=Limestone
+tile.bigmachines.limestone_smooth.name=Smooth Limestone
+tile.bigmachines.limestone_brick.name=Limestone Bricks
+tile.bigmachines.blackstone.name=Blackstone
+tile.bigmachines.blackstone_smooth.name=Smooth Blackstone
+tile.bigmachines.blackstone_brick.name=Blackstone Bricks
+tile.bigmachines.marble.name=Marble
+tile.bigmachines.marble_smooth.name=Smooth Marble
+tile.bigmachines.marble_brick.name=Marble Bricks
+tile.bigmachines.slate.name=Slate
+tile.bigmachines.slate_smooth.name=Smooth Slate
+tile.bigmachines.slate_brick.name=Slate Bricks
 
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details

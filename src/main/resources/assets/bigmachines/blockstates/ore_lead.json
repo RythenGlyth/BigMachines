@@ -1,6 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "bigmachines:ore_lead"},
-        "inventory": {"model": "bigmachines:ore_lead"}
+        "normal": {"model": "bigmachines:ore_lead"}
     }
 }
