@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" },
+        { "item": "bigmachines:floor_slate_brick" }
+    ],
+    "result": {
+        "item": "bigmachines:slate_brick",
+        "count": 1
+    }
+}

@@ -5,6 +5,12 @@
 		"layer": "SOLID",
 		"textures": [
             "bigmachines:block/marble_smooth_ctm"
-        ]
+        ],
+		"extra": {
+			"connect_to": [
+				{ "block": "bigmachines:marble_smooth" },
+				{ "block": "bigmachines:floor_marble_smooth" }
+			]
+		}
 	}
 } 

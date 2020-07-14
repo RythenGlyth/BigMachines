@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" },
+        { "item": "bigmachines:floor_marble" }
+    ],
+    "result": {
+        "item": "bigmachines:marble",
+        "count": 1
+    }
+}

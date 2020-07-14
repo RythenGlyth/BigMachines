@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" },
+        { "item": "bigmachines:floor_slate_smooth" }
+    ],
+    "result": {
+        "item": "bigmachines:slate_smooth",
+        "count": 1
+    }
+}

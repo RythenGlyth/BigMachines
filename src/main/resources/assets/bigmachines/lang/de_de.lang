@@ -72,6 +72,19 @@ tile.bigmachines.slate.name=Schiefer
 tile.bigmachines.slate_smooth.name=Glatter Schiefer
 tile.bigmachines.slate_brick.name=Schieferziegel
 
+tile.bigmachines.floor_limestone.name=Kalkstein Fußboden
+tile.bigmachines.floor_limestone_smooth.name=Glatter Kalkstein Fußboden
+tile.bigmachines.floor_limestone_brick.name=Kalksteinziegel Fußboden
+tile.bigmachines.floor_blackstone.name=Schwarzstein Fußboden
+tile.bigmachines.floor_blackstone_smooth.name=Glatter Schwarzstein Fußboden
+tile.bigmachines.floor_blackstone_brick.name=Schwarzsteinziegel Fußboden
+tile.bigmachines.floor_marble.name=Marmor Fußboden
+tile.bigmachines.floor_marble_smooth.name=Glatter Marmor Fußboden
+tile.bigmachines.floor_marble_brick.name=Marmorziegel Fußboden
+tile.bigmachines.floor_slate.name=Schiefer Fußboden
+tile.bigmachines.floor_slate_smooth.name=Glatter Schiefer Fußboden
+tile.bigmachines.floor_slate_brick.name=Schieferziegel Fußboden
+
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
 info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details

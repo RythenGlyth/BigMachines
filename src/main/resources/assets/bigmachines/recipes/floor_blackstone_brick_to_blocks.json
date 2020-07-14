@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" },
+        { "item": "bigmachines:floor_blackstone_brick" }
+    ],
+    "result": {
+        "item": "bigmachines:blackstone_brick",
+        "count": 1
+    }
+}

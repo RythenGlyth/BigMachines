@@ -5,6 +5,12 @@
 		"layer": "SOLID",
 		"textures": [
             "bigmachines:block/blackstone_smooth_ctm"
-        ]
+        ],
+		"extra": {
+			"connect_to": [
+				{ "block": "bigmachines:blackstone_smooth" },
+				{ "block": "bigmachines:floor_blackstone_smooth" }
+			]
+		}
 	}
 } 

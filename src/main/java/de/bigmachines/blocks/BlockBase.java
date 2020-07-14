@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class BlockBase extends Block {
     
-	protected final ItemBlock itemBlock;
+	protected ItemBlock itemBlock;
 	
     protected String name;
     
@@ -27,7 +27,7 @@ public class BlockBase extends Block {
 		this.name = name;
 		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
 		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
-		itemBlock = new ItemBlockBase(this);
+		this.itemBlock = new ItemBlockBase(this);
     }
     
     @Override

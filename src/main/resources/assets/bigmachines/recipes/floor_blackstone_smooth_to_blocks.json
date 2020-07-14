@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" },
+        { "item": "bigmachines:floor_blackstone_smooth" }
+    ],
+    "result": {
+        "item": "bigmachines:blackstone_smooth",
+        "count": 1
+    }
+}

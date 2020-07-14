@@ -72,6 +72,19 @@ tile.bigmachines.slate.name=Slate
 tile.bigmachines.slate_smooth.name=Smooth Slate
 tile.bigmachines.slate_brick.name=Slate Bricks
 
+tile.bigmachines.floor_limestone.name=Limestone Floor
+tile.bigmachines.floor_limestone_smooth.name=Smooth Limestone Floor
+tile.bigmachines.floor_limestone_brick.name=Limestone Brick Floor
+tile.bigmachines.floor_blackstone.name=Blackstone Floor
+tile.bigmachines.floor_blackstone_smooth.name=Smooth Blackstone Floor
+tile.bigmachines.floor_blackstone_brick.name=Blackstone Brick Floor
+tile.bigmachines.floor_marble.name=Marble Floor
+tile.bigmachines.floor_marble_smooth.name=Smooth Marble Floor
+tile.bigmachines.floor_marble_brick.name=Marble Brick Floor
+tile.bigmachines.floor_slate.name=Slate Floor
+tile.bigmachines.floor_slate_smooth.name=Smooth Slate Floor
+tile.bigmachines.floor_slate_brick.name=Slate Brick Floor
+
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
 info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details
