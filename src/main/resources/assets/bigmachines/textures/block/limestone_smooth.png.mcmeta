@@ -5,6 +5,12 @@
 		"layer": "SOLID",
 		"textures": [
             "bigmachines:block/limestone_smooth_ctm"
-        ]
+        ],
+		"extra": {
+			"connect_to": [
+				{ "block": "bigmachines:limestone_smooth" },
+				{ "block": "bigmachines:floor_limestone_smooth" }
+			]
+		}
 	}
 } 

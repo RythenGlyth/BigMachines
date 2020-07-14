@@ -5,6 +5,12 @@
 		"layer": "SOLID",
 		"textures": [
             "bigmachines:block/slate_smooth_ctm"
-        ]
+        ],
+		"extra": {
+			"connect_to": [
+				{ "block": "bigmachines:slate_smooth" },
+				{ "block": "bigmachines:floor_slate_smooth" }
+			]
+		}
 	}
 } 

@@ -2,6 +2,7 @@ package de.bigmachines.init;
 
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.blocks.BlockBaseOreDict;
+import de.bigmachines.blocks.blocks.BlockFloor;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.items.ItemBaseOreDict;
 import net.minecraft.block.SoundType;
@@ -36,6 +37,7 @@ public final class ModMaterials {
 	public static BlockBase pink_dirt;
 	
 	
+	
 	public static BlockBase blackstone;
 	public static BlockBase blackstone_smooth;
 	public static BlockBase blackstone_brick;
@@ -51,6 +53,23 @@ public final class ModMaterials {
 	public static BlockBase slate;
 	public static BlockBase slate_smooth;
 	public static BlockBase slate_brick;
+	
+
+	public static BlockBase floor_blackstone;
+	public static BlockBase floor_blackstone_smooth;
+	public static BlockBase floor_blackstone_brick;
+	
+	public static BlockBase floor_limestone;
+	public static BlockBase floor_limestone_smooth;
+	public static BlockBase floor_limestone_brick;
+	
+	public static BlockBase floor_marble;
+	public static BlockBase floor_marble_smooth;
+	public static BlockBase floor_marble_brick;
+	
+	public static BlockBase floor_slate;
+	public static BlockBase floor_slate_smooth;
+	public static BlockBase floor_slate_brick;
 
     public static void preInit() {
         initMetals();
@@ -92,6 +111,34 @@ public final class ModMaterials {
     	ModBlocks.BLOCKS.add(slate_smooth);
         ModBlocks.BLOCKS.add(slate_brick);
         
+
+    	floor_blackstone = (BlockBase) new BlockFloor("floor_blackstone").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_blackstone_smooth = (BlockBase) new BlockFloor("floor_blackstone_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_blackstone_brick = (BlockBase) new BlockFloor("floor_blackstone_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+        ModBlocks.BLOCKS.add(floor_blackstone);
+        ModBlocks.BLOCKS.add(floor_blackstone_smooth);
+        ModBlocks.BLOCKS.add(floor_blackstone_brick);
+        
+    	floor_limestone = (BlockBase) new BlockFloor("floor_limestone").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_limestone_smooth = (BlockBase) new BlockFloor("floor_limestone_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_limestone_brick = (BlockBase) new BlockFloor("floor_limestone_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+        ModBlocks.BLOCKS.add(floor_limestone);
+        ModBlocks.BLOCKS.add(floor_limestone_smooth);
+        ModBlocks.BLOCKS.add(floor_limestone_brick);
+        
+    	floor_marble = (BlockBase) new BlockFloor("floor_marble").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_marble_smooth = (BlockBase) new BlockFloor("floor_marble_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_marble_brick = (BlockBase) new BlockFloor("floor_marble_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+        ModBlocks.BLOCKS.add(floor_marble);
+        ModBlocks.BLOCKS.add(floor_marble_smooth);
+        ModBlocks.BLOCKS.add(floor_marble_brick);
+        
+    	floor_slate = (BlockBase) new BlockFloor("floor_slate").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_slate_smooth = (BlockBase) new BlockFloor("floor_slate_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_slate_brick = (BlockBase) new BlockFloor("floor_slate_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+        ModBlocks.BLOCKS.add(floor_slate);
+        ModBlocks.BLOCKS.add(floor_slate_smooth);
+        ModBlocks.BLOCKS.add(floor_slate_brick);
         
     }
 
