@@ -3,7 +3,6 @@ package de.bigmachines.blocks.blocks.pipes;
 import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.DebugHelper;
 import de.bigmachines.utils.NBTHelper;
-import de.bigmachines.utils.classes.Pair;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -12,17 +11,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-import java.io.Serializable;
 import java.util.*;
 
-public class PipeNetwork implements Serializable {
+public class PipeNetwork {
 	private final TileEntityPipeBase root;
 	private final Set<Connection<TileEntityPipeBase>> pipes = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
 
 	protected PipeNetwork(final Capability<?> capability, final TileEntityPipeBase root) {
-		this.c = capability;
+		c = capability;
 		this.root = root;
 	}
 
@@ -65,14 +63,14 @@ public class PipeNetwork implements Serializable {
 	 */
 	public void remove(final TileEntityPipeBase pipe) {
 
-		Set<TileEntityPipeBase> pipes = null;
+		Set<TileEntityPipeBase> remainingPipes = null;
 		if (pipe.equals(root)) {
-			pipes = new HashSet<>();
-			for (final Connection<TileEntityPipeBase> c : this.pipes) {
-				pipes.add(c.a);
-				pipes.add(c.b);
+			remainingPipes = new HashSet<>();
+			for (final Connection<TileEntityPipeBase> conn : this.pipes) {
+				remainingPipes.add(conn.a);
+				remainingPipes.add(conn.b);
 			}
-			pipes.remove(pipe);
+			remainingPipes.remove(pipe);
 		}
 
 		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
@@ -80,17 +78,14 @@ public class PipeNetwork implements Serializable {
 
 		if (pipe.equals(root)) {
 			//root = getNewRoot();
-			final HashMap<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> roots = divideIntoGroups(pipes);
+			final HashMap<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> roots = divideIntoGroups(remainingPipes);
 			for (final Map.Entry<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> subtree : roots.entrySet()) {
-				System.out.println("Creating a new network @ " + subtree.getKey().getPos());
 				final PipeNetwork subnetwork = new PipeNetwork(c, subtree.getKey());
 				subtree.getKey().setNetwork(subnetwork);
 				for (final Connection<TileEntityPipeBase> child : subtree.getValue()) {
 					subnetwork.insert(child.a, child.b);
 					if (!child.a.getNetwork().equals(subnetwork)) child.a.setNetwork(subnetwork);
-					System.out.println(" - " + child.a.getPos());
 					if (!child.b.getNetwork().equals(subnetwork)) child.b.setNetwork(subnetwork);
-					System.out.println(" - " + child.b.getPos());
 				}
 			}
 		}
@@ -159,19 +154,19 @@ public class PipeNetwork implements Serializable {
 	 * @return a compound with every connection of this system.
 	 */
 	protected NBTTagCompound rootCompound() {
-		NBTTagCompound data = new NBTTagCompound();
+		final NBTTagCompound data = new NBTTagCompound();
 
-		NBTTagList pipeList = new NBTTagList();
-		for (Connection<TileEntityPipeBase> pipe : pipes) {
-			NBTTagCompound connection = new NBTTagCompound();
+		final NBTTagList pipeList = new NBTTagList();
+		for (final Connection<TileEntityPipeBase> pipe : pipes) {
+			final NBTTagCompound connection = new NBTTagCompound();
 			connection.setTag("a", NBTHelper.writeBlockPosToTag(pipe.a.getPos()));
 			connection.setTag("b", NBTHelper.writeBlockPosToTag(pipe.b.getPos()));
 			pipeList.appendTag(connection);
 		}
 
-		NBTTagList moduleList = new NBTTagList();
-		for (Connection<TileEntity> module : fModules) {
-			NBTTagCompound extension = new NBTTagCompound();
+		final NBTTagList moduleList = new NBTTagList();
+		for (final Connection<TileEntity> module : fModules) {
+			final NBTTagCompound extension = new NBTTagCompound();
 			extension.setTag("a", NBTHelper.writeBlockPosToTag(module.a.getPos()));
 			extension.setTag("b", NBTHelper.writeBlockPosToTag(module.b.getPos()));
 			moduleList.appendTag(extension);
