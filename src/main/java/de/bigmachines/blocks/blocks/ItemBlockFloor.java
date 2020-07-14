@@ -31,7 +31,7 @@ public class ItemBlockFloor extends ItemBlockBase {
             Block block = iblockstate.getBlock();
             BlockPos newPos = pos;
             
-            if(facing != EnumFacing.UP) {
+            if(facing != EnumFacing.UP && !block.isReplaceable(worldIn, pos)) {
             	iblockstate = worldIn.getBlockState(pos.offset(facing));
                 block = iblockstate.getBlock();
                 newPos = pos.offset(facing);
