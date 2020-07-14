@@ -68,7 +68,7 @@
     {
         "type": "mineable",
         "block-id": "bigmachines:limestone",
-        "max-per-chunk": 4,
+        "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
         "max-height": 80
@@ -76,7 +76,7 @@
     {
         "type": "mineable",
         "block-id": "bigmachines:blackstone",
-        "max-per-chunk": 4,
+        "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
         "max-height": 80
@@ -84,7 +84,7 @@
     {
         "type": "mineable",
         "block-id": "bigmachines:marble",
-        "max-per-chunk": 4,
+        "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
         "max-height": 80
@@ -92,7 +92,7 @@
     {
         "type": "mineable",
         "block-id": "bigmachines:slate",
-        "max-per-chunk": 4,
+        "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
         "max-height": 80

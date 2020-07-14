@@ -31,11 +31,12 @@ public class ItemBlockFloor extends ItemBlockBase {
             Block block = iblockstate.getBlock();
             BlockPos newPos = pos;
             
-            if(facing != EnumFacing.UP && !block.isReplaceable(worldIn, pos)) {
+            if((block != this.block || (facing != (BlockFloor.EnumBlockHalf.TOP.equals(iblockstate.getValue(BlockFloor.HALF)) ? EnumFacing.DOWN : EnumFacing.UP))) && !block.isReplaceable(worldIn, pos)) {
             	iblockstate = worldIn.getBlockState(pos.offset(facing));
                 block = iblockstate.getBlock();
                 newPos = pos.offset(facing);
             }
+            
             if(block == this.block) {
             	int i = ((Integer)iblockstate.getValue(BlockFloor.LAYERS)).intValue();
             	if(i < 8) {

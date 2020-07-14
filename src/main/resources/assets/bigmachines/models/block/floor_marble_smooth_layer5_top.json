@@ -1,0 +1,7 @@
+{
+    "parent": "bigmachines:block/floor_layer5_top",
+    "textures": {
+        "particle": "bigmachines:block/marble_smooth",
+        "tex": "bigmachines:block/marble_smooth"
+    }
+}
