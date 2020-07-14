@@ -65,7 +65,7 @@ public class ItemBlockFloor extends ItemBlockBase {
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
         IBlockState state = worldIn.getBlockState(pos);
-        if(side == EnumFacing.UP && (state.getBlock() == this.block && ((Integer)state.getValue(BlockFloor.LAYERS)) < 8)) {
+        if(state.getBlock() == this.block && side == (BlockFloor.EnumBlockHalf.TOP.equals(state.getValue(BlockFloor.HALF)) ? EnumFacing.DOWN : EnumFacing.UP) && ((Integer)state.getValue(BlockFloor.LAYERS)) < 8) {
         	return true;
         } else {
             state = worldIn.getBlockState(pos.offset(side));

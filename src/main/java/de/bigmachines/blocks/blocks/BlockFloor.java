@@ -1,9 +1,11 @@
 package de.bigmachines.blocks.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
+import de.bigmachines.items.IInfoProviderShift;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -12,6 +14,8 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +28,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFloor extends BlockBase {
+public class BlockFloor extends BlockBase implements IInfoProviderShift {
 	
 	public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
     public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.<EnumBlockHalf>create("half", EnumBlockHalf.class);
@@ -137,6 +141,13 @@ public class BlockFloor extends BlockBase {
         public String getName() {
             return this.name;
         }
+	}
+
+	@Override
+	public void addShiftInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, ITooltipFlag flags) {
+		toolTip.add(I18n.format("info.bigmachines.floor1.shift"));
+		toolTip.add(I18n.format("info.bigmachines.floor2.shift"));
+		toolTip.add(I18n.format("info.bigmachines.floor3.shift"));
 	}
 	
 }

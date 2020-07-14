@@ -94,6 +94,9 @@ info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen
 info.bigmachines.harvestlevel.shift=Abbau-Level
 info.bigmachines.wrench.shift=Wenn Schraubenschlüssel Knopf gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
 info.bigmachines.armor_west.shift=Aktuelles Armor-Level:
+info.bigmachines.floor1.shift=Kann als Boden und Decke platziert werden
+info.bigmachines.floor2.shift=Ist 1/8 Block
+info.bigmachines.floor3.shift=Kann bis zu 8 pro Block gestapelt werden.
 
 info.bigmachines.burntime=Brennzeit
 info.bigmachines.charge=Ladung

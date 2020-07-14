@@ -94,6 +94,9 @@ info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
 info.bigmachines.harvestlevel.shift=Harvesting Level
 info.bigmachines.wrench.shift=If wrench key pressed, scroll over side of a machine to cycle through settings
 info.bigmachines.armor_west.shift=Current armor rating:
+info.bigmachines.floor1.shift=Can be placed as floor and ceiling
+info.bigmachines.floor2.shift=Is 1/8 block
+info.bigmachines.floor3.shift=Can be stacked up to 8 per block
 
 info.bigmachines.burntime=Burntime
 info.bigmachines.charge=Charge
