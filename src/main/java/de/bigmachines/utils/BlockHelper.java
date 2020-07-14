@@ -4,7 +4,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -42,12 +45,12 @@ public class BlockHelper {
 		final int distX = to.getX() - from.getX();
 		final int distY = to.getY() - from.getY();
 		final int distZ = to.getZ() - from.getZ();
-		if (distX == +1 && distY == 00 && distZ == 00) return EnumFacing.WEST;
-		if (distX == -1 && distY == 00 && distZ == 00) return EnumFacing.EAST;
-		if (distX == 00 && distY == +1 && distZ == 00) return EnumFacing.DOWN;
-		if (distX == 00 && distY == -1 && distZ == 00) return EnumFacing.UP;
-		if (distX == 00 && distY == 00 && distZ == +1) return EnumFacing.NORTH;
-		if (distX == 00 && distY == 00 && distZ == -1) return EnumFacing.SOUTH;
+		if (distX == +1 && distY == 00 && distZ == 00) return EnumFacing.EAST;
+		if (distX == -1 && distY == 00 && distZ == 00) return EnumFacing.WEST;
+		if (distX == 00 && distY == +1 && distZ == 00) return EnumFacing.UP;
+		if (distX == 00 && distY == -1 && distZ == 00) return EnumFacing.DOWN;
+		if (distX == 00 && distY == 00 && distZ == +1) return EnumFacing.SOUTH;
+		if (distX == 00 && distY == 00 && distZ == -1) return EnumFacing.NORTH;
 		return null;
 	}
 	

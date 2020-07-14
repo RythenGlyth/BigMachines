@@ -7,28 +7,17 @@ import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
-import de.bigmachines.utils.BlockHelper;
-import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.Pair;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -45,28 +34,6 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 		super("wrench");
 		setCreativeTab(ModCreativeTabs.modTab);
 		setMaxStackSize(1);
-	}
-
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		Block clickedAt = worldIn.getBlockState(pos).getBlock();
-		if (clickedAt.equals(Blocks.STONE)) {
-			System.out.println("clicked on stone");
-			ItemStack wrench = player.getHeldItem(hand);
-			if (wrench.getItem() instanceof ItemWrench) {
-				System.out.println("using a wrench");
-				NBTTagCompound compound = wrench.hasTagCompound() ? wrench.getTagCompound() : new NBTTagCompound();
-				if (compound.hasKey("debug-first-pos")) {
-					System.out.println("first person is set:");
-					BlockPos firstpos = NBTHelper.readTagToBlockPos(compound.getCompoundTag("debug-first-pos"));
-					EnumFacing connecting = BlockHelper.getConnectingFace(firstpos, pos);
-					player.sendMessage(new TextComponentString(connecting == null ? "no connection" : connecting.toString()));
-					System.out.println(connecting);
-				} else compound.setTag("debug-first-pos", NBTHelper.writeBlockPosToTag(pos));
-			wrench.setTagCompound(compound);
-			}
-		}
-		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 
 	@Override
