@@ -48,14 +48,11 @@ public final class FileHelper {
 			final InputStream in = Loader.getResource(folder, null).openStream();
 			final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			
-			System.out.println("------------------------------");
 			while(reader.ready()) {
 				final String line = reader.readLine();
-				System.out.println(line);
 				final BufferedReader file = new BufferedReader(new InputStreamReader(Loader.getResource(folder + line, null).openStream()));
 				files.put(line, file.lines().collect(Collectors.joining("\n")));
 			}
-			System.out.println("------------------------------");
 			reader.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();

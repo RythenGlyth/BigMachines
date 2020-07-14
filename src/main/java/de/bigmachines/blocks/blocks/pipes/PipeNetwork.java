@@ -1,8 +1,8 @@
 package de.bigmachines.blocks.blocks.pipes;
 
 import de.bigmachines.utils.BlockHelper;
+import de.bigmachines.utils.DebugHelper;
 import de.bigmachines.utils.NBTHelper;
-import de.bigmachines.utils.classes.Pair;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -11,41 +11,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-import java.io.Serializable;
 import java.util.*;
 
-public class PipeNetwork implements Serializable {
+public class PipeNetwork {
 	private final TileEntityPipeBase root;
 	private final Set<Connection<TileEntityPipeBase>> pipes = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
-	private final Capability c;
+	private final Capability<?> c;
 
-	protected PipeNetwork(final Capability c, final TileEntityPipeBase root) {
-		this.c = c;
+	protected PipeNetwork(final Capability<?> capability, final TileEntityPipeBase root) {
+		c = capability;
 		this.root = root;
-	}
-
-	/**
-	 * Reconstructs a network based on an nbt compound that was generated for it.
-	 *
-	 * @param compound an nbt compound as returned by #rootCompound()
-	 */
-	protected static PipeNetworkTemplate genTemplate(final Capability c, final BlockPos root, final NBTTagCompound compound) {
-		PipeNetworkTemplate template = new PipeNetworkTemplate(c, root);
-
-		// type 10 for NBTTagCompound
-		NBTTagList pipeList = compound.getTagList("pipeList", 10);
-		NBTTagList moduleList = compound.getTagList("moduleList", 10);
-
-		for (int i = 0; i < pipeList.tagCount(); i++) {
-			NBTTagCompound connection = pipeList.getCompoundTagAt(i);
-			Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")), NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
-			template.addPipe(conn);
-		}
-
-		// TODO restore modules
-		// TODO testing
-        // TODO try-catch all the casting
 	}
 
 	protected TileEntityPipeBase getRoot() {
@@ -54,7 +30,6 @@ public class PipeNetwork implements Serializable {
 
 	/**
 	 * Merges this pipe network into another,
-	 * @param other
 	 */
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
 		other.pipes.addAll(pipes);
@@ -71,53 +46,46 @@ public class PipeNetwork implements Serializable {
 	 * @param pipe has to be directly adjacent as well as connected to the system
 	 */
 	public void insert(final TileEntityPipeBase inserter, final TileEntityPipeBase pipe) {
-		pipes.add(new Connection<TileEntityPipeBase>(inserter, pipe));
+		pipes.add(new Connection<>(inserter, pipe));
 	}
 
 	/**
 	 * Adds a module *that is not a pipe* to this network.
-	 * @param fModule
+	 * @param fModule the TileEntityPipeBase of the pipe that was destroyed
 	 */
 	public void addModule(final TileEntityPipeBase inserter, final TileEntity fModule) {
-		fModules.add(new Connection<TileEntity>(inserter, fModule));
+		fModules.add(new Connection<>(inserter, fModule));
 	}
 
 	/**
 	 * To call when a pipe of this network is destroyed.
-	 * @param pipe
+	 * @param pipe the TileEntityPipeBase of the pipe that was destroyed
 	 */
 	public void remove(final TileEntityPipeBase pipe) {
 
-		Set<TileEntityPipeBase> pipes = null;
+		Set<TileEntityPipeBase> remainingPipes = null;
 		if (pipe.equals(root)) {
-			pipes = new HashSet<>();
-			for (final Connection<TileEntityPipeBase> c : this.pipes) {
-				pipes.add(c.a);
-				pipes.add(c.b);
+			remainingPipes = new HashSet<>();
+			for (final Connection<TileEntityPipeBase> conn : this.pipes) {
+				remainingPipes.add(conn.a);
+				remainingPipes.add(conn.b);
 			}
-			pipes.remove(pipe);
+			remainingPipes.remove(pipe);
 		}
 
-		fModules.removeIf(connection -> {
-			return connection.a.equals(pipe) || connection.b.equals(pipe);
-		});
-		this.pipes.removeIf (connection -> {
-			return connection.a.equals(pipe) || connection.b.equals(pipe);
-		});
+		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
+		this.pipes.removeIf (connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 
 		if (pipe.equals(root)) {
 			//root = getNewRoot();
-			final HashMap<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> roots = divideIntoGroups(pipes);
+			final HashMap<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> roots = divideIntoGroups(remainingPipes);
 			for (final Map.Entry<TileEntityPipeBase, Set<Connection<TileEntityPipeBase>>> subtree : roots.entrySet()) {
-				System.out.println("Creating a new network @ " + subtree.getKey().getPos());
 				final PipeNetwork subnetwork = new PipeNetwork(c, subtree.getKey());
 				subtree.getKey().setNetwork(subnetwork);
 				for (final Connection<TileEntityPipeBase> child : subtree.getValue()) {
 					subnetwork.insert(child.a, child.b);
 					if (!child.a.getNetwork().equals(subnetwork)) child.a.setNetwork(subnetwork);
-					System.out.println(" - " + child.a.getPos());
 					if (!child.b.getNetwork().equals(subnetwork)) child.b.setNetwork(subnetwork);
-					System.out.println(" - " + child.b.getPos());
 				}
 			}
 		}
@@ -140,7 +108,7 @@ public class PipeNetwork implements Serializable {
 				ds.discover();
 				groups.put(next, ds.connections);
 				unknown.removeAll(ds.lengths.keySet());
-			} catch (final NoSuchElementException ex) {} // there are no more elements
+			} catch (final NoSuchElementException ignored) {} // there are no more elements
 		}
 
 		return groups;
@@ -152,7 +120,6 @@ public class PipeNetwork implements Serializable {
 
 	/**
 	 * Clears all *modules* adjacent to the pipe at the provided position
-	 * @param pos
 	 */
 	public void clearAdjacentModules(final World world, final BlockPos pos) {
 		for (final EnumFacing side : EnumFacing.values()) {
@@ -163,7 +130,8 @@ public class PipeNetwork implements Serializable {
 	void debugInfo(final TileEntityPipeBase home) {
 		System.out.println("===============================================");
 		System.out.println("network with capability " + c);
-		System.out.println("root " + root.hashCode() + " @ " + root.getPos());
+		if (root == null) System.out.println("root is null");
+		else System.out.println("root " + root.hashCode() + " @ " + root.getPos());
 		System.out.println("pipes:");
 		for (final Connection<TileEntityPipeBase> pipe : pipes)
 			System.out.println(" x " + pipe.a.getPos() + " <-> " + pipe.b.getPos());
@@ -175,16 +143,8 @@ public class PipeNetwork implements Serializable {
 		final DepthSearch ds = new DepthSearch(home);
 		ds.discover();
 
-		final List<Map.Entry<TileEntityPipeBase, Integer>> entries = new LinkedList(ds.lengths.entrySet());
-		Collections.sort(entries, new Comparator() {
-		    public int compare(final Object o1, final Object o2) {
-				return ((Map.Entry<TileEntityPipeBase, Integer>) o1).getValue()
-					- ((Map.Entry<TileEntityPipeBase, Integer>) o2).getValue();
-			}
-		});
-		final HashMap<TileEntityPipeBase, Integer> sortedLengths = new LinkedHashMap<>();
-		for (final Map.Entry<TileEntityPipeBase, Integer> entry : entries)
-			System.out.println(entry.getKey().getPos() + ", " + entry.getValue() + " away");
+		DebugHelper.printMapSortedByValue(ds.lengths, entity -> entity.getPos().toString());
+
 		System.out.println("===============================================");
 	}
 
@@ -194,19 +154,19 @@ public class PipeNetwork implements Serializable {
 	 * @return a compound with every connection of this system.
 	 */
 	protected NBTTagCompound rootCompound() {
-		NBTTagCompound data = new NBTTagCompound();
+		final NBTTagCompound data = new NBTTagCompound();
 
-		NBTTagList pipeList = new NBTTagList();
-		for (Connection<TileEntityPipeBase> pipe : pipes) {
-			NBTTagCompound connection = new NBTTagCompound();
+		final NBTTagList pipeList = new NBTTagList();
+		for (final Connection<TileEntityPipeBase> pipe : pipes) {
+			final NBTTagCompound connection = new NBTTagCompound();
 			connection.setTag("a", NBTHelper.writeBlockPosToTag(pipe.a.getPos()));
 			connection.setTag("b", NBTHelper.writeBlockPosToTag(pipe.b.getPos()));
 			pipeList.appendTag(connection);
 		}
 
-		NBTTagList moduleList = new NBTTagList();
-		for (Connection<TileEntity> module : fModules) {
-			NBTTagCompound extension = new NBTTagCompound();
+		final NBTTagList moduleList = new NBTTagList();
+		for (final Connection<TileEntity> module : fModules) {
+			final NBTTagCompound extension = new NBTTagCompound();
 			extension.setTag("a", NBTHelper.writeBlockPosToTag(module.a.getPos()));
 			extension.setTag("b", NBTHelper.writeBlockPosToTag(module.b.getPos()));
 			moduleList.appendTag(extension);
@@ -219,7 +179,6 @@ public class PipeNetwork implements Serializable {
 	}
 
 	private class DepthSearch {
-		private final TileEntityPipeBase searchRoot;
 		private final Map<TileEntityPipeBase, Integer> lengths = new HashMap<>();
 		private final Set<Connection<TileEntityPipeBase>> connections = new HashSet<>();
 
@@ -229,7 +188,6 @@ public class PipeNetwork implements Serializable {
 		private static final long MAX_RUNS = 1000000;
 
 		private DepthSearch(final TileEntityPipeBase searchRoot) {
-			this.searchRoot = searchRoot;
 			lengths.put(searchRoot, 0);
 			unknown.put(searchRoot, 0);
 		}
@@ -250,12 +208,12 @@ public class PipeNetwork implements Serializable {
 			if (!lengths.containsKey(node) || lengths.get(node) > distance) {
 				lengths.put(node, distance);
 				unknown.put(node, distance);
-				connections.add(new Connection(inserter, node));
+				connections.add(new Connection<>(inserter, node));
 			}
 		}
 	}
 
-	private class Connection<T extends TileEntity> {
+	private static class Connection<T extends TileEntity> {
 		private final T a;
 		private final T b;
 
@@ -291,7 +249,7 @@ public class PipeNetwork implements Serializable {
 			if (this == other) return true;
 			if (other == null) return false;
 			if (other instanceof Connection) {
-				final Connection c = (Connection) other;
+				final Connection<?> c = (Connection<?>) other;
 				return a.equals(c.a) && b.equals(c.b);
 			}
 			return false;
