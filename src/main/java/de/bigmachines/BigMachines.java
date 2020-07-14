@@ -56,6 +56,7 @@ public class BigMachines {
 
         MinecraftForge.EVENT_BUS.register(new ModItems());
 		MinecraftForge.EVENT_BUS.register(new ModBlocks());
+		MinecraftForge.EVENT_BUS.register(new ModEntities());
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
 		MinecraftForge.EVENT_BUS.register(new Config());
 		MinecraftForge.EVENT_BUS.register(new GiveItemManualHandler());
@@ -65,6 +66,7 @@ public class BigMachines {
 		ModCreativeTabs.init();
 		ModItems.preInit();
 		ModBlocks.preInit();
+		ModEntities.preInit();
 		ModMaterials.preInit();
 		ModTileEntities.init();
 

@@ -1,13 +1,16 @@
 package de.bigmachines.proxy;
 
 import de.bigmachines.config.ManualLoader;
+import de.bigmachines.entities.EntitySpaceshipOfficer;
 import de.bigmachines.handler.*;
 import de.bigmachines.handler.hud.HUDTickHandler;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.interfaces.IModelRegister;
 import de.bigmachines.items.items.ItemWrench;
+import de.bigmachines.render.RenderEntitySpaceshipOfficer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class ClientProxy implements CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
 		
 		ModKeybinds.init();
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpaceshipOfficer.class, RenderEntitySpaceshipOfficer::new);
 		
 	}
 
