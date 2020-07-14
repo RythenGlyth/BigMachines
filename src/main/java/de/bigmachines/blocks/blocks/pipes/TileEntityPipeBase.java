@@ -138,9 +138,9 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 						throw new RuntimeException("wrong module @ " + a + " and " + b);
 				}
 
-			} else if (network.getRoot() == null || network.getRoot().network == null) { // I am not root, init network on root
+//			} else if (network.getRoot() == null || network.getRoot().network == null) { // I am not root, init network on root
 				// FIXME this might lead to an infinite loop on startup and might be unneeded
-				network.getRoot().update();
+//				network.getRoot().update();
 			}
 		}
 	}
