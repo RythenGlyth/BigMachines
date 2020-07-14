@@ -1,0 +1,10 @@
+Contrast -60
+Color Balance: Red +19.7
+Brightness: -37
+
+HSV Noise:
+Dulling 2
+Hue 3.0
+Saturation 0.335
+Value 0.113
+Seed 0

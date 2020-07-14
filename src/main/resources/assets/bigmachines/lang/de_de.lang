@@ -33,6 +33,7 @@ item.bigmachines.nugget_lead.name=Bleiklumpen
 item.bigmachines.nugget_aluminum.name=Aluminiumklupmpen
 
 item.bigmachines.slime_boots.name=Slime Schuhe
+item.bigmachines.armor_west.name=Rüstungsweste
 item.bigmachines.manual.name=Big Machines Anleitung
 
 item.bigmachines.wrench.name=Schraubenschlüssel
@@ -92,6 +93,7 @@ info.bigmachines.press_strg=Halte §e§l[STRG]§r§7 für Details
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
 info.bigmachines.harvestlevel.shift=Abbau-Level
 info.bigmachines.wrench.shift=Wenn Schraubenschlüssel Knopf gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.armor_west.shift=Aktuelles Armor-Level:
 
 info.bigmachines.burntime=Brennzeit
 info.bigmachines.charge=Ladung
