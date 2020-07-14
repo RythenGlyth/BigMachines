@@ -33,6 +33,7 @@ item.bigmachines.nugget_lead.name=Lead Nugget
 item.bigmachines.nugget_aluminum.name=Aluminum Nugget
 
 item.bigmachines.slime_boots.name=Slime Boots
+item.bigmachines.armor_west.name=Armor West
 item.bigmachines.manual.name=Big Machines Manual
 
 item.bigmachines.wrench.name=Wrench
@@ -77,8 +78,9 @@ info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details
 info.bigmachines.press_strg=Hold §e§l[STRG]§r§7 for Details
 
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
-info.bigmachines.harvestlevel.shift=Abbau-Level
+info.bigmachines.harvestlevel.shift=Harvesting Level
 info.bigmachines.wrench.shift=If wrench key pressed, scroll over side of a machine to cycle through settings
+info.bigmachines.armor_west.shift=Current armor rating:
 
 info.bigmachines.burntime=Burntime
 info.bigmachines.charge=Charge
