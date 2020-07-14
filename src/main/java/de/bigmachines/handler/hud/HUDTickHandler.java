@@ -1,6 +1,7 @@
-package de.bigmachines.handler;
+package de.bigmachines.handler.hud;
 
 import de.bigmachines.config.Config;
+import de.bigmachines.handler.hud.elements.HUDElement;
 import de.bigmachines.items.IHUDInfoProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -22,7 +23,7 @@ import java.util.List;
 public class HUDTickHandler {
 	
 	private static final Minecraft mc = Minecraft.getMinecraft();
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(receiveCanceled = true)
 	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
@@ -31,46 +32,46 @@ public class HUDTickHandler {
 		}
 		if (mc.player != null) {
 			if ((mc.currentScreen == null || Config.isShowHUDWhileChatting() && mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative) && !mc.gameSettings.hideGUI && !mc.gameSettings.showDebugInfo) {
-				List<String> info = new ArrayList<>();
+				List<HUDElement> hudElements = new ArrayList<>();
 				
 				ItemStack head = mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 				if (head != null && head.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) head.getItem();
-					provider.addHUDInfo(info, head);
+					provider.addHUDInfo(hudElements, head);
 				}
 				
 				ItemStack chestplate = mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 				if (chestplate != null && chestplate.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) chestplate.getItem();
-					provider.addHUDInfo(info, chestplate);
+					provider.addHUDInfo(hudElements, chestplate);
 				}
 				
 				ItemStack legs = mc.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
 				if (legs != null && legs.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) legs.getItem();
-					provider.addHUDInfo(info, legs);
+					provider.addHUDInfo(hudElements, legs);
 				}
 				
 				ItemStack feet = mc.player.getItemStackFromSlot(EntityEquipmentSlot.FEET);
 				if (feet != null && feet.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) feet.getItem();
-					provider.addHUDInfo(info, feet);
+					provider.addHUDInfo(hudElements, feet);
 				}
 				
 				ItemStack main_hand = mc.player.getHeldItem(EnumHand.MAIN_HAND);
 				if (main_hand != null && main_hand.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) main_hand.getItem();
-					provider.addHUDInfo(info, main_hand);
+					provider.addHUDInfo(hudElements, main_hand);
 				}
 				
 				ItemStack off_hand = mc.player.getHeldItem(EnumHand.OFF_HAND);
 				if (off_hand != null && off_hand.getItem() instanceof IHUDInfoProvider) {
 					IHUDInfoProvider provider = (IHUDInfoProvider) off_hand.getItem();
-					provider.addHUDInfo(info, off_hand);
+					provider.addHUDInfo(hudElements, off_hand);
 				}
 				
 				
-				if (info.isEmpty()) {
+				if (hudElements.isEmpty()) {
 					return;
 				}
 				
@@ -78,11 +79,11 @@ public class HUDTickHandler {
 
 				GL11.glPushMatrix();
 				mc.entityRenderer.setupOverlayRendering();
-				//GL11.glScaled(Config.HUDScale, Config.HUDScale, 1.0D);
 				
 				int i = 0;
-				for (String s : info) {
-					mc.fontRenderer.drawString(s, 5, 5, 0xffffff);
+				for (HUDElement el : hudElements) {
+					el.draw();
+					//mc.fontRenderer.drawString(s, 5, 5, 0xffffff);
 					//RenderUtils.drawStringAtHUDPosition(s, Settings.hudPosition, mc.fontRenderer, Config.HUDOffsetX, Config.HUDOffsetY, Config.HUDScale, 0xeeeeee, true, i);
 					i++;
 				}
