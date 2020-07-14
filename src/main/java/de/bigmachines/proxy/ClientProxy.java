@@ -2,6 +2,7 @@ package de.bigmachines.proxy;
 
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.handler.*;
+import de.bigmachines.handler.hud.HUDTickHandler;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.interfaces.IModelRegister;
 import de.bigmachines.items.items.ItemWrench;
