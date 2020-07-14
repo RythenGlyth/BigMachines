@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -27,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,11 +44,12 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	protected final HashMap<EnumFacing, PipeAttachment> attachments;
 	protected final Capability<?> capability;
 
-	private PipeNetworkTemplate template; // only set on root
-	private BlockPos rootPos; // set on all when template is set too
-	private PipeNetwork network;
+	//private PipeNetworkTemplate template; // only set on root
+	//private BlockPos rootPos; // set on all when template is set too
+	private NBTTagCompound compound;
 
-	private static TileEntityPipeBase last;
+	private PipeNetwork network;
+	//private static TileEntityPipeBase last;
 
 	public TileEntityPipeBase(final Capability<?> capability) {
 		super();
@@ -80,7 +83,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
 	    if (!world.isRemote) {
-			if (network != null && !compound.hasKey("network")) {
+	    	// FIXME network.getRoot() is for some reason null
+			if (network != null && network.getRoot() != null && !compound.hasKey("network")) {
 				NBTTagCompound networkTag = new NBTTagCompound();
 				networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
 
@@ -97,49 +101,53 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
-		if (template == null && rootPos == null && network == null) {
-		    boolean print;
-			if (compound.getInteger("x") == 34 && compound.getInteger("z") == 25) print = true;
-			else print = false;
-			if (print) System.out.println("=================");
-			if (print) System.out.println("I am " + this.toString());
-			if (print) System.out.println((template == null) + "" + (rootPos == null) + "" + (network == null));
-			BlockPos myPos = NBTHelper.readTagToBlockPos(compound); // x, y, z are saved on the TE as well.
-			if (print) System.out.println("compound: " + compound);
-			NBTTagCompound networkTag = compound.getCompoundTag("network");
-			if (print) System.out.println("network: " + networkTag);
-			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-			if (print) System.out.println("root: " + networkRootTag);
-			rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
-			if (rootPos.equals(myPos)) {
-				if (print) System.out.println("i am root!");
-				NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
-				template = PipeNetwork.genTemplate(capability, rootPos, networkDataTag);
-				if (world != null)
-					network = template.realize(world);
-			} else {
-				if (print) System.out.println("i am not root: " + rootPos + " =!= " + myPos);
-			}
-			if (print) System.out.println((template == null) + "" + (rootPos == null) + "" + (network == null));
-			if (print) System.out.println("^^^^^^^^^^^^^^^^^^^^^^^");
-		}
+		if (FMLCommonHandler.instance().getEffectiveSide().isServer() && this.compound == null)
+			this.compound = compound; // this is so stupid, I can't believe it actually works.
+
 		super.readFromNBT(compound);
 	}
 
 	@Override
-	public void setWorld(@Nonnull World worldIn) {
-		if (network == null && template != null) {
-			System.out.println("realizing template @ " + getPos());
-			network = template.realize(worldIn);
-			template = null;
-		}
-
-		super.setWorld(worldIn);
-	}
-
-	@Override
 	public void update() {
-		
+		if (world != null && !world.isRemote && compound != null && network == null) {
+			NBTTagCompound networkTag = compound.getCompoundTag("network");
+			NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+			BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
+			network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
+			System.out.println(network);
+
+			if (rootPos.equals(getPos())) {
+				NBTTagList pipeList = compound.getTagList("pipeList", 10);
+				NBTTagList moduleList = compound.getTagList("moduleList", 10);
+
+				for (int i = 0; i < pipeList.tagCount(); i++) {
+					NBTTagCompound connection = pipeList.getCompoundTagAt(i);
+					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
+					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
+					network.insert((TileEntityPipeBase) world.getTileEntity(a),
+							(TileEntityPipeBase) world.getTileEntity(b));
+				}
+
+				for (int i = 0; i < moduleList.tagCount(); i++) {
+					NBTTagCompound module = moduleList.getCompoundTagAt(i);
+					final TileEntity a = world.getTileEntity(
+							NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
+					final TileEntity b = world.getTileEntity(
+							NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+					if (a instanceof TileEntityPipeBase && !(b instanceof TileEntityPipeBase))
+						network.addModule((TileEntityPipeBase) a, b);
+					else if (!(a instanceof TileEntityPipeBase) && b instanceof TileEntityPipeBase)
+						network.addModule((TileEntityPipeBase) b, a);
+					else
+						throw new RuntimeException("wrong module @ " + a + " and " + b);
+				}
+
+			}
+		} else if (network.getRoot().network == null) {
+				// FIXME this might lead to an infinite loop on startup
+				network.getRoot().update();
+			}
+		}
 	}
 	
 	@Override

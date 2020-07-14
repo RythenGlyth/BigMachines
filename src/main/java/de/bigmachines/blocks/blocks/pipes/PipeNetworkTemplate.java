@@ -1,6 +1,9 @@
 package de.bigmachines.blocks.blocks.pipes;
 
+import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.Pair;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -50,3 +53,35 @@ public class PipeNetworkTemplate {
     }
 
 }
+    /**
+     * Reconstructs a network based on an nbt compound that was generated for it.
+     *
+     * @param compound an nbt compound as returned by #rootCompound()
+     */
+    protected static PipeNetworkTemplate genTemplate(final Capability<?> c, final BlockPos root, final NBTTagCompound compound) {
+        PipeNetworkTemplate template = new PipeNetworkTemplate(c, root);
+
+        // type 10 for NBTTagCompound
+        NBTTagList pipeList = compound.getTagList("pipeList", 10);
+        NBTTagList moduleList = compound.getTagList("moduleList", 10);
+
+        for (int i = 0; i < pipeList.tagCount(); i++) {
+            NBTTagCompound connection = pipeList.getCompoundTagAt(i);
+            Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")),
+                    NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
+            template.addPipe(conn);
+        }
+
+        for (int i = 0; i < moduleList.tagCount(); i++) {
+            NBTTagCompound module = moduleList.getCompoundTagAt(i);
+            Pair<BlockPos, BlockPos> mod = new Pair<>(NBTHelper.readTagToBlockPos(module.getCompoundTag("a")),
+                    NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+            template.addModule(mod);
+        }
+
+        return template;
+
+        // TODO testing
+        // TODO try-catch all the casting
+    }
+

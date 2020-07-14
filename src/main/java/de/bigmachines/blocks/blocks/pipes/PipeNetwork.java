@@ -21,41 +21,9 @@ public class PipeNetwork implements Serializable {
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
 
-	protected PipeNetwork(final Capability<?> c, final TileEntityPipeBase root) {
-		this.c = c;
+	protected PipeNetwork(final Capability<?> capability, final TileEntityPipeBase root) {
+		this.c = capability;
 		this.root = root;
-	}
-
-	/**
-	 * Reconstructs a network based on an nbt compound that was generated for it.
-	 *
-	 * @param compound an nbt compound as returned by #rootCompound()
-	 */
-	protected static PipeNetworkTemplate genTemplate(final Capability<?> c, final BlockPos root, final NBTTagCompound compound) {
-		PipeNetworkTemplate template = new PipeNetworkTemplate(c, root);
-
-		// type 10 for NBTTagCompound
-		NBTTagList pipeList = compound.getTagList("pipeList", 10);
-		NBTTagList moduleList = compound.getTagList("moduleList", 10);
-
-		for (int i = 0; i < pipeList.tagCount(); i++) {
-			NBTTagCompound connection = pipeList.getCompoundTagAt(i);
-			Pair<BlockPos, BlockPos> conn = new Pair<>(NBTHelper.readTagToBlockPos(connection.getCompoundTag("a")),
-					NBTHelper.readTagToBlockPos(connection.getCompoundTag("b")));
-			template.addPipe(conn);
-		}
-
-		for (int i = 0; i < moduleList.tagCount(); i++) {
-			NBTTagCompound module = moduleList.getCompoundTagAt(i);
-			Pair<BlockPos, BlockPos> mod = new Pair<>(NBTHelper.readTagToBlockPos(module.getCompoundTag("a")),
-					NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
-			template.addModule(mod);
-		}
-
-		return template;
-
-		// TODO testing
-        // TODO try-catch all the casting
 	}
 
 	protected TileEntityPipeBase getRoot() {
@@ -167,7 +135,8 @@ public class PipeNetwork implements Serializable {
 	void debugInfo(final TileEntityPipeBase home) {
 		System.out.println("===============================================");
 		System.out.println("network with capability " + c);
-		System.out.println("root " + root.hashCode() + " @ " + root.getPos());
+		if (root == null) System.out.println("root is null");
+		else System.out.println("root " + root.hashCode() + " @ " + root.getPos());
 		System.out.println("pipes:");
 		for (final Connection<TileEntityPipeBase> pipe : pipes)
 			System.out.println(" x " + pipe.a.getPos() + " <-> " + pipe.b.getPos());
