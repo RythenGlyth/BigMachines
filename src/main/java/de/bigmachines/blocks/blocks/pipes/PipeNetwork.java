@@ -17,7 +17,7 @@ import java.util.*;
 
 public class PipeNetwork {
 	private final TileEntityPipeBase root;
-	private final Set<Connection<TileEntityPipeBase>> pipes = new HashSet<>();
+	private final Set<Connection<TileEntityPipeBase>> connections = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
 
@@ -30,29 +30,10 @@ public class PipeNetwork {
 		return root;
 	}
 
-	/**
-	 * Merges this pipe network into another,
-	 * FIXME doesn't discover the outer one on this setup
-	 *     |                    |
-	 *     |                    |
-	 * - - o - -      ->    - - + - -
-	 *     |                    |
-	 *     |                    |
-	 * also place step 1, then save and quit, relog and place step 2, root is null.
-	 *
-	 * also:
-	 * + - +             + - +
-	 * |   |             |   |
-	 * + - o - +      -> + - + - +
-	 *     |   |             |   |
-	 *     + - +             + - +
-	 *
-	 *
-	 */
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
-		other.pipes.addAll(pipes);
-		other.pipes.add(new Connection<TileEntityPipeBase>(merger1, merger2));
-		for (final Connection<TileEntityPipeBase> pipe : pipes) {
+		other.connections.addAll(connections);
+		other.connections.add(new Connection<TileEntityPipeBase>(merger1, merger2));
+		for (final Connection<TileEntityPipeBase> pipe : connections) {
 			pipe.a.setNetwork(other);
 			pipe.b.setNetwork(other);
 		}
@@ -66,7 +47,7 @@ public class PipeNetwork {
 	public void insert(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
 		// FIXME why did it import a null pipe on world reload?
 		if (inserter != null && pipe != null)
-			pipes.add(new Connection<>(inserter, pipe));
+			connections.add(new Connection<>(inserter, pipe));
 		else
 			System.out.println("attempting to insert null pipe: " + inserter + ", " + pipe);
 	}
@@ -87,28 +68,13 @@ public class PipeNetwork {
 	 */
 	public void remove(final TileEntityPipeBase pipe) {
 
-/*j
-		Set<TileEntityPipeBase> remainingPipes = null;
-		if (pipe.equals(root)) {
-			remainingPipes = new HashSet<>();
-			for (final Connection<TileEntityPipeBase> conn : this.pipes) {
-				remainingPipes.add(conn.a);
-				remainingPipes.add(conn.b);
-			}
-			remainingPipes.remove(pipe);
-		}
-*/
-
 		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
-		this.pipes.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
+		this.connections.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 
-		if (pipe.equals(root)) { // if the pipe to remove is the root, we have to do some fiddling:
-			System.out.println("splitting up the network:");
+		//if (pipe.equals(root)) { // if the pipe to remove is the root, we have to do some fiddling:
 			// new roots -> their children
 			final HashMap<TileEntityPipeBase, Set<TileEntityPipeBase>> roots = divideIntoGroups(pipe);
-			System.out.println(roots.size() + " subs:");
 			for (final Map.Entry<TileEntityPipeBase, Set<TileEntityPipeBase>> subtree : roots.entrySet()) {
-				System.out.println(" - " + subtree.getKey() + " with " + subtree.getValue());
 				// create a new network for this root (this root is subtree.getKey()):
 				final PipeNetwork subnetwork = new PipeNetwork(c, subtree.getKey());
 				subtree.getKey().setNetwork(subnetwork);
@@ -120,7 +86,7 @@ public class PipeNetwork {
 					if (!child.b.getNetwork().equals(subnetwork)) child.b.setNetwork(subnetwork);
 				}
 				*/
-				for (final Connection<TileEntityPipeBase> conn : pipes) {
+				for (final Connection<TileEntityPipeBase> conn : connections) {
 					if (subtree.getValue().contains(conn.a)) {
 						subnetwork.insert(conn.a, conn.b);
 					} else if (subtree.getValue().contains(conn.b)) {
@@ -131,8 +97,7 @@ public class PipeNetwork {
 				for (final TileEntityPipeBase children : subtree.getValue())
 					children.setNetwork(subnetwork);
 			}
-		}
-
+		//}
 	}
 
 	/*
@@ -184,7 +149,7 @@ public class PipeNetwork {
 	@Nonnull
 	private HashMap<TileEntityPipeBase, Set<TileEntityPipeBase>> divideIntoGroups(@Nullable TileEntityPipeBase removedPipe) {
 		final Set<TileEntityPipeBase> unknown = new HashSet<>();
-		for (final Connection<TileEntityPipeBase> connection : pipes) {
+		for (final Connection<TileEntityPipeBase> connection : connections) {
 			if (!connection.a.equals(removedPipe)) unknown.add(connection.a);
 			if (!connection.b.equals(removedPipe)) unknown.add(connection.b);
 		}
@@ -209,8 +174,8 @@ public class PipeNetwork {
 						return path.size() == 0 || to.isConnectedTo(path.get(path.size() - 1));
 				});
 				ds.discover();
-				groups.put(next, ds.connections.keySet());
-				unknown.removeAll(ds.connections.keySet());
+				groups.put(next, ds.foundConnections.keySet());
+				unknown.removeAll(ds.foundConnections.keySet());
 			} catch (final NoSuchElementException ignored) {
 			} // there are no more elements
 		}
@@ -242,7 +207,7 @@ public class PipeNetwork {
 		if (root == null) System.out.println("root is null");
 		else System.out.println("root " + root.hashCode() + " @ " + root);
 		System.out.println("connections:");
-		for (final Connection<TileEntityPipeBase> pipe : pipes)
+		for (final Connection<TileEntityPipeBase> pipe : connections)
 			System.out.println(" x " + pipe);
 		System.out.println("fModules:");
 		for (final Connection<TileEntity> module : fModules)
@@ -252,7 +217,7 @@ public class PipeNetwork {
 		final DepthSearch ds = new DepthSearch(home);
 		ds.discover();
 		
-		DebugHelper.printMapSortedByValueProperty(ds.connections, TileEntityPipeBase::toString, List::size);
+		DebugHelper.printMapSortedByValueProperty(ds.foundConnections, TileEntityPipeBase::toString, List::size);
 
 		System.out.println("===============================================");
 	}
@@ -266,7 +231,7 @@ public class PipeNetwork {
 		final NBTTagCompound data = new NBTTagCompound();
 
 		final NBTTagList pipeList = new NBTTagList();
-		for (final Connection<TileEntityPipeBase> pipe : pipes) {
+		for (final Connection<TileEntityPipeBase> pipe : connections) {
 			final NBTTagCompound connection = new NBTTagCompound();
 			connection.setTag("a", NBTHelper.writeBlockPosToTag(pipe.a.getPos()));
 			connection.setTag("b", NBTHelper.writeBlockPosToTag(pipe.b.getPos()));
@@ -289,7 +254,7 @@ public class PipeNetwork {
 
 	private class DepthSearch {
 		// tepb block -> path
-		private final Map<TileEntityPipeBase, List<TileEntityPipeBase>> connections = new HashMap<>();
+		private final Map<TileEntityPipeBase, List<TileEntityPipeBase>> foundConnections = new HashMap<>();
 		// a new node to search from and the path to it
 		private final Map<TileEntityPipeBase, List<TileEntityPipeBase>> unknown = new HashMap<>();
 
@@ -298,7 +263,7 @@ public class PipeNetwork {
 		private static final long MAX_RUNS = 1000000;
 
 		private DepthSearch(final TileEntityPipeBase searchRoot) {
-			connections.put(searchRoot, new ArrayList<TileEntityPipeBase>());
+			foundConnections.put(searchRoot, new ArrayList<TileEntityPipeBase>());
 			unknown.put(searchRoot, new ArrayList<TileEntityPipeBase>());
 			validator = (path, to) -> true;
 		}
@@ -313,7 +278,7 @@ public class PipeNetwork {
 			while (!unknown.isEmpty() && run < MAX_RUNS) {
 				final Map.Entry<TileEntityPipeBase, List<TileEntityPipeBase>> search = unknown.entrySet().iterator().next();
 				unknown.remove(search.getKey());
-				for (final Connection<TileEntityPipeBase> connection : pipes) {
+				for (final Connection<TileEntityPipeBase> connection : PipeNetwork.this.connections) {
 					final List<TileEntityPipeBase> path = new ArrayList<>(search.getValue());
 					// since there is no premise whether connections get swapped out
 					// (see Connection#<init>)
@@ -332,8 +297,8 @@ public class PipeNetwork {
 
 		private void discovered(final List<TileEntityPipeBase> path, final TileEntityPipeBase node) {
 			final int distance = path.size();
-			if (validator.isValid(path, node) && !connections.containsKey(node) || connections.get(node).size() > distance) {
-				connections.put(node, path);
+			if (validator.isValid(path, node) && !foundConnections.containsKey(node) || foundConnections.get(node).size() > distance) {
+				foundConnections.put(node, path);
 				unknown.put(node, path);
 			}
 		}

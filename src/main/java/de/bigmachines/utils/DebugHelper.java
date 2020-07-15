@@ -15,6 +15,7 @@ public class DebugHelper {
         for (final Map.Entry<T, Integer> entry : entries)
             System.out.println(keyPrinter.apply(entry.getKey()) + ": " + entry.getValue());
     }
+    
     public static <K, V> void printMapSortedByValueProperty(@Nonnull Map<K, V> map, Function<K, String> keyPrinter,
                                                             Function<V, Integer> propertyRetriever) {
         final List<Map.Entry<K, V>> entries = new LinkedList<>(map.entrySet());
@@ -22,6 +23,5 @@ public class DebugHelper {
     
         for (final Map.Entry<K, V> entry : entries)
             System.out.println(keyPrinter.apply(entry.getKey()) + ": " + entry.getValue());
-        
     }
 }
