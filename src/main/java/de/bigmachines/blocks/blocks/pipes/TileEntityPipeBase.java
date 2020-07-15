@@ -151,6 +151,31 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		return true;
 	}
 
+	/**
+	 * Checks whether:
+	 * 1. this and the other pipe are connected
+	 * 2. this pipe has the conection set to allow insert
+	 * 3. the other pipe has the connection set to allow extract
+	 * @param other the other pipe
+	 * @return whether this pipe can insert into the other
+	 */
+	protected boolean canInsertIn(@Nullable final TileEntityPipeBase other) {
+		if (other == null) return false;
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		if (connectingFacing == null) return false;
+		if (!getAttachment(connectingFacing).canExtract()) return false;
+		if (!getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
+		//if (other.getAttachment())
+		return true;
+	}
+
+	public boolean isConnectedTo(@Nullable final TileEntityPipeBase other) {
+		if (other == null) return false;
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		if (connectingFacing == null) return false;
+		return hasAttachment(connectingFacing);
+	}
+
 	public HashMap<EnumFacing, PipeAttachment> getAttachments() {
 		return attachments;
 	}
@@ -169,7 +194,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 						other.network.insert(other, this);
 						network = other.network;
 					} else { // merge this network into the other's network
-						network.mergeInto(this, other, other.network);
+						network.mergeInto(other, this, other.network);
 					}
 				}
 			}
@@ -205,7 +230,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		attachments.clear();
 		for(final EnumFacing side : EnumFacing.VALUES) {
 			final TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
-			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite())) attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
+			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite()))
+				attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
 		}
 		if(!lastAttachments.keySet().equals(attachments.keySet())) {
 			updated();
@@ -423,6 +449,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			return attachmentTag;
 		}
 
+	}
+	
+	public String toString() {
+		return getPos().toString();
 	}
 
 }
