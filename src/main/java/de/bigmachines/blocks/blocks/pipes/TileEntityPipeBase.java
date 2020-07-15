@@ -39,14 +39,14 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	//protected HashSet<EnumFacing> attachments;
 	protected final HashMap<EnumFacing, PipeAttachment> attachments;
 	protected final Capability<?> capability;
-
+	
 	//private PipeNetworkTemplate template; // only set on root
 	//private BlockPos rootPos; // set on all when template is set too
 	private NBTTagCompound compound;
-
+	
 	private PipeNetwork network;
 	//private static TileEntityPipeBase last;
-
+	
 	public TileEntityPipeBase(final Capability<?> capability) {
 		attachments = new HashMap<>();
 		this.capability = capability;
@@ -55,7 +55,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	public Capability<?> getCapability() {
 		return capability;
 	}
-
+	
 	@Override
 	public Object getGuiServer(final InventoryPlayer inventory) {
 		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace(inventory.player);
@@ -64,7 +64,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Object getGuiClient(final InventoryPlayer inventory) {
 		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace();
@@ -73,23 +73,22 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		}
 		return null;
 	}
-
+	
 	@Nonnull
 	@Override
 	public NBTTagCompound writeToNBT(@Nonnull final NBTTagCompound compound) {
-	    if (!world.isRemote) {
-	    	// FIXME network.getRoot() is for some reason null
-			if (network != null && network.getRoot() != null && !compound.hasKey("network")) {
+		if (!world.isRemote) {
+			if (network != null && network.getRoot() != null) {
 				final NBTTagCompound networkTag = new NBTTagCompound();
 				networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
-
+				
 				if (equals(network.getRoot())) {
 					networkTag.setTag("data", network.rootCompound());
 				}
-
+				
 				compound.setTag("network", networkTag);
-			} // FIXME else init network
-		}
+			}
+		} // we dont have to init the network here, since we take the assumption that any pipe always has a network
 		return super.writeToNBT(compound);
 	}
 
@@ -108,10 +107,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			final NBTTagCompound networkTag = compound.getCompoundTag("network");
 			final NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
 			final BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
-			network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
-			// from here on network != null
 
 			if (rootPos.equals(getPos())) { // I am root, init network on me
+				network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
+				// from here on network != null
 				final NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
 				final NBTTagList pipeList = networkDataTag.getTagList("pipeList", 10);
 				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
@@ -138,9 +137,13 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 						throw new RuntimeException("wrong module @ " + a + " and " + b);
 				}
 
-//			} else if (network.getRoot() == null || network.getRoot().network == null) { // I am not root, init network on root
+			} else { // I am not root, init network on root
 				// FIXME this might lead to an infinite loop on startup and might be unneeded
-//				network.getRoot().update();
+				final TileEntityPipeBase other = (TileEntityPipeBase) world.getTileEntity(rootPos);
+				if (other != null) {
+					other.update();
+					network = other.network;
+				}
 			}
 		}
 	}
@@ -149,6 +152,31 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	public boolean shouldRenderInPass(final int pass) {
 		this.pass = pass;
 		return true;
+	}
+
+	/**
+	 * Checks whether:
+	 * 1. this and the other pipe are connected
+	 * 2. this pipe has the conection set to allow insert
+	 * 3. the other pipe has the connection set to allow extract
+	 * @param other the other pipe
+	 * @return whether this pipe can insert into the other
+	 */
+	protected boolean canInsertIn(@Nullable final TileEntityPipeBase other) {
+		if (other == null) return false;
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		if (connectingFacing == null) return false;
+		if (!getAttachment(connectingFacing).canExtract()) return false;
+		if (!getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
+		//if (other.getAttachment())
+		return true;
+	}
+
+	public boolean isConnectedTo(@Nullable final TileEntityPipeBase other) {
+		if (other == null) return false;
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		if (connectingFacing == null) return false;
+		return hasAttachment(connectingFacing);
 	}
 
 	public HashMap<EnumFacing, PipeAttachment> getAttachments() {
@@ -169,7 +197,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 						other.network.insert(other, this);
 						network = other.network;
 					} else { // merge this network into the other's network
-						network.mergeInto(this, other, other.network);
+						network.mergeInto(other, this, other.network);
 					}
 				}
 			}
@@ -205,7 +233,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		attachments.clear();
 		for(final EnumFacing side : EnumFacing.VALUES) {
 			final TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
-			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite())) attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
+			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite()))
+				attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
 		}
 		if(!lastAttachments.keySet().equals(attachments.keySet())) {
 			updated();
@@ -423,6 +452,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			return attachmentTag;
 		}
 
+	}
+	
+	public String toString() {
+		return getPos().toString();
 	}
 
 }
