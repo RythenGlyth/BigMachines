@@ -1,10 +1,15 @@
 package de.bigmachines.blocks.blocks;
 
+import java.util.List;
+
 import de.bigmachines.blocks.ItemBlockBase;
+import de.bigmachines.items.IInfoProviderShift;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,7 +21,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemBlockFloor extends ItemBlockBase {
+public class ItemBlockFloor extends ItemBlockBase implements IInfoProviderShift {
 
 	public ItemBlockFloor(Block block) {
 		super(block);
@@ -74,6 +79,13 @@ public class ItemBlockFloor extends ItemBlockBase {
             }
         }
         return super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
+	}
+
+	@Override
+	public void addShiftInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, ITooltipFlag flags) {
+		toolTip.add(I18n.format("info.bigmachines.floor1.shift"));
+		toolTip.add(I18n.format("info.bigmachines.floor2.shift"));
+		toolTip.add(I18n.format("info.bigmachines.floor3.shift"));
 	}
 	
 }

@@ -28,7 +28,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFloor extends BlockBase implements IInfoProviderShift {
+public class BlockFloor extends BlockBase {
 	
 	public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
     public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.<EnumBlockHalf>create("half", EnumBlockHalf.class);
@@ -141,13 +141,6 @@ public class BlockFloor extends BlockBase implements IInfoProviderShift {
         public String getName() {
             return this.name;
         }
-	}
-
-	@Override
-	public void addShiftInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, ITooltipFlag flags) {
-		toolTip.add(I18n.format("info.bigmachines.floor1.shift"));
-		toolTip.add(I18n.format("info.bigmachines.floor2.shift"));
-		toolTip.add(I18n.format("info.bigmachines.floor3.shift"));
 	}
 	
 }
