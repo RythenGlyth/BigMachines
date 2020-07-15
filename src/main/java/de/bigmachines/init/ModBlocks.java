@@ -7,6 +7,7 @@ import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,7 +32,7 @@ public class ModBlocks {
         heatPipe = new BlockHeatPipe();
         BLOCKS.add(heatPipe);
         fluidPipe = new BlockFluidPipe();
-        BLOCKS.add(fluidPipe);
+        BLOCKS.add(fluidPipe); 
     }
     
     @SubscribeEvent

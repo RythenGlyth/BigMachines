@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.util.ITooltipFlag;
@@ -23,6 +24,7 @@ public abstract class ManualContent {
 	protected int posX;
 	protected int posY;
 	protected int width;
+	protected int maxHeight;
 	
 	public ManualContent(final String input) {
 		super();
@@ -33,10 +35,11 @@ public abstract class ManualContent {
 	 * 
 	 * @return the height of the block
 	 */
-	public int updatePos(int posX, int posY, int width) {
+	public int updatePos(int posX, int posY, int width, int maxHeight) {
 		this.posX = posX;
 		this.posY = posY;
 		this.width = width;
+		this.maxHeight = maxHeight;
 		return 0;
 	}
 	
@@ -72,8 +75,8 @@ public abstract class ManualContent {
 		}
 		
 		@Override
-		public int updatePos(int posX, int posY, int width) {
-			super.updatePos(posX, posY, width);
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
 			return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
 		}
 		
@@ -93,8 +96,8 @@ public abstract class ManualContent {
 		}
 		
 		@Override
-		public int updatePos(int posX, int posY, int width) {
-			super.updatePos(posX, posY, width);
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
 			return (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int)(Minecraft.getMinecraft().fontRenderer.getStringWidth(content) / width) + 1));
 		}
 		
@@ -110,8 +113,8 @@ public abstract class ManualContent {
 		}
 		
 		@Override
-		public int updatePos(int posX, int posY, int width) {
-			super.updatePos(posX, posY, width);
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
 			return 56 + 4;
 		}
 
@@ -146,12 +149,12 @@ public abstract class ManualContent {
 			net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 		}
 
-		private static void drawRecipe(ShapelessRecipes r, int posX, int posY) {
+		private void drawRecipe(ShapelessRecipes r, int posX, int posY) {
 			System.out.println("trying to draw shapeless");
 			throw new UnsupportedOperationException("not implemented");
 		}
 
-		private static void drawRecipe(ShapedRecipes r, int posX, int posY) {
+		private void drawRecipe(ShapedRecipes r, int posX, int posY) {
 			renderItem.renderItemAndEffectIntoGUI(r.getRecipeOutput(), posX + 95 + 1, posY + 19 + 1);
 			renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, r.getRecipeOutput(), posX + 95, posY + 19, "");
 			NonNullList<Ingredient> is = r.getIngredients();
@@ -166,9 +169,9 @@ public abstract class ManualContent {
 			}
 		}
 
-		private static void hover(int mouseX, int mouseY, int left, int top, float zLevel, IRecipe r, List<String> tooltips) {
+		private void hover(int mouseX, int mouseY, int left, int top, float zLevel, IRecipe r, List<String> tooltips) {
 			GlStateManager.pushMatrix();
-			if (mouseX >= left && mouseY >= top) {
+			if (mouseX >= left && mouseY >= top && mouseX <= left + this.width && mouseY <= top + this.maxHeight) {
 				final int hoverX = (mouseX - left) / 18;
 				final int hoverY = (mouseY - top) / 18;
 				int j1 = -1, k1 = -1;

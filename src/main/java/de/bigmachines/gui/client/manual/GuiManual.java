@@ -94,17 +94,21 @@ public class GuiManual extends GuiScreen {
 		if (tabs.size() > selectedTabIndex && tabs.get(selectedTabIndex) != null) {
 			for (final ManualContent manualContent : tabs.get(selectedTabIndex).getContents()) {
 				try {
-					last += manualContent.updatePos(guiLeft + 5, last, guiWidth - 12);
-					if (last > guiTop + guiHeight - 11) break;
+					int height = manualContent.updatePos(guiLeft + 5, last, guiWidth - 40, (guiTop + guiHeight - 8) - last);
+					last += height;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
 					ex.printStackTrace();
 				}
 			}
 		}
-		pageHeight = last;
+		pageHeight = last - guiTop + scrollIndexOffsetContent + 7;
+		checkContentOffsetBounds();
+	}
+	
+	private void checkContentOffsetBounds() {
 		if(scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
-		else if(scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
+		if(scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
 	}
 	
 	private void drawForeground(int mouseX, int mouseY, float partialTicks) {
@@ -115,12 +119,13 @@ public class GuiManual extends GuiScreen {
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2 + 8, guiTop + firstTabOffset + (i - scrollIndexOffsetTabs) * tabHeight + 5, 16, 16, 0, 0, 16, 16, zLevel + 1);
 		}
 		
-		GL11.glScissor((guiLeft + 3) * sr.getScaleFactor(), (sr.getScaledHeight() - guiTop - guiHeight + 7) * sr.getScaleFactor(), (guiWidth - 8) * sr.getScaleFactor(), (guiHeight - 13) * sr.getScaleFactor());
+		GL11.glScissor((guiLeft + 3) * sr.getScaleFactor(), (sr.getScaledHeight() - guiTop - guiHeight + 7) * sr.getScaleFactor(), (guiWidth - 38) * sr.getScaleFactor(), (guiHeight - 13) * sr.getScaleFactor());
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
 		if (tabs.size() > selectedTabIndex && tabs.get(selectedTabIndex) != null) {
 			for (final ManualContent manualContent : tabs.get(selectedTabIndex).getContents()) {
 				try {
+					if (manualContent.posY > guiTop + guiHeight - 11) break;
 					manualContent.draw(mouseX, mouseY, partialTicks, zLevel + 1, tooltips);
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
@@ -175,11 +180,13 @@ public class GuiManual extends GuiScreen {
 
 			} else if (mouseX >= 4 && mouseX <= guiWidth - 4
 					&& mouseY >= 4 && mouseY <= guiHeight - 4) {
-				if (dWheel < 0) scrollIndexOffsetContent += 10;
-				else scrollIndexOffsetContent -= 10;
+				if (dWheel < 0) scrollIndexOffsetContent = Math.min(pageHeight - guiHeight, scrollIndexOffsetContent + 10);
+				else scrollIndexOffsetContent = Math.max(0, scrollIndexOffsetContent - 10);
 				
 				if(scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
-				else if(scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
+				if(scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
+				
+				//checkContentOffsetBounds();
 			}
 		}
 		super.handleMouseInput();
