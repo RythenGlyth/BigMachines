@@ -9,6 +9,7 @@ import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.IBlockBase;
 import de.bigmachines.blocks.ItemBlockBase;
+import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.interfaces.IInitializer;
 import de.bigmachines.interfaces.IModelRegister;
@@ -21,6 +22,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -85,7 +87,7 @@ public class BlockRubberLeaves extends BlockLeaves implements IBlockBase, IIniti
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return super.getItemDropped(state, rand, fortune); //TODO ITEMSAPPLING
+		return Item.getItemFromBlock(ModBlocks.blockRubberSapling);
 	}
 
     protected BlockStateContainer createBlockState() {

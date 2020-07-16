@@ -10,6 +10,7 @@ import de.bigmachines.world.WorldGeneratorRubberTree;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -44,6 +45,7 @@ public class BlockRubberSapling extends BlockBush implements IGrowable, IBlockBa
         this.setCreativeTab(ModCreativeTabs.materialsTab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
         this.setTickRandomly(true);
+        setSoundType(SoundType.PLANT);
 	}
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
