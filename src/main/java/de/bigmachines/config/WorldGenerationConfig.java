@@ -10,6 +10,7 @@ import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 import de.bigmachines.world.WorldGeneratorMineable;
+import de.bigmachines.world.WorldGeneratorStructure;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,9 @@ import java.io.FileReader;
 public final class WorldGenerationConfig {
 	
 	public static Gson gson = new GsonBuilder().setPrettyPrinting()
-			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer()).create();
+			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer())
+			.registerTypeAdapter(WorldGeneratorStructure.class, new WorldGeneratorStructure.WorldGeneratorStructureDeserializer())
+			.create();
 
     private static File worldGenerationConfig;
     private static File worldGenerationConfigDir;

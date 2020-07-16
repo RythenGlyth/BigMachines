@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        { "item": "bigmachines:pink_dirt" },
+        { "item": "minecraft:book" }
+    ],
+    "result": {
+        "item": "bigmachines:manual",
+        "count": 1
+    }
+}

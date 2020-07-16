@@ -1,5 +1,10 @@
 [
     {
+        "type": "structure",
+        "structure-id": "bigmachines:space_jet",
+        "chance": 25000
+    },
+    {
         "type": "mineable",
         "block-id": "bigmachines:ore_copper",
         "max-per-chunk": 12,
@@ -63,6 +68,9 @@
         "max-height": 255,
         "replaceable-blocks": [
             "minecraft:dirt"
+        ],
+        "blacklisted-dimensions": [
+            -1
         ]
     },
     {
@@ -71,7 +79,10 @@
         "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
-        "max-height": 80
+        "max-height": 80,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
     },
     {
         "type": "mineable",
@@ -79,7 +90,10 @@
         "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
-        "max-height": 80
+        "max-height": 80,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
     },
     {
         "type": "mineable",
@@ -87,7 +101,10 @@
         "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
-        "max-height": 80
+        "max-height": 80,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
     },
     {
         "type": "mineable",
@@ -95,6 +112,9 @@
         "max-per-chunk": 1,
         "max-vein-size": 12,
         "min-height": 0,
-        "max-height": 80
+        "max-height": 80,
+        "blacklisted-dimensions": [
+            -1, 1
+        ]
     }
 ]
