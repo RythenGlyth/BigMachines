@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "axis=y,rubber_level=0":  { "model": "bigmachines:rubber_log" },
+        "axis=z,rubber_level=0":   { "model": "bigmachines:rubber_log", "x": 90 },
+        "axis=x,rubber_level=0":   { "model": "bigmachines:rubber_log", "x": 90, "y": 90 },
+        "axis=none,rubber_level=0": { "model": "bigmachines:rubber_bark" },
+        "axis=y,rubber_level=1":  { "model": "bigmachines:rubber_log" },
+        "axis=z,rubber_level=1":   { "model": "bigmachines:rubber_log", "x": 90 },
+        "axis=x,rubber_level=1":   { "model": "bigmachines:rubber_log", "x": 90, "y": 90 },
+        "axis=none,rubber_level=1": { "model": "bigmachines:rubber_bark" },
+        "axis=y,rubber_level=2":  { "model": "bigmachines:rubber_log" },
+        "axis=z,rubber_level=2":   { "model": "bigmachines:rubber_log", "x": 90 },
+        "axis=x,rubber_level=2":   { "model": "bigmachines:rubber_log", "x": 90, "y": 90 },
+        "axis=none,rubber_level=2": { "model": "bigmachines:rubber_bark" },
+        "axis=y,rubber_level=3":  { "model": "bigmachines:rubber_log" },
+        "axis=z,rubber_level=3":   { "model": "bigmachines:rubber_log", "x": 90 },
+        "axis=x,rubber_level=3":   { "model": "bigmachines:rubber_log", "x": 90, "y": 90 },
+        "axis=none,rubber_level=3": { "model": "bigmachines:rubber_bark" }
+    }
+}

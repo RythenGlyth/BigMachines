@@ -85,6 +85,9 @@ tile.bigmachines.floor_slate.name=Schiefer Fußboden
 tile.bigmachines.floor_slate_smooth.name=Glatter Schiefer Fußboden
 tile.bigmachines.floor_slate_brick.name=Schieferziegel Fußboden
 
+tile.bigmachines.rubber_leaves.name=Gummilaub
+tile.bigmachines.rubber_log.name=Gummistamm
+
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
 info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details

@@ -4,6 +4,8 @@ import de.bigmachines.Reference;
 import de.bigmachines.blocks.IBlockBase;
 import de.bigmachines.blocks.ItemBlockBase;
 import de.bigmachines.init.ModCreativeTabs;
+import de.bigmachines.interfaces.IInitializer;
+import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.properties.IProperty;
@@ -12,8 +14,9 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockRubberLog extends BlockLog implements IBlockBase {
+public class BlockRubberLog extends BlockLog implements IBlockBase, IInitializer {
 
 	public static final PropertyInteger RUBBER_LEVEL = PropertyInteger.create("rubber_level", 0, 3);
 	
@@ -51,7 +54,10 @@ public class BlockRubberLog extends BlockLog implements IBlockBase {
 	public ItemBlock getItemBlock() {
 		return itemBlock;
 	}
-	
-	
+
+	@Override
+	public void postRegister() {
+		OreDictionary.registerOre("logWood", this.itemBlock);
+	}
 	
 }

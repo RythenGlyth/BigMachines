@@ -85,6 +85,9 @@ tile.bigmachines.floor_slate.name=Slate Floor
 tile.bigmachines.floor_slate_smooth.name=Smooth Slate Floor
 tile.bigmachines.floor_slate_brick.name=Slate Brick Floor
 
+tile.bigmachines.rubber_leaves.name=Rubber Leaves
+tile.bigmachines.rubber_log.name=Rubber Leaves
+
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
 info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details

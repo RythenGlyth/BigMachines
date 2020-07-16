@@ -5,16 +5,20 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.IBlockBase;
 import de.bigmachines.blocks.ItemBlockBase;
 import de.bigmachines.init.ModCreativeTabs;
+import de.bigmachines.interfaces.IInitializer;
+import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -23,13 +27,18 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockRubberLeaves extends BlockLeaves implements IBlockBase {
+public class BlockRubberLeaves extends BlockLeaves implements IBlockBase, IInitializer {
     
 	protected ItemBlock itemBlock;
 	
@@ -37,12 +46,29 @@ public class BlockRubberLeaves extends BlockLeaves implements IBlockBase {
 	
 	public BlockRubberLeaves() {
 		this.name = "rubber_leaves";
+        //BigMachines.proxy.setGraphicsLevel(this, true);
 		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
 		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
 		this.itemBlock = new ItemBlockBase(this);
         this.setCreativeTab(ModCreativeTabs.materialsTab);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return !Minecraft.getMinecraft().gameSettings.fancyGraphics;
+	}
+
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return Minecraft.getMinecraft().gameSettings.fancyGraphics ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+        return !Minecraft.getMinecraft().gameSettings.fancyGraphics && blockAccess.getBlockState(pos.offset(side)).getBlock() == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+    }
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
@@ -66,8 +92,7 @@ public class BlockRubberLeaves extends BlockLeaves implements IBlockBase {
         return new BlockStateContainer(this, new IProperty[] {CHECK_DECAY, DECAYABLE});
     }
     
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
-    {
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
         if (!worldIn.isRemote && stack.getItem() == Items.SHEARS)
         {
             player.addStat(StatList.getBlockStats(this));
@@ -92,6 +117,11 @@ public class BlockRubberLeaves extends BlockLeaves implements IBlockBase {
 	@Override
 	public ItemBlock getItemBlock() {
 		return itemBlock;
+	}
+
+	@Override
+	public void postRegister() {
+		OreDictionary.registerOre("treeLeaves", this.itemBlock);
 	}
 	
 	
