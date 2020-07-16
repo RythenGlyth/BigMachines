@@ -1,19 +1,25 @@
 package de.bigmachines.blocks.blocks;
 
+import java.util.Random;
+
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.IBlockBase;
 import de.bigmachines.blocks.ItemBlockBase;
+import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.interfaces.IInitializer;
 import de.bigmachines.interfaces.IModelRegister;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockRubberLog extends BlockLog implements IBlockBase, IInitializer {
@@ -31,7 +37,32 @@ public class BlockRubberLog extends BlockLog implements IBlockBase, IInitializer
 		this.itemBlock = new ItemBlockBase(this);
         this.setCreativeTab(ModCreativeTabs.materialsTab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(RUBBER_LEVEL, 0).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+        this.setTickRandomly(true);
 	}
+	
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if(rand.nextInt(8) == 0) {
+			if(hasLeaves(worldIn, pos)) {
+				int rubber_level = state.getValue(RUBBER_LEVEL).intValue();
+				if(rubber_level < 3) {
+			        worldIn.setBlockState(pos, state.withProperty(RUBBER_LEVEL, rubber_level + 1), 2);
+				}
+			}
+		}
+		super.updateTick(worldIn, pos, state, rand);
+	}
+	
+	private boolean hasLeaves(World worldIn, BlockPos pos) {
+        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, -4, -4), pos.add(4, 4, 4))) {
+            if (worldIn.getBlockState(mutableBlockPos).getBlock() == ModBlocks.blockRubberLeaves) {
+            	System.out.println(mutableBlockPos);
+            	return true;
+            }
+        }
+
+        return net.minecraftforge.common.FarmlandWaterManager.hasBlockWaterTicket(worldIn, pos);
+    }
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {

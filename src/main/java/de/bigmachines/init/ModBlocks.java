@@ -2,6 +2,7 @@ package de.bigmachines.init;
 
 import java.util.ArrayList;
 
+import de.bigmachines.blocks.BlockBaseOreDict;
 import de.bigmachines.blocks.IBlockBase;
 import de.bigmachines.blocks.blocks.BlockRubberLeaves;
 import de.bigmachines.blocks.blocks.BlockRubberLog;
@@ -9,6 +10,8 @@ import de.bigmachines.blocks.blocks.pipes.fluidpipe.BlockFluidPipe;
 import de.bigmachines.blocks.blocks.pipes.heatpipe.BlockHeatPipe;
 import de.bigmachines.interfaces.IInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,6 +34,7 @@ public class ModBlocks {
 	
 	public static BlockRubberLeaves blockRubberLeaves;
 	public static BlockRubberLog blockRubberLog;
+	public static BlockBaseOreDict blockRubberPlanks;
 
     public static void preInit() {
         heatPipe = new BlockHeatPipe();
@@ -42,6 +46,8 @@ public class ModBlocks {
         BLOCKS.add(blockRubberLeaves);
         blockRubberLog = new BlockRubberLog();
         BLOCKS.add(blockRubberLog);
+        blockRubberPlanks = ((BlockBaseOreDict)new BlockBaseOreDict(Material.WOOD, "rubber_planks", "plankWood").setSoundType(SoundType.WOOD).setCreativeTab(ModCreativeTabs.materialsTab));
+        BLOCKS.add(blockRubberPlanks);
     }
     
     @SubscribeEvent

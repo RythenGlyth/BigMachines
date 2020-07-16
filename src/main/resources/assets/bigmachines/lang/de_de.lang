@@ -87,6 +87,7 @@ tile.bigmachines.floor_slate_brick.name=Schieferziegel Fußboden
 
 tile.bigmachines.rubber_leaves.name=Gummilaub
 tile.bigmachines.rubber_log.name=Gummistamm
+tile.bigmachines.rubber_planks.name=Gummiholzbretter
 
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
