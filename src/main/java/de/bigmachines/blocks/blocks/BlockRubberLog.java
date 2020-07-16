@@ -56,7 +56,6 @@ public class BlockRubberLog extends BlockLog implements IBlockBase, IInitializer
 	private boolean hasLeaves(World worldIn, BlockPos pos) {
         for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, -4, -4), pos.add(4, 4, 4))) {
             if (worldIn.getBlockState(mutableBlockPos).getBlock() == ModBlocks.blockRubberLeaves) {
-            	System.out.println(mutableBlockPos);
             	return true;
             }
         }
