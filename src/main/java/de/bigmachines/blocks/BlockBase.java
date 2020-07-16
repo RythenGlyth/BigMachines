@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
  *
  */
 
-public class BlockBase extends Block {
+public class BlockBase extends Block implements IBlockBase {
     
 	protected ItemBlock itemBlock;
 	
