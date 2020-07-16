@@ -86,6 +86,10 @@ public class BlockRubberSapling extends BlockBush implements IGrowable, IBlockBa
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		return rand.nextInt(2) == 0;
 	}
+	
+	public int quantityDropped(Random random) {
+        return random.nextInt(10) == 0 ? 1 : 0;
+    }
 
 	@Override
 	public ItemBlock getItemBlock() {
