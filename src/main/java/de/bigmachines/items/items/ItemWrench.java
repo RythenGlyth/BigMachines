@@ -35,7 +35,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 		setCreativeTab(ModCreativeTabs.modTab);
 		setMaxStackSize(1);
 	}
-	
+
 	@Override
 	public boolean showDurabilityBar(@Nonnull ItemStack stack) {
 		return getDamage(stack) > 0;

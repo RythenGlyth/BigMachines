@@ -39,6 +39,20 @@ public class BlockHelper {
 	public static void callNeighborTileChange(final World world, final BlockPos pos) {
 		world.updateComparatorOutputLevel(pos, world.getBlockState(pos).getBlock());
 	}
+
+	@Nullable
+	public static EnumFacing getConnectingFace(final BlockPos from, final BlockPos to) {
+		final int distX = to.getX() - from.getX();
+		final int distY = to.getY() - from.getY();
+		final int distZ = to.getZ() - from.getZ();
+		if (distX == +1 && distY == 00 && distZ == 00) return EnumFacing.EAST;
+		if (distX == -1 && distY == 00 && distZ == 00) return EnumFacing.WEST;
+		if (distX == 00 && distY == +1 && distZ == 00) return EnumFacing.UP;
+		if (distX == 00 && distY == -1 && distZ == 00) return EnumFacing.DOWN;
+		if (distX == 00 && distY == 00 && distZ == +1) return EnumFacing.SOUTH;
+		if (distX == 00 && distY == 00 && distZ == -1) return EnumFacing.NORTH;
+		return null;
+	}
 	
 	@Nullable
 	public static RayTraceResult rayTrace(final EntityPlayer player, final double blockReachDistance, final BlockPos pos, final AxisAlignedBB boundingBox) {
