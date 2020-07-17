@@ -10,6 +10,7 @@ import java.nio.file.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -62,8 +63,8 @@ public final class FileHelper {
 		return files;
 	}
 	
-	public static HashMap<String, String> getResourcesFolder(String folder, String extensionName) {
-		HashMap<String, String> files = new HashMap<>();
+	public static TreeMap<String, String> getResourcesFolder(String folder, String extensionName) {
+		TreeMap<String, String> files = new TreeMap<>();
 		Stream<Path> walker;
 		try {
 			URI uri = BigMachines.class.getResource(folder).toURI();

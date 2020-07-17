@@ -96,7 +96,7 @@ public class GuiManual extends GuiScreen {
 			for (final ManualContent manualContent : tabs.get(selectedTabIndex).getContents()) {
 				try {
 					int height = manualContent.updatePos(guiLeft + 5, last, guiWidth - 40, (guiTop + guiHeight - 8) - last);
-					last += height;
+					last += height + 5;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
 					ex.printStackTrace();
@@ -165,8 +165,8 @@ public class GuiManual extends GuiScreen {
 		
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffsetTabs; i < tabs.size() && i - scrollIndexOffsetTabs < maxTabs; i++) {
-			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset + (i - scrollIndexOffsetTabs) * tabHeight, tabWidth, tabHeight - 1, 447,
-					selectedTabIndex == i ? 0 : 27, 512, 512, selectedTabIndex == i ? zLevel + 1 : zLevel);
+			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset - 1 + (i - scrollIndexOffsetTabs) * tabHeight, tabWidth, tabHeight - 1, 447,
+					selectedTabIndex == i ? 0 : 28, 512, 512, selectedTabIndex == i ? zLevel + 1 : zLevel);
 		}
 
 		RenderHelper.drawTexturedModalRect(guiLeft, guiTop, guiWidth, guiHeight, 0, 0, 512, 512, zLevel);
@@ -229,6 +229,9 @@ public class GuiManual extends GuiScreen {
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		if(mouseButton == 1 && mouseX <= 5 && mouseY <= 5) {
+			ManualLoader.init();
+		}
 		if(mouseX >= guiLeft + guiWidth - 19 && mouseX <= guiLeft + guiWidth - 19 + 16
 				&& mouseY >= guiTop + 5 && mouseY <= guiTop + 5 + scrollbarHeight - 1) {
 			calulateScrollBar(mouseX, mouseY);

@@ -54,7 +54,7 @@ public final class RenderHelper {
 	 */
 	public static int drawStringWordWrap(String str, int x, int y, int maxWidth, int color, boolean dropShadow) {
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-		
+
 		int lineNum = 0;
 		for(String line : wrapWordString(str, maxWidth)) {
 			lineNum++;
@@ -67,7 +67,7 @@ public final class RenderHelper {
 	public static ArrayList<String> wrapWordString(String str, int maxWidth) {
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		ArrayList<String> lines = new ArrayList<String>();
-		
+
 		String[] words = str.split(" ");
 		String currentLine = words[0];
 		
@@ -79,6 +79,7 @@ public final class RenderHelper {
 				currentLine = words[i];
 			}
 		}
+		lines.add(currentLine);
 		return lines;
 	}
     

@@ -1,0 +1,34 @@
+{
+    "icon": "bigmachines:textures/block/rubber_sapling.png",
+    "title": "Natural Rubber Production",
+    "contents": [
+        {
+            "type": "text",
+            "text": "Natural Rubber Production",
+            "scale": 2
+        },
+        {
+            "type": "text",
+            "text": "Cultivation",
+            "scale": 1.5
+        },
+        {
+            "type": "text",
+            "text": "Rubber Trees spawn on the highest grass block"
+        },
+        {
+            "type": "text",
+            "text": "Every Rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals."
+        },
+        {
+            "type": "text",
+            "text": "Collection",
+            "scale": 1.5
+        },
+        {
+            "type": "text",
+            "text": "Processing",
+            "scale": 1.5
+        }
+    ]
+}

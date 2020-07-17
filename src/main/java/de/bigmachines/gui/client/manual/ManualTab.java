@@ -43,27 +43,27 @@ public final class ManualTab {
 			final String icon = tab.has("icon") ? tab.get("icon").getAsString() : "";
 			final String title = tab.has("title") ? tab.get("title").getAsString() : "";
 			
-			final ManualTab mtab = new ManualTab(new ResourceLocation(icon.split(":")[0], icon.split(":")[1]), title);
+			final ManualTab mtab = new ManualTab(new ResourceLocation(icon), title);
 			
 			if(tab.has("contents")) {
 				final JsonArray contentsJson = tab.get("contents").getAsJsonArray();
 				for (JsonElement obj : contentsJson) {
 					final JsonObject jobj = obj.getAsJsonObject();
-					final String contents = jobj.has("contents") ? jobj.get("contents").getAsString() : "";
-					if (jobj.has("type"))
+					if (jobj.has("type")) {
 						switch (jobj.get("type").getAsString()) {
-						case "title":
-							mtab.addContents(new ManualContent.ManualTitle(contents));
-							break;
-						case "text":
-							mtab.addContents(new ManualContent.ManualText(contents));
-							break;
-						case "crafting":
-							mtab.addContents(new ManualContent.ManualCrafting(contents));
-							break;
-						default:
-							break;
+							case "text":
+								mtab.addContents(new ManualContent.ManualText(jobj.has("text") ? jobj.get("text").getAsString() : "", jobj.has("scale") ? jobj.get("scale").getAsDouble() : 0));
+								break;
+							case "space":
+								mtab.addContents(new ManualContent.ManualSpace(jobj.has("height") ? jobj.get("height").getAsInt() : 0));
+								break;
+							case "crafting":
+								mtab.addContents(new ManualContent.ManualCrafting(jobj.has("location") ? jobj.get("location").getAsString() : ""));
+								break;
+							default:
+								break;
 						}
+					}
 				}
 			}
 			

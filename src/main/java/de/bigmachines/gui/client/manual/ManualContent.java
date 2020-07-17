@@ -20,15 +20,13 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public abstract class ManualContent {
-	protected final String content;
 	protected int posX;
 	protected int posY;
 	protected int width;
 	protected int maxHeight;
 	
-	public ManualContent(final String input) {
+	public ManualContent() {
 		super();
-		content = input;
 	}
 	
 	/**
@@ -56,12 +54,20 @@ public abstract class ManualContent {
 	 */
 	public abstract void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips);
 	
-	static class ManualTitle extends ManualContent {
+	/*static class ManualTitle extends ManualContent {
 		
-		private final int SCALE = 2;
+		final String text;
+		
+		protected final double scale;
 
-		public ManualTitle(String input) {
-			super(input);
+		public ManualTitle(String text, double scale) {
+			super();
+			this.text = text;
+			this.scale = scale;
+		}
+		
+		public ManualTitle(String text) {
+			this(text, 2);
 		}
 
 		@Override
@@ -69,36 +75,70 @@ public abstract class ManualContent {
 			// 0x ff 00 00 00 alpha r g b
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(this.posX, this.posY, 0);
-			GlStateManager.scale(SCALE, SCALE, 1);
-			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
+			GlStateManager.scale(scale, scale, 1);
+			Minecraft.getMinecraft().fontRenderer.drawSplitString(text, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 		}
 		
 		@Override
 		public int updatePos(int posX, int posY, int width, int maxHeight) {
 			super.updatePos(posX, posY, width, maxHeight);
-			return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
+			return ((int)(Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * scale));
+		}
+		
+	}*/
+	
+	static class ManualSpace extends ManualContent {
+		
+		final int height;
+		
+		public ManualSpace(int height) {
+			this.height = height;
+		}
+		
+		@Override
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
+			
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
+			return height;
 		}
 		
 	}
 	
 	static class ManualText extends ManualContent {
+		
+		final String text;
+		
+		protected final double scale;
 
-		public ManualText(String input) {
-			super(input);
+		public ManualText(String text, double scale) {
+			super();
+			this.text = text;
+			this.scale = scale > 0 ? scale : 1;
+		}
+		
+		public ManualText(String text) {
+			this(text, 2);
 		}
 
 		@Override
 		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
 			GlStateManager.pushMatrix();
-			RenderHelper.drawStringWordWrap(content, this.posX, this.posY, width, 0xff000000, false);
+			GlStateManager.translate(this.posX, this.posY, 0);
+			GlStateManager.scale(scale, scale, 1);
+			RenderHelper.drawStringWordWrap(text, 0, 0, ((int)(width / scale)), 0xff000000, false);
+			//Minecraft.getMinecraft().fontRenderer.drawSplitString(text, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 		}
 		
 		@Override
 		public int updatePos(int posX, int posY, int width, int maxHeight) {
 			super.updatePos(posX, posY, width, maxHeight);
-			return (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int)(Minecraft.getMinecraft().fontRenderer.getStringWidth(content) / width) + 1));
+			return (int)((Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int)(Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / (width * scale)) + 1)) * scale);
 		}
 		
 	}
@@ -108,8 +148,11 @@ public abstract class ManualContent {
 		private static final ResourceLocation CRAFTING_GRID_TEXTURE = new ResourceLocation("textures/gui/container/crafting_table.png");
 		private static final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
-		public ManualCrafting(String input) {
-			super(input);
+		private final ResourceLocation location;
+
+		public ManualCrafting(String location) {
+			super();
+			this.location = new ResourceLocation(location);
 		}
 		
 		@Override
@@ -130,7 +173,7 @@ public abstract class ManualContent {
 			GlStateManager.popMatrix();
 
 			GlStateManager.pushMatrix();
-			IRecipe r = CraftingManager.getRecipe(new ResourceLocation(content));
+			IRecipe r = CraftingManager.getRecipe(location);
 			if (r instanceof ShapedRecipes) drawRecipe((ShapedRecipes) r, this.posX, this.posY);
 			else if (r instanceof ShapelessRecipes) drawRecipe((ShapelessRecipes) r, this.posX, this.posY);
 			else {
