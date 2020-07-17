@@ -77,7 +77,6 @@ public class WorldGeneratorRubberTree extends WorldGeneratorBase {
 		
 		@Override
 		public boolean generate(World worldIn, Random rand, BlockPos position) {
-			System.out.println(position);
 			if (checkForBlockFreedom(worldIn, position.add(0, 1, 0), position.add(0, 5, 0))) {
 				int height = 6;
 				if (isReplaceable(worldIn, position.add(0, 6, 0)) && rand.nextInt(2) == 0) height = 7;
