@@ -13,8 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemDebugger extends ItemBase {
+	
 	public ItemDebugger() {
-		super("bm_debugger");
+		super("debugger");
 		setCreativeTab(ModCreativeTabs.modTab);
 		setMaxStackSize(1);
 	}
