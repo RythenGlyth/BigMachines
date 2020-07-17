@@ -1,17 +1,11 @@
 package de.bigmachines.items.items;
 
-import java.util.List;
-
-import de.bigmachines.blocks.blocks.pipes.BlockPipeBase;
-import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
-import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase.PipeAttachment;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModCreativeTabs;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.items.IInfoProviderShift;
 import de.bigmachines.items.ItemBase;
-import de.bigmachines.utils.classes.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -19,7 +13,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -27,6 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.List;
 
 public class ItemDebugger extends ItemBase implements IInfoProviderShift {
 	
@@ -43,7 +38,8 @@ public class ItemDebugger extends ItemBase implements IInfoProviderShift {
 		if (clickedAt.equals(ModBlocks.fluidPipe)) {
 			System.out.println("clicked on fluid pipe, updating once:");
 			TileEntityFluidPipe fluidPipe = (TileEntityFluidPipe) worldIn.getTileEntity(pos);
-			fluidPipe.update();
+			if (fluidPipe.getNetwork() == null) System.out.println("horseshit");
+			else fluidPipe.getNetwork().update();
 		}
 		/*
 		System.out.println("clicked on stone");
