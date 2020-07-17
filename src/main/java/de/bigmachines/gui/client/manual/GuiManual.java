@@ -1,5 +1,6 @@
 package de.bigmachines.gui.client.manual;
 
+import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.RenderHelper;
@@ -135,6 +136,8 @@ public class GuiManual extends GuiScreen {
 		}
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+		
+		mc.fontRenderer.drawString("Big Machines by RythenGlyth & ScrouthTV", guiLeft + (guiWidth / 2) - (mc.fontRenderer.getStringWidth("Big Machines by RythenGlyth & ScrouthTV") / 2), guiTop + guiHeight + 1, 0xffffffff, true);
 		
 		drawHoveringText(tooltips, mouseX, mouseY);
 	}
