@@ -26,6 +26,7 @@ public class Config {
 	private static boolean displayCookTime;
 	private static boolean displayHarvestLevel;
 	private static boolean showHUDWhileChatting;
+	private static boolean nbtTooltip;
 	private static HUDPostitions hudPosition;
 	
 	public enum HUDPostitions {
@@ -56,6 +57,10 @@ public class Config {
 
 	public static HUDPostitions getHudPosition() {
 		return hudPosition;
+	}
+	
+	public static boolean isNbtTooltip() {
+		return nbtTooltip;
 	}
 
 	public static Configuration config;
@@ -107,6 +112,11 @@ public class Config {
 		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".showHUDWhileChatting.description"));
 		property.setLanguageKey("config." + Reference.MOD_ID + ".showHUDWhileChatting.title");
         showHUDWhileChatting = property.getBoolean();
+        
+        property = config.get("general", "nbttooltip", false);
+		property.setComment(I18n.translateToLocal("config." + Reference.MOD_ID + ".nbttooltip.description"));
+		property.setLanguageKey("config." + Reference.MOD_ID + ".nbttooltip.title");
+		nbtTooltip = property.getBoolean();
         
         //property = Config.config.get("general", "hudPosition", Settings.HUDPostitions.BOTTOM_RIGHT.toString(), 
         //		I18n.translateToLocal(Reference.MOD_ID + ".config.hudPosition.description"), EnumUtils.getNames(Settings.HUDPostitions.class));

@@ -2,15 +2,17 @@
 config.bigmachines.title=Big Machines Config
 
 config.bigmachines.displayCookTime.title=Display cook time
-config.bigmachines.displayCookTime.description=Displays the cook time if you press STRG on an item
+config.bigmachines.displayCookTime.description=Displays the cook time if you press CTRL on an item
 config.bigmachines.displayHarvestLevel.title=Display harvest level
-config.bigmachines.displayHarvestLevel.description=Displays the harvest level if you press STRG on an item
+config.bigmachines.displayHarvestLevel.description=Displays the harvest level if you press CTRL on an item
 config.bigmachines.showHUDWhileChatting.title=Show HUD while chatting
 config.bigmachines.showHUDWhileChatting.description=Shows the HUD while chat is open
 config.bigmachines.hudPosition.title=HUD position
 config.bigmachines.hudPosition.description=position of the mod's HUD
 config.bigmachines.pipeStatusOverlayAlwaysOn.title=Show pipe attachments status always
 config.bigmachines.pipeStatusOverlayAlwaysOn.description=switch between show status of pipe attachments always (enabled) and only with wrench in hand
+config.bigmachines.nbttooltip.title=NBT-Tooltip
+config.bigmachines.nbttooltip.description=Displays the NBT data when holding CTRL on an item
 
 #Keybindings
 key.categories.bigmachines=Big Machines
@@ -95,7 +97,8 @@ tile.bigmachines.rubber_sapling.name=Rubbertree Sapling
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
 info.bigmachines.press_alt=Hold §e§l[ALT]§r§7 for Details
-info.bigmachines.press_strg=Hold §e§l[STRG]§r§7 for Details
+info.bigmachines.press_strg=Hold §e§l[CTRL]§r§7 for Details
+info.bigmachines.press_strg_nbt=Hold §e§l[CTRL]§r§7 for NBT data
 
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
 info.bigmachines.harvestlevel.shift=Harvesting Level

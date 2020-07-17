@@ -11,6 +11,8 @@ config.bigmachines.hudPosition.title=HUD Position
 config.bigmachines.hudPosition.description=Die Position der HUD der Mod
 config.bigmachines.pipeStatusOverlayAlwaysOn.title=Zeigt Status von Rohr Verbindungen
 config.bigmachines.pipeStatusOverlayAlwaysOn.description=wechsle zwischen status von Rohr Verbindungen immer (aktiviert) zeigen und nur wenn ein Schraubenschlüssel in der Hand ist zeigen
+config.bigmachines.nbttooltip.title=NBT-Tooltip
+config.bigmachines.nbttooltip.description=Zeigt die NBT Daten, wenn man STRG auf einem Item drückt
 
 #Keybindings
 key.categories.bigmachines=Big Machines
@@ -96,6 +98,7 @@ tile.bigmachines.rubber_sapling.name=Gummibaum Setzling
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
 info.bigmachines.press_alt=Halte §e§l[ALT]§r§7 für Details
 info.bigmachines.press_strg=Halte §e§l[STRG]§r§7 für Details
+info.bigmachines.press_strg_nbt=Halte §e§l[STRG]§r§7 für NBT Daten
 
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
 info.bigmachines.harvestlevel.shift=Abbau-Level
