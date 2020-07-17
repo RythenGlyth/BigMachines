@@ -109,9 +109,12 @@ public class PipeNetwork {
 	 * and inserts new ones / fill adjacent tanks
 	 */
 	public void update() {
+		System.out.println("moving fluids once:");
 		moveFluidsOneTick();
 		
+		System.out.println("inserting new fluids:");
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
+		System.out.println("found " + inserters.size() + " inserters");
 		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
 			final TileEntityPipeBase inserterPipe = inserter.getKey().y;
 			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
@@ -263,31 +266,26 @@ public class PipeNetwork {
 		// which new targts were found & added to the network contents during search
 		final List<Pair<FluidStack, NetworkContents.Path>> targets = new ArrayList<>();
 		
-		sinkSearcher.setValidator((path, to) -> {
-			// the validator is called for every single discovered pipe
-			// we want to check whether the pipe that was discovered can
-			// transport the fluid (canTransport() > 0)
-			// and whether it is connected
-			// TODO the canTransport() check here might be unnessecary as
-			//  we have to later test again for the maximum amount we can
-			//	transport over this path
-			return canTransport(to, path.size(), fluid) > 0 &&
-					  (path.size() == 0 || to.isConnectedTo(path.get(path.size() - 1)));
-		});
+		sinkSearcher.setValidator(new PathValidator(fluid));
+		
+		sinkSearcher.discover();
 		
 		for (Connection<TileEntity> moduleConnection : fModules) {
-			TileEntityPipeBase inserter;
-			TileEntity sink;
 			final Pair<TileEntityPipeBase, TileEntity> sorted = sortConnection(moduleConnection);
-			inserter = sorted.x;
-			sink = sorted.y;
+			TileEntityPipeBase sinkInserter = sorted.x;
+			TileEntity sink = sorted.y;
 			
-			final IFluidHandler handler = (IFluidHandler) sink.getCapability(c, BlockHelper.getConnectingFace(inserter.getPos(), sink.getPos()));
+			// FIXME equal out if there are multiple sources set to IN & OUT
+			
+			final IFluidHandler handler = (IFluidHandler) sink.getCapability(c, BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
 			final int maxSink = handler.fill(fluid, false);
 			
-			if (sinkSearcher.foundConnections.containsKey(inserter)) {
+			// the sink searcher is for one specific source block (see constructor)
+			// foundConnections maps sink -> path to sink
+			if (sinkSearcher.foundConnections.containsKey(sinkInserter)) {
+				// FIXME this finds connections that are 0 long
 				// the path to the inserting pipe:
-				NetworkContents.Path connection = sinkSearcher.foundConnections.get(inserter);
+				NetworkContents.Path connection = sinkSearcher.foundConnections.get(sinkInserter);
 				FluidStack transported = fluid.copy();
 				transported.amount = Math.min(canTransport(connection, transported), maxSink);
 				connection.remove(0); // remove the first tile because this is the one we're currently in
@@ -298,6 +296,22 @@ public class PipeNetwork {
 			}
 		}
 		return targets;
+	}
+	
+	private class PathValidator implements ConnectionValidator {
+		
+		private final FluidStack fluidStack;
+		
+		private PathValidator(final FluidStack fluidStack) {
+			this.fluidStack = fluidStack;
+		}
+		
+		@Override
+		public boolean isValid(final NetworkContents.Path path, final TileEntityPipeBase to) {
+			if (canTransport(to, path.size(), fluidStack) == 0) return false;
+			if (path.size() == 0) return true;
+			return to.isConnectedTo(path.get(-1)) && to.canInsertIn(path.get(-1));
+		}
 	}
 	
 	/**
@@ -339,7 +353,7 @@ public class PipeNetwork {
 		final EnumFacing connectingFace = BlockHelper.getConnectingFace(inserter.getPos(), source.getPos());
 		if (connectingFace == null) return null;
 		if (inserter.hasAttachment(connectingFace)) {
-			if (!inserter.getAttachment(connectingFace).canExtract()) return null;
+			if (!inserter.getAttachment(connectingFace).canInsert()) return null;
 			else {
 				final IFluidHandler handler = (IFluidHandler) source.getCapability(c, connectingFace.getOpposite());
 				FluidStack inserted = handler.drain(inserter.maxContents(), false);

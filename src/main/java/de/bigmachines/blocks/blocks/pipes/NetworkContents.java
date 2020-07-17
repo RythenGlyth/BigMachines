@@ -92,7 +92,7 @@ public class NetworkContents {
 		
 		public Path(final List<TileEntityPipeBase> path) {
 			if (path != null)
-				path.addAll(path);
+				this.path.addAll(path);
 		}
 		
 		public Path(final Path path) {
@@ -100,8 +100,17 @@ public class NetworkContents {
 				this.path.addAll(path.path); // lol
 		}
 		
+		/**
+		 * Wraps the List.get() method with a little extra:
+		 * If the index is negative, this number is returned starting at the end,
+		 * e. g. get(-1) returns the last element.
+		 *
+		 * @param index which index to return (positives start at the start, negatives at the end)
+		 * @return the element at the specified index
+		 */
 		public TileEntityPipeBase get(final int index) {
-			return path.get(index);
+			if (index >= 0) return path.get(index);
+			else return path.get(size() + index);
 		}
 		
 		public boolean contains(final TileEntityPipeBase pipe) {

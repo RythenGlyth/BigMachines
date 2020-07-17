@@ -107,28 +107,28 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			final NBTTagCompound networkTag = compound.getCompoundTag("network");
 			final NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
 			final BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
-
+			
 			if (rootPos.equals(getPos())) { // I am root, init network on me
 				network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
 				// from here on network != null
 				final NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
 				final NBTTagList pipeList = networkDataTag.getTagList("pipeList", 10);
 				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
-
+				
 				for (int i = 0; i < pipeList.tagCount(); i++) {
 					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
 					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
 					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
 					network.insert((TileEntityPipeBase) world.getTileEntity(a),
-							(TileEntityPipeBase) world.getTileEntity(b));
+							  (TileEntityPipeBase) world.getTileEntity(b));
 				}
-
+				
 				for (int i = 0; i < moduleList.tagCount(); i++) {
 					final NBTTagCompound module = moduleList.getCompoundTagAt(i);
 					final TileEntity a = world.getTileEntity(
-							NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
+							  NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
 					final TileEntity b = world.getTileEntity(
-							NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+							  NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
 					if (a instanceof TileEntityPipeBase && !(b instanceof TileEntityPipeBase))
 						network.addModule((TileEntityPipeBase) a, b);
 					else if (!(a instanceof TileEntityPipeBase) && b instanceof TileEntityPipeBase)
@@ -145,12 +145,12 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 					network = other.network;
 				}
 			}
+		}
 			
 			if (network != null && network.getRoot().equals(this)) {
 				// on every root tick, update the entire network.
-				network.update();
+				//network.update();
 			}
-		}
 	}
 
 	@Override
@@ -229,33 +229,33 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			network.remove(this);
 		}
 	}
-
+	
 	public void onBlockClicked(final EntityPlayer player) {
 		if (!getWorld().isRemote) {
 			if (network == null) System.out.println("network is null");
 			else network.debugInfo(this);
 		}
 	}
-
+	
 	protected void setNetwork(final PipeNetwork network) {
 		this.network = network;
 	}
-
-	protected PipeNetwork getNetwork() {
+	
+	public PipeNetwork getNetwork() {
 		return network;
 	}
-
+	
 	public void updateAttachments() {
 		final HashMap<EnumFacing, PipeAttachment> lastAttachments = new HashMap<>(attachments);
 		attachments.clear();
-		for(final EnumFacing side : EnumFacing.VALUES) {
+		for (final EnumFacing side : EnumFacing.VALUES) {
 			final TileEntity adjacentTileEntity = BlockHelper.getAdjacentTileEntity(this, side);
-			if(adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite()))
+			if (adjacentTileEntity != null && adjacentTileEntity.hasCapability(capability, side.getOpposite()))
 				attachments.put(side, lastAttachments.containsKey(side) ? lastAttachments.get(side) : new PipeAttachment());
 		}
-		if(!lastAttachments.keySet().equals(attachments.keySet())) {
+		if (!lastAttachments.keySet().equals(attachments.keySet())) {
 			updated();
-
+			
 			if (!world.isRemote) {
 				for (final EnumFacing side : EnumFacing.values()) {
 					final TileEntity adj = BlockHelper.getAdjacentTileEntity(this, side);
