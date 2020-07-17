@@ -10,6 +10,7 @@ import de.bigmachines.utils.FileHelper;
 import de.bigmachines.world.ModWorldGenerator;
 import de.bigmachines.world.WorldGeneratorBase;
 import de.bigmachines.world.WorldGeneratorMineable;
+import de.bigmachines.world.WorldGeneratorRubberTree;
 import de.bigmachines.world.WorldGeneratorStructure;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public final class WorldGenerationConfig {
 	public static Gson gson = new GsonBuilder().setPrettyPrinting()
 			.registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer())
 			.registerTypeAdapter(WorldGeneratorStructure.class, new WorldGeneratorStructure.WorldGeneratorStructureDeserializer())
+			.registerTypeAdapter(WorldGeneratorRubberTree.class, new WorldGeneratorRubberTree.WorldGeneratorRubberTreeDeserializer())
 			.create();
 
     private static File worldGenerationConfig;

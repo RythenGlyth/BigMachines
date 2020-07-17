@@ -5,6 +5,10 @@
         "chance": 25000
     },
     {
+        "type": "rubbertree",
+        "chance": 1500
+    },
+    {
         "type": "mineable",
         "block-id": "bigmachines:ore_copper",
         "max-per-chunk": 12,

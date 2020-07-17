@@ -33,6 +33,7 @@ public abstract class WorldGeneratorBase {
 	public static void registerGenerators() {
 		addWorldGeneratorType("mineable", WorldGeneratorMineable.class);
 		addWorldGeneratorType("structure", WorldGeneratorStructure.class);
+		addWorldGeneratorType("rubbertree", WorldGeneratorRubberTree.class);
 	}
 
 	public boolean isDimensionBlacklisted(int dimension) {

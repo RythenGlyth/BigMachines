@@ -1,6 +1,7 @@
 package de.bigmachines.world;
 
 import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.util.ResourceLocation;
@@ -33,12 +34,21 @@ public class ModWorldGenerator implements IWorldGenerator {
 		generators.add(generator);
 	}
 	
+	/**
+	 * @deprecated use getGroundFromAbove or getGrassFromAbove instead
+	 */
+	@Deprecated
 	public static BlockPos getGroundFromBelow(World world, int x, int z) {
 		BlockPos pos = new BlockPos(x, 1, z);
 		for(; (pos.getY() <= 255) && !(world.getBlockState(pos).getBlock() instanceof BlockAir); pos = pos.add(0, 1, 0)) {}
 		return pos;
 	}
 	
+	/**
+	 * 
+	 * @return the position over the highest block that is not air, log, leaves or a replaceable <br/>
+	 * if none found it returns the blockpos with y=1
+	 */
 	public static BlockPos getGroundFromAbove(World world, int x, int z) {
 		BlockPos pos = new BlockPos(x, 255, z);
 		for(; (pos.getY() > 0) && (
@@ -48,6 +58,16 @@ public class ModWorldGenerator implements IWorldGenerator {
 				 || (world.getBlockState(pos).getBlock() instanceof BlockLeaves)
 				); pos = pos.add(0, -1, 0)) {}
 		return pos.add(0, 1, 0);
+	}
+	
+	/** 
+	 * @return the position of the highest grass block for the given x and z <br/>
+	 * if none found it returns the blockpos with y=1
+	 */
+	public static BlockPos getGrassFromAbove(World world, int x, int z) {
+		BlockPos pos = new BlockPos(x, 255, z);
+		for(; (pos.getY() > 0) && !(world.getBlockState(pos).getBlock() instanceof BlockGrass); pos = pos.add(0, -1, 0)) {}
+		return pos;
 	}
 	
 }

@@ -71,7 +71,7 @@ public class WorldGeneratorStructure extends WorldGeneratorBase {
 			return new WorldGeneratorStructure(
 					new WorldGeneratorStructure.Generator(new ResourceLocation(jsonObj.has("structure-id") ? jsonObj.get("structure-id").getAsString() : "")),
 					blacklistedDimensions,
-					jsonObj.has("chance") ? jsonObj.get("chance").getAsInt() : 100
+					jsonObj.has("chance") ? jsonObj.get("chance").getAsInt() : 10000
 			);
 		}
 		
