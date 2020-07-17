@@ -24,15 +24,8 @@ public class PipeNetwork {
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
 	
-	// what is currently in the network:
-	// which pipe -> contains which fluid and where this fluid should go
-	// (it is possible for a fluid to later split up, that's why it's stored
-	// in a map mapping the path -> the fluidstack along this path)
-	// the paths listed here are the paths that are left, not the entire path
-	// and should be truncated every time the fluid moves on
-	// the paths start with the next tile in the path, not the pipe the fluid
-	// is currently in
-	private final Map<TileEntityPipeBase, Map<List<TileEntityPipeBase>, FluidStack>> currentContents = new HashMap<>();
+	//private Map<TileEntityPipeBase, Map<List<TileEntityPipeBase>, FluidStack>> currentContents = new HashMap<>();
+	private NetworkContents currentContents = new NetworkContents();
 	
 	protected PipeNetwork(final Capability<?> capability, final TileEntityPipeBase root) {
 		c = capability;
@@ -96,13 +89,6 @@ public class PipeNetwork {
 			final PipeNetwork subnetwork = new PipeNetwork(c, subtree.getKey());
 			subtree.getKey().setNetwork(subnetwork);
 
-				/*
-				for (final TileEntityPipeBase child : subtree.getValue()) {
-					subnetwork.insert(child.a, child.b);
-					if (!child.a.getNetwork().equals(subnetwork)) child.a.setNetwork(subnetwork);
-					if (!child.b.getNetwork().equals(subnetwork)) child.b.setNetwork(subnetwork);
-				}
-				*/
 			for (final Connection<TileEntityPipeBase> conn : connections) {
 				if (subtree.getValue().contains(conn.a)) {
 					subnetwork.insert(conn.a, conn.b);
@@ -114,7 +100,76 @@ public class PipeNetwork {
 			for (final TileEntityPipeBase children : subtree.getValue())
 				children.setNetwork(subnetwork);
 		}
-		//}
+	}
+	
+	/**
+	 * Called whenever the root node receives a tick. Updates the *entire* network, moves on all fluids
+	 * and inserts new ones / fill adjacent tanks
+	 */
+	public void update() {
+		moveFluidsOneTick();
+		
+		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
+		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
+			final TileEntityPipeBase inserterPipe = inserter.getKey().y;
+			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
+			List<Pair<FluidStack, List<TileEntityPipeBase>>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
+			
+			for (Pair<FluidStack, List<TileEntityPipeBase>> drainedFluidWithPath : drained) {
+				// TODO this is the same as in moveFluidsOneTick(), externalize it
+				if (currentContents.containsKey(inserterPipe)) {
+					Map<List<TileEntityPipeBase>, FluidStack> currentContent = currentContents.get(inserterPipe);
+					if (currentContent.containsKey(drainedFluidWithPath.y)) {
+						// merge
+					} else {
+						// simply insert
+					}
+				} else {
+					Map<List<TileEntityPipeBase>, FluidStack> newContent = new HashMap<>();
+					newContent.put(drainedFluidWithPath.y, drainedFluidWithPath.x);
+					currentContents.put(inserterPipe, newContent);
+				}
+			}
+		}
+	}
+	
+	private static void mergeFluidWithPathIntoContentArray() {
+	
+	}
+	
+	private void moveFluidsOneTick() {
+		final Map<TileEntityPipeBase, Map<List<TileEntityPipeBase>, FluidStack>> nextContents = new HashMap<>();
+		
+		for (final Map<NetworkContents.Path, FluidStack> currentContent : currentContents.values()) {
+			// for every pipe that currently contains something
+			for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : currentContent.entrySet()) {
+				// for every fluid that is in this pipe currently
+				List<TileEntityPipeBase> currentPath = new ArrayList<>(fluidInPipe.getKey());
+				final TileEntityPipeBase nextTile = currentPath.remove(0); // from here on it's nextPath not currentPath
+				
+				if (nextContents.containsKey(nextTile)) {
+					if (nextContents.get(nextTile).containsKey(currentPath)) {
+						// this pipe already contains something with the same path
+						// the fluid that is already in the pipe gets merged with what we want to merge in it
+						nextContents.get(nextTile).get(currentPath).amount += fluidInPipe.getValue().amount;
+						// TODO testing can we even merge??
+						fluidInPipe.getValue().amount = 0;
+					} else {
+						//  this pipe already contains something at this tile, but with a different path
+						// simply insert the new path with its fluid:
+						// TODO can those two fluids be "merged"?
+						nextContents.get(nextTile).put(currentPath, fluidInPipe.getValue());
+					}
+				} else {
+					// this tile is not yet registered for the next tick, add it:
+					Map<List<TileEntityPipeBase>, FluidStack> nextContentInThisPipe = new HashMap<>();
+					nextContentInThisPipe.put(currentPath, fluidInPipe.getValue());
+					nextContents.put(nextTile, nextContentInThisPipe);
+				}
+			}
+		}
+		
+		currentContents = nextContents;
 	}
 	
 	/*
@@ -198,6 +253,7 @@ public class PipeNetwork {
 		return groups;
 	}
 	
+	// TODO safe delete?
 	public void clearAdjacentModules(final TileEntityPipeBase pipe) {
 		clearAdjacentModules(pipe.getWorld(), pipe.getPos());
 	}
@@ -274,29 +330,56 @@ public class PipeNetwork {
 		return targets;
 	}
 	
-	private boolean addToPipe(@Nonnull final TileEntityPipeBase pipe, @Nonnull final FluidStack fluid,
-	                          @Nonnull final List<TileEntityPipeBase> path) {
-		Map<List<TileEntityPipeBase>, FluidStack> fluidWithPath;
+	/**
+	 * Adds the fluid to the pipe. The fluid should be routed on via path.
+	 * This does calculate how much of the fluid can be added (and later returns this value)
+	 * and also adds the inserted fluid into the currentContents map
+	 * (in case the fluid could be added).
+	 *
+	 * @param pipe  The pipe to add the fluid to.
+	 * @param fluid What fluid to add.
+	 * @param path  The path the fluid should move on after this tile-
+	 * @return How much of fluid was added to the pipe, 0 if nothing was added.
+	 */
+	private int addToPipe(@Nonnull final TileEntityPipeBase pipe, @Nonnull final FluidStack fluid,
+	                      @Nonnull final List<TileEntityPipeBase> path) {
+		if (path.get(0).equals(pipe)) throw new RuntimeException("path begins with pipe itself");
+		Map<List<TileEntityPipeBase>, FluidStack> fluidsWithPath;
 		if (currentContents.containsKey(pipe)) {
-			fluidWithPath = currentContents.get(pipe);
-			// TODO
-			return true;
+			fluidsWithPath = currentContents.get(pipe);
+			int freeSpaceInPipe = pipe.maxContents();
+			for (Map.Entry<List<TileEntityPipeBase>, FluidStack> fluidWithPath : fluidsWithPath.entrySet()) {
+				if (!fluidWithPath.getValue().isFluidEqual(fluid)) return 0;
+				freeSpaceInPipe -= occupiedSpaceInPipe(pipe, fluidWithPath.getValue(), fluid);
+				if (freeSpaceInPipe <= 0) return 0;
+			}
+			final FluidStack inserted = fluid.copy();
+			inserted.amount = Math.min(freeSpaceInPipe, fluid.amount);
+			fluidsWithPath.put(path, inserted);
+			return inserted.amount;
 		} else {
-			fluidWithPath = new HashMap<>();
-			fluidWithPath.put(path, fluid);
-			currentContents.put(pipe, fluidWithPath);
-			return true;
+			fluidsWithPath = new HashMap<>();
+			fluidsWithPath.put(path, fluid);
+			currentContents.put(pipe, fluidsWithPath);
+			return fluid.amount;
 		}
 	}
 	
-	Set<Connection<TileEntity>> inserters() {
-		Set<Connection<TileEntity>> inserters = new HashSet<Connection<TileEntity>>();
+	/**
+	 * Iterates all available inserters and creates a map that checks which fluids
+	 * these inserters can insert.
+	 *
+	 * @return a map that maps (tank, inserter) -> fluid that can be inserted
+	 */
+	Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters() {
+		Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = new HashMap<>();
 		
 		for (Connection<TileEntity> module : fModules) {
 			final Pair<TileEntityPipeBase, TileEntity> sorted = sortConnection(module);
 			final FluidStack inserted = insertVia(sorted.x, sorted.y);
 			if (inserted == null || inserted.amount == 0) continue;
-			// TODO check for inserters, distribute their contents, do this every tick,
+			inserters.put(inserted, sorted);
+			// TODO distribute their contents, do this every tick,
 			// 	advance the fluid contents every tick
 			// 	make the pipes aware of their contents and save the contents to nbt
 		}
