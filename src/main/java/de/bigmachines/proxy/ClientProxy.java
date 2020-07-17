@@ -9,6 +9,7 @@ import de.bigmachines.handler.PipeOutlineHandler;
 import de.bigmachines.handler.hud.HUDTickHandler;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.interfaces.IModelRegister;
+import de.bigmachines.items.items.ItemDebugger;
 import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.render.RenderEntitySpaceshipOfficer;
 import net.minecraft.block.BlockLeaves;
@@ -38,6 +39,7 @@ public class ClientProxy implements CommonProxy {
         MinecraftForge.EVENT_BUS.register(new HUDTickHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemInformationHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemWrench.ScrollHandler());
+		MinecraftForge.EVENT_BUS.register(new ItemDebugger.ScrollHandler());
 		
 		ModKeybinds.init();
 		

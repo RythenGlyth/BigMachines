@@ -103,7 +103,7 @@ public class ItemWrench extends ItemBase implements IInfoProviderShift {
 		
 		@SubscribeEvent
 		public void onScroll(MouseEvent e) {
-			if(ModKeybinds.wrench.isKeyDown()) {
+			if(ModKeybinds.toolKey.isKeyDown()) {
 				if(Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench) {
 					int dwheel = e.getDwheel();
 					if(dwheel != 0) {

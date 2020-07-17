@@ -16,7 +16,7 @@ config.bigmachines.nbttooltip.description=Zeigt die NBT Daten, wenn man STRG auf
 
 #Keybindings
 key.categories.bigmachines=Big Machines
-key.bigmachines.wrench=Schraubenschlüssel aktivieren
+key.bigmachines.toolKey=Werkzeug (Schraubenschlüssel, Debugger)
 
 # Creative Tabs
 itemGroup.bigmachines.mainTab=Big Machines
@@ -102,11 +102,13 @@ info.bigmachines.press_strg_nbt=Halte §e§l[STRG]§r§7 für NBT Daten
 
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
 info.bigmachines.harvestlevel.shift=Abbau-Level
-info.bigmachines.wrench.shift=Wenn Schraubenschlüssel Knopf gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.wrench.shift=Wenn Werkzeug Taste gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.debugger.shift1=Debug funktionen
+info.bigmachines.debugger.shift2=Wenn Werkzeug Taste gedrückt, scrollen um zwischen Modis zu wechseln
 info.bigmachines.armor_west.shift=Aktuelles Armor-Level:
-info.bigmachines.floor1.shift=Kann als Boden und Decke platziert werden
-info.bigmachines.floor2.shift=Ist 1/8 Block
-info.bigmachines.floor3.shift=Kann bis zu 8 pro Block gestapelt werden.
+info.bigmachines.floor.shift1=Kann als Boden und Decke platziert werden
+info.bigmachines.floor.shift2=Ist 1/8 Block
+info.bigmachines.floor.shift3=Kann bis zu 8 pro Block gestapelt werden.
 
 info.bigmachines.burntime=Brennzeit
 info.bigmachines.charge=Ladung

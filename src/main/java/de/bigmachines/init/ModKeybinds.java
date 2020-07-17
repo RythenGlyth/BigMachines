@@ -7,11 +7,11 @@ import org.lwjgl.input.Keyboard;
 
 public final class ModKeybinds {
 	
-	public static KeyBinding wrench;
+	public static KeyBinding toolKey;
 	
 	public static void init() {
-		wrench = new KeyBinding("key." + Reference.MOD_ID + ".wrench", Keyboard.KEY_LSHIFT, "key.categories." + Reference.MOD_ID);
-		ClientRegistry.registerKeyBinding(wrench);
+		toolKey = new KeyBinding("key." + Reference.MOD_ID + ".toolKey", Keyboard.KEY_LMENU, "key.categories." + Reference.MOD_ID);
+		ClientRegistry.registerKeyBinding(toolKey);
 	}
 	
 }

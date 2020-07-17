@@ -10,6 +10,7 @@ import de.bigmachines.utils.NBTHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -31,13 +32,22 @@ public class ItemInformationHandler {
 		if(e.getItemStack().getItem() instanceof IInfoProviderShift) {
 			addShiftInfo((IInfoProviderShift)e.getItemStack().getItem(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
 		}
+		if(e.getItemStack().getItem() instanceof ItemBlock && ((ItemBlock)e.getItemStack().getItem()).getBlock() instanceof IInfoProviderShift) {
+			addShiftInfo((IInfoProviderShift)((ItemBlock)e.getItemStack().getItem()).getBlock(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
+		}
 		
 		if(e.getItemStack().getItem() instanceof IInfoProviderAlt) {
 			addAltInfo((IInfoProviderAlt)e.getItemStack().getItem(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
 		}
+		if(e.getItemStack().getItem() instanceof ItemBlock && ((ItemBlock)e.getItemStack().getItem()).getBlock() instanceof IInfoProviderAlt) {
+			addAltInfo((IInfoProviderAlt)((ItemBlock)e.getItemStack().getItem()).getBlock(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
+		}
 		
 		if(e.getItemStack().getItem() instanceof IInfoProviderCtrl) {
 			addStrgInfo((IInfoProviderCtrl)e.getItemStack().getItem(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
+		}
+		if(e.getItemStack().getItem() instanceof ItemBlock && ((ItemBlock)e.getItemStack().getItem()).getBlock() instanceof IInfoProviderCtrl) {
+			addStrgInfo((IInfoProviderCtrl)((ItemBlock)e.getItemStack().getItem()).getBlock(), e.getItemStack(), e.getEntityPlayer(), toolips, e.getFlags());
 		}
 		
 		if(Config.isNbtTooltip() && e.getItemStack().hasTagCompound()) addNBTInfo(e.getItemStack(), toolips);

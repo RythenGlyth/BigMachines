@@ -83,9 +83,9 @@ public class ItemBlockFloor extends ItemBlockBase implements IInfoProviderShift 
 
 	@Override
 	public void addShiftInformation(ItemStack itemStack, EntityPlayer entityPlayer, List<String> toolTip, ITooltipFlag flags) {
-		toolTip.add(I18n.format("info.bigmachines.floor1.shift"));
-		toolTip.add(I18n.format("info.bigmachines.floor2.shift"));
-		toolTip.add(I18n.format("info.bigmachines.floor3.shift"));
+		toolTip.add(I18n.format("info.bigmachines.floor.shift1"));
+		toolTip.add(I18n.format("info.bigmachines.floor.shift2"));
+		toolTip.add(I18n.format("info.bigmachines.floor.shift3"));
 	}
 	
 }
