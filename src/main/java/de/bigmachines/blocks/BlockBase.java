@@ -9,33 +9,32 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * Core Block
- * 
- * Represents any block (e. g. ore, storage block, conduit, machine)
- * 
- * @author RythenGlyth
  *
+ * Represents any block (e. g. ore, storage block, conduit, machine)
+ *
+ * @author RythenGlyth
  */
 
-public class BlockBase extends Block {
-    
+public class BlockBase extends Block implements IBlockBase {
+	
 	protected ItemBlock itemBlock;
 	
-    protected String name;
-    
-    public BlockBase(final Material materialIn, final String name) {
-        super(materialIn);
+	protected String name;
+	
+	public BlockBase(final Material materialIn, final String name) {
+		super(materialIn);
 		this.name = name;
 		setRegistryName(new ResourceLocation(Reference.MOD_ID, this.name));
 		setUnlocalizedName(Reference.MOD_ID + "." + this.name);
 		this.itemBlock = new ItemBlockBase(this);
-    }
-    
-    @Override
+	}
+	
+	@Override
 	public Block setSoundType(final SoundType sound) {
 		return super.setSoundType(sound);
 	}
-    
-    public ItemBlock getItemBlock() {
+	
+	public ItemBlock getItemBlock() {
 		return itemBlock;
 	}
 	

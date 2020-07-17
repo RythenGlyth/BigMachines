@@ -35,6 +35,7 @@ item.bigmachines.nugget_aluminum.name=Aluminum Nugget
 item.bigmachines.slime_boots.name=Slime Boots
 item.bigmachines.armor_west.name=Armor West
 item.bigmachines.manual.name=Big Machines Manual
+item.bigmachines.debugger.name=Big Machines Debugger
 
 item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_copper.name=Copper wrench
@@ -84,6 +85,11 @@ tile.bigmachines.floor_marble_brick.name=Marble Brick Floor
 tile.bigmachines.floor_slate.name=Slate Floor
 tile.bigmachines.floor_slate_smooth.name=Smooth Slate Floor
 tile.bigmachines.floor_slate_brick.name=Slate Brick Floor
+
+tile.bigmachines.rubber_leaves.name=Rubbertree Leaves
+tile.bigmachines.rubber_log.name=Rubbertree Wood
+tile.bigmachines.rubber_planks.name=Rubbertree Planks
+tile.bigmachines.rubber_sapling.name=Rubbertree Sapling
 
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details

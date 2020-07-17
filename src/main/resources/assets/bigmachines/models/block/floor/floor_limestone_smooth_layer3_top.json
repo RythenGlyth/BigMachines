@@ -1,0 +1,7 @@
+{
+  "parent": "bigmachines:block/floor/floor_layer3_top",
+  "textures": {
+    "particle": "bigmachines:block/limestone_smooth",
+    "tex": "bigmachines:block/limestone_smooth"
+  }
+}

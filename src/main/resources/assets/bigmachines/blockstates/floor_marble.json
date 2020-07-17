@@ -1,47 +1,133 @@
 {
     "variants": {
-        "normal": { "model": "bigmachines:floor_marble" },
-        "half=bottom,layers=1": [
-            { "model": "bigmachines:floor_marble_layer1_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer1_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer1_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer1_bottom", "y": 270 }
-        ],
-        "half=bottom,layers=2": [
-            { "model": "bigmachines:floor_marble_layer2_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer2_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer2_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer2_bottom", "y": 270 }
-        ],
-        "half=bottom,layers=3": [
-            { "model": "bigmachines:floor_marble_layer3_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer3_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer3_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer3_bottom", "y": 270 }
-        ],
-        "half=bottom,layers=4": [
-            { "model": "bigmachines:floor_marble_layer4_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer4_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer4_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer4_bottom", "y": 270 }
-        ],
+      "normal": {
+        "model": "bigmachines:floor/floor_marble"
+      },
+      "half=bottom,layers=1": [
+        {
+          "model": "bigmachines:floor/floor_marble_layer1_bottom",
+          "y": 0
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer1_bottom",
+          "y": 90
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer1_bottom",
+          "y": 180
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer1_bottom",
+          "y": 270
+        }
+      ],
+      "half=bottom,layers=2": [
+        {
+          "model": "bigmachines:floor/floor_marble_layer2_bottom",
+          "y": 0
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer2_bottom",
+          "y": 90
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer2_bottom",
+          "y": 180
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer2_bottom",
+          "y": 270
+        }
+      ],
+      "half=bottom,layers=3": [
+        {
+          "model": "bigmachines:floor/floor_marble_layer3_bottom",
+          "y": 0
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer3_bottom",
+          "y": 90
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer3_bottom",
+          "y": 180
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer3_bottom",
+          "y": 270
+        }
+      ],
+      "half=bottom,layers=4": [
+        {
+          "model": "bigmachines:floor/floor_marble_layer4_bottom",
+          "y": 0
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer4_bottom",
+          "y": 90
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer4_bottom",
+          "y": 180
+        },
+        {
+          "model": "bigmachines:floor/floor_marble_layer4_bottom",
+          "y": 270
+        }
+      ],
         "half=bottom,layers=5": [
-            { "model": "bigmachines:floor_marble_layer5_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer5_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer5_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer5_bottom", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_bottom",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_bottom",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_bottom",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_bottom",
+            "y": 270
+          }
         ],
         "half=bottom,layers=6": [
-            { "model": "bigmachines:floor_marble_layer6_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer6_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer6_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer6_bottom", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_bottom",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_bottom",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_bottom",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_bottom",
+            "y": 270
+          }
         ],
         "half=bottom,layers=7": [
-            { "model": "bigmachines:floor_marble_layer7_bottom", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer7_bottom", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer7_bottom", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer7_bottom", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_bottom",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_bottom",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_bottom",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_bottom",
+            "y": 270
+          }
         ],
         "half=bottom,layers=8": [
             { "model": "bigmachines:marble", "y": 0 },
@@ -50,46 +136,130 @@
             { "model": "bigmachines:marble", "y": 270 }
         ],
         "half=top,layers=1": [
-            { "model": "bigmachines:floor_marble_layer1_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer1_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer1_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer1_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer1_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer1_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer1_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer1_top",
+            "y": 270
+          }
         ],
         "half=top,layers=2": [
-            { "model": "bigmachines:floor_marble_layer2_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer2_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer2_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer2_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer2_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer2_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer2_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer2_top",
+            "y": 270
+          }
         ],
         "half=top,layers=3": [
-            { "model": "bigmachines:floor_marble_layer3_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer3_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer3_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer3_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer3_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer3_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer3_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer3_top",
+            "y": 270
+          }
         ],
         "half=top,layers=4": [
-            { "model": "bigmachines:floor_marble_layer4_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer4_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer4_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer4_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer4_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer4_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer4_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer4_top",
+            "y": 270
+          }
         ],
         "half=top,layers=5": [
-            { "model": "bigmachines:floor_marble_layer5_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer5_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer5_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer5_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer5_top",
+            "y": 270
+          }
         ],
         "half=top,layers=6": [
-            { "model": "bigmachines:floor_marble_layer6_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer6_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer6_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer6_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer6_top",
+            "y": 270
+          }
         ],
         "half=top,layers=7": [
-            { "model": "bigmachines:floor_marble_layer7_top", "y": 0 },
-            { "model": "bigmachines:floor_marble_layer7_top", "y": 90 },
-            { "model": "bigmachines:floor_marble_layer7_top", "y": 180 },
-            { "model": "bigmachines:floor_marble_layer7_top", "y": 270 }
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_top",
+            "y": 0
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_top",
+            "y": 90
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_top",
+            "y": 180
+          },
+          {
+            "model": "bigmachines:floor/floor_marble_layer7_top",
+            "y": 270
+          }
         ],
         "half=top,layers=8": [
             { "model": "bigmachines:marble", "y": 0 },

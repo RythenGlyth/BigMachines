@@ -2,12 +2,16 @@ package de.bigmachines.proxy;
 
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.entities.EntitySpaceshipOfficer;
-import de.bigmachines.handler.*;
+import de.bigmachines.handler.CooktimeDisplay;
+import de.bigmachines.handler.HarvestLevelDisplay;
+import de.bigmachines.handler.ItemInformationHandler;
+import de.bigmachines.handler.PipeOutlineHandler;
 import de.bigmachines.handler.hud.HUDTickHandler;
 import de.bigmachines.init.ModKeybinds;
 import de.bigmachines.interfaces.IModelRegister;
 import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.render.RenderEntitySpaceshipOfficer;
+import net.minecraft.block.BlockLeaves;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -48,9 +52,9 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void postInit() {
-
+	
 	}
-
+	
 	@SubscribeEvent
 	public void registerItems(ModelRegistryEvent event) {
 		modelList.forEach(IModelRegister::registerModels);
@@ -59,5 +63,10 @@ public class ClientProxy implements CommonProxy {
 	public void addIModelRegister(IModelRegister modelRegister) {
 		modelList.add(modelRegister);
 	}
-
+	
+	@Override
+	public void setGraphicsLevel(BlockLeaves block, boolean fancyEnabled) {
+		block.setGraphicsLevel(fancyEnabled);
+	}
+	
 }

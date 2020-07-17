@@ -24,15 +24,13 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 	private final int maxPerChunk;
 	private final int minHeight;
 	private final int maxHeight;
-	private final List<Integer> blacklistedDimensions;
 
 	public WorldGeneratorMineable(IBlockState blockState, int maxPerChunk, int maxVeinSize, int minHeight, int maxHeight, List<Integer> blacklistedDimensions, List<Block> replaceable) {
-		super();
+		super(blacklistedDimensions);
 		this.maxPerChunk = maxPerChunk;
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
-		this.blacklistedDimensions = blacklistedDimensions;
-
+		
 		generator = new WorldGenMinable(blockState, maxVeinSize, input -> {
 			if (input == null) return false;
 			for (Block block : replaceable) if (input.getBlock().equals(block)) return true;
@@ -54,11 +52,6 @@ public class WorldGeneratorMineable extends WorldGeneratorBase {
 			}
 			
 		}
-	}
-
-	private boolean isDimensionBlacklisted(int dimension) {
-		for (Integer blacklistedDimension : blacklistedDimensions) if (blacklistedDimension == dimension) return true;
-		return false;
 	}
 
 	public static class WorldGeneratorMineableDeserializer implements JsonDeserializer<WorldGeneratorMineable> {

@@ -35,6 +35,7 @@ item.bigmachines.nugget_aluminum.name=Aluminiumklupmpen
 item.bigmachines.slime_boots.name=Slime Schuhe
 item.bigmachines.armor_west.name=Rüstungsweste
 item.bigmachines.manual.name=Big Machines Anleitung
+item.bigmachines.debugger.name=Big Machines Debugger
 
 item.bigmachines.wrench.name=Schraubenschlüssel
 #item.bigmachines.wrench_copper.name=Kupfer Schraubenschlüssel
@@ -84,6 +85,11 @@ tile.bigmachines.floor_marble_brick.name=Marmorziegel Fußboden
 tile.bigmachines.floor_slate.name=Schiefer Fußboden
 tile.bigmachines.floor_slate_smooth.name=Glatter Schiefer Fußboden
 tile.bigmachines.floor_slate_brick.name=Schieferziegel Fußboden
+
+tile.bigmachines.rubber_leaves.name=Gummibaumlaub
+tile.bigmachines.rubber_log.name=Gummibaumstamm
+tile.bigmachines.rubber_planks.name=Gummibaumholzbretter
+tile.bigmachines.rubber_sapling.name=Gummibaum Setzling
 
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details
