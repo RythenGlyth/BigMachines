@@ -5,7 +5,6 @@ import de.bigmachines.items.items.ItemWrench;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -13,7 +12,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.lwjgl.opengl.GL11;
@@ -232,7 +230,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(18 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
 			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
 			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 10 * pixelWitdh).tex(24 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
-	
+			
 			//EAST
 			buffer.pos(10 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 21 * pixelTextureWitdh).endVertex();
 			buffer.pos(10 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(0 * pixelTextureWitdh, 16 * pixelTextureWitdh).endVertex();
@@ -242,8 +240,9 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 		
 		//System.out.println(Config.pipeStatusOverlayAlwaysOn);
 		
-		if((Config.isPipeStatusOverlayAlwaysOn() || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract && attachment.canInsert)) {
-			final double statusOverlayU = attachment.canExtract ? 0 : (attachment.canInsert ? 6 * pixelTextureWitdh : 12 * pixelTextureWitdh);
+		if ((Config.isPipeStatusOverlayAlwaysOn() || (Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemWrench)) && !(attachment.canExtract() && attachment.canInsert())) {
+			final double statusOverlayU = attachment.canExtract() ? 0 : (attachment.canInsert() ? 6 * pixelTextureWitdh :
+					  12 * pixelTextureWitdh);
 			
 			//OUTSIDE STATUS
 			
@@ -252,7 +251,7 @@ public class TileEntitySpecialRendererPipeBase extends TileEntitySpecialRenderer
 			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();
 			buffer.pos(11 * pixelWitdh, 16 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 24 * pixelTextureWitdh).endVertex();
 			buffer.pos(11 * pixelWitdh, 11 * pixelWitdh, 5 * pixelWitdh).tex(statusOverlayU, 29 * pixelTextureWitdh).endVertex();
-
+			
 			//WEST
 			buffer.pos(5 * pixelWitdh, 11 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 29 * pixelTextureWitdh).endVertex();
 			buffer.pos(5 * pixelWitdh, 16 * pixelWitdh, 11 * pixelWitdh).tex(statusOverlayU + 6 * pixelTextureWitdh, 24 * pixelTextureWitdh).endVertex();

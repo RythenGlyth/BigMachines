@@ -164,30 +164,42 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	 */
 	protected boolean canInsertIn(@Nullable final TileEntityPipeBase other) {
 		if (other == null) return false;
-		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(), other.getPos());
 		if (connectingFacing == null) return false;
 		if (!getAttachment(connectingFacing).canExtract()) return false;
 		if (!getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
 		//if (other.getAttachment())
 		return true;
 	}
-
+	
+	// TODO disconnect pipes using a wrench
+	// TODO colored pipes that don't connect (compare AE2 cables)
 	public boolean isConnectedTo(@Nullable final TileEntityPipeBase other) {
 		if (other == null) return false;
-		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(),other.getPos());
+		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(), other.getPos());
 		if (connectingFacing == null) return false;
 		return hasAttachment(connectingFacing);
 	}
-
+	
+	/**
+	 * The amount this pipe can hold at once / transport per tick of the specified fluid.
+	 *
+	 * @return how much this pipe can transport of the specified fluid
+	 */
+	public int maxContents() {
+		// TODO different pipe tiers?
+		return 1000;
+	}
+	
 	public HashMap<EnumFacing, PipeAttachment> getAttachments() {
 		return attachments;
 	}
-
+	
 	public void onBlockPlaced(final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
 		updateAttachments();
-
+		
 		if (!getWorld().isRemote) {
-
+			
 			if (network != null) throw new RuntimeException("pipe is placed with network initialized, this shouldn't be a thing!");
 
 			for (final EnumFacing side : EnumFacing.values()) {
@@ -301,16 +313,16 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 
 		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? state.getWeakPower(getWorld(), getPos(), facing) : getWorld().getStrongPower(getPos());
 	}
-
+	
 	public static class PipeAttachment implements IHasRedstoneControl {
-
-		protected boolean canExtract;
-		protected boolean canInsert;
-
+		
+		private boolean canExtract;
+		private boolean canInsert;
+		
 		protected RedstoneMode redstoneMode;
-
+		
 		protected Inventory inventory;
-
+		
 		/**
 		 * Filter Mode
 		 * true=whitelist
@@ -451,7 +463,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			if(!inventory.isEmpty()) inventory.writeToNBT(attachmentTag);
 			return attachmentTag;
 		}
-
+		
 	}
 	
 	public String toString() {
