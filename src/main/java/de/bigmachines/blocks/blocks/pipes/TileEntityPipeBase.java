@@ -136,7 +136,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 					else
 						throw new RuntimeException("wrong module @ " + a + " and " + b);
 				}
-
+				
 			} else { // I am not root, init network on root
 				// FIXME this might lead to an infinite loop on startup and might be unneeded
 				final TileEntityPipeBase other = (TileEntityPipeBase) world.getTileEntity(rootPos);
@@ -144,6 +144,11 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 					other.update();
 					network = other.network;
 				}
+			}
+			
+			if (network != null && network.getRoot().equals(this)) {
+				// on every root tick, update the entire network.
+				network.update();
 			}
 		}
 	}
