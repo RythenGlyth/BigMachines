@@ -3,15 +3,19 @@ package de.bigmachines.utils.classes;
 import java.util.Objects;
 
 public class Pair<X, Y> {
-	public final X x; 
-	public final Y y; 
-
-	public Pair(X x, Y y) {
+    public final X x;
+    public final Y y;
+    
+    public Pair(X x, Y y) {
         super();
         this.x = x;
         this.y = y;
     }
-
+    
+    public Pair<Y, X> swap() {
+        return new Pair<Y, X>(y, x);
+    }
+    
     public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null) return false;
