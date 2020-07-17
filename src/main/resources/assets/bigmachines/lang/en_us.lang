@@ -85,6 +85,7 @@ tile.bigmachines.floor_marble_brick.name=Marble Brick Floor
 tile.bigmachines.floor_slate.name=Slate Floor
 tile.bigmachines.floor_slate_smooth.name=Smooth Slate Floor
 tile.bigmachines.floor_slate_brick.name=Slate Brick Floor
+tile.bigmachines.floor_glass.name=Glass Floor
 
 tile.bigmachines.rubber_leaves.name=Rubbertree Leaves
 tile.bigmachines.rubber_log.name=Rubbertree Wood

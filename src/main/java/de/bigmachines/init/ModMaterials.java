@@ -71,6 +71,8 @@ public final class ModMaterials {
 	public static BlockBase floor_slate_smooth;
 	public static BlockBase floor_slate_brick;
 
+	public static BlockBase floor_glass;
+
     public static void preInit() {
         initMetals();
         initStones();
@@ -139,6 +141,9 @@ public final class ModMaterials {
         ModBlocks.BLOCKS.add(floor_slate);
         ModBlocks.BLOCKS.add(floor_slate_smooth);
         ModBlocks.BLOCKS.add(floor_slate_brick);
+
+    	floor_glass = (BlockBase) new BlockFloor("floor_glass", Material.GLASS, SoundType.GLASS, 0.3F, 0F).setCreativeTab(ModCreativeTabs.materialsTab);
+        ModBlocks.BLOCKS.add(floor_glass);
         
     }
 

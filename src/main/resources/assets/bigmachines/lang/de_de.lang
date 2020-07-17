@@ -85,6 +85,7 @@ tile.bigmachines.floor_marble_brick.name=Marmorziegel Fußboden
 tile.bigmachines.floor_slate.name=Schiefer Fußboden
 tile.bigmachines.floor_slate_smooth.name=Glatter Schiefer Fußboden
 tile.bigmachines.floor_slate_brick.name=Schieferziegel Fußboden
+tile.bigmachines.floor_glass.name=Glas Fußboden
 
 tile.bigmachines.rubber_leaves.name=Gummibaumlaub
 tile.bigmachines.rubber_log.name=Gummibaumstamm
