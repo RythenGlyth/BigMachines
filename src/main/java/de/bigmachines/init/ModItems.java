@@ -3,6 +3,7 @@ package de.bigmachines.init;
 import de.bigmachines.interfaces.IInitializer;
 import de.bigmachines.items.items.ItemArmorWest;
 import de.bigmachines.items.items.ItemDebugger;
+import de.bigmachines.items.items.ItemSlicer;
 import de.bigmachines.items.items.ItemSlimeBoots;
 import de.bigmachines.items.items.ItemWrench;
 import de.bigmachines.items.items.manual.ItemManual;
@@ -30,6 +31,7 @@ public class ModItems {
 	public static ItemWrench wrench;
 	public static ItemManual manual;
 	public static ItemDebugger debugger;
+	public static ItemSlicer slicer;
 	
 	public static final ArrayList<Item> ITEMS = new ArrayList<>();
 	
@@ -43,6 +45,8 @@ public class ModItems {
 		
 		debugger = new ItemDebugger();
 		ITEMS.add(debugger);
+		slicer = new ItemSlicer();
+		ITEMS.add(slicer);
 		
 		wrench = new ItemWrench();
 		ITEMS.add(wrench);

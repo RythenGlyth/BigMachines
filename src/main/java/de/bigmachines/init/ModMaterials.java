@@ -1,12 +1,16 @@
 package de.bigmachines.init;
 
+import java.util.HashMap;
+
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.blocks.BlockBaseOreDict;
 import de.bigmachines.blocks.blocks.BlockFloor;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.items.ItemBaseOreDict;
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 
 public final class ModMaterials {
 
@@ -55,23 +59,25 @@ public final class ModMaterials {
 	public static BlockBase slate_brick;
 	
 
-	public static BlockBase floor_blackstone;
-	public static BlockBase floor_blackstone_smooth;
-	public static BlockBase floor_blackstone_brick;
+	public static BlockFloor floor_blackstone;
+	public static BlockFloor floor_blackstone_smooth;
+	public static BlockFloor floor_blackstone_brick;
 	
-	public static BlockBase floor_limestone;
-	public static BlockBase floor_limestone_smooth;
-	public static BlockBase floor_limestone_brick;
+	public static BlockFloor floor_limestone;
+	public static BlockFloor floor_limestone_smooth;
+	public static BlockFloor floor_limestone_brick;
 	
-	public static BlockBase floor_marble;
-	public static BlockBase floor_marble_smooth;
-	public static BlockBase floor_marble_brick;
+	public static BlockFloor floor_marble;
+	public static BlockFloor floor_marble_smooth;
+	public static BlockFloor floor_marble_brick;
 	
-	public static BlockBase floor_slate;
-	public static BlockBase floor_slate_smooth;
-	public static BlockBase floor_slate_brick;
+	public static BlockFloor floor_slate;
+	public static BlockFloor floor_slate_smooth;
+	public static BlockFloor floor_slate_brick;
 
-	public static BlockBase floor_glass;
+	public static BlockFloor floor_glass;
+	
+	public static HashMap<Block, BlockFloor> floorBlocks = new HashMap<Block, BlockFloor>();
 
     public static void preInit() {
         initMetals();
@@ -114,36 +120,49 @@ public final class ModMaterials {
         ModBlocks.BLOCKS.add(slate_brick);
         
 
-    	floor_blackstone = (BlockBase) new BlockFloor("floor_blackstone").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_blackstone_smooth = (BlockBase) new BlockFloor("floor_blackstone_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_blackstone_brick = (BlockBase) new BlockFloor("floor_blackstone_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_blackstone = new BlockFloor("floor_blackstone");
+    	floor_blackstone_smooth = new BlockFloor("floor_blackstone_smooth");
+    	floor_blackstone_brick = new BlockFloor("floor_blackstone_brick");
         ModBlocks.BLOCKS.add(floor_blackstone);
         ModBlocks.BLOCKS.add(floor_blackstone_smooth);
         ModBlocks.BLOCKS.add(floor_blackstone_brick);
+        floorBlocks.put(blackstone, floor_blackstone);
+        floorBlocks.put(blackstone_smooth, floor_blackstone_smooth);
+        floorBlocks.put(blackstone_brick, floor_blackstone_brick);
         
-    	floor_limestone = (BlockBase) new BlockFloor("floor_limestone").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_limestone_smooth = (BlockBase) new BlockFloor("floor_limestone_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_limestone_brick = (BlockBase) new BlockFloor("floor_limestone_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_limestone = new BlockFloor("floor_limestone");
+    	floor_limestone_smooth = new BlockFloor("floor_limestone_smooth");
+    	floor_limestone_brick = new BlockFloor("floor_limestone_brick");
         ModBlocks.BLOCKS.add(floor_limestone);
         ModBlocks.BLOCKS.add(floor_limestone_smooth);
         ModBlocks.BLOCKS.add(floor_limestone_brick);
+        floorBlocks.put(limestone, floor_limestone);
+        floorBlocks.put(limestone_smooth, floor_limestone_smooth);
+        floorBlocks.put(limestone_brick, floor_limestone_brick);
         
-    	floor_marble = (BlockBase) new BlockFloor("floor_marble").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_marble_smooth = (BlockBase) new BlockFloor("floor_marble_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_marble_brick = (BlockBase) new BlockFloor("floor_marble_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_marble = new BlockFloor("floor_marble");
+    	floor_marble_smooth = new BlockFloor("floor_marble_smooth");
+    	floor_marble_brick = new BlockFloor("floor_marble_brick");
         ModBlocks.BLOCKS.add(floor_marble);
         ModBlocks.BLOCKS.add(floor_marble_smooth);
         ModBlocks.BLOCKS.add(floor_marble_brick);
+        floorBlocks.put(marble, floor_marble);
+        floorBlocks.put(marble_smooth, floor_marble_smooth);
+        floorBlocks.put(marble_brick, floor_marble_brick);
         
-    	floor_slate = (BlockBase) new BlockFloor("floor_slate").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_slate_smooth = (BlockBase) new BlockFloor("floor_slate_smooth").setCreativeTab(ModCreativeTabs.materialsTab);
-    	floor_slate_brick = (BlockBase) new BlockFloor("floor_slate_brick").setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_slate = new BlockFloor("floor_slate");
+    	floor_slate_smooth = new BlockFloor("floor_slate_smooth");
+    	floor_slate_brick = new BlockFloor("floor_slate_brick");
         ModBlocks.BLOCKS.add(floor_slate);
         ModBlocks.BLOCKS.add(floor_slate_smooth);
         ModBlocks.BLOCKS.add(floor_slate_brick);
+        floorBlocks.put(slate, floor_slate);
+        floorBlocks.put(slate_smooth, floor_slate_smooth);
+        floorBlocks.put(slate_brick, floor_slate_brick);
 
-    	floor_glass = (BlockBase) new BlockFloor("floor_glass", Material.GLASS, SoundType.GLASS, 0.3F, 0F).setCreativeTab(ModCreativeTabs.materialsTab);
+    	floor_glass = new BlockFloor("floor_glass", Material.GLASS, SoundType.GLASS, 0.3F, 0F);
         ModBlocks.BLOCKS.add(floor_glass);
+        floorBlocks.put(Blocks.GLASS, floor_glass);
         
     }
 

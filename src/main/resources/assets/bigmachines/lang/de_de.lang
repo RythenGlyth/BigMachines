@@ -38,6 +38,7 @@ item.bigmachines.slime_boots.name=Slime Schuhe
 item.bigmachines.armor_west.name=Rüstungsweste
 item.bigmachines.manual.name=Big Machines Anleitung
 item.bigmachines.debugger.name=Big Machines Debugger
+item.bigmachines.slicer.name=Slicer
 
 item.bigmachines.wrench.name=Schraubenschlüssel
 #item.bigmachines.wrench_copper.name=Kupfer Schraubenschlüssel
@@ -103,6 +104,7 @@ info.bigmachines.press_strg_nbt=Halte §e§l[STRG]§r§7 für NBT Daten
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
 info.bigmachines.harvestlevel.shift=Abbau-Level
 info.bigmachines.wrench.shift=Wenn Werkzeug Taste gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.slicer.shift=Blöcke oder Fußböden lassen sich hiermit in kleinere Fußböden kleinschneiden
 info.bigmachines.debugger.shift1=Debug funktionen
 info.bigmachines.debugger.shift2=Wenn Werkzeug Taste gedrückt, scrollen um zwischen Modis zu wechseln
 info.bigmachines.armor_west.shift=Aktuelles Armor-Level:
