@@ -130,7 +130,7 @@ public class BlockFloor extends BlockBase {
                 		return false;
                 	if(side == EnumFacing.UP && (half == EnumBlockHalf.TOP || layers == 8) && (otherHalf == EnumBlockHalf.BOTTOM || otherLayers == 8))
                 		return false;
-                	if(layers <= otherLayers) return false;
+                	if(half == otherHalf && layers <= otherLayers) return false;
                 }
             }
     	}
