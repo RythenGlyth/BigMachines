@@ -18,7 +18,7 @@
         },
         {
             "type": "text",
-            "text": "Every Rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals."
+            "text": "Every Rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals. (This happens on averge every 9.1 minutes)"
         },
         {
             "type": "text",
