@@ -47,6 +47,10 @@ item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_silver.name=Silver wrench
 #item.bigmachines.wrench_tin.name=Tin wrench
 
+#Fluids
+fluid.rubber_latex=Rubber Latex
+tile.bigmachines.fluid.rubber_latex.name=Rubber Latex
+
 #Blocks
 tile.bigmachines.block_copper.name=Block of Copper
 tile.bigmachines.block_tin.name=Block of Tin

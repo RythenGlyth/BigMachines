@@ -47,6 +47,10 @@ item.bigmachines.wrench.name=Schraubenschlüssel
 #item.bigmachines.wrench_silver.name=Silber Schraubenschlüssel
 #item.bigmachines.wrench_tin.name=Zinn Schraubenschlüssel
 
+#Fluids
+fluid.rubber_latex=Gummi-Latex
+tile.bigmachines.fluid.rubber_latex.name=Rubber Latex
+
 #Blocks
 tile.bigmachines.block_copper.name=Kupferblock
 tile.bigmachines.block_tin.name=Zinnblock

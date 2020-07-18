@@ -66,6 +66,7 @@ public class BigMachines {
 		ModCreativeTabs.init();
 		ModItems.preInit();
 		ModBlocks.preInit();
+		ModFluids.preInit();
 		ModEntities.preInit();
 		ModMaterials.preInit();
 		ModTileEntities.init();
