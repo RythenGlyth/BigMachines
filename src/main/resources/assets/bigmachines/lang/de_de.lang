@@ -98,6 +98,7 @@ tile.bigmachines.rubber_leaves.name=Gummibaumlaub
 tile.bigmachines.rubber_log.name=Gummibaumstamm
 tile.bigmachines.rubber_planks.name=Gummibaumholzbretter
 tile.bigmachines.rubber_sapling.name=Gummibaum Setzling
+tile.bigmachines.rubber_tap.name=Gummibaumhahn
 
 #Infos
 info.bigmachines.press_shift=Halte §e§l[SHIFT]§r§7 für Details

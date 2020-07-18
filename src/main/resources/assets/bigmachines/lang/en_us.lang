@@ -98,6 +98,7 @@ tile.bigmachines.rubber_leaves.name=Rubbertree Leaves
 tile.bigmachines.rubber_log.name=Rubbertree Wood
 tile.bigmachines.rubber_planks.name=Rubbertree Planks
 tile.bigmachines.rubber_sapling.name=Rubbertree Sapling
+tile.bigmachines.rubber_tap.name=Rubber Tap
 
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
