@@ -11,6 +11,7 @@ import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -41,6 +42,10 @@ public class BigMachines {
 	public static CommonProxy proxy;
 	
 	public static final SimpleNetworkWrapper networkHandlerMain = NetworkRegistry.INSTANCE.newSimpleChannel(new ResourceLocation(Reference.MOD_ID, "main").toString());
+	
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
 	
 	public BigMachines() {
 		super();

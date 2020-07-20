@@ -241,7 +241,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		this.network = network;
 	}
 
-	protected PipeNetwork getNetwork() {
+	public PipeNetwork getNetwork() {
 		return network;
 	}
 
