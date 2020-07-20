@@ -82,6 +82,32 @@ public final class RenderHelper {
 		lines.add(currentLine);
 		return lines;
 	}
+	
+	public static void drawLine(int x1, int y1, int x2, int y2, int color, float thickness) {
+		float alpha = (float) (color >> 24 & 255) / 255.0F;
+		float red   = (float) (color >> 16 & 255) / 255.0F;
+		float green = (float) (color >>  8 & 255) / 255.0F;
+		float blue  = (float) (color >>  0 & 255) / 255.0F;
+		
+		Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        
+        GlStateManager.glLineWidth(thickness);
+        
+        buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+        
+        buffer.pos(x1, y1, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2, 0).color(red, green, blue, alpha).endVertex();
+        tessellator.draw();
+        
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+	}
     
 	/**
 	 * Draw a not stretched texture

@@ -57,6 +57,11 @@ public final class ManualTab {
 							case "space":
 								mtab.addContents(new ManualContent.ManualSpace(jobj.has("height") ? jobj.get("height").getAsInt() : 0));
 								break;
+							case "line":
+								mtab.addContents(new ManualContent.ManualLine(
+										jobj.has("thickness") ? jobj.get("thickness").getAsFloat() : 1f,
+										jobj.has("color") ? jobj.get("color").getAsInt() : 0xff000000));
+								break;
 							case "crafting":
 								mtab.addContents(new ManualContent.ManualCrafting(jobj.has("location") ? jobj.get("location").getAsString() : ""));
 								break;

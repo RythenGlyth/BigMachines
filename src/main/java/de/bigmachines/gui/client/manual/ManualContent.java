@@ -109,6 +109,29 @@ public abstract class ManualContent {
 		
 	}
 	
+	static class ManualLine extends ManualContent {
+		
+		final float thickness;
+		final int color;
+		
+		public ManualLine(float thickness, int color) {
+			this.thickness = thickness;
+			this.color = color;
+		}
+		
+		@Override
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
+			RenderHelper.drawLine(this.posX, this.posY, this.posX + this.width, this.posY, color, thickness);
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
+			return (int)thickness;
+		}
+		
+	}
+	
 	static class ManualText extends ManualContent {
 		
 		final String text;
