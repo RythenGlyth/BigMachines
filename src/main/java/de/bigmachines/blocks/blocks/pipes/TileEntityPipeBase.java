@@ -202,6 +202,9 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	}
 	
 	public void onBlockPlaced(final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
+		updateAttachments(); // the attachments should be updated as the block is placed, but the network is required for the attachments
+		// however the attachment updates have to be made known to the network as well FIXME
+		
 		if (!getWorld().isRemote) {
 			
 			if (network != null) throw new RuntimeException("pipe is placed with network initialized, this shouldn't be a thing!");
@@ -220,8 +223,6 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			if (network == null) // no pipe neighbors found, initialize new network6
 				network = new PipeNetwork(capability, this);
 		}
-		
-		updateAttachments();
 		
 	}
 	

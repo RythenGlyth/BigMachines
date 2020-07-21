@@ -194,7 +194,8 @@ public class NetworkContents implements Cloneable {
 			if (other == null) return false;
 			if (this == other) return true;
 			if (other instanceof Path) {
-				return ((Path) other).path.equals(path);
+				Path otherPath = (Path) other;
+				return path.equals(otherPath.path) && target.equals(otherPath.target);
 			}
 			return false;
 		}
