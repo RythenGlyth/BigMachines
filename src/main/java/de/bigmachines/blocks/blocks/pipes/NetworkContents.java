@@ -2,6 +2,9 @@ package de.bigmachines.blocks.blocks.pipes;
 
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
 import de.bigmachines.utils.DebugHelper;
+import de.bigmachines.utils.NBTHelper;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -30,6 +33,32 @@ public class NetworkContents implements Cloneable {
 	
 	public Map<Path, FluidStack> get(final TileEntityPipeBase pipe) {
 		return contents.get(pipe);
+	}
+	
+	public NBTTagList contentCompound() {
+		NBTTagList compound = new NBTTagList();
+		
+		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluids : contents.entrySet()) {
+			NBTTagCompound pipeTag = NBTHelper.writeBlockPosToTag(pipeWithFluids.getKey().getPos());
+			NBTTagList fluids = new NBTTagList();
+			
+			for (Map.Entry<Path, FluidStack> fluidWithPath : pipeWithFluids.getValue().entrySet()) {
+				NBTTagCompound fluidWithPathTag = new NBTTagCompound();
+				NBTTagCompound fluidTag = new NBTTagCompound();
+				fluidWithPath.getValue().writeToNBT(fluidTag);
+				NBTTagCompound pathTag = new NBTTagCompound();
+				fluidWithPath.getKey().writeToNBT(pathTag);
+				fluidWithPathTag.setTag("fluid", fluidTag);
+				fluidWithPathTag.setTag("path", pathTag);
+				fluids.appendTag(fluidWithPathTag);
+			}
+			
+			pipeTag.setTag("fluids", fluids);
+			
+			compound.appendTag(pipeTag);
+		}
+		
+		return compound;
 	}
 	
 	/**
@@ -92,10 +121,10 @@ public class NetworkContents implements Cloneable {
 		final StringBuilder toString = new StringBuilder();
 		final String lineSep = System.getProperty("line.separator");
 		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> content : contents.entrySet()) {
-			toString.append(" - pipe @ " + content.getKey() + " contains:");
+			toString.append(" - pipe @ ").append(content.getKey()).append(" contains:");
 			toString.append(lineSep);
 			for (Map.Entry<Path, FluidStack> fluidWithPath : content.getValue().entrySet()) {
-				toString.append("   -> " + fluidWithPath.getKey() + " and fluid " + DebugHelper.formatFluidstack(fluidWithPath.getValue()));
+				toString.append("   -> ").append(fluidWithPath.getKey()).append(" and fluid ").append(DebugHelper.formatFluidstack(fluidWithPath.getValue()));
 				toString.append(lineSep);
 			}
 		}
@@ -111,14 +140,6 @@ public class NetworkContents implements Cloneable {
 	
 	public Collection<Map<Path, FluidStack>> values() {
 		return contents.values();
-	}
-	
-	protected Set<TileEntityPipeBase> diff(final NetworkContents other) {
-		Set<TileEntityPipeBase> diff = new HashSet<>();
-		
-		// TODO
-		
-		return diff;
 	}
 	
 	@Nullable
@@ -212,6 +233,15 @@ public class NetworkContents implements Cloneable {
 			return false;
 		}
 		
+		public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+			nbt.setTag("target", NBTHelper.writeBlockPosToTag(target.getPos()));
+			NBTTagList pathTag = new NBTTagList();
+			for (TileEntityPipeBase pipe : path)
+				pathTag.appendTag(NBTHelper.writeBlockPosToTag(pipe.getPos()));
+			nbt.setTag("path", pathTag);
+			return nbt;
+		}
+		
 		public int hashCode() {
 			return path.hashCode();
 		}
@@ -223,9 +253,9 @@ public class NetworkContents implements Cloneable {
 		@Override
 		public String toString() {
 			if (path.size() == 0) return "empty path with target " + target.getPos();
-			String toString = "";
+			StringBuilder toString = new StringBuilder();
 			for (TileEntityPipeBase pipe : path)
-				toString += " -> " + pipe.getPos();
+				toString.append(" -> ").append(pipe.getPos());
 			return toString.substring(4) + " with target " + target.getPos();
 		}
 		

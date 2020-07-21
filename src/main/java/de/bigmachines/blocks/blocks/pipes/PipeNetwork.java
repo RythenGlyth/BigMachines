@@ -109,15 +109,15 @@ public class PipeNetwork {
 	 * and inserts new ones / fill adjacent tanks
 	 */
 	public void update() {
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 		System.out.println("beginning update with:");
 		
 		System.out.println(currentContents);
@@ -125,10 +125,10 @@ public class PipeNetwork {
 		moveFluidsOneTick();
 		System.out.println("after moving: ");
 		System.out.println(currentContents);
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 		
 		System.out.println("inserting new fluids:");
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
@@ -150,17 +150,17 @@ public class PipeNetwork {
 		
 		System.out.println("after inserting: ");
 		System.out.println(currentContents);
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 	}
 	
 	private void updated(Set<TileEntityPipeBase> differingPipes) {
@@ -187,7 +187,7 @@ public class PipeNetwork {
 				if (fluidInPipe.getKey().isEmpty()) { // fill the fluid into target
 					FluidStack fluid = fluidInPipe.getValue();
 					TileEntity target = fluidInPipe.getKey().getTarget();
-					IFluidHandler sink = (IFluidHandler) target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+					IFluidHandler sink = target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
 							  BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
 					int filled = sink.fill(fluid, true);
 					if (filled < fluid.amount) { // if the pipe couldn't be drained entirely
@@ -310,7 +310,8 @@ public class PipeNetwork {
 				
 				// FIXME equal out if there are multiple sources set to IN & OUT
 				
-				final IFluidHandler handler = (IFluidHandler) sink.getCapability(c, BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
+				final IFluidHandler handler = (IFluidHandler) sink.getCapability(c,
+						  BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
 				final int maxSink = handler.fill(fluid, false);
 				
 				// the sink searcher is for one specific source block (see constructor)
@@ -441,7 +442,6 @@ public class PipeNetwork {
 	 *
 	 * @param path       which path the fluid should take
 	 * @param fluidStack which fluid should be moved
-	 * @return
 	 */
 	int canTransport(final NetworkContents.Path path, final FluidStack fluidStack) {
 		int amount = fluidStack.amount;
@@ -566,6 +566,10 @@ public class PipeNetwork {
 		
 		data.setTag("pipeList", pipeList);
 		data.setTag("moduleList", moduleList);
+		data.setTag("contentList", currentContents.contentCompound());
+		
+		System.out.println(data);
+		// TODO test, read contentList when recreating the network from nbt
 		
 		return data;
 	}
