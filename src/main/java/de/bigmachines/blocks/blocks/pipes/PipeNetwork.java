@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -181,13 +182,26 @@ public class PipeNetwork {
 		
 		final NetworkContents nextContents = new NetworkContents();
 		
-		for (final Map<NetworkContents.Path, FluidStack> currentContent : currentContents.values()) {
+		for (final Map.Entry<TileEntityPipeBase, Map<NetworkContents.Path, FluidStack>> currentContent : currentContents.entrySet()) {
 			// for every pipe that currently contains something
-			for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : currentContent.entrySet()) {
+			for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : currentContent.getValue().entrySet()) {
 				// for every fluid that is in this pipe currently
-				NetworkContents.Path currentPath = new NetworkContents.Path(fluidInPipe.getKey());
-				final TileEntityPipeBase nextTile = currentPath.remove(0); // from here on it's nextPath not currentPath
-				nextContents.add(nextTile, currentPath, fluidInPipe.getValue());
+				if (fluidInPipe.getKey().isEmpty()) { // fill the fluid into target
+					FluidStack fluid = fluidInPipe.getValue();
+					TileEntity target = fluidInPipe.getKey().getTarget();
+					IFluidHandler sink = (IFluidHandler) target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+							  BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
+					int filled = sink.fill(fluid, true);
+					if (filled < fluid.amount) { // if the pipe couldn't be drained entirely
+						fluid.amount -= filled;
+						// add the rest back to the same pipe
+						nextContents.add(currentContent.getKey(), fluidInPipe.getKey(), fluid);
+					}
+				} else {
+					NetworkContents.Path currentPath = new NetworkContents.Path(fluidInPipe.getKey());
+					final TileEntityPipeBase nextTile = currentPath.remove(0); // from here on it's nextPath not currentPath
+					nextContents.add(nextTile, currentPath, fluidInPipe.getValue());
+				}
 			}
 		}
 		
@@ -195,20 +209,6 @@ public class PipeNetwork {
 	}
 	
 	/*
-	 * concept:
-	 * on every update() on the root node, I scan the entire network for in- and outputs and create
-	 * a double[amountOfSources][amountOfSinks] like this:
-	 *      \ to  Module D	Module E Module F
-	 * insert
-	 * from
-	 * Module A		.8			.2		0 // insert .8 into D then it's full, put the rest into E
-	 * Module B		0			1		0 // B's shortest connection is to E
-	 * Module C		0			.6		.4 // next one is E, it's already filled by partly by B, put the rest into F
-	 *
-	 * Every column should add up to 0 (no more sinks available) ... 1 (source fully exhausted)
-	 *
-	 * And then, in one run
-	 *
 	 * This table could either be generated via a shortest-first, random or round-robin algorithm.
 	 * We have to check for:
 	 *  - sink capacity, whether the sinks accepts this type of fluid,
@@ -217,8 +217,6 @@ public class PipeNetwork {
 	 *  - wether all connections are valid (FIXME blacklisted fluids??)
 	 *
 	 * TODO: test for chunkloading issues
-	 *
-	 * To do this I may have to change the internal data structure to not save connections but only which pipes are in the network.
 	 */
 	
 	/**
@@ -349,7 +347,7 @@ public class PipeNetwork {
 						// the newly found
 						connection.setTarget(sink);
 						targets.add(new Pair<FluidStack, NetworkContents.Path>(transported, connection));
-						currentContents.add(source, connection, transported);
+						//currentContents.add(source, connection, transported);
 					} else System.out.println("connection = 0");
 				}
 				System.out.println("searched for sink");

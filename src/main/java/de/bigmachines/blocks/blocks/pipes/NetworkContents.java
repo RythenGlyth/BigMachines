@@ -58,11 +58,15 @@ public class NetworkContents implements Cloneable {
 		if (path.contains(pipe)) throw new RuntimeException("path contains the pipe itself");
 		if (contents.containsKey(pipe)) {
 			Map<Path, FluidStack> fluidsWithPaths = contents.get(pipe); // every fluid that is in this pipe
+			DebugHelper.printMap(fluidsWithPaths);
 			int freeSpaceInPipe = pipe.maxContents();
+			System.out.println("free space: " + freeSpaceInPipe);
 			for (FluidStack fluidWithPath : fluidsWithPaths.values()) {
 				freeSpaceInPipe -= fluidWithPath.amount;
+				System.out.println("is now: " + freeSpaceInPipe);
 				if (freeSpaceInPipe < 0) return 0;
 			}
+			System.out.println("free space in pipe: " + freeSpaceInPipe);
 			
 			FluidStack inserted = fluidStack.copy();
 			inserted.amount = Math.min(fluidStack.amount, freeSpaceInPipe);
@@ -149,6 +153,10 @@ public class NetworkContents implements Cloneable {
 		return contents;
 	}
 	
+	protected Iterable<Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>>> entrySet() {
+		return contents.entrySet();
+	}
+	
 	public static class Path {
 		private final List<TileEntityPipeBase> path = new ArrayList<>();
 		private TileEntity target;
@@ -171,6 +179,10 @@ public class NetworkContents implements Cloneable {
 		
 		protected void setTarget(final TileEntity target) {
 			this.target = target;
+		}
+		
+		protected TileEntity getTarget() {
+			return target;
 		}
 		
 		/**
@@ -219,6 +231,10 @@ public class NetworkContents implements Cloneable {
 		
 		public int size() {
 			return path.size();
+		}
+		
+		public boolean isEmpty() {
+			return path.isEmpty();
 		}
 		
 		public void add(final TileEntityPipeBase a) {
