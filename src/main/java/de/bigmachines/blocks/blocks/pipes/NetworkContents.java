@@ -1,11 +1,12 @@
 package de.bigmachines.blocks.blocks.pipes;
 
+import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class NetworkContents {
+public class NetworkContents implements Cloneable {
 	
 	// what is currently in the network:
 	// which pipe -> contains which fluid and where this fluid should go
@@ -79,8 +80,71 @@ public class NetworkContents {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		if (contents.size() == 0) return "empty contents";
+		final StringBuilder toString = new StringBuilder();
+		final String lineSep = System.getProperty("line.separator");
+		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> content : contents.entrySet()) {
+			toString.append(" - pipe @ " + content.getKey() + " contains:");
+			toString.append(lineSep);
+			for (Map.Entry<Path, FluidStack> fluidWithPath : content.getValue().entrySet()) {
+				toString.append("   -> " + fluidWithPath.getKey() + " and fluid " + fluidWithPath.getValue());
+				toString.append(lineSep);
+			}
+		}
+		return toString.substring(0, toString.length() - lineSep.length());
+	}
+	
+	@Override
+	protected Object clone() {
+		NetworkContents cloned = new NetworkContents();
+		cloned.contents.putAll(this.contents);
+		return cloned;
+	}
+	
 	public Collection<Map<Path, FluidStack>> values() {
 		return contents.values();
+	}
+	
+	protected Set<TileEntityPipeBase> diff(final NetworkContents other) {
+		Set<TileEntityPipeBase> diff = new HashSet<>();
+		
+		// TODO
+		
+		return diff;
+	}
+	
+	@Nullable
+	public FluidStack drain(final TileEntityFluidPipe pipe, final int maxDrain, final boolean doDrain) {
+		if (pipe == null) return null;
+		if (get(pipe) == null) return null;
+		FluidStack drained = null;
+		// iterate over each fluid with path
+		for (FluidStack fluid : get(pipe).values()) {
+			if (drained == null) {
+				// in the first step drain the first fluid with path
+				drained = fluid.copy();
+				drained.amount = Math.min(fluid.amount, maxDrain); // but only as much as fits in maxDrain
+				if (doDrain) fluid.amount -= drained.amount; // actually remove it from the pipe
+			} else {
+				int drainedAmount = Math.min(maxDrain - drained.amount, fluid.amount); // how much we still can fit
+				drained.amount += drainedAmount;
+				if (doDrain) fluid.amount -= drainedAmount; // actually remove it from the pipe
+			}
+		}
+		return drained;
+	}
+	
+	protected FluidStack getContents(final TileEntityPipeBase pipe) {
+		if (pipe == null) return null;
+		if (get(pipe) == null) return null;
+		FluidStack contents = null;
+		for (FluidStack fluid : get(pipe).values()) {
+			if (contents == null) contents = fluid.copy();
+			else contents.amount += fluid.amount;
+		}
+		return contents;
 	}
 	
 	public static class Path {
@@ -132,6 +196,15 @@ public class NetworkContents {
 		
 		public TileEntityPipeBase remove(final int i) {
 			return path.remove(i);
+		}
+		
+		@Override
+		public String toString() {
+			if (path.size() == 0) return "empty path";
+			String toString = "";
+			for (TileEntityPipeBase pipe : path)
+				toString += " -> " + pipe.getPos();
+			return toString.substring(4);
 		}
 		
 		public int size() {

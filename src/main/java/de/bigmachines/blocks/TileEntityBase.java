@@ -1,6 +1,5 @@
 package de.bigmachines.blocks;
 
-import de.bigmachines.blocks.blocks.pipes.TileEntityPipeBase;
 import de.bigmachines.utils.BlockHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -95,5 +94,5 @@ public abstract class TileEntityBase extends TileEntity {
 	public int hashCode() {
 		return Objects.hash(world, pos);
 	}
-
+	
 }

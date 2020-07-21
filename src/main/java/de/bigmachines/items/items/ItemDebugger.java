@@ -106,7 +106,6 @@ public class ItemDebugger extends ItemBase implements IInfoProviderShift, IHUDIn
 			localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
 			
 			TileEntity lookingAt = Minecraft.getMinecraft().world.getTileEntity(rayTrace.getBlockPos());
-			System.out.println(lookingAt);
 			if (lookingAt != null) {
 				IFluidHandler handler = null;
 				if (lookingAt.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {

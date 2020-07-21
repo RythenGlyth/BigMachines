@@ -62,14 +62,19 @@ public class BlockHelper {
         		.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
         */
 		Vec3d vec3d = player.getPositionEyes(partialTicks);
-        final Vec3d vec3d1 = player.getLook(partialTicks);
-        Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
-        
-        vec3d = vec3d.subtract(pos.getX(), pos.getY(), pos.getZ());
-        vec3d2 = vec3d2.subtract(pos.getX(), pos.getY(), pos.getZ());
-        
-        final RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
-        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector(pos.getX(), pos.getY(), pos.getZ()), raytraceresult.sideHit, pos);
+		final Vec3d vec3d1 = player.getLook(partialTicks);
+		Vec3d vec3d2 = vec3d.addVector(vec3d1.x * blockReachDistance, vec3d1.y * blockReachDistance, vec3d1.z * blockReachDistance);
+		
+		vec3d = vec3d.subtract(pos.getX(), pos.getY(), pos.getZ());
+		vec3d2 = vec3d2.subtract(pos.getX(), pos.getY(), pos.getZ());
+		
+		final RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d2);
+		return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector(pos.getX(), pos.getY(), pos.getZ()), raytraceresult.sideHit, pos);
+	}
+	
+	public static float getBlockReachDistance(final EntityPlayer player) {
+		final float attrib = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+		return player.capabilities.isCreativeMode ? attrib : attrib - 0.5F;
 	}
 	
 }

@@ -17,7 +17,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -167,18 +166,18 @@ public class BlockPipeBase extends BlockBase {
 	}
 	
 	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace(final EntityPlayer player) {
-		final RayTraceResult rayTraceResult1 = player.rayTrace(getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
+		final RayTraceResult rayTraceResult1 = player.rayTrace(BlockHelper.getBlockReachDistance(player), 1F); //Minecraft.getMinecraft().getRenderPartialTicks());
 		
 		final BlockPos pos = rayTraceResult1.getBlockPos();
 		
 		final TileEntity tile = player.world.getTileEntity(pos);
-		if(tile instanceof TileEntityPipeBase) {
+		if (tile instanceof TileEntityPipeBase) {
 			final TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
 			final HashMap<RayTraceResult, EnumFacing> list = new HashMap<>();
-			for(final EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
-		        final AxisAlignedBB box = getBox(side);
-		        final RayTraceResult result = BlockHelper.rayTrace(player, getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
-		        if(result != null) list.put(result, side);
+			for (final EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
+				final AxisAlignedBB box = getBox(side);
+				final RayTraceResult result = BlockHelper.rayTrace(player, BlockHelper.getBlockReachDistance(player), rayTraceResult1.getBlockPos(), box);
+				if (result != null) list.put(result, side);
 			}
 			
 			RayTraceResult returnRayTraceResult = null;
@@ -198,11 +197,6 @@ public class BlockPipeBase extends BlockBase {
 			return null;
 	}
 	
-	public static float getBlockReachDistance(final EntityPlayer player) {
-        final float attrib = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
-        return player.capabilities.isCreativeMode ? attrib : attrib - 0.5F;
-    }
-
 	@SideOnly(Side.CLIENT)
 	@Nullable
 	public static Pair<EnumFacing, BlockPos> getSelectedRayTrace() {

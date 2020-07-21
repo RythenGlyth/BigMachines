@@ -59,7 +59,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Override
 	public Object getGuiServer(final InventoryPlayer inventory) {
 		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace(inventory.player);
-		if(selectedSide != null) {
+		if (selectedSide != null) {
 			return new ContainerPipeAttachment(inventory, this, selectedSide.x);
 		}
 		return null;
@@ -68,7 +68,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	@Override
 	public Object getGuiClient(final InventoryPlayer inventory) {
 		final Pair<EnumFacing, BlockPos> selectedSide = BlockPipeBase.getSelectedRayTrace();
-		if(selectedSide != null) {
+		if (selectedSide != null) {
 			return new GuiPipeAttachment(inventory, this, selectedSide.x);
 		}
 		return null;
@@ -91,16 +91,16 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		} // we dont have to init the network here, since we take the assumption that any pipe always has a network
 		return super.writeToNBT(compound);
 	}
-
+	
 	@Override
 	public void readFromNBT(@Nonnull final NBTTagCompound compound) {
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer() && this.compound == null) {
 			this.compound = compound; // this is so stupid, I can't believe it actually works.
 		}
-
+		
 		super.readFromNBT(compound);
 	}
-
+	
 	@Override
 	public void update() {
 		if (!world.isRemote && network == null && compound != null) {
@@ -146,24 +146,25 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				}
 			}
 		}
-			
-			if (network != null && network.getRoot().equals(this)) {
-				// on every root tick, update the entire network.
-				//network.update();
-			}
+		
+		if (network != null && network.getRoot().equals(this)) {
+			// on every root tick, update the entire network.
+			//network.update();
+		}
 	}
-
+	
 	@Override
 	public boolean shouldRenderInPass(final int pass) {
 		this.pass = pass;
 		return true;
 	}
-
+	
 	/**
 	 * Checks whether:
 	 * 1. this and the other pipe are connected
 	 * 2. this pipe has the conection set to allow insert
 	 * 3. the other pipe has the connection set to allow extract
+	 *
 	 * @param other the other pipe
 	 * @return whether this pipe can insert into the other
 	 */
@@ -172,7 +173,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(), other.getPos());
 		if (connectingFacing == null) return false;
 		if (!getAttachment(connectingFacing).canExtract()) return false;
-		if (!getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
+		if (!other.getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
 		//if (other.getAttachment())
 		return true;
 	}
@@ -206,7 +207,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		if (!getWorld().isRemote) {
 			
 			if (network != null) throw new RuntimeException("pipe is placed with network initialized, this shouldn't be a thing!");
-
+			
 			for (final EnumFacing side : EnumFacing.values()) {
 				if (hasAttachment(side) && BlockHelper.getAdjacentTileEntity(this, side) instanceof TileEntityPipeBase) {
 					final TileEntityPipeBase other = (TileEntityPipeBase) BlockHelper.getAdjacentTileEntity(this, side);
@@ -220,10 +221,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			}
 			if (network == null) // no pipe neighbors found, initialize new network6
 				network = new PipeNetwork(capability, this);
-
+			
 		}
 	}
-
+	
 	public void onBlockBroken(final IBlockState state) {
 		if (!getWorld().isRemote) {
 			network.remove(this);
@@ -241,6 +242,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		this.network = network;
 	}
 	
+	@Nullable
 	public PipeNetwork getNetwork() {
 		return network;
 	}
@@ -264,58 +266,58 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public boolean hasAttachment(final EnumFacing side) {
 		return attachments.containsKey(side);
 	}
-
+	
 	public PipeAttachment getAttachment(final EnumFacing side) {
 		return attachments.get(side);
 	}
-
+	
 	@Override
 	@Nonnull
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(getPos(), getPos().add(1, 1, 1));
 	}
-
+	
 	@Override
 	public void readCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		attachments.clear();
-		for(final String key : compound.getCompoundTag("Attachments").getKeySet()) {
+		for (final String key : compound.getCompoundTag("Attachments").getKeySet()) {
 			attachments.put(EnumFacing.byName(key), new PipeAttachment(compound.getCompoundTag("Attachments").getCompoundTag(key)));
 		}
 		super.readCustomNBT(compound, updatePacket);
 	}
-
+	
 	@Override
 	public void writeCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		final NBTTagCompound attachmentTag = new NBTTagCompound();
-
-		for(final Map.Entry<EnumFacing, PipeAttachment> attachment : attachments.entrySet()) {
+		
+		for (final Map.Entry<EnumFacing, PipeAttachment> attachment : attachments.entrySet()) {
 			attachmentTag.setTag(attachment.getKey().toString(), attachment.getValue().getNBTTag());
 		}
-
+		
 		compound.setTag("Attachments", attachmentTag);
-
+		
 		super.writeCustomNBT(compound, updatePacket);
-
+		
 	}
-
+	
 	@Override
 	public boolean hasCapability(@Nullable final Capability<?> capability, @Nullable final EnumFacing facing) {
-		if(capability == null || this.capability == null) return false;
-		if(capability.equals(this.capability)) return true;
+		if (capability == null || this.capability == null) return false;
+		if (capability.equals(this.capability)) return true;
 		return super.hasCapability(capability, facing);
 	}
-
+	
 	public int getRedstonePower(final EnumFacing facing) {
 		if (!world.isBlockLoaded(getPos())) return 0;
-
+		
 		final IBlockState state = world.getBlockState(getPos());
-
+		
 		return state.getBlock().shouldCheckWeakPower(state, getWorld(), getPos(), facing) ? state.getWeakPower(getWorld(), getPos(), facing) : getWorld().getStrongPower(getPos());
 	}
 	
@@ -334,29 +336,29 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		 * false=blacklist
 		 */
 		protected boolean whitelist;
-
+		
 		public PipeAttachment() {
 			this(true, true, RedstoneMode.IGNORED, false);
 		}
-
+		
 		public PipeAttachment(final NBTTagCompound attachmentTag) {
 			this(
-					!attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
-					!attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
-					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
-					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
+					  !attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
+					  !attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
+					  attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
+					  attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
-			if(attachmentTag.hasKey("Items")) inventory.readFromNBT(attachmentTag);
+			if (attachmentTag.hasKey("Items")) inventory.readFromNBT(attachmentTag);
 		}
-
+		
 		public Inventory getInventory() {
 			return inventory;
 		}
-
+		
 		public void sendUpdateToServer(final BlockPos pos, final EnumFacing side) {
 			BigMachines.networkHandlerMain.sendToServer(new MessageChangePipeAttachmentMode(pos, side, redstoneMode, whitelist, canExtract(), canInsert()));
 		}
-
+		
 		public PipeAttachment(final boolean canExtract, final boolean canInsert, final RedstoneMode redstoneMode, final boolean whitelist) {
 			this.canExtract = canExtract;
 			this.canInsert = canInsert;
@@ -364,30 +366,30 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			this.whitelist = whitelist;
 			inventory = new Inventory("", 5);
 		}
-
+		
 		public void setWhitelist(final boolean whitelist) {
 			this.whitelist = whitelist;
 		}
-
+		
 		public boolean isWhitelist() {
 			return whitelist;
 		}
-
+		
 		public void setRedstoneMode(final RedstoneMode redstoneMode) {
 			this.redstoneMode = redstoneMode;
 		}
-
+		
 		public RedstoneMode getRedstoneMode() {
 			return redstoneMode;
 		}
-
+		
 		@Override
 		public String toString() {
 			return "{\"canExtract\": " + canExtract + ", \"canExtract\": " + canInsert + "}";
 		}
-
+		
 		public void setInsertationByIndex(final int index) {
-			switch(index) {
+			switch (index) {
 				case 1:
 					canExtract = true;
 					canInsert = false;
@@ -406,42 +408,42 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 					break;
 			}
 		}
-
+		
 		public void setCanExtract(final boolean canExtract) {
 			this.canExtract = canExtract;
 		}
-
+		
 		public void setCanInsert(final boolean canInsert) {
 			this.canInsert = canInsert;
 		}
-
+		
 		public void cycleThrough(final boolean direction) {
-			if(canExtract && canInsert) {
-				if(direction) {
+			if (canExtract && canInsert) {
+				if (direction) {
 					canExtract = false;
 					canInsert = true;
 				} else {
 					canExtract = false;
 					canInsert = false;
 				}
-			} else if(!canExtract && !canInsert) {
-				if(direction) {
+			} else if (!canExtract && !canInsert) {
+				if (direction) {
 					canExtract = true;
 					canInsert = true;
 				} else {
 					canExtract = true;
 					canInsert = false;
 				}
-			} else if(canExtract && !canInsert) {
-				if(direction) {
+			} else if (canExtract && !canInsert) {
+				if (direction) {
 					canExtract = false;
 					canInsert = false;
 				} else {
 					canExtract = false;
 					canInsert = true;
 				}
-			} else if(!canExtract && canInsert) {
-				if(direction) {
+			} else if (!canExtract && canInsert) {
+				if (direction) {
 					canExtract = true;
 					canInsert = false;
 				} else {
@@ -450,22 +452,22 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				}
 			}
 		}
-
+		
 		public boolean canExtract() {
 			return canExtract;
 		}
-
+		
 		public boolean canInsert() {
 			return canInsert;
 		}
-
+		
 		public NBTTagCompound getNBTTag() {
 			final NBTTagCompound attachmentTag = new NBTTagCompound();
-			if(!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
-			if(!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
-			if((redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte)redstoneMode.ordinal());
-			if(whitelist) attachmentTag.setBoolean("whitelist", whitelist);
-			if(!inventory.isEmpty()) inventory.writeToNBT(attachmentTag);
+			if (!canExtract) attachmentTag.setBoolean("canExtract", canExtract);
+			if (!canInsert) attachmentTag.setBoolean("canInsert", canInsert);
+			if ((redstoneMode != RedstoneMode.IGNORED)) attachmentTag.setByte("redstoneMode", (byte) redstoneMode.ordinal());
+			if (whitelist) attachmentTag.setBoolean("whitelist", whitelist);
+			if (!inventory.isEmpty()) inventory.writeToNBT(attachmentTag);
 			return attachmentTag;
 		}
 		
@@ -474,5 +476,5 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	public String toString() {
 		return getPos().toString();
 	}
-
+	
 }
