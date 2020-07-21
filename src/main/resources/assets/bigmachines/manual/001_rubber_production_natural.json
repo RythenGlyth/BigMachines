@@ -1,0 +1,38 @@
+{
+  "icon": "bigmachines:textures/block/rubber_sapling.png",
+  "title": "Natural Rubber Production",
+  "contents": [
+    {
+      "type": "text",
+      "text": "Natural Rubber Production",
+      "scale": 2
+    },
+    {
+      "type": "text",
+      "text": "Cultivation",
+      "scale": 1.5
+    },
+    {
+      "type": "text",
+      "text": "Rubber Trees spawn on the highest grass block"
+    },
+    {
+      "type": "text",
+      "text": "Every rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals. (This happens on averge every 9.1 minutes)"
+    },
+    {
+      "type": "text",
+      "text": "Collection",
+      "scale": 1.5
+    },
+    {
+      "type": "text",
+      "text": "You can place a Rubber Tap on the side of a rubber log. You can click with any fluid handler (e.g. a bucket) on the Rubber Tap, your fluid handler will gain 500mb of rubber latex per rubber level."
+    },
+    {
+      "type": "text",
+      "text": "Processing",
+      "scale": 1.5
+    }
+  ]
+}

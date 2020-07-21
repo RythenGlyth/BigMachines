@@ -38,6 +38,7 @@ item.bigmachines.slime_boots.name=Slime Boots
 item.bigmachines.armor_west.name=Armor West
 item.bigmachines.manual.name=Big Machines Manual
 item.bigmachines.debugger.name=Big Machines Debugger
+item.bigmachines.slicer.name=Slicer
 
 item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_copper.name=Copper wrench
@@ -45,6 +46,10 @@ item.bigmachines.wrench.name=Wrench
 #item.bigmachines.wrench_lead.name=Lead wrench
 #item.bigmachines.wrench_silver.name=Silver wrench
 #item.bigmachines.wrench_tin.name=Tin wrench
+
+#Fluids
+fluid.rubber_latex=Rubber Latex
+tile.bigmachines.fluid.rubber_latex.name=Rubber Latex
 
 #Blocks
 tile.bigmachines.block_copper.name=Block of Copper
@@ -93,6 +98,7 @@ tile.bigmachines.rubber_leaves.name=Rubbertree Leaves
 tile.bigmachines.rubber_log.name=Rubbertree Wood
 tile.bigmachines.rubber_planks.name=Rubbertree Planks
 tile.bigmachines.rubber_sapling.name=Rubbertree Sapling
+tile.bigmachines.rubber_tap.name=Rubber Tap
 
 #Infos
 info.bigmachines.press_shift=Hold §e§l[SHIFT]§r§7 for Details
@@ -103,12 +109,13 @@ info.bigmachines.press_strg_nbt=Hold §e§l[CTRL]§r§7 for NBT data
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
 info.bigmachines.harvestlevel.shift=Harvesting Level
 info.bigmachines.wrench.shift=If tool key pressed, scroll over side of a machine to cycle through settings
+info.bigmachines.slicer.shift=Used to cut down blocks or floors into smaller floors
 info.bigmachines.debugger.shift1=Debug functions
 info.bigmachines.debugger.shift2=If tool key pressed, scroll to switch modes
 info.bigmachines.armor_west.shift=Current armor rating:
-info.bigmachines.floor1.shift=Can be placed as floor and ceiling
-info.bigmachines.floor2.shift=Is 1/8 block
-info.bigmachines.floor3.shift=Can be stacked up to 8 per block
+info.bigmachines.floor.shift1=Can be placed as floor and ceiling
+info.bigmachines.floor.shift2=Is 1/8 block
+info.bigmachines.floor.shift3=Can be stacked up to 8 per block
 
 info.bigmachines.burntime=Burntime
 info.bigmachines.charge=Charge

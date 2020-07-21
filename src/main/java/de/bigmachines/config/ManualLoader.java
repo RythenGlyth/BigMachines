@@ -6,9 +6,9 @@ import de.bigmachines.gui.client.manual.ManualTab;
 import de.bigmachines.utils.FileHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public final class ManualLoader {
     private static final List<ManualTab> tabs = new ArrayList<>();
@@ -20,14 +20,14 @@ public final class ManualLoader {
 	}
     
     public static void init() {
-
-		try {
-	    	final HashMap<String, String> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/", "json");
-	    	for (Entry<String, String> resource : files.entrySet()) {
-	    		tabs.add(gson.fromJson(resource.getValue(), ManualTab.class));
-	    	}
-    	} catch (Exception ex) {
-    		ex.printStackTrace();
-    	}
+	    tabs.clear();
+	    try {
+		    TreeMap<String, String> files = FileHelper.getResourcesFolder("/assets/bigmachines/manual/", "json");
+		    for (Entry<String, String> resource : files.entrySet()) {
+			    tabs.add(gson.fromJson(resource.getValue(), ManualTab.class));
+		    }
+	    } catch (Exception ex) {
+		    ex.printStackTrace();
+	    }
     }
 }

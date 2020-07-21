@@ -1,11 +1,7 @@
 package de.bigmachines.blocks.blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.init.ModCreativeTabs;
-import de.bigmachines.items.IInfoProviderShift;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -15,8 +11,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -33,12 +27,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 public class BlockFloor extends BlockBase {
 	
 	public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
-    public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.<EnumBlockHalf>create("half", EnumBlockHalf.class);
+	public static final PropertyEnum<EnumBlockHalf> HALF = PropertyEnum.<EnumBlockHalf>create("half", EnumBlockHalf.class);
 	
-    //protected static final AxisAlignedBB bounding_box = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
+	//protected static final AxisAlignedBB bounding_box = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 	
 	public BlockFloor(String name) {
 		this(name, Material.ROCK, SoundType.STONE, 1.5F, 10.0F);
@@ -46,11 +42,11 @@ public class BlockFloor extends BlockBase {
 	
 	public BlockFloor(String name, Material material, SoundType soundType, float hardness, float resistance) {
 		super(material, name);
-        this.itemBlock = new ItemBlockFloor(this);
-        this.setCreativeTab(ModCreativeTabs.materialsTab);
-        setSoundType(soundType);
-        setHardness(hardness);
-        setResistance(resistance);
+		this.itemBlock = new ItemBlockFloor(this);
+		this.setCreativeTab(ModCreativeTabs.materialsTab);
+		setSoundType(soundType);
+		setHardness(hardness);
+		setResistance(resistance);
 	}
 	
 	@Override
@@ -121,16 +117,17 @@ public class BlockFloor extends BlockBase {
             //if(true) return otherBlock == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
             if(otherBlock.getMaterial(otherIblockstate).equals(Material.GLASS)) {
                 if(otherBlock == this) {
-                	int layers = blockState.getValue(LAYERS);
-                	EnumBlockHalf half = blockState.getValue(HALF);
-                	int otherLayers = otherIblockstate.getValue(LAYERS);
-                	EnumBlockHalf otherHalf = otherIblockstate.getValue(HALF);
-                	
-                	if(side == EnumFacing.DOWN && (half == EnumBlockHalf.BOTTOM || layers == 8) && (otherHalf == EnumBlockHalf.TOP || otherLayers == 8))
-                		return false;
-                	if(side == EnumFacing.UP && (half == EnumBlockHalf.TOP || layers == 8) && (otherHalf == EnumBlockHalf.BOTTOM || otherLayers == 8))
-                		return false;
-                	if(layers <= otherLayers) return false;
+	                int layers = blockState.getValue(LAYERS);
+	                EnumBlockHalf half = blockState.getValue(HALF);
+	                int otherLayers = otherIblockstate.getValue(LAYERS);
+	                EnumBlockHalf otherHalf = otherIblockstate.getValue(HALF);
+	
+	                if (side == EnumFacing.DOWN && (half == EnumBlockHalf.BOTTOM || layers == 8) && (otherHalf == EnumBlockHalf.TOP || otherLayers == 8))
+		                return false;
+	                if (side == EnumFacing.UP && (half == EnumBlockHalf.TOP || layers == 8) && (otherHalf == EnumBlockHalf.BOTTOM || otherLayers == 8))
+		                return false;
+	                if (half == otherHalf && layers <= otherLayers) return false;
+	                if (otherLayers == 8) return false;
                 }
             }
     	}

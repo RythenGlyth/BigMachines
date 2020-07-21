@@ -1,34 +1,11 @@
 {
-    "icon": "bigmachines:textures/item/wrench.png",
-    "title": "Big Machines Home",
-    "contents": [{
-            "type": "title",
-            "contents": "Big Machines",
-            "scale": 6
-        },
-        {
-            "type": "text",
-            "contents": "asdfasdf"
-        },
-        {
-            "type": "title",
-            "contents": "Materials"
-        },
-        {
-            "type": "crafting",
-            "contents": "minecraft:fence"
-        },
-        {
-            "type": "crafting",
-            "contents": "bigmachines:lead_ingot_from_nugget"
-        },
-        {
-            "type": "crafting",
-            "contents": "bigmachines:lead_ingot_from_nugget"
-        },
-        {
-            "type": "crafting",
-            "contents": "bigmachines:lead_ingot_from_nugget"
-        }
-    ]
+  "icon": "bigmachines:textures/item/manual.png",
+  "title": "Big Machines",
+  "contents": [
+    {
+      "type": "text",
+      "text": "Big Machines",
+      "scale": 2
+    }
+  ]
 }

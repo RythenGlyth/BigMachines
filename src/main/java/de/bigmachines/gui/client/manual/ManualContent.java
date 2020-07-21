@@ -1,38 +1,30 @@
 package de.bigmachines.gui.client.manual;
 
-import java.util.List;
-
 import de.bigmachines.utils.RenderHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.item.crafting.*;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import java.util.List;
+
 public abstract class ManualContent {
-	protected final String content;
 	protected int posX;
 	protected int posY;
 	protected int width;
 	protected int maxHeight;
 	
-	public ManualContent(final String input) {
+	public ManualContent() {
 		super();
-		content = input;
 	}
 	
 	/**
-	 * 
 	 * @return the height of the block
 	 */
 	public int updatePos(int posX, int posY, int width, int maxHeight) {
@@ -45,23 +37,29 @@ public abstract class ManualContent {
 	
 	/**
 	 * Draws a terminal content to the Manual.
-	 * 
-	 * @param left where this section should start when inline
-	 * @param top where this section starts.
-	 * @param mouseX current mouse X location for highlighting hovered areas
-	 * @param mouseY current mouse Y location
+	 *
+	 * @param mouseX       current mouse X location for highlighting hovered areas
+	 * @param mouseY       current mouse Y location
 	 * @param partialTicks time between last game tick and current render "partial" tick
-	 * @param tooltips list of tooltips on parent gui to add tooltips to
+	 * @param tooltips     list of tooltips on parent gui to add tooltips to
 	 * @return the height of the drawn block
 	 */
 	public abstract void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips);
 	
-	static class ManualTitle extends ManualContent {
+	/*static class ManualTitle extends ManualContent {
 		
-		private final int SCALE = 2;
+		final String text;
+		
+		protected final double scale;
 
-		public ManualTitle(String input) {
-			super(input);
+		public ManualTitle(String text, double scale) {
+			super();
+			this.text = text;
+			this.scale = scale;
+		}
+		
+		public ManualTitle(String text) {
+			this(text, 2);
 		}
 
 		@Override
@@ -69,36 +67,93 @@ public abstract class ManualContent {
 			// 0x ff 00 00 00 alpha r g b
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(this.posX, this.posY, 0);
-			GlStateManager.scale(SCALE, SCALE, 1);
-			Minecraft.getMinecraft().fontRenderer.drawSplitString(content, 0, 0, 1000, 0xff000000);
+			GlStateManager.scale(scale, scale, 1);
+			Minecraft.getMinecraft().fontRenderer.drawSplitString(text, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 		}
 		
 		@Override
 		public int updatePos(int posX, int posY, int width, int maxHeight) {
 			super.updatePos(posX, posY, width, maxHeight);
-			return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * SCALE;
+			return ((int)(Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * scale));
+		}
+		
+	}*/
+	
+	static class ManualSpace extends ManualContent {
+		
+		final int height;
+		
+		public ManualSpace(int height) {
+			this.height = height;
+		}
+		
+		@Override
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
+			
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
+			return height;
+		}
+		
+	}
+	
+	static class ManualLine extends ManualContent {
+		
+		final float thickness;
+		final int color;
+		
+		public ManualLine(float thickness, int color) {
+			this.thickness = thickness;
+			this.color = color;
+		}
+		
+		@Override
+		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
+			RenderHelper.drawLine(this.posX, this.posY, this.posX + this.width, this.posY, color, thickness);
+		}
+		
+		@Override
+		public int updatePos(int posX, int posY, int width, int maxHeight) {
+			super.updatePos(posX, posY, width, maxHeight);
+			return (int) thickness;
 		}
 		
 	}
 	
 	static class ManualText extends ManualContent {
-
-		public ManualText(String input) {
-			super(input);
+		
+		final String text;
+		
+		protected final double scale;
+		
+		public ManualText(String text, double scale) {
+			super();
+			this.text = text;
+			this.scale = scale > 0 ? scale : 1;
 		}
-
+		
+		public ManualText(String text) {
+			this(text, 2);
+		}
+		
 		@Override
 		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
 			GlStateManager.pushMatrix();
-			RenderHelper.drawStringWordWrap(content, this.posX, this.posY, width, 0xff000000, false);
+			GlStateManager.translate(this.posX, this.posY, 0);
+			GlStateManager.scale(scale, scale, 1);
+			RenderHelper.drawStringWordWrap(text, 0, 0, ((int) (width / scale)), 0xff000000, false);
+			//Minecraft.getMinecraft().fontRenderer.drawSplitString(text, 0, 0, 1000, 0xff000000);
 			GlStateManager.popMatrix();
 		}
 		
 		@Override
 		public int updatePos(int posX, int posY, int width, int maxHeight) {
 			super.updatePos(posX, posY, width, maxHeight);
-			return (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int)(Minecraft.getMinecraft().fontRenderer.getStringWidth(content) / width) + 1));
+			return (int) ((Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * ((int) (Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / (width * scale)) + 1)) * scale);
 		}
 		
 	}
@@ -107,9 +162,12 @@ public abstract class ManualContent {
 		
 		private static final ResourceLocation CRAFTING_GRID_TEXTURE = new ResourceLocation("textures/gui/container/crafting_table.png");
 		private static final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-
-		public ManualCrafting(String input) {
-			super(input);
+		
+		private final ResourceLocation location;
+		
+		public ManualCrafting(String location) {
+			super();
+			this.location = new ResourceLocation(location);
 		}
 		
 		@Override
@@ -117,7 +175,7 @@ public abstract class ManualContent {
 			super.updatePos(posX, posY, width, maxHeight);
 			return 56 + 4;
 		}
-
+		
 		@Override
 		public void draw(int mouseX, int mouseY, float partialTicks, float zLevel, List<String> tooltips) {
 			net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
@@ -128,9 +186,9 @@ public abstract class ManualContent {
 			//int left = (width - 118) / 2;
 			RenderHelper.drawTexturedModalRect(this.posX, this.posY, 118, 56, 28, 15, 256, 256, zLevel);
 			GlStateManager.popMatrix();
-
+			
 			GlStateManager.pushMatrix();
-			IRecipe r = CraftingManager.getRecipe(new ResourceLocation(content));
+			IRecipe r = CraftingManager.getRecipe(location);
 			if (r instanceof ShapedRecipes) drawRecipe((ShapedRecipes) r, this.posX, this.posY);
 			else if (r instanceof ShapelessRecipes) drawRecipe((ShapelessRecipes) r, this.posX, this.posY);
 			else {
@@ -141,7 +199,7 @@ public abstract class ManualContent {
 				throw new UnsupportedOperationException("not implemented");
 			}
 			GlStateManager.popMatrix();
-
+			
 			hover(mouseX, mouseY, this.posX, this.posY, zLevel, r, tooltips);
 
 

@@ -1,11 +1,5 @@
 package de.bigmachines.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -16,6 +10,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public final class RenderHelper {
 	
@@ -54,7 +52,7 @@ public final class RenderHelper {
 	 */
 	public static int drawStringWordWrap(String str, int x, int y, int maxWidth, int color, boolean dropShadow) {
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-		
+
 		int lineNum = 0;
 		for(String line : wrapWordString(str, maxWidth)) {
 			lineNum++;
@@ -71,17 +69,44 @@ public final class RenderHelper {
 		String[] words = str.split(" ");
 		String currentLine = words[0];
 		
-		for(int i = 1; i < words.length; i++) {
-			if(fr.getStringWidth(currentLine + words[i]) < maxWidth) {
+		for (int i = 1; i < words.length; i++) {
+			if (fr.getStringWidth(currentLine + words[i]) < maxWidth) {
 				currentLine += " " + words[i];
 			} else {
 				lines.add(currentLine);
 				currentLine = words[i];
 			}
 		}
+		lines.add(currentLine);
 		return lines;
 	}
-    
+	
+	public static void drawLine(int x1, int y1, int x2, int y2, int color, float thickness) {
+		float alpha = (float) (color >> 24 & 255) / 255.0F;
+		float red = (float) (color >> 16 & 255) / 255.0F;
+		float green = (float) (color >> 8 & 255) / 255.0F;
+		float blue = (float) (color >> 0 & 255) / 255.0F;
+		
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture2D();
+		
+		GlStateManager.glLineWidth(thickness);
+		
+		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+		
+		buffer.pos(x1, y1, 0).color(red, green, blue, alpha).endVertex();
+		buffer.pos(x2, y2, 0).color(red, green, blue, alpha).endVertex();
+		buffer.pos(x1, y1, 0).color(red, green, blue, alpha).endVertex();
+		buffer.pos(x2, y2, 0).color(red, green, blue, alpha).endVertex();
+		tessellator.draw();
+		
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+	}
+	
 	/**
 	 * Draw a not stretched texture
 	 *

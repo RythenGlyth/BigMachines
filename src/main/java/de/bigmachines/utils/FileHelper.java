@@ -10,6 +10,7 @@ import java.nio.file.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,35 +59,34 @@ public final class FileHelper {
 			ex.printStackTrace();
 		}
 		
-		
 		return files;
 	}
 	
-	public static HashMap<String, String> getResourcesFolder(String folder, String extensionName) {
-		HashMap<String, String> files = new HashMap<>();
+	public static TreeMap<String, String> getResourcesFolder(String folder, String extensionName) {
+		TreeMap<String, String> files = new TreeMap<>();
 		Stream<Path> walker;
 		try {
 			URI uri = BigMachines.class.getResource(folder).toURI();
-	    	Path myPath;
-	    	if (uri.getScheme().equals("jar")) {
-	    		FileSystem fs = FileSystems.newFileSystem(uri, Collections.emptyMap());
-	    		myPath = fs.getPath(folder);
-	    	} else
-	    		myPath = Paths.get(uri);
-	    	
-	    	walker = Files.walk(myPath);
-	    	for (Iterator<Path> it = walker.iterator(); it.hasNext(); ) {
-	    		Path p = it.next();
-	    		if(getExtension(p.getFileName().toString()).equals("json")) {
+			Path myPath;
+			if (uri.getScheme().equals("jar")) {
+				FileSystem fs = FileSystems.newFileSystem(uri, Collections.emptyMap());
+				myPath = fs.getPath(folder);
+			} else
+				myPath = Paths.get(uri);
+			
+			walker = Files.walk(myPath);
+			for (Iterator<Path> it = walker.iterator(); it.hasNext(); ) {
+				Path p = it.next();
+				if (getExtension(p.getFileName().toString()).equals("json")) {
 					final BufferedReader bufferedReader = new BufferedReader(
-							new InputStreamReader(
-									BigMachines.class.getResource(folder + p.getFileName()).openStream()
-							)
+							  new InputStreamReader(
+										 BigMachines.class.getResource(folder + p.getFileName()).openStream()
+							  )
 					);
 					
-		    		files.put(p.getFileName().toString(), bufferedReader.lines().collect(Collectors.joining("\n")));
-	    		}
-	    	}
+					files.put(p.getFileName().toString(), bufferedReader.lines().collect(Collectors.joining("\n")));
+				}
+			}
 			walker.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();

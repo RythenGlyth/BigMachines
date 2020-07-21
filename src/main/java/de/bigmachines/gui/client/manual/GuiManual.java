@@ -1,11 +1,8 @@
 package de.bigmachines.gui.client.manual;
 
-import de.bigmachines.BigMachines;
 import de.bigmachines.Reference;
 import de.bigmachines.config.ManualLoader;
 import de.bigmachines.utils.RenderHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -96,7 +93,7 @@ public class GuiManual extends GuiScreen {
 			for (final ManualContent manualContent : tabs.get(selectedTabIndex).getContents()) {
 				try {
 					int height = manualContent.updatePos(guiLeft + 5, last, guiWidth - 40, (guiTop + guiHeight - 8) - last);
-					last += height;
+					last += height + 5;
 				} catch (RuntimeException ex) {
 					System.out.println("Could not render mc:");
 					ex.printStackTrace();
@@ -165,8 +162,8 @@ public class GuiManual extends GuiScreen {
 		
 		final List<ManualTab> tabs = ManualLoader.getTabs();
 		for (int i = scrollIndexOffsetTabs; i < tabs.size() && i - scrollIndexOffsetTabs < maxTabs; i++) {
-			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset + (i - scrollIndexOffsetTabs) * tabHeight, tabWidth, tabHeight - 1, 447,
-					selectedTabIndex == i ? 0 : 27, 512, 512, selectedTabIndex == i ? zLevel + 1 : zLevel);
+			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset - 1 + (i - scrollIndexOffsetTabs) * tabHeight, tabWidth, tabHeight - 1, 447,
+					  selectedTabIndex == i ? 0 : 28, 512, 512, selectedTabIndex == i ? zLevel + 1 : zLevel);
 		}
 
 		RenderHelper.drawTexturedModalRect(guiLeft, guiTop, guiWidth, guiHeight, 0, 0, 512, 512, zLevel);
@@ -229,23 +226,26 @@ public class GuiManual extends GuiScreen {
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		if(mouseX >= guiLeft + guiWidth - 19 && mouseX <= guiLeft + guiWidth - 19 + 16
-				&& mouseY >= guiTop + 5 && mouseY <= guiTop + 5 + scrollbarHeight - 1) {
+		if (mouseButton == 1 && mouseX <= 5 && mouseY <= 5) {
+			ManualLoader.init();
+		}
+		if (mouseX >= guiLeft + guiWidth - 19 && mouseX <= guiLeft + guiWidth - 19 + 16
+				  && mouseY >= guiTop + 5 && mouseY <= guiTop + 5 + scrollbarHeight - 1) {
 			calulateScrollBar(mouseX, mouseY);
 			isDraggingScrollBar = true;
 		} else if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
-				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
+				  && mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
 			selectedTabIndex = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffsetTabs;
 			scrollIndexOffsetContent = 0;
 			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
 		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
-				&& mouseY > guiTop + 4 && mouseY < guiTop + 4 + 17) {
+				  && mouseY > guiTop + 4 && mouseY < guiTop + 4 + 17) {
 			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
 			//scrollUp();
 			selectedTabIndex = Math.max(selectedTabIndex - 1, 0);
 			scrollIndexOffsetContent = 0;
 		} else if (mouseX > guiLeft - tabWidth - 6 && mouseX < guiLeft - tabWidth + 6 + 17
-				&& mouseY > guiTop + guiHeight - 4 - 22 && mouseY < guiTop + guiHeight - 4) {
+				  && mouseY > guiTop + guiHeight - 4 - 22 && mouseY < guiTop + guiHeight - 4) {
 			mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0F, 1.0F);
 			//scrollDown();
 			selectedTabIndex = Math.min(selectedTabIndex + 1, Math.max(ManualLoader.getTabs().size() - 1, 0));
