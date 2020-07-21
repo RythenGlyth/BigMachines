@@ -110,14 +110,32 @@ public class PipeNetwork {
 	 * and inserts new ones / fill adjacent tanks
 	 */
 	public void update() {
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("beginning update with:");
+		
+		System.out.println(currentContents);
 		System.out.println("moving fluids once:");
 		moveFluidsOneTick();
+		System.out.println("after moving: ");
+		System.out.println(currentContents);
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 		
 		System.out.println("inserting new fluids:");
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
 		System.out.println("found " + inserters.size() + " inserters");
 		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
-			final TileEntityPipeBase inserterPipe = inserter.getKey().y;
+			final TileEntityPipeBase inserterPipe = inserter.getKey().y; // the pipe that is adjacent to the source
 			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
 			List<Pair<FluidStack, NetworkContents.Path>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
 			System.out.println("inserter: " + inserterPipe + " drains " + fluidDrained);
@@ -127,10 +145,23 @@ public class PipeNetwork {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
 				System.out.println("drained " + drainedAmount);
 				drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
-				// TODO what if the first one drains fully
+				// TODO what if the first one drains fully + actually drain the source
 			}
 		}
 		
+		System.out.println("after inserting: ");
+		System.out.println(currentContents);
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 	}
 	
 	private void updated(Set<TileEntityPipeBase> differingPipes) {
@@ -147,7 +178,6 @@ public class PipeNetwork {
 	
 	private void moveFluidsOneTick() {
 		// TODO remove all paths with fluids that have 0 amount
-		System.out.println(currentContents);
 		
 		final NetworkContents nextContents = new NetworkContents();
 		
@@ -317,6 +347,7 @@ public class PipeNetwork {
 						connection.remove(0); // remove the first tile because this is the one we're currently in
 						
 						// the newly found
+						connection.setTarget(sink);
 						targets.add(new Pair<FluidStack, NetworkContents.Path>(transported, connection));
 						currentContents.add(source, connection, transported);
 					} else System.out.println("connection = 0");
@@ -482,7 +513,9 @@ public class PipeNetwork {
 					// check where this fluid is going, it may be splitting up, that's why we have a list<> here.
 					final NetworkContents.Path path = fluidInPipe.getKey();
 					// each individual path
-					if (ticksAhead < path.size()) continue; // the fluid is gone before the specified tick
+					System.out.println("ticks ahead: " + ticksAhead);
+					System.out.println("path size: " + path.size());
+					if (ticksAhead > path.size()) continue; // this fluid / path pair is gone before the specified tick
 					else if (ticksAhead == path.size()) {
 						if (path.get(path.size() - 1).equals(pipe)) {
 							// the fluid reaches the very last pipe (the inserter in the specified tick)
@@ -600,8 +633,8 @@ public class PipeNetwork {
 		private static final long MAX_RUNS = 1000;
 		
 		protected BFSearcher(final TileEntityPipeBase searchRoot) {
-			foundConnections.put(searchRoot, new NetworkContents.Path());
-			unknown.put(searchRoot, new NetworkContents.Path());
+			foundConnections.put(searchRoot, new NetworkContents.Path(searchRoot));
+			unknown.put(searchRoot, new NetworkContents.Path(searchRoot));
 			validator = (path, to) -> true;
 		}
 		

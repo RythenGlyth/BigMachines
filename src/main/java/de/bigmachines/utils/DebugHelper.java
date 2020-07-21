@@ -1,8 +1,9 @@
 package de.bigmachines.utils;
 
-import org.jetbrains.annotations.Contract;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.function.Function;
 
 public class DebugHelper {
 	
-	@Contract(pure = true)
 	public static <T> void printMapSortedByValue(@Nonnull Map<T, Integer> map, Function<T, String> keyPrinter) {
 		final List<Map.Entry<T, Integer>> entries = new LinkedList<>(map.entrySet());
 		entries.sort(Comparator.comparingInt(Map.Entry::getValue));
@@ -20,7 +20,6 @@ public class DebugHelper {
 			System.out.println(keyPrinter.apply(entry.getKey()) + ": " + entry.getValue());
 	}
 	
-	@Contract(pure = true)
 	public static <K, V> void printMapSortedByValueProperty(@Nonnull Map<K, V> map, Function<K, String> keyPrinter,
 	                                                        Function<V, Integer> propertyRetriever) {
 		final List<Map.Entry<K, V>> entries = new LinkedList<>(map.entrySet());
@@ -30,9 +29,12 @@ public class DebugHelper {
 			System.out.println(keyPrinter.apply(entry.getKey()) + ": " + entry.getValue());
 	}
 	
-	@Contract(pure = true)
 	public static <K, V> void printMap(Map<K, V> map) {
 		for (Map.Entry<K, V> entry : map.entrySet())
 			System.out.println(" - " + entry.getKey() + " maps to " + entry.getValue());
+	}
+	
+	public static String formatFluidstack(@Nullable final FluidStack fluid) {
+		return fluid.getFluid().getName() + " x" + fluid.amount;
 	}
 }

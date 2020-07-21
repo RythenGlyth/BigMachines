@@ -72,6 +72,7 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		@Override
 		public FluidStack getContents() {
 			if (tileEntityFluidPipe.getNetwork() == null) return null;
+			//System.out.println(tileEntityFluidPipe.getNetwork().getContents(tileEntityFluidPipe)); null because server client desync
 			return tileEntityFluidPipe.getNetwork().getContents(tileEntityFluidPipe);
 		}
 		

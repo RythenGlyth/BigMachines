@@ -1,6 +1,8 @@
 package de.bigmachines.blocks.blocks.pipes;
 
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
+import de.bigmachines.utils.DebugHelper;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -89,7 +91,7 @@ public class NetworkContents implements Cloneable {
 			toString.append(" - pipe @ " + content.getKey() + " contains:");
 			toString.append(lineSep);
 			for (Map.Entry<Path, FluidStack> fluidWithPath : content.getValue().entrySet()) {
-				toString.append("   -> " + fluidWithPath.getKey() + " and fluid " + fluidWithPath.getValue());
+				toString.append("   -> " + fluidWithPath.getKey() + " and fluid " + DebugHelper.formatFluidstack(fluidWithPath.getValue()));
 				toString.append(lineSep);
 			}
 		}
@@ -149,19 +151,26 @@ public class NetworkContents implements Cloneable {
 	
 	public static class Path {
 		private final List<TileEntityPipeBase> path = new ArrayList<>();
+		private TileEntity target;
 		
-		public Path() {
-		
+		public Path(final TileEntity target) {
+			this.target = target;
 		}
 		
-		public Path(final List<TileEntityPipeBase> path) {
+		public Path(final List<TileEntityPipeBase> path, final TileEntity target) {
 			if (path != null)
 				this.path.addAll(path);
+			this.target = target;
 		}
 		
 		public Path(final Path path) {
 			if (path != null)
 				this.path.addAll(path.path); // lol
+			this.target = path.target;
+		}
+		
+		protected void setTarget(final TileEntity target) {
+			this.target = target;
 		}
 		
 		/**
@@ -200,11 +209,11 @@ public class NetworkContents implements Cloneable {
 		
 		@Override
 		public String toString() {
-			if (path.size() == 0) return "empty path";
+			if (path.size() == 0) return "empty path with target " + target.getPos();
 			String toString = "";
 			for (TileEntityPipeBase pipe : path)
 				toString += " -> " + pipe.getPos();
-			return toString.substring(4);
+			return toString.substring(4) + " with target " + target.getPos();
 		}
 		
 		public int size() {
