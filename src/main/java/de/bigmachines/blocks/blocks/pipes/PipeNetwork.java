@@ -8,8 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -266,20 +264,6 @@ public class PipeNetwork {
 		}
 		
 		return groups;
-	}
-	
-	// TODO safe delete?
-	public void clearAdjacentModules(final TileEntityPipeBase pipe) {
-		clearAdjacentModules(pipe.getWorld(), pipe.getPos());
-	}
-	
-	/**
-	 * Clears all *modules* adjacent to the pipe at the provided position
-	 */
-	public void clearAdjacentModules(final World world, final BlockPos pos) {
-		for (final EnumFacing side : EnumFacing.values()) {
-			BlockHelper.getAdjacentTileEntity(world, pos, side);
-		}
 	}
 	
 	// TODO don't extract and directly insert into myself if I can extract & insert
