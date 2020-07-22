@@ -87,7 +87,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				
 				compound.setTag("network", networkTag);
 			}
-		} // we dont have to init the network here, since we take the assumption that any pipe always has a network
+		} // we don't have to init the network here, since we take the assumption that any pipe always has a network
 		return super.writeToNBT(compound);
 	}
 	
@@ -135,7 +135,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	/**
 	 * Checks whether:
 	 * 1. this and the other pipe are connected
-	 * 2. this pipe has the conection set to allow insert
+	 * 2. this pipe has the connection set to allow insert
 	 * 3. the other pipe has the connection set to allow extract
 	 *
 	 * @param other the other pipe
@@ -146,9 +146,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		final EnumFacing connectingFacing = BlockHelper.getConnectingFace(getPos(), other.getPos());
 		if (connectingFacing == null) return false;
 		if (!getAttachment(connectingFacing).canExtract()) return false;
-		if (!other.getAttachment(connectingFacing.getOpposite()).canInsert()) return false;
+		return other.getAttachment(connectingFacing.getOpposite()).canInsert();
 		//if (other.getAttachment())
-		return true;
 	}
 	
 	// TODO disconnect pipes using a wrench

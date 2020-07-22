@@ -139,7 +139,7 @@ public class NetworkContents implements Cloneable {
 	@Override
 	public String toString() {
 		if (contents.size() == 0) return "empty contents";
-		final StringBuilder toString = new StringBuilder();
+		final StringBuilder toString = new StringBuilder(256);
 		final String lineSep = System.getProperty("line.separator");
 		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> content : contents.entrySet()) {
 			toString.append(" - pipe @ ").append(content.getKey()).append(" contains:");
@@ -153,7 +153,7 @@ public class NetworkContents implements Cloneable {
 	}
 	
 	@Override
-	protected NetworkContents clone() {
+	public NetworkContents clone() {
 		NetworkContents cloned = new NetworkContents();
 		cloned.contents.putAll(this.contents);
 		return cloned;
@@ -236,7 +236,7 @@ public class NetworkContents implements Cloneable {
 				// add all pipes which both snapshots contain but the fluids differ
 			} else
 				differentFluids.add(pipeWithFluid.getKey());
-			// add all that this contains but other doesnt
+			// add all that this contains but other doesn't
 		}
 		
 		
@@ -338,7 +338,7 @@ public class NetworkContents implements Cloneable {
 		@Override
 		public String toString() {
 			if (path.size() == 0) return "empty path with target " + target.getPos();
-			StringBuilder toString = new StringBuilder();
+			StringBuilder toString = new StringBuilder(64);
 			for (TileEntityPipeBase pipe : path)
 				toString.append(" -> ").append(pipe.getPos());
 			return toString.substring(4) + " with target " + target.getPos();
