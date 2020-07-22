@@ -53,7 +53,6 @@ public class PipeNetwork {
 	 * @param pipe has to be directly adjacent as well as connected to the system
 	 */
 	public void insert(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
-		// FIXME why did it import a null pipe on world reload?
 		if (inserter != null && pipe != null)
 			connections.add(new Connection<>(inserter, pipe));
 	}
@@ -123,7 +122,7 @@ public class PipeNetwork {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
 				if (drainedAmount > 0) {
 					drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
-					// TODO what if the first one drains fully + actually drain the source
+					// TODO what if the first one drains fully
 				}
 			}
 		}
@@ -145,19 +144,20 @@ public class PipeNetwork {
 	}
 	
 	private void moveFluidsOneTick() {
-		// TODO remove all paths with fluids that have 0 amount
-		
 		final NetworkContents nextContents = new NetworkContents();
 		
 		for (final Map.Entry<TileEntityPipeBase, Map<NetworkContents.Path, FluidStack>> currentContent : currentContents.entrySet()) {
 			// for every pipe that currently contains something
 			for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : currentContent.getValue().entrySet()) {
+				
+				if (fluidInPipe.getValue() == null || fluidInPipe.getValue().amount == 0) continue;
+				
 				// for every fluid that is in this pipe currently
 				if (fluidInPipe.getKey().isEmpty()) { // fill the fluid into target
 					FluidStack fluid = fluidInPipe.getValue();
 					TileEntity target = fluidInPipe.getKey().getTarget();
 					IFluidHandler sink = target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
+							  BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
 					int filled = sink.fill(fluid, true);
 					if (filled < fluid.amount) { // if the pipe couldn't be drained entirely
 						fluid.amount -= filled;
@@ -181,7 +181,8 @@ public class PipeNetwork {
 	 *  - sink capacity, whether the sinks accepts this type of fluid,
 	 * 		maybe we even need a 3d array for every fluid present in the pipe system
 	 *  - pipe throughput
-	 *  - whether all connections are valid (FIXME blacklisted fluids??)
+	 *  - whether all connections are valid
+	 * FIXME blacklisted fluids
 	 *
 	 * TODO: test for chunkloading issues
 	 */
@@ -235,14 +236,11 @@ public class PipeNetwork {
 		return groups;
 	}
 	
-	// TODO don't extract and directly insert into myself if I can extract & insert
 	// TODO maybe change all path specifications from List to Set because the shortest
 	//	will never use the same pipe twice
 	// TODO maybe this is the wrong way: I shouldn't check for the shortest but all ways
 	//  and add up the fluids I can transport over each which may be more than I can
 	//  over the shortest only
-	// TODO Source - - - - Sink
-	//				   ^ if there is still something in this pipe we can begin inserting now
 	
 	/**
 	 * This distributes the specified fluid inserted via the source pipe to all available sinks It does check 1. whether all pipes along the
@@ -277,16 +275,15 @@ public class PipeNetwork {
 				// FIXME equal out if there are multiple sources set to IN & OUT
 				
 				final IFluidHandler handler = (IFluidHandler) sink.getCapability(c,
-						BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
+						  BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
 				final int maxSink = handler.fill(fluid, false);
 				
 				// the sink searcher is for one specific source block (see constructor)
 				// foundConnections maps sink -> path to sink
 				if (sinkSearcher.foundConnections.containsKey(sinkInserter)) {
-					// FIXME this finds connections that are 0 long
 					// the path to the inserting pipe:
 					NetworkContents.Path connection = sinkSearcher.foundConnections.get(sinkInserter);
-					connection.add(sinkInserter); // TODO does this fit here?
+					connection.add(sinkInserter);
 					if (!connection.isEmpty()) {
 						FluidStack transported = fluid.copy();
 						transported.amount = Math.min(canTransport(connection, transported), maxSink);
@@ -346,9 +343,6 @@ public class PipeNetwork {
 			final FluidStack inserted = insertVia(sorted.x, sorted.y);
 			if (inserted == null || inserted.amount == 0) continue;
 			inserters.put(sorted.swap(), inserted);
-			// TODO distribute their contents, do this every tick,
-			// 	advance the fluid contents every tick
-			// 	make the pipes aware of their contents and save the contents to nbt
 		}
 		
 		return inserters;
@@ -519,16 +513,16 @@ public class PipeNetwork {
 					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
 					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
 					network.insert((TileEntityPipeBase) world.getTileEntity(a),
-							(TileEntityPipeBase) world.getTileEntity(b));
+							  (TileEntityPipeBase) world.getTileEntity(b));
 				}
 				
 				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
 				for (int i = 0; i < moduleList.tagCount(); i++) {
 					final NBTTagCompound module = moduleList.getCompoundTagAt(i);
 					final TileEntity a = world.getTileEntity(
-							NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
+							  NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
 					final TileEntity b = world.getTileEntity(
-							NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+							  NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
 					if (a instanceof TileEntityPipeBase && !(b instanceof TileEntityPipeBase))
 						network.addModule((TileEntityPipeBase) a, b);
 					else if (!(a instanceof TileEntityPipeBase) && b instanceof TileEntityPipeBase)
@@ -577,8 +571,6 @@ public class PipeNetwork {
 		data.setTag("pipeList", pipeList);
 		data.setTag("moduleList", moduleList);
 		data.setTag("contentList", currentContents.contentCompound());
-		
-		// TODO test, read contentList when recreating the network from nbt
 		
 		return data;
 	}
@@ -668,7 +660,6 @@ public class PipeNetwork {
 				boolean isShorter = true;
 				if (foundConnections.containsKey(node)) {
 					NetworkContents.Path lastPath = foundConnections.get(node);
-					// FIXME there should never be an entry with null path?
 					isShorter = lastPath != null && distance < lastPath.size();
 				}
 				if (isShorter) {

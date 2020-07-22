@@ -17,61 +17,60 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-// TODO scrollbar
 public class GuiManual extends GuiScreen {
-    private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
-    private static final int guiWidth = 395;
-    private static final int guiHeight = 222;
-    private static final int tabWidth = 30;
-    private static final int tabHeight = 28;
-    private static final int maxTabs = 6;
-    private static final int firstTabOffset = (guiHeight - maxTabs * tabHeight) / 2;
-    private static int guiLeft;
-    private static int guiTop;
-    
-    private final List<String> tooltips;
-    
-    private static final String nbtIndex = "openedPage";
-    
-    private int selectedTabIndex;
-    private int scrollIndexOffsetTabs;
-    
-    private int scrollIndexOffsetContent;
-    
-    private int pageHeight;
-    
-    private final ItemStack item;
-    
-    public GuiManual(ItemStack item) {
+	private static final ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/manual.png");
+	private static final int guiWidth = 395;
+	private static final int guiHeight = 222;
+	private static final int tabWidth = 30;
+	private static final int tabHeight = 28;
+	private static final int maxTabs = 6;
+	private static final int firstTabOffset = (guiHeight - maxTabs * tabHeight) / 2;
+	private static int guiLeft;
+	private static int guiTop;
+	
+	private final List<String> tooltips;
+	
+	private static final String nbtIndex = "openedPage";
+	
+	private int selectedTabIndex;
+	private int scrollIndexOffsetTabs;
+	
+	private int scrollIndexOffsetContent;
+	
+	private int pageHeight;
+	
+	private final ItemStack item;
+	
+	public GuiManual(ItemStack item) {
 		super();
 		this.item = item;
 		tooltips = new LinkedList<>();
-
+		
 		selectedTabIndex = item.hasTagCompound() && item.getTagCompound().hasKey(nbtIndex) ? item.getTagCompound().getInteger(nbtIndex) : 0;
 		scrollIndexOffsetContent = item.hasTagCompound() && item.getTagCompound().hasKey("scrollIndexOffsetContent") ? item.getTagCompound().getInteger("scrollIndexOffsetContent") : 0;
-
+		
 		selectedTabIndex = Math.min(Math.max(0, ManualLoader.getTabs().size() - 1), selectedTabIndex);
 		selectedTabIndex = Math.max(0, selectedTabIndex);
 	}
-    
-    @Override
-    public void initGui() {
-        guiLeft = (width - guiWidth) / 2;
-        guiTop = (height - guiHeight) / 2;
-    }
-    
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-    	super.keyTyped(typedChar, keyCode);
-    }
-    
+	
+	@Override
+	public void initGui() {
+		guiLeft = (width - guiWidth) / 2;
+		guiTop = (height - guiHeight) / 2;
+	}
+	
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		super.keyTyped(typedChar, keyCode);
+	}
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		tooltips.clear();
-        GlStateManager.color(1, 1, 1, 1);
-        drawDefaultBackground();
-        drawBackground(mouseX, mouseY, partialTicks);
-        drawForeground(mouseX, mouseY, partialTicks);
+		GlStateManager.color(1, 1, 1, 1);
+		drawDefaultBackground();
+		drawBackground(mouseX, mouseY, partialTicks);
+		drawForeground(mouseX, mouseY, partialTicks);
 	}
 	
 	/**
@@ -105,8 +104,9 @@ public class GuiManual extends GuiScreen {
 	}
 	
 	private void checkContentOffsetBounds() {
-		if(scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
-		if(scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
+		if (scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
+		if (scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight)
+			scrollIndexOffsetContent = pageHeight - guiHeight;
 	}
 	
 	private void drawForeground(int mouseX, int mouseY, float partialTicks) {
@@ -139,24 +139,24 @@ public class GuiManual extends GuiScreen {
 		drawHoveringText(tooltips, mouseX, mouseY);
 	}
 	
-	int scrollbarHeight = 212;
-	int scrollbarDraggableHeight = 15;
-
+	final int scrollbarHeight = 212;
+	final int scrollbarDraggableHeight = 15;
+	
 	private void drawScrollbar() {
-		if(pageHeight - guiHeight <= 0) return;
+		if (pageHeight - guiHeight <= 0) return;
 		mc.getTextureManager().bindTexture(background);
 		RenderHelper.drawTexturedModalRect(guiLeft + guiWidth - 20, guiTop + 4, 16, scrollbarHeight, 447, 127, 512, 512, zLevel);
 		
-		double position = ((double)scrollIndexOffsetContent / (pageHeight - guiHeight)) * (scrollbarHeight - scrollbarDraggableHeight - 4);
+		double position = ((double) scrollIndexOffsetContent / (pageHeight - guiHeight)) * (scrollbarHeight - scrollbarDraggableHeight - 4);
 		
-		RenderHelper.drawTexturedModalRect(guiLeft + guiWidth - 18, guiTop + 6 + (int)position, 12, scrollbarDraggableHeight, 447, 59, 512, 512, zLevel);
+		RenderHelper.drawTexturedModalRect(guiLeft + guiWidth - 18, guiTop + 6 + (int) position, 12, scrollbarDraggableHeight, 447, 59, 512, 512, zLevel);
 	}
 	
-	public void calulateScrollBar(int mouseX, int mouseY) {
+	public void calculateScrollBar(int mouseX, int mouseY) {
 		double position = mouseY - guiTop - 6 - (scrollbarDraggableHeight / 2);
 		scrollIndexOffsetContent = Math.max(0, Math.min(pageHeight - guiHeight, (int) ((position * (pageHeight - guiHeight)) / (scrollbarHeight - scrollbarDraggableHeight - 4))));
 	}
-    
+	
 	private void drawBackground(int mouseX, int mouseY, float partialTicks) {
 		mc.getTextureManager().bindTexture(background);
 		
@@ -165,42 +165,42 @@ public class GuiManual extends GuiScreen {
 			RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 2, guiTop + firstTabOffset - 1 + (i - scrollIndexOffsetTabs) * tabHeight, tabWidth, tabHeight - 1, 447,
 					  selectedTabIndex == i ? 0 : 28, 512, 512, selectedTabIndex == i ? zLevel + 1 : zLevel);
 		}
-
+		
 		RenderHelper.drawTexturedModalRect(guiLeft, guiTop, guiWidth, guiHeight, 0, 0, 512, 512, zLevel);
 		
-		if(pageHeight > guiHeight) drawScrollbar();
+		if (pageHeight > guiHeight) drawScrollbar();
 		
 		RenderHelper.drawTexturedModalRect(guiLeft - tabWidth + 6, guiTop + 4, 22, 17, 479, 0, 512, 512, zLevel);
-
+		
 		RenderHelper.drawTexturedModalRectOnHead(guiLeft - tabWidth + 6, guiTop + guiHeight - 4, 22, 17, 479, 0, 512, 512, 0);
-
+		
 		if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
-				&& mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
+				  && mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
 			final int tab = (mouseY - guiTop - firstTabOffset) / tabHeight + scrollIndexOffsetTabs;
-			if(tabs.size() > tab && tab >= 0) tooltips.add(tabs.get(tab).getTitle());
+			if (tabs.size() > tab && tab >= 0) tooltips.add(tabs.get(tab).getTitle());
 		}
 	}
 	
 	@Override
 	public void handleMouseInput() throws IOException {
 		int mouseX = (Mouse.getEventX() * width / mc.displayWidth) - guiLeft;
-		int mouseY = (height - Mouse.getEventY() * height / mc.displayHeight - 1)  - guiTop;
-
-		int dWheel = Mouse.getEventDWheel(); 
+		int mouseY = (height - Mouse.getEventY() * height / mc.displayHeight - 1) - guiTop;
+		
+		int dWheel = Mouse.getEventDWheel();
 		if (dWheel != 0) {
-			if (mouseX > - tabWidth + 3 && mouseX < 3
-					&& mouseY > firstTabOffset && mouseY < guiHeight - firstTabOffset) {
-				// TODO needs max
+			if (mouseX > -tabWidth + 3 && mouseX < 3
+					  && mouseY > firstTabOffset && mouseY < guiHeight - firstTabOffset) {
 				if (dWheel < 0) scrollDown();
 				else scrollUp();
-
+				
 			} else if (mouseX >= 4 && mouseX <= guiWidth - 4
-					&& mouseY >= 4 && mouseY <= guiHeight - 4) {
+					  && mouseY >= 4 && mouseY <= guiHeight - 4) {
 				if (dWheel < 0) scrollIndexOffsetContent = Math.min(pageHeight - guiHeight, scrollIndexOffsetContent + 10);
 				else scrollIndexOffsetContent = Math.max(0, scrollIndexOffsetContent - 10);
 				
-				if(scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
-				if(scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight) scrollIndexOffsetContent = pageHeight - guiHeight;
+				if (scrollIndexOffsetContent < 0) scrollIndexOffsetContent = 0;
+				if (scrollIndexOffsetContent > 0 && scrollIndexOffsetContent > pageHeight - guiHeight)
+					scrollIndexOffsetContent = pageHeight - guiHeight;
 				
 				//checkContentOffsetBounds();
 			}
@@ -231,7 +231,7 @@ public class GuiManual extends GuiScreen {
 		}
 		if (mouseX >= guiLeft + guiWidth - 19 && mouseX <= guiLeft + guiWidth - 19 + 16
 				  && mouseY >= guiTop + 5 && mouseY <= guiTop + 5 + scrollbarHeight - 1) {
-			calulateScrollBar(mouseX, mouseY);
+			calculateScrollBar(mouseX, mouseY);
 			isDraggingScrollBar = true;
 		} else if (mouseX > guiLeft - tabWidth + 3 && mouseX < guiLeft + 3
 				  && mouseY > guiTop + firstTabOffset && mouseY < guiTop + guiHeight - firstTabOffset) {
@@ -251,8 +251,8 @@ public class GuiManual extends GuiScreen {
 			selectedTabIndex = Math.min(selectedTabIndex + 1, Math.max(ManualLoader.getTabs().size() - 1, 0));
 			scrollIndexOffsetContent = 0;
 		} else if (mouseX >= guiLeft + 4 && mouseX <= guiLeft + guiWidth - 4
-				&& mouseY >= guiTop + 4 && mouseY <= guiTop + guiHeight - 4) {
-			
+				  && mouseY >= guiTop + 4 && mouseY <= guiTop + guiHeight - 4) {
+			// TODO ? something's missing here ?
 		}
 		
 		super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -267,13 +267,13 @@ public class GuiManual extends GuiScreen {
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
 		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
-		if(isDraggingScrollBar) calulateScrollBar(mouseX, mouseY);
+		if (isDraggingScrollBar) calculateScrollBar(mouseX, mouseY);
 	}
 	
 	boolean isDraggingScrollBar;
 	
 	@Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
 }

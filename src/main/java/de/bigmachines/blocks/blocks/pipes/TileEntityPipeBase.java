@@ -47,6 +47,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	//private static TileEntityPipeBase last;
 	
 	public TileEntityPipeBase(final Capability<?> capability) {
+		super();
 		attachments = new HashMap<>();
 		this.capability = capability;
 	}
@@ -110,10 +111,9 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			if (rootPos.equals(getPos())) { // I am root, init network on me
 				network = PipeNetwork.readFromNBT(capability, world, getPos(), compound);
 			} else { // I am not root, init network on root
-				// FIXME this might lead to an infinite loop on startup and might be unneeded
 				final TileEntityPipeBase other = (TileEntityPipeBase) world.getTileEntity(rootPos);
 				if (other != null) {
-					// TODO don't update but call PipeNetwork.readFromNBT directly on root
+					// FIXME don't update but call PipeNetwork.readFromNBT directly on root
 					other.update(); // this ticks the network
 					network = other.network;
 				}
@@ -175,7 +175,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	
 	public void onBlockPlaced(final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
 		updateAttachments(); // the attachments should be updated as the block is placed, but the network is required for the attachments
-		// however the attachment updates have to be made known to the network as well FIXME
+		// however the attachment updates have to be made known to the network as well (see end of this function)
 		
 		if (!getWorld().isRemote) {
 			
@@ -303,7 +303,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		
 		protected RedstoneMode redstoneMode;
 		
-		protected Inventory inventory;
+		protected final Inventory inventory;
 		
 		/**
 		 * Filter Mode
@@ -318,10 +318,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		
 		public PipeAttachment(final NBTTagCompound attachmentTag) {
 			this(
-					!attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
-					!attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
-					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
-					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
+					  !attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
+					  !attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
+					  attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
+					  attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
 			if (attachmentTag.hasKey("Items")) inventory.readFromNBT(attachmentTag);
 		}

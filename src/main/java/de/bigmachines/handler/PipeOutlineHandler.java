@@ -20,43 +20,41 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class PipeOutlineHandler {
 	
-	@SubscribeEvent (priority = EventPriority.HIGHEST)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBlockHighlight(DrawBlockHighlightEvent event) {
 		RayTraceResult target = event.getTarget();
-		if(target.typeOfHit.equals(Type.BLOCK)) {
+		if (target.typeOfHit.equals(Type.BLOCK)) {
 			TileEntity tile = event.getPlayer().world.getTileEntity(target.getBlockPos());
-			if(tile instanceof TileEntityPipeBase) {
+			if (tile instanceof TileEntityPipeBase) {
 				event.setCanceled(true);
 				TileEntityPipeBase tileEntityPipeBase = (TileEntityPipeBase) tile;
-
-				HashSet<Line3D> blacklist = new HashSet<>();
-
-				HashSet<Line3D> lines = new HashSet<>(Arrays.asList(RenderHelper.getLinesFromCube(BlockPipeBase.getBox(null))));
 				
-				for(EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
-			        AxisAlignedBB box = BlockPipeBase.getBox(side);
-			        
-			        boolean isBox = !event.getPlayer().isSneaking() && box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
-			        
-			        if(isBox) {
-			        	lines.clear();
-			        	blacklist.clear();
-			        }
-			        
-			        for(Line3D line : RenderHelper.getLinesFromCube(box)) {
-			            // FIXME??
-//		        		if(lines.contains(line)) {
-//		        		}
-			        	if(!lines.add(line)) {
-			        		blacklist.add(line);
-			        	}
-			        }
-			        
-			        if(isBox) break;
-			        
+				Set<Line3D> blacklist = new HashSet<>();
+				
+				Set<Line3D> lines = new HashSet<>(Arrays.asList(RenderHelper.getLinesFromCube(BlockPipeBase.getBox(null))));
+				
+				for (EnumFacing side : tileEntityPipeBase.getAttachments().keySet()) {
+					AxisAlignedBB box = BlockPipeBase.getBox(side);
+					
+					boolean isBox = !event.getPlayer().isSneaking() && box.grow(0.01D).contains(target.hitVec.subtract(tileEntityPipeBase.getPos().getX(), tileEntityPipeBase.getPos().getY(), tileEntityPipeBase.getPos().getZ()));
+					
+					if (isBox) {
+						lines.clear();
+						blacklist.clear();
+					}
+					
+					for (Line3D line : RenderHelper.getLinesFromCube(box)) {
+						if (!lines.add(line)) {
+							blacklist.add(line);
+						}
+					}
+					
+					if (isBox) break;
+					
 				}
 				lines.removeAll(blacklist);
 				blacklist = null;
@@ -69,20 +67,20 @@ public class PipeOutlineHandler {
 				GlStateManager.depthMask(false);
 				
 				double x = event.getPlayer().lastTickPosX + (event.getPlayer().posX - event.getPlayer().lastTickPosX) * event.getPartialTicks();
-			    double y = event.getPlayer().lastTickPosY + (event.getPlayer().posY - event.getPlayer().lastTickPosY) * event.getPartialTicks();
-			    double z = event.getPlayer().lastTickPosZ + (event.getPlayer().posZ - event.getPlayer().lastTickPosZ) * event.getPartialTicks();
-			    
-			    Tessellator tessellator = Tessellator.getInstance();
-		        BufferBuilder bufferbuilder = tessellator.getBuffer();
-		        bufferbuilder.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
-		        
-		        GL11.glTranslated(target.getBlockPos().getX() - x,  target.getBlockPos().getY() - y, target.getBlockPos().getZ() - z);
-		        
-		        for(Line3D line : lines) {
-			        line.addVertices(bufferbuilder);
-		        }
-		        
-		        tessellator.draw();
+				double y = event.getPlayer().lastTickPosY + (event.getPlayer().posY - event.getPlayer().lastTickPosY) * event.getPartialTicks();
+				double z = event.getPlayer().lastTickPosZ + (event.getPlayer().posZ - event.getPlayer().lastTickPosZ) * event.getPartialTicks();
+				
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder bufferbuilder = tessellator.getBuffer();
+				bufferbuilder.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+				
+				GL11.glTranslated(target.getBlockPos().getX() - x, target.getBlockPos().getY() - y, target.getBlockPos().getZ() - z);
+				
+				for (Line3D line : lines) {
+					line.addVertices(bufferbuilder);
+				}
+				
+				tessellator.draw();
 				
 				GlStateManager.depthMask(true);
 				GlStateManager.enableTexture2D();
