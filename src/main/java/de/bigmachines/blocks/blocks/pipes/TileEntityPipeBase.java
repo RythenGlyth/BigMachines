@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -83,7 +82,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				networkTag.setTag("root", NBTHelper.writeBlockPosToTag(network.getRoot().getPos()));
 				
 				if (equals(network.getRoot())) {
-					networkTag.setTag("data", network.rootCompound());
+					networkTag.setTag("data", network.writeToNBT());
 				}
 				
 				compound.setTag("network", networkTag);
@@ -109,39 +108,13 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			final BlockPos rootPos = NBTHelper.readTagToBlockPos(networkRootTag);
 			
 			if (rootPos.equals(getPos())) { // I am root, init network on me
-				network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
-				// from here on network != null
-				final NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
-				final NBTTagList pipeList = networkDataTag.getTagList("pipeList", 10);
-				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
-				
-				for (int i = 0; i < pipeList.tagCount(); i++) {
-					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
-					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
-					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
-					network.insert((TileEntityPipeBase) world.getTileEntity(a),
-							  (TileEntityPipeBase) world.getTileEntity(b));
-				}
-				
-				for (int i = 0; i < moduleList.tagCount(); i++) {
-					final NBTTagCompound module = moduleList.getCompoundTagAt(i);
-					final TileEntity a = world.getTileEntity(
-							  NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
-					final TileEntity b = world.getTileEntity(
-							  NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
-					if (a instanceof TileEntityPipeBase && !(b instanceof TileEntityPipeBase))
-						network.addModule((TileEntityPipeBase) a, b);
-					else if (!(a instanceof TileEntityPipeBase) && b instanceof TileEntityPipeBase)
-						network.addModule((TileEntityPipeBase) b, a);
-					else
-						throw new RuntimeException("wrong module @ " + a + " and " + b);
-				}
-				
+				network = PipeNetwork.readFromNBT(capability, world, getPos(), compound);
 			} else { // I am not root, init network on root
 				// FIXME this might lead to an infinite loop on startup and might be unneeded
 				final TileEntityPipeBase other = (TileEntityPipeBase) world.getTileEntity(rootPos);
 				if (other != null) {
-					other.update();
+					// TODO don't update but call PipeNetwork.readFromNBT directly on root
+					other.update(); // this ticks the network
 					network = other.network;
 				}
 			}

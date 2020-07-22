@@ -8,11 +8,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,19 +24,19 @@ public class PipeNetwork {
 	private final Set<Connection<TileEntityPipeBase>> connections = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
-	
+
 	//private Map<TileEntityPipeBase, Map<List<TileEntityPipeBase>, FluidStack>> currentContents = new HashMap<>();
 	public NetworkContents currentContents = new NetworkContents();
-	
-	protected PipeNetwork(final Capability<?> capability, final TileEntityPipeBase root) {
+
+	protected PipeNetwork(final Capability<?> capability, @Nonnull final TileEntityPipeBase root) {
 		c = capability;
 		this.root = root;
 	}
-	
+
 	protected TileEntityPipeBase getRoot() {
 		return root;
 	}
-	
+
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
 		other.connections.addAll(connections);
 		other.connections.add(new Connection<TileEntityPipeBase>(merger1, merger2));
@@ -299,16 +300,16 @@ public class PipeNetwork {
 	 * @param fluid  which fluid we want to insert
 	 * @return a
 	 */
-	@NotNull
+	@Nonnull
 	private List<Pair<FluidStack, NetworkContents.Path>> distributeFluidIntoSinks(final TileEntityPipeBase source, final FluidStack fluid) {
 		System.out.println("distributing start");
 		final BFSearcher sinkSearcher = new BFSearcher(source);
-		
+
 		// which new targets were found & added to the network contents during search
 		final List<Pair<FluidStack, NetworkContents.Path>> targets = new ArrayList<>();
-		
+
 		sinkSearcher.setValidator(new PathValidator(fluid));
-		
+
 		sinkSearcher.discover();
 		System.out.println(sinkSearcher.foundConnections.size() + " connections found:");
 		DebugHelper.printMap(sinkSearcher.foundConnections);
@@ -542,25 +543,82 @@ public class PipeNetwork {
 		for (final Connection<TileEntity> module : fModules)
 			System.out.println(" x " + module);
 		System.out.println("===============================================");
-		
+
 		final BFSearcher ds = new BFSearcher(home);
 		System.out.println("starting discovery");
 		ds.discover();
 		System.out.println("finished discovery");
-		
+
 		DebugHelper.printMapSortedByValueProperty(ds.foundConnections, TileEntityPipeBase::toString, NetworkContents.Path::size);
-		
+
 		System.out.println("===============================================");
 	}
-	
+
+	public static PipeNetwork readFromNBT(final Capability capability, World world, final BlockPos rootPos, final NBTTagCompound nbt) {
+		if (world.isRemote) return null; // only create new network on server
+
+		System.out.println("read " + nbt);
+
+		final NBTTagCompound networkTag = nbt.getCompoundTag("network");
+		if (networkTag.hasKey("root")) {
+			final NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
+
+			System.out.println("root pos: " + rootPos);
+			System.out.println("world: " + (world == null));
+			System.out.println("root te: " + (world.getTileEntity(rootPos) == null));
+
+			PipeNetwork network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
+			// from here on network != null
+
+			if (networkTag.hasKey("data")) {
+
+				final NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
+
+				final NBTTagList pipeList = networkDataTag.getTagList("pipeList", 10);
+				for (int i = 0; i < pipeList.tagCount(); i++) {
+					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
+					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
+					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
+					network.insert((TileEntityPipeBase) world.getTileEntity(a),
+							(TileEntityPipeBase) world.getTileEntity(b));
+				}
+
+				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
+				for (int i = 0; i < moduleList.tagCount(); i++) {
+					final NBTTagCompound module = moduleList.getCompoundTagAt(i);
+					final TileEntity a = world.getTileEntity(
+							NBTHelper.readTagToBlockPos(module.getCompoundTag("a")));
+					final TileEntity b = world.getTileEntity(
+							NBTHelper.readTagToBlockPos(module.getCompoundTag("b")));
+					if (a instanceof TileEntityPipeBase && !(b instanceof TileEntityPipeBase))
+						network.addModule((TileEntityPipeBase) a, b);
+					else if (!(a instanceof TileEntityPipeBase) && b instanceof TileEntityPipeBase)
+						network.addModule((TileEntityPipeBase) b, a);
+					else
+						throw new RuntimeException("wrong module @ " + a + " and " + b);
+				}
+
+				final NBTTagList contentList = networkDataTag.getTagList("contentList", 10);
+				network.currentContents = NetworkContents.readContentFromNBT(world, contentList);
+
+				return network;
+
+			} else throw new RuntimeException("missing dataTag");
+
+		} else throw new RuntimeException("missing root tag");
+
+	}
+
 	/**
 	 * Generates a compound that can be stored on the root element and contains all data to restore this network.
 	 *
 	 * @return a compound with every connection of this system.
 	 */
-	protected NBTTagCompound rootCompound() {
+	public NBTTagCompound writeToNBT() {
+		if (getRoot().getWorld().isRemote) return new NBTTagCompound();
+
 		final NBTTagCompound data = new NBTTagCompound();
-		
+
 		final NBTTagList pipeList = new NBTTagList();
 		for (final Connection<TileEntityPipeBase> pipe : connections) {
 			final NBTTagCompound connection = new NBTTagCompound();
@@ -576,14 +634,14 @@ public class PipeNetwork {
 			extension.setTag("b", NBTHelper.writeBlockPosToTag(module.b.getPos()));
 			moduleList.appendTag(extension);
 		}
-		
+
 		data.setTag("pipeList", pipeList);
 		data.setTag("moduleList", moduleList);
 		data.setTag("contentList", currentContents.contentCompound());
-		
-		System.out.println(data);
+
+		System.out.println("wrote: " + data);
 		// TODO test, read contentList when recreating the network from nbt
-		
+
 		return data;
 	}
 	

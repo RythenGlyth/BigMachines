@@ -6,8 +6,11 @@ import de.bigmachines.utils.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
@@ -52,15 +55,36 @@ public class NetworkContents implements Cloneable {
 				fluidWithPathTag.setTag("path", pathTag);
 				fluids.appendTag(fluidWithPathTag);
 			}
-			
+
 			pipeTag.setTag("fluids", fluids);
-			
+
 			compound.appendTag(pipeTag);
 		}
-		
+
 		return compound;
 	}
-	
+
+	@Nullable
+	public static NetworkContents readContentFromNBT(@Nullable final World world, @Nullable final NBTTagList nbt) throws NullPointerException {
+		if (world == null || nbt == null) return null;
+		NetworkContents content = new NetworkContents();
+
+		for (int i = 0; i < nbt.tagCount(); i++) {
+			NBTTagCompound pipeTag = nbt.getCompoundTagAt(i);
+			BlockPos pipePos = NBTHelper.readTagToBlockPos(pipeTag);
+			NBTTagList fluids = pipeTag.getTagList("fluids", 10);
+
+			for (int j = 0; j < fluids.tagCount(); j++) {
+				NBTTagCompound fluidWithPathTag = fluids.getCompoundTagAt(j);
+				FluidStack fluid = FluidStack.loadFluidStackFromNBT(fluidWithPathTag.getCompoundTag("fluid"));
+				Path path = Path.readFromNBT(world, fluidWithPathTag.getCompoundTag("path"));
+				content.add((TileEntityPipeBase) world.getTileEntity(pipePos), path, fluid);
+			}
+		}
+
+		return content;
+	}
+
 	/**
 	 * Adds the specified fluid to the provided pipe:
 	 * 1. If the pipe does not contain anything, simply add the fluid
@@ -283,24 +307,37 @@ public class NetworkContents implements Cloneable {
 			}
 			return false;
 		}
-		
+
 		public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 			nbt.setTag("target", NBTHelper.writeBlockPosToTag(target.getPos()));
 			NBTTagList pathTag = new NBTTagList();
 			for (TileEntityPipeBase pipe : path)
 				pathTag.appendTag(NBTHelper.writeBlockPosToTag(pipe.getPos()));
 			nbt.setTag("path", pathTag);
+			// TODO path compression (e. g. south times 10)
 			return nbt;
 		}
-		
+
+		@Nullable
+		public static Path readFromNBT(@Nonnull World world, @Nonnull NBTTagCompound nbt) {
+			BlockPos targetPos = NBTHelper.readTagToBlockPos(nbt.getCompoundTag("target"));
+			Path path = new Path(world.getTileEntity(targetPos));
+
+			NBTTagList pathTag = nbt.getTagList("path", 10);
+			for (int i = 0; i < pathTag.tagCount(); i++)
+				path.add((TileEntityPipeBase) world.getTileEntity(NBTHelper.readTagToBlockPos(pathTag.getCompoundTagAt(i))));
+
+			return path;
+		}
+
 		public int hashCode() {
 			return path.hashCode();
 		}
-		
+
 		public TileEntityPipeBase remove(final int i) {
 			return path.remove(i);
 		}
-		
+
 		@Override
 		public String toString() {
 			if (path.size() == 0) return "empty path with target " + target.getPos();
