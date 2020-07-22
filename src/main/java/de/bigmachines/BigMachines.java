@@ -10,6 +10,7 @@ import de.bigmachines.network.messages.MessageChangePipeAttachmentMode;
 import de.bigmachines.proxy.CommonProxy;
 import de.bigmachines.world.ModWorldGenerator;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -54,6 +55,7 @@ public class BigMachines {
 	
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent ev) {
+		OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
 		Config.init(ev.getModConfigurationDirectory());
 		WorldGenerationConfig.init(new File(ev.getModConfigurationDirectory(), Reference.MOD_ID));
 		
