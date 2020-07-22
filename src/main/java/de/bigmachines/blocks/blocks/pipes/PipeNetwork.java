@@ -557,15 +557,9 @@ public class PipeNetwork {
 	public static PipeNetwork readFromNBT(final Capability capability, World world, final BlockPos rootPos, final NBTTagCompound nbt) {
 		if (world.isRemote) return null; // only create new network on server
 
-		System.out.println("read " + nbt);
-
 		final NBTTagCompound networkTag = nbt.getCompoundTag("network");
 		if (networkTag.hasKey("root")) {
 			final NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-
-			System.out.println("root pos: " + rootPos);
-			System.out.println("world: " + (world == null));
-			System.out.println("root te: " + (world.getTileEntity(rootPos) == null));
 
 			PipeNetwork network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
 			// from here on network != null
