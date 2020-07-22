@@ -20,23 +20,24 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class PipeNetwork {
+	
 	private final TileEntityPipeBase root;
 	private final Set<Connection<TileEntityPipeBase>> connections = new HashSet<>();
 	private final Set<Connection<TileEntity>> fModules = new HashSet<>(); // foreign modules = sources and sinks
 	private final Capability<?> c;
-
+	
 	//private Map<TileEntityPipeBase, Map<List<TileEntityPipeBase>, FluidStack>> currentContents = new HashMap<>();
 	public NetworkContents currentContents = new NetworkContents();
-
+	
 	protected PipeNetwork(final Capability<?> capability, @Nonnull final TileEntityPipeBase root) {
 		c = capability;
 		this.root = root;
 	}
-
+	
 	protected TileEntityPipeBase getRoot() {
 		return root;
 	}
-
+	
 	public void mergeInto(final TileEntityPipeBase merger1, final TileEntityPipeBase merger2, final PipeNetwork other) {
 		other.connections.addAll(connections);
 		other.connections.add(new Connection<TileEntityPipeBase>(merger1, merger2));
@@ -185,7 +186,7 @@ public class PipeNetwork {
 	
 	public void drainSource(final TileEntity source, final int amount, final TileEntityPipeBase targetPipe) {
 		final IFluidHandler handler = (IFluidHandler) source.getCapability(c,
-				  BlockHelper.getConnectingFace(source.getPos(), targetPipe.getPos()));
+				BlockHelper.getConnectingFace(source.getPos(), targetPipe.getPos()));
 		handler.drain(amount, true);
 	}
 	
@@ -202,7 +203,7 @@ public class PipeNetwork {
 					FluidStack fluid = fluidInPipe.getValue();
 					TileEntity target = fluidInPipe.getKey().getTarget();
 					IFluidHandler sink = target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							  BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
+							BlockHelper.getConnectingFace(currentContent.getKey().getPos(), target.getPos()));
 					int filled = sink.fill(fluid, true);
 					if (filled < fluid.amount) { // if the pipe couldn't be drained entirely
 						fluid.amount -= filled;
@@ -235,10 +236,10 @@ public class PipeNetwork {
 	 * *After* the removal of the root pipe (or multiple pipes?) from the network, this checks which pipes are still connected, and which new
 	 * networks we may need. For this I do a depth-search starting at different nodes until all nodes are found, and return a map with each
 	 * new root mapped to its children.
-	 *
+	 * <p>
 	 * Note that the key of each entry is always contained in the entry as well, this means that the children of each subnetwork contain
 	 * their root as well.
-	 *
+	 * <p>
 	 * There is another special case: if removedPipe is null, this method will simply return a map with the root of this network mapped to
 	 * all children.
 	 *
@@ -304,12 +305,12 @@ public class PipeNetwork {
 	private List<Pair<FluidStack, NetworkContents.Path>> distributeFluidIntoSinks(final TileEntityPipeBase source, final FluidStack fluid) {
 		System.out.println("distributing start");
 		final BFSearcher sinkSearcher = new BFSearcher(source);
-
+		
 		// which new targets were found & added to the network contents during search
 		final List<Pair<FluidStack, NetworkContents.Path>> targets = new ArrayList<>();
-
+		
 		sinkSearcher.setValidator(new PathValidator(fluid));
-
+		
 		sinkSearcher.discover();
 		System.out.println(sinkSearcher.foundConnections.size() + " connections found:");
 		DebugHelper.printMap(sinkSearcher.foundConnections);
@@ -325,7 +326,7 @@ public class PipeNetwork {
 				// FIXME equal out if there are multiple sources set to IN & OUT
 				
 				final IFluidHandler handler = (IFluidHandler) sink.getCapability(c,
-						  BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
+						BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos()));
 				final int maxSink = handler.fill(fluid, false);
 				
 				// the sink searcher is for one specific source block (see constructor)
@@ -543,31 +544,31 @@ public class PipeNetwork {
 		for (final Connection<TileEntity> module : fModules)
 			System.out.println(" x " + module);
 		System.out.println("===============================================");
-
+		
 		final BFSearcher ds = new BFSearcher(home);
 		System.out.println("starting discovery");
 		ds.discover();
 		System.out.println("finished discovery");
-
+		
 		DebugHelper.printMapSortedByValueProperty(ds.foundConnections, TileEntityPipeBase::toString, NetworkContents.Path::size);
-
+		
 		System.out.println("===============================================");
 	}
-
+	
 	public static PipeNetwork readFromNBT(final Capability capability, World world, final BlockPos rootPos, final NBTTagCompound nbt) {
 		if (world.isRemote) return null; // only create new network on server
-
+		
 		final NBTTagCompound networkTag = nbt.getCompoundTag("network");
 		if (networkTag.hasKey("root")) {
 			final NBTTagCompound networkRootTag = networkTag.getCompoundTag("root");
-
+			
 			PipeNetwork network = new PipeNetwork(capability, (TileEntityPipeBase) world.getTileEntity(rootPos));
 			// from here on network != null
-
+			
 			if (networkTag.hasKey("data")) {
-
+				
 				final NBTTagCompound networkDataTag = networkTag.getCompoundTag("data");
-
+				
 				final NBTTagList pipeList = networkDataTag.getTagList("pipeList", 10);
 				for (int i = 0; i < pipeList.tagCount(); i++) {
 					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
@@ -576,7 +577,7 @@ public class PipeNetwork {
 					network.insert((TileEntityPipeBase) world.getTileEntity(a),
 							(TileEntityPipeBase) world.getTileEntity(b));
 				}
-
+				
 				final NBTTagList moduleList = networkDataTag.getTagList("moduleList", 10);
 				for (int i = 0; i < moduleList.tagCount(); i++) {
 					final NBTTagCompound module = moduleList.getCompoundTagAt(i);
@@ -591,18 +592,18 @@ public class PipeNetwork {
 					else
 						throw new RuntimeException("wrong module @ " + a + " and " + b);
 				}
-
+				
 				final NBTTagList contentList = networkDataTag.getTagList("contentList", 10);
 				network.currentContents = NetworkContents.readContentFromNBT(world, contentList);
-
+				
 				return network;
-
+				
 			} else throw new RuntimeException("missing dataTag");
-
+			
 		} else throw new RuntimeException("missing root tag");
-
+		
 	}
-
+	
 	/**
 	 * Generates a compound that can be stored on the root element and contains all data to restore this network.
 	 *
@@ -610,9 +611,9 @@ public class PipeNetwork {
 	 */
 	public NBTTagCompound writeToNBT() {
 		if (getRoot().getWorld().isRemote) return new NBTTagCompound();
-
+		
 		final NBTTagCompound data = new NBTTagCompound();
-
+		
 		final NBTTagList pipeList = new NBTTagList();
 		for (final Connection<TileEntityPipeBase> pipe : connections) {
 			final NBTTagCompound connection = new NBTTagCompound();
@@ -628,14 +629,14 @@ public class PipeNetwork {
 			extension.setTag("b", NBTHelper.writeBlockPosToTag(module.b.getPos()));
 			moduleList.appendTag(extension);
 		}
-
+		
 		data.setTag("pipeList", pipeList);
 		data.setTag("moduleList", moduleList);
 		data.setTag("contentList", currentContents.contentCompound());
-
+		
 		System.out.println("wrote: " + data);
 		// TODO test, read contentList when recreating the network from nbt
-
+		
 		return data;
 	}
 	
@@ -649,7 +650,7 @@ public class PipeNetwork {
 	 * D E F G
 	 * |
 	 * H
-	 *
+	 * <p>
 	 * 1. the search root is scanned for any children nodes (A and C). If they are valid (the validator returns true), they are added to both
 	 * the foundConnections and unknown map (see discovered()). both those maps hold each discovered node and the path that leads to it, with
 	 * the difference being that foundConnections are all connections that were found and unknown holds all nodes that still need to be
@@ -659,7 +660,7 @@ public class PipeNetwork {
 	 * 3. this is
 	 * repeated until there are now more unknown nodes. At this point every node of the network with the shortest path to it should be in
 	 * foundConnections.
-	 *
+	 * <p>
 	 * In the end with the above tree we would have something like this:
 	 * foundConnections = {
 	 * search root -> [],
@@ -674,6 +675,7 @@ public class PipeNetwork {
 	 * unknown = {}
 	 */
 	protected final class BFSearcher {
+		
 		// tepb block -> path
 		protected final Map<TileEntityPipeBase, NetworkContents.Path> foundConnections = new HashMap<>();
 		// a new node to search from and the path to it
@@ -737,10 +739,12 @@ public class PipeNetwork {
 	
 	@FunctionalInterface
 	private interface ConnectionValidator {
+		
 		boolean isValid(final NetworkContents.Path path, final TileEntityPipeBase to);
 	}
 	
 	private static class Connection<T extends TileEntity> {
+		
 		private final T a;
 		private final T b;
 		

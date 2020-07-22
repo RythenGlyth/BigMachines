@@ -319,10 +319,10 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		
 		public PipeAttachment(final NBTTagCompound attachmentTag) {
 			this(
-					  !attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
-					  !attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
-					  attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
-					  attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
+					!attachmentTag.hasKey("canExtract") || attachmentTag.getBoolean("canExtract"),
+					!attachmentTag.hasKey("canInsert") || attachmentTag.getBoolean("canInsert"),
+					attachmentTag.hasKey("redstoneMode") ? RedstoneMode.values()[attachmentTag.getByte("redstoneMode")] : RedstoneMode.IGNORED,
+					attachmentTag.hasKey("whitelist") && attachmentTag.getBoolean("whitelist")
 			);
 			if (attachmentTag.hasKey("Items")) inventory.readFromNBT(attachmentTag);
 		}

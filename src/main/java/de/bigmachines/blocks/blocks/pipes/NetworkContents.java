@@ -55,25 +55,25 @@ public class NetworkContents implements Cloneable {
 				fluidWithPathTag.setTag("path", pathTag);
 				fluids.appendTag(fluidWithPathTag);
 			}
-
+			
 			pipeTag.setTag("fluids", fluids);
-
+			
 			compound.appendTag(pipeTag);
 		}
-
+		
 		return compound;
 	}
-
+	
 	@Nullable
 	public static NetworkContents readContentFromNBT(@Nullable final World world, @Nullable final NBTTagList nbt) throws NullPointerException {
 		if (world == null || nbt == null) return null;
 		NetworkContents content = new NetworkContents();
-
+		
 		for (int i = 0; i < nbt.tagCount(); i++) {
 			NBTTagCompound pipeTag = nbt.getCompoundTagAt(i);
 			BlockPos pipePos = NBTHelper.readTagToBlockPos(pipeTag);
 			NBTTagList fluids = pipeTag.getTagList("fluids", 10);
-
+			
 			for (int j = 0; j < fluids.tagCount(); j++) {
 				NBTTagCompound fluidWithPathTag = fluids.getCompoundTagAt(j);
 				FluidStack fluid = FluidStack.loadFluidStackFromNBT(fluidWithPathTag.getCompoundTag("fluid"));
@@ -81,10 +81,10 @@ public class NetworkContents implements Cloneable {
 				content.add((TileEntityPipeBase) world.getTileEntity(pipePos), path, fluid);
 			}
 		}
-
+		
 		return content;
 	}
-
+	
 	/**
 	 * Adds the specified fluid to the provided pipe:
 	 * 1. If the pipe does not contain anything, simply add the fluid
@@ -93,10 +93,10 @@ public class NetworkContents implements Cloneable {
 	 * same path, merge them
 	 * b) if the already contained fluid has a different path, store them
 	 * individually to save their individual path
-	 *
+	 * <p>
 	 * The path always begins with the next tile (where the fluid should go next).
 	 * If this is not the case, the method throws a RuntimeException.
-	 *
+	 * <p>
 	 * If any of the arguments is null, nothing is added and 0 is returned.
 	 *
 	 * @param pipe       which pipe to insert in
@@ -106,7 +106,7 @@ public class NetworkContents implements Cloneable {
 	 * @throws RuntimeException if the specified path contains the pipe itself.
 	 */
 	public int add(@Nullable final TileEntityPipeBase pipe, @Nullable final Path path,
-	               @Nullable final FluidStack fluidStack) throws RuntimeException {
+			@Nullable final FluidStack fluidStack) throws RuntimeException {
 		if (pipe == null || path == null || fluidStack == null) return 0;
 		if (path.contains(pipe)) throw new RuntimeException("path contains the pipe itself");
 		if (contents.containsKey(pipe)) {
@@ -254,6 +254,7 @@ public class NetworkContents implements Cloneable {
 	}
 	
 	public static class Path {
+		
 		private final List<TileEntityPipeBase> path = new ArrayList<>();
 		private TileEntity target;
 		
@@ -307,7 +308,7 @@ public class NetworkContents implements Cloneable {
 			}
 			return false;
 		}
-
+		
 		public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 			nbt.setTag("target", NBTHelper.writeBlockPosToTag(target.getPos()));
 			NBTTagList pathTag = new NBTTagList();
@@ -317,27 +318,27 @@ public class NetworkContents implements Cloneable {
 			// TODO path compression (e. g. south times 10)
 			return nbt;
 		}
-
+		
 		@Nullable
 		public static Path readFromNBT(@Nonnull World world, @Nonnull NBTTagCompound nbt) {
 			BlockPos targetPos = NBTHelper.readTagToBlockPos(nbt.getCompoundTag("target"));
 			Path path = new Path(world.getTileEntity(targetPos));
-
+			
 			NBTTagList pathTag = nbt.getTagList("path", 10);
 			for (int i = 0; i < pathTag.tagCount(); i++)
 				path.add((TileEntityPipeBase) world.getTileEntity(NBTHelper.readTagToBlockPos(pathTag.getCompoundTagAt(i))));
-
+			
 			return path;
 		}
-
+		
 		public int hashCode() {
 			return path.hashCode();
 		}
-
+		
 		public TileEntityPipeBase remove(final int i) {
 			return path.remove(i);
 		}
-
+		
 		@Override
 		public String toString() {
 			if (path.size() == 0) return "empty path with target " + target.getPos();
