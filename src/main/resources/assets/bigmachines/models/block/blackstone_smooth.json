@@ -1,6 +1,6 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "bigmachines:block/blackstone_smooth"
-    }
+	"parent":   "block/cube_all",
+	"textures": {
+		"all": "bigmachines:block/blackstone_smooth"
+	}
 }

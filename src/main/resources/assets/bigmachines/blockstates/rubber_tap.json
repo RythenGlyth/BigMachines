@@ -1,19 +1,19 @@
 {
-  "variants": {
-    "facing=north": {
-      "model": "bigmachines:rubber_tap"
-    },
-    "facing=east": {
-      "model": "bigmachines:rubber_tap",
-      "y": 90
-    },
-    "facing=south": {
-      "model": "bigmachines:rubber_tap",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "bigmachines:rubber_tap",
-      "y": 270
-    }
-  }
+	"variants": {
+		"facing=north": {
+			"model": "bigmachines:rubber_tap"
+		},
+		"facing=east":  {
+			"model": "bigmachines:rubber_tap",
+			"y":     90
+		},
+		"facing=south": {
+			"model": "bigmachines:rubber_tap",
+			"y":     180
+		},
+		"facing=west":  {
+			"model": "bigmachines:rubber_tap",
+			"y":     270
+		}
+	}
 }

@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:block_lead"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:block_lead"}
+	}
 }

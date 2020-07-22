@@ -1,7 +1,7 @@
 {
-    "parent": "bigmachines:block/pipe",
+	"parent":   "bigmachines:block/pipe",
 	"textures": {
-		"0": "bigmachines:block/pipe_fluid",
+		"0":        "bigmachines:block/pipe_fluid",
 		"particle": "bigmachines:block/pipe_fluid"
 	}
 }

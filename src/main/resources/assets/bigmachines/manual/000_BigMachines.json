@@ -1,11 +1,11 @@
 {
-  "icon": "bigmachines:textures/item/manual.png",
-  "title": "Big Machines",
-  "contents": [
-    {
-      "type": "text",
-      "text": "Big Machines",
-      "scale": 2
-    }
-  ]
+	"icon":     "bigmachines:textures/item/manual.png",
+	"title":    "Big Machines",
+	"contents": [
+		{
+			"type":  "text",
+			"text":  "Big Machines",
+			"scale": 2
+		}
+	]
 }

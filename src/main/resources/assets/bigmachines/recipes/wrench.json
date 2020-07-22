@@ -1,24 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " L ",
-    "LC ",
-    "  S"
-  ],
-  "key": {
-    "L": {
-      "type": "forge:ore_dict",
-      "ore": "ingotLead"
-    },
-    "C": {
-      "type": "forge:ore_dict",
-      "ore": "ingotCopper"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
-  },
-  "result": {
-    "item": "bigmachines:wrench"
-  }
+	"type":    "minecraft:crafting_shaped",
+	"pattern": [
+		" L ",
+		"LC ",
+		"  S"
+	],
+	"key":     {
+		"L": {
+			"type": "forge:ore_dict",
+			"ore":  "ingotLead"
+		},
+		"C": {
+			"type": "forge:ore_dict",
+			"ore":  "ingotCopper"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result":  {
+		"item": "bigmachines:wrench"
+	}
 }

@@ -1,40 +1,40 @@
 {
-    "forge_marker": 1,
-    "variants": {
-        "normal": [
-            { "model": "bigmachines:crystal1.obj", "transform": "forge:default-block" },
-            { "model": "bigmachines:crystal2.obj", "transform": "forge:default-block" },
-            { "model": "bigmachines:crystal3.obj", "transform": "forge:default-block" }
-        ],
-        "facing=north": [
-            { "model": "bigmachines:crystal1.obj", "x": -90 },
-            { "model": "bigmachines:crystal2.obj", "x": -90 },
-            { "model": "bigmachines:crystal3.obj", "x": -90 }
-        ],
-        "facing=east": [
-            { "model": "bigmachines:crystal1.obj", "x": -90, "y": 90 },
-            { "model": "bigmachines:crystal2.obj", "x": -90, "y": 90 },
-            { "model": "bigmachines:crystal3.obj", "x": -90, "y": 90 }
-        ],
-        "facing=south": [
-            { "model": "bigmachines:crystal1.obj", "x": 90 },
-            { "model": "bigmachines:crystal2.obj", "x": 90 },
-            { "model": "bigmachines:crystal3.obj", "x": 90 }
-        ],
-        "facing=west": [
-            { "model": "bigmachines:crystal1.obj", "x": 90, "y": 90 },
-            { "model": "bigmachines:crystal2.obj", "x": 90, "y": 90 },
-            { "model": "bigmachines:crystal3.obj", "x": 90, "y": 90 }
-        ],
-        "facing=up": [
-            { "model": "bigmachines:crystal1.obj", "x": 180 },
-            { "model": "bigmachines:crystal2.obj", "x": 180 },
-            { "model": "bigmachines:crystal3.obj", "x": 180 }
-        ],
-        "facing=down": [
-            { "model": "bigmachines:crystal1.obj" },
-            { "model": "bigmachines:crystal2.obj" },
-            { "model": "bigmachines:crystal3.obj" }
-        ]
-    }
+	"forge_marker": 1,
+	"variants":     {
+		"normal":       [
+			{"model": "bigmachines:crystal1.obj", "transform": "forge:default-block"},
+			{"model": "bigmachines:crystal2.obj", "transform": "forge:default-block"},
+			{"model": "bigmachines:crystal3.obj", "transform": "forge:default-block"}
+		],
+		"facing=north": [
+			{"model": "bigmachines:crystal1.obj", "x": -90},
+			{"model": "bigmachines:crystal2.obj", "x": -90},
+			{"model": "bigmachines:crystal3.obj", "x": -90}
+		],
+		"facing=east":  [
+			{"model": "bigmachines:crystal1.obj", "x": -90, "y": 90},
+			{"model": "bigmachines:crystal2.obj", "x": -90, "y": 90},
+			{"model": "bigmachines:crystal3.obj", "x": -90, "y": 90}
+		],
+		"facing=south": [
+			{"model": "bigmachines:crystal1.obj", "x": 90},
+			{"model": "bigmachines:crystal2.obj", "x": 90},
+			{"model": "bigmachines:crystal3.obj", "x": 90}
+		],
+		"facing=west":  [
+			{"model": "bigmachines:crystal1.obj", "x": 90, "y": 90},
+			{"model": "bigmachines:crystal2.obj", "x": 90, "y": 90},
+			{"model": "bigmachines:crystal3.obj", "x": 90, "y": 90}
+		],
+		"facing=up":    [
+			{"model": "bigmachines:crystal1.obj", "x": 180},
+			{"model": "bigmachines:crystal2.obj", "x": 180},
+			{"model": "bigmachines:crystal3.obj", "x": 180}
+		],
+		"facing=down":  [
+			{"model": "bigmachines:crystal1.obj"},
+			{"model": "bigmachines:crystal2.obj"},
+			{"model": "bigmachines:crystal3.obj"}
+		]
+	}
 }

@@ -1,7 +1,7 @@
 {
-  "parent": "bigmachines:block/floor/floor_layer1_bottom",
-  "textures": {
-    "particle": "bigmachines:block/slate",
-    "tex": "bigmachines:block/slate"
-  }
+	"parent":   "bigmachines:block/floor/floor_layer1_bottom",
+	"textures": {
+		"particle": "bigmachines:block/slate",
+		"tex":      "bigmachines:block/slate"
+	}
 }

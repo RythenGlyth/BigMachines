@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:pipe_heat"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:pipe_heat"}
+	}
 }

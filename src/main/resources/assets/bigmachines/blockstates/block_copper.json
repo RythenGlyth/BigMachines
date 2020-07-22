@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:block_copper"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:block_copper"}
+	}
 }

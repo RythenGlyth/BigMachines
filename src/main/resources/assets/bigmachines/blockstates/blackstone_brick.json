@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:blackstone_brick"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:blackstone_brick"}
+	}
 }

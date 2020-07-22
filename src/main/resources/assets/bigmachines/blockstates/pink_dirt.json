@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:pink_dirt"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:pink_dirt"}
+	}
 }

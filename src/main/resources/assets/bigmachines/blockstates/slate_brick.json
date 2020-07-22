@@ -1,5 +1,5 @@
 {
-    "variants": {
-        "normal": {"model": "bigmachines:slate_brick"}
-    }
+	"variants": {
+		"normal": {"model": "bigmachines:slate_brick"}
+	}
 }

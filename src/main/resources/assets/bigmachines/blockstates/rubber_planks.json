@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "normal": {
-      "model": "bigmachines:rubber_planks"
-    }
-  }
+	"variants": {
+		"normal": {
+			"model": "bigmachines:rubber_planks"
+		}
+	}
 }

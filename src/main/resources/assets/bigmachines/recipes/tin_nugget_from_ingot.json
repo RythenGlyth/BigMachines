@@ -1,13 +1,13 @@
 {
-	"type": "minecraft:crafting_shapeless",
+	"type":        "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
 			"type": "forge:ore_dict",
-			"ore": "ingotTin"
+			"ore":  "ingotTin"
 		}
 	],
-	"result": {
-		"item": "bigmachines:nugget_tin",
+	"result":      {
+		"item":  "bigmachines:nugget_tin",
 		"count": 9
 	}
 }
