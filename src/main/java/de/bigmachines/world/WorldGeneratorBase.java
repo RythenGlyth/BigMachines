@@ -31,6 +31,7 @@ public abstract class WorldGeneratorBase {
 		addWorldGeneratorType("mineable", WorldGeneratorMineable.class);
 		addWorldGeneratorType("structure", WorldGeneratorStructure.class);
 		addWorldGeneratorType("rubbertree", WorldGeneratorRubberTree.class);
+		addWorldGeneratorType("cavewall", WorldGeneratorCaveWall.class);
 	}
 	
 	public boolean isDimensionBlacklisted(int dimension) {
@@ -39,14 +40,5 @@ public abstract class WorldGeneratorBase {
 	}
 	
 	public abstract void generateChunk(Random random, int chunkX, int chunkY, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider);
-	
-	public static class WorldGeneratorBaseDeserializer implements JsonDeserializer<ModWorldGenerator> {
-		
-		@Override
-		public ModWorldGenerator deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			return null;
-		}
-		
-	}
 	
 }

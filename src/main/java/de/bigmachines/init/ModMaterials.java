@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import de.bigmachines.blocks.BlockBase;
 import de.bigmachines.blocks.BlockBaseOreDict;
+import de.bigmachines.blocks.blocks.BlockCrystal;
 import de.bigmachines.blocks.blocks.BlockFloor;
 import de.bigmachines.items.ItemBase;
 import de.bigmachines.items.ItemBaseOreDict;
@@ -77,6 +78,9 @@ public final class ModMaterials {
 
 	public static BlockFloor floor_glass;
 	
+
+	public static BlockCrystal crystal;
+	
 	public static HashMap<Block, BlockFloor> floorBlocks = new HashMap<Block, BlockFloor>();
 
     public static void preInit() {
@@ -85,8 +89,10 @@ public final class ModMaterials {
         
         
     	pink_dirt = (BlockBase) new BlockBaseOreDict(Material.GROUND, "pink_dirt", "dirt").setSoundType(SoundType.GROUND).setHardness(0.5F).setCreativeTab(ModCreativeTabs.materialsTab);
-    	
     	ModBlocks.BLOCKS.add(pink_dirt);
+    	
+    	crystal = new BlockCrystal();
+    	ModBlocks.BLOCKS.add(crystal);
     	
     }
 

@@ -19,6 +19,7 @@ public final class WorldGenerationConfig {
 			  .registerTypeAdapter(WorldGeneratorMineable.class, new WorldGeneratorMineable.WorldGeneratorMineableDeserializer())
 			  .registerTypeAdapter(WorldGeneratorStructure.class, new WorldGeneratorStructure.WorldGeneratorStructureDeserializer())
 			  .registerTypeAdapter(WorldGeneratorRubberTree.class, new WorldGeneratorRubberTree.WorldGeneratorRubberTreeDeserializer())
+			  .registerTypeAdapter(WorldGeneratorCaveWall.class, new WorldGeneratorCaveWall.WorldGeneratorCaveWallDeserializer())
 			  .create();
 
     private static File worldGenerationConfig;
@@ -49,7 +50,7 @@ public final class WorldGenerationConfig {
 							
 							WorldGeneratorBase gen = gson.fromJson(generator, WorldGeneratorBase.worldGeneratorTypes.get(generator.get("type").getAsString()));
 							
-							ModWorldGenerator.addGenerator(gen);
+							if(gen != null) ModWorldGenerator.addGenerator(gen);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
