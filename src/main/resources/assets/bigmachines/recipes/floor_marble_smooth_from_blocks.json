@@ -1,15 +1,15 @@
 {
-	"type":    "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"##"
 	],
-	"key":     {
+	"key": {
 		"#": {
 			"item": "bigmachines:marble_smooth"
 		}
 	},
-	"result":  {
-		"item":  "bigmachines:floor_marble_smooth",
+	"result": {
+		"item": "bigmachines:floor_marble_smooth",
 		"count": 16
 	}
 }

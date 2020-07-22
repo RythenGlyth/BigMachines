@@ -3,13 +3,13 @@
 		"check_decay=false,decayable=false": {
 			"model": "bigmachines:rubber_leaves"
 		},
-		"check_decay=false,decayable=true":  {
+		"check_decay=false,decayable=true": {
 			"model": "bigmachines:rubber_leaves"
 		},
-		"check_decay=true,decayable=true":   {
+		"check_decay=true,decayable=true": {
 			"model": "bigmachines:rubber_leaves"
 		},
-		"check_decay=true,decayable=false":  {
+		"check_decay=true,decayable=false": {
 			"model": "bigmachines:rubber_leaves"
 		}
 	}

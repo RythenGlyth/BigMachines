@@ -1,17 +1,17 @@
 {
-	"type":    "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"###",
 		"###",
 		"###"
 	],
-	"key":     {
+	"key": {
 		"#": {
 			"type": "forge:ore_dict",
-			"ore":  "ingotSilver"
+			"ore": "ingotSilver"
 		}
 	},
-	"result":  {
+	"result": {
 		"item": "bigmachines:block_silver"
 	}
 }

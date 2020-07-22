@@ -1,6 +1,6 @@
 {
 	"variants": {
-		"normal":               {
+		"normal": {
 			"model": "bigmachines:floor/floor_slate_brick"
 		},
 		"half=bottom,layers=1": {
@@ -27,28 +27,28 @@
 		"half=bottom,layers=8": {
 			"model": "bigmachines:slate_brick"
 		},
-		"half=top,layers=1":    {
+		"half=top,layers=1": {
 			"model": "bigmachines:floor/floor_slate_brick_layer1_top"
 		},
-		"half=top,layers=2":    {
+		"half=top,layers=2": {
 			"model": "bigmachines:floor/floor_slate_brick_layer2_top"
 		},
-		"half=top,layers=3":    {
+		"half=top,layers=3": {
 			"model": "bigmachines:floor/floor_slate_brick_layer3_top"
 		},
-		"half=top,layers=4":    {
+		"half=top,layers=4": {
 			"model": "bigmachines:floor/floor_slate_brick_layer4_top"
 		},
-		"half=top,layers=5":    {
+		"half=top,layers=5": {
 			"model": "bigmachines:floor/floor_slate_brick_layer5_top"
 		},
-		"half=top,layers=6":    {
+		"half=top,layers=6": {
 			"model": "bigmachines:floor/floor_slate_brick_layer6_top"
 		},
-		"half=top,layers=7":    {
+		"half=top,layers=7": {
 			"model": "bigmachines:floor/floor_slate_brick_layer7_top"
 		},
-		"half=top,layers=8":    {
+		"half=top,layers=8": {
 			"model": "bigmachines:slate_brick"
 		}
 	}

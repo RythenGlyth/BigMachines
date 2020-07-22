@@ -1,20 +1,20 @@
 {
-	"type":    "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"IS",
 		"IS",
 		" S"
 	],
-	"key":     {
+	"key": {
 		"I": {
 			"type": "forge:ore_dict",
-			"ore":  "ingotIron"
+			"ore": "ingotIron"
 		},
 		"S": {
 			"item": "minecraft:stick"
 		}
 	},
-	"result":  {
+	"result": {
 		"item": "bigmachines:slicer"
 	}
 }

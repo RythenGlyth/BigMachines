@@ -1,10 +1,10 @@
 {
-	"icon":     "bigmachines:textures/block/rubber_sapling.png",
-	"title":    "Chemical Rubber Production",
+	"icon": "bigmachines:textures/block/rubber_sapling.png",
+	"title": "Chemical Rubber Production",
 	"contents": [
 		{
-			"type":  "text",
-			"text":  "Chemical Rubber Production",
+			"type": "text",
+			"text": "Chemical Rubber Production",
 			"scale": 2
 		}
 	]

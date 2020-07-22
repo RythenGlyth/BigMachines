@@ -1,5 +1,5 @@
 {
-	"type":        "minecraft:crafting_shapeless",
+	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{"item": "bigmachines:floor_limestone"},
 		{"item": "bigmachines:floor_limestone"},
@@ -10,8 +10,8 @@
 		{"item": "bigmachines:floor_limestone"},
 		{"item": "bigmachines:floor_limestone"}
 	],
-	"result":      {
-		"item":  "bigmachines:limestone",
+	"result": {
+		"item": "bigmachines:limestone",
 		"count": 1
 	}
 }

@@ -1,13 +1,13 @@
 {
-	"type":        "minecraft:crafting_shapeless",
+	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
 			"type": "forge:ore_dict",
-			"ore":  "blockCopper"
+			"ore": "blockCopper"
 		}
 	],
-	"result":      {
-		"item":  "bigmachines:ingot_copper",
+	"result": {
+		"item": "bigmachines:ingot_copper",
 		"count": 9
 	}
 }

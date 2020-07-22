@@ -1,15 +1,15 @@
 {
-	"type":    "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"##"
 	],
-	"key":     {
+	"key": {
 		"#": {
 			"item": "bigmachines:blackstone"
 		}
 	},
-	"result":  {
-		"item":  "bigmachines:floor_blackstone",
+	"result": {
+		"item": "bigmachines:floor_blackstone",
 		"count": 16
 	}
 }

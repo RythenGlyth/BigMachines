@@ -1,15 +1,15 @@
 {
-	"type":    "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"##"
 	],
-	"key":     {
+	"key": {
 		"#": {
 			"item": "bigmachines:limestone"
 		}
 	},
-	"result":  {
-		"item":  "bigmachines:floor_limestone",
+	"result": {
+		"item": "bigmachines:floor_limestone",
 		"count": 16
 	}
 }

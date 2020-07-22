@@ -1,7 +1,7 @@
 {
 	"forge_marker": 1,
-	"variants":     {
-		"normal":       [
+	"variants": {
+		"normal": [
 			{"model": "bigmachines:crystal1.obj", "transform": "forge:default-block"},
 			{"model": "bigmachines:crystal2.obj", "transform": "forge:default-block"},
 			{"model": "bigmachines:crystal3.obj", "transform": "forge:default-block"}
@@ -11,7 +11,7 @@
 			{"model": "bigmachines:crystal2.obj", "x": -90},
 			{"model": "bigmachines:crystal3.obj", "x": -90}
 		],
-		"facing=east":  [
+		"facing=east": [
 			{"model": "bigmachines:crystal1.obj", "x": -90, "y": 90},
 			{"model": "bigmachines:crystal2.obj", "x": -90, "y": 90},
 			{"model": "bigmachines:crystal3.obj", "x": -90, "y": 90}
@@ -21,17 +21,17 @@
 			{"model": "bigmachines:crystal2.obj", "x": 90},
 			{"model": "bigmachines:crystal3.obj", "x": 90}
 		],
-		"facing=west":  [
+		"facing=west": [
 			{"model": "bigmachines:crystal1.obj", "x": 90, "y": 90},
 			{"model": "bigmachines:crystal2.obj", "x": 90, "y": 90},
 			{"model": "bigmachines:crystal3.obj", "x": 90, "y": 90}
 		],
-		"facing=up":    [
+		"facing=up": [
 			{"model": "bigmachines:crystal1.obj", "x": 180},
 			{"model": "bigmachines:crystal2.obj", "x": 180},
 			{"model": "bigmachines:crystal3.obj", "x": 180}
 		],
-		"facing=down":  [
+		"facing=down": [
 			{"model": "bigmachines:crystal1.obj"},
 			{"model": "bigmachines:crystal2.obj"},
 			{"model": "bigmachines:crystal3.obj"}
