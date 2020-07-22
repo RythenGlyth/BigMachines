@@ -109,6 +109,7 @@ public class PipeNetwork {
 	 * and inserts new ones / fill adjacent tanks
 	 */
 	public void update() {
+		NetworkContents preSnapshot = currentContents.lazyClone();
 		System.out.println();
 		System.out.println();
 		System.out.println();
@@ -142,9 +143,11 @@ public class PipeNetwork {
 			
 			for (Pair<FluidStack, NetworkContents.Path> drainedFluidWithPath : drained) {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
-				System.out.println("drained " + drainedAmount);
-				drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
-				// TODO what if the first one drains fully + actually drain the source
+				if (drainedAmount > 0) {
+					System.out.println("drained " + drainedAmount);
+					drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
+					// TODO what if the first one drains fully + actually drain the source
+				}
 			}
 		}
 		
@@ -161,12 +164,22 @@ public class PipeNetwork {
 		System.out.println();
 		System.out.println();
 		System.out.println();
+		
+		System.out.println("old content:");
+		System.out.println(preSnapshot);
+		System.out.println("new content:");
+		System.out.println(currentContents);
+		Set<TileEntityPipeBase> differentFluids = currentContents.differentFluids(preSnapshot);
+		System.out.println(differentFluids);
+		updated(differentFluids);
 	}
 	
 	private void updated(Set<TileEntityPipeBase> differingPipes) {
 		// TODO call this method
-		for (TileEntityPipeBase pipe : differingPipes)
+		for (TileEntityPipeBase pipe : differingPipes) {
+			System.out.println("updated " + pipe);
 			pipe.updated();
+		}
 	}
 	
 	public void drainSource(final TileEntity source, final int amount, final TileEntityPipeBase targetPipe) {

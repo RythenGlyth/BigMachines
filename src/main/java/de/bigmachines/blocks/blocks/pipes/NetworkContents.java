@@ -132,10 +132,29 @@ public class NetworkContents implements Cloneable {
 	}
 	
 	@Override
-	protected Object clone() {
+	protected NetworkContents clone() {
 		NetworkContents cloned = new NetworkContents();
 		cloned.contents.putAll(this.contents);
 		return cloned;
+	}
+	
+	/**
+	 * Clones this network contents but deletes all paths.
+	 *
+	 * @return a new NetworkContents instance with the same contents that this one has but without the paths
+	 */
+	protected NetworkContents lazyClone() {
+		NetworkContents clone = new NetworkContents();
+		
+		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluid : contents.entrySet()) {
+			Map<Path, FluidStack> pipeContents = new HashMap<>();
+			for (Map.Entry<Path, FluidStack> fluidWithPath : pipeWithFluid.getValue().entrySet())
+				pipeContents.put(null, fluidWithPath.getValue());
+			
+			clone.contents.put(pipeWithFluid.getKey(), pipeContents);
+		}
+		
+		return clone;
 	}
 	
 	public Collection<Map<Path, FluidStack>> values() {
@@ -176,6 +195,38 @@ public class NetworkContents implements Cloneable {
 	
 	protected Iterable<Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>>> entrySet() {
 		return contents.entrySet();
+	}
+	
+	/**
+	 * Compares this network contents with another one.
+	 * Searches for any pipe where *the fluid* (path is ignored) differ and
+	 * returns a list of those.
+	 *
+	 * @param other the other network contents (snapshot)
+	 * @return a list of which pipes have different FluidStack contents
+	 */
+	protected Set<TileEntityPipeBase> differentFluids(final NetworkContents other) {
+		Set<TileEntityPipeBase> differentFluids = new HashSet<>();
+		
+		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluid : this.contents.entrySet()) {
+			if (other.contents.containsKey(pipeWithFluid.getKey())) {
+				if (!this.getContents(pipeWithFluid.getKey()).isFluidStackIdentical(other.getContents(pipeWithFluid.getKey())))
+					differentFluids.add(pipeWithFluid.getKey());
+				// add all pipes which both snapshots contain but the fluids differ
+			} else
+				differentFluids.add(pipeWithFluid.getKey());
+			// add all that this contains but other doesnt
+		}
+		
+		System.out.println(differentFluids);
+		
+		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluid : other.contents.entrySet()) {
+			if (!differentFluids.contains(pipeWithFluid.getKey()) && !this.contents.containsKey(pipeWithFluid.getKey()))
+				differentFluids.add(pipeWithFluid.getKey());
+			// add all that other contains but this does not contain
+		}
+		
+		return differentFluids;
 	}
 	
 	public static class Path {

@@ -31,6 +31,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemDebugger extends ItemBase implements IInfoProviderShift, IHUDInfoProvider {
@@ -48,8 +49,7 @@ public class ItemDebugger extends ItemBase implements IInfoProviderShift, IHUDIn
 			
 			if (clickedAt.equals(ModBlocks.fluidPipe)) {
 				TileEntityFluidPipe fluidPipe = (TileEntityFluidPipe) worldIn.getTileEntity(pos);
-				if (fluidPipe.getNetwork() == null) System.out.println("why is this null i dont know we will never know it shouldnt be null");
-				else fluidPipe.getNetwork().update();
+				if (fluidPipe.getNetwork() != null) fluidPipe.getNetwork().update();
 				return EnumActionResult.SUCCESS;
 			}
 		/*
@@ -106,38 +106,38 @@ public class ItemDebugger extends ItemBase implements IInfoProviderShift, IHUDIn
 			localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
 			
 			TileEntity lookingAt = Minecraft.getMinecraft().world.getTileEntity(rayTrace.getBlockPos());
-			if (lookingAt != null) {
-				IFluidHandler handler = null;
-				if (lookingAt.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-					handler = (IFluidHandler) lookingAt.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-				} else if (lookingAt.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, rayTrace.sideHit)) {
-					handler = (IFluidHandler) lookingAt.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, rayTrace.sideHit);
-				}
-				if (handler != null) {
-					boolean containsFluid = false;
-					for (IFluidTankProperties props : handler.getTankProperties()) {
-						if (props.getContents() != null && props.getContents().getFluid() != null) {
-							Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("[Fluid] "
-									  + props.getContents().getFluid().getLocalizedName(props.getContents())
-									  + " x" + props.getContents().amount, 0, localOffset, 0xffffff);
-							localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
-							containsFluid = true;
-						}
-					}
-					if (!containsFluid) {
-						Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("[Fluid] " + "no fluid", 0, localOffset, 0xffffff);
-						localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
-					}
-				} else {
-					Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("[Fluid] " + "no fluid", 0, localOffset, 0xffffff);
-					localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
-				}
-			}
+			
+			localOffset += renderFluidHUDInfo(lookingAt, null, 0, localOffset);
+			for (EnumFacing side : EnumFacing.values())
+				localOffset += renderFluidHUDInfo(lookingAt, side, 0, localOffset);
 			
 			return localOffset - offset;
 		}
 		
 		return 0;
+	}
+	
+	private int renderFluidHUDInfo(@Nullable TileEntity lookingAt, EnumFacing side, int x, int offset) {
+		int localOffset = 0;
+		if (lookingAt == null) return 0;
+		if (lookingAt.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
+			IFluidHandler handler = lookingAt.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
+			if (handler != null) {
+				boolean containsFluid = false;
+				for (IFluidTankProperties props : handler.getTankProperties()) {
+					if (props.getContents() != null && props.getContents().getFluid() != null) {
+						Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("[Fluid @ " + side + "] "
+								  + props.getContents().getFluid().getLocalizedName(props.getContents())
+								  + " x" + props.getContents().amount, 0, offset + localOffset, 0xffffff);
+						localOffset += Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
+						containsFluid = true;
+					}
+				}
+				if (containsFluid) return localOffset;
+			}
+		}
+		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("[Fluid @ " + side + "] " + "no fluid", 0, offset + localOffset, 0xffffff);
+		return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
 	}
 	
 	public static class ScrollHandler {

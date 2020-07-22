@@ -9,10 +9,16 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileEntityFluidPipe extends TileEntityPipeBase {
+	
+	@SideOnly(Side.CLIENT)
+	private final ClientFluidStorage clientFluidStorage = new ClientFluidStorage();
 	
 	public TileEntityFluidPipe() {
 		super(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
@@ -26,11 +32,25 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	@Override
 	public void writeCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		super.writeCustomNBT(compound, updatePacket);
+		if (getNetwork() != null) {
+			NBTTagCompound fluidTag = new NBTTagCompound();
+			FluidStack contents = getNetwork().getContents(this);
+			if (contents != null && contents.amount > 0) contents.writeToNBT(fluidTag);
+			compound.setTag("fluid", fluidTag);
+		}
 	}
 	
 	@Override
 	public void readCustomNBT(final NBTTagCompound compound, final boolean updatePacket) {
 		super.readCustomNBT(compound, updatePacket);
+		if (world != null && world.isRemote && compound.hasKey("fluid")) {
+			NBTTagCompound fluidTag = compound.getCompoundTag("fluid");
+			if (fluidTag != null) {
+				FluidStack fluid = FluidStack.loadFluidStackFromNBT(fluidTag);
+				clientFluidStorage.setFluid(fluid);
+				System.out.println("fluid set: " + fluid);
+			}
+		}
 	}
 	
 	@Override
@@ -42,11 +62,15 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 	public <T> T getCapability(final Capability<T> capability, final EnumFacing facing) {
 		if (capability.equals(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)) {
 			if (facing == null) {
-				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new PipeFluidStorage(this, null, null));
+				if (world.isRemote) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(clientFluidStorage);
+				else return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new PipeFluidStorage(this, null, null));
 			}
 			if (hasAttachment(facing)) {
-				final PipeAttachment pipeAttachment = getAttachment(facing);
-				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new PipeFluidStorage(this, pipeAttachment, facing));
+				if (world.isRemote) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(clientFluidStorage);
+				else {
+					final PipeAttachment pipeAttachment = getAttachment(facing);
+					return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new PipeFluidStorage(this, pipeAttachment, facing));
+				}
 			}
 		}
 		return super.getCapability(capability, facing);
@@ -57,6 +81,72 @@ public class TileEntityFluidPipe extends TileEntityPipeBase {
 		return getNetwork().getContents(this);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public class ClientFluidStorage implements IFluidHandler, IFluidTankProperties {
+		
+		private FluidStack fluid;
+		
+		public void setFluid(FluidStack fluid) {
+			this.fluid = fluid;
+		}
+		
+		@Override
+		public IFluidTankProperties[] getTankProperties() {
+			return new IFluidTankProperties[] {this};
+		}
+		
+		@Override
+		public int fill(final FluidStack resource, final boolean doFill) {
+			throw new RuntimeException("fill called on client");
+		}
+		
+		@Nullable
+		@Override
+		public FluidStack drain(final FluidStack resource, final boolean doDrain) {
+			throw new RuntimeException("fill called on client");
+		}
+		
+		@Nullable
+		@Override
+		public FluidStack drain(final int maxDrain, final boolean doDrain) {
+			return null;
+		}
+		
+		@Nullable
+		@Override
+		public FluidStack getContents() {
+			return fluid;
+		}
+		
+		@Override
+		public int getCapacity() {
+			return TileEntityFluidPipe.this.maxContents();
+		}
+		
+		@Override
+		public boolean canFill() {
+			return true;
+		}
+		
+		@Override
+		public boolean canDrain() {
+			return true;
+		}
+		
+		@Override
+		public boolean canFillFluidType(final FluidStack fluidStack) {
+			if (fluid == null || fluid.amount == 0) return true;
+			return fluid.isFluidEqual(fluidStack);
+		}
+		
+		@Override
+		public boolean canDrainFluidType(final FluidStack fluidStack) {
+			if (fluid == null || fluid.amount == 0) return false;
+			return fluid.isFluidEqual(fluidStack);
+		}
+	}
+	
+	@SideOnly(Side.SERVER)
 	public static class PipeFluidStorage implements IFluidHandler, IFluidTankProperties {
 		
 		private final PipeAttachment attachment;

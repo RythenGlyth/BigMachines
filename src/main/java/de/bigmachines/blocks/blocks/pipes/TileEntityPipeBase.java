@@ -222,6 +222,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 			}
 			if (network == null) // no pipe neighbors found, initialize new network6
 				network = new PipeNetwork(capability, this);
+			
+			updateAttachments(); // save attachments to network
 		}
 		
 	}
@@ -245,7 +247,6 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	
 	@Nullable
 	public PipeNetwork getNetwork() {
-		//if (network == null) network = new PipeNetwork(capability, this);
 		return network;
 	}
 	
@@ -260,7 +261,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 		if (!lastAttachments.keySet().equals(attachments.keySet())) {
 			updated();
 			
-			if (!world.isRemote) {
+			if (!world.isRemote && getNetwork() != null) {
 				for (final EnumFacing side : EnumFacing.values()) {
 					final TileEntity adj = BlockHelper.getAdjacentTileEntity(this, side);
 					if (hasAttachment(side) && !(adj instanceof TileEntityPipeBase))
