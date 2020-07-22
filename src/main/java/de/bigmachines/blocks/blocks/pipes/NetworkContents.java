@@ -113,13 +113,10 @@ public class NetworkContents implements Cloneable {
 			Map<Path, FluidStack> fluidsWithPaths = contents.get(pipe); // every fluid that is in this pipe
 			DebugHelper.printMap(fluidsWithPaths);
 			int freeSpaceInPipe = pipe.maxContents();
-			System.out.println("free space: " + freeSpaceInPipe);
 			for (FluidStack fluidWithPath : fluidsWithPaths.values()) {
 				freeSpaceInPipe -= fluidWithPath.amount;
-				System.out.println("is now: " + freeSpaceInPipe);
 				if (freeSpaceInPipe < 0) return 0;
 			}
-			System.out.println("free space in pipe: " + freeSpaceInPipe);
 			
 			FluidStack inserted = fluidStack.copy();
 			inserted.amount = Math.min(fluidStack.amount, freeSpaceInPipe);
@@ -242,7 +239,6 @@ public class NetworkContents implements Cloneable {
 			// add all that this contains but other doesnt
 		}
 		
-		System.out.println(differentFluids);
 		
 		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluid : other.contents.entrySet()) {
 			if (!differentFluids.contains(pipeWithFluid.getKey()) && !this.contents.containsKey(pipeWithFluid.getKey()))

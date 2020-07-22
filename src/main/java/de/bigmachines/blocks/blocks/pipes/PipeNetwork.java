@@ -56,8 +56,6 @@ public class PipeNetwork {
 		// FIXME why did it import a null pipe on world reload?
 		if (inserter != null && pipe != null)
 			connections.add(new Connection<>(inserter, pipe));
-		else
-			System.out.println("attempting to insert null pipe: " + inserter + ", " + pipe);
 	}
 	
 	/**
@@ -112,74 +110,28 @@ public class PipeNetwork {
 	 */
 	public void update() {
 		NetworkContents preSnapshot = currentContents.lazyClone();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("beginning update with:");
 		
-		System.out.println(currentContents);
-		System.out.println("moving fluids once:");
-		moveFluidsOneTick();
-		System.out.println("after moving: ");
-		System.out.println(currentContents);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		
-		System.out.println("inserting new fluids:");
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
-		System.out.println("found " + inserters.size() + " inserters");
 		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
 			final TileEntityPipeBase inserterPipe = inserter.getKey().y; // the pipe that is adjacent to the source
 			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
 			List<Pair<FluidStack, NetworkContents.Path>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
-			System.out.println("inserter: " + inserterPipe + " drains " + fluidDrained);
-			System.out.println("found " + drained.size() + " sinks");
 			
 			for (Pair<FluidStack, NetworkContents.Path> drainedFluidWithPath : drained) {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
 				if (drainedAmount > 0) {
-					System.out.println("drained " + drainedAmount);
 					drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
 					// TODO what if the first one drains fully + actually drain the source
 				}
 			}
 		}
 		
-		System.out.println("after inserting: ");
-		System.out.println(currentContents);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		
-		System.out.println("old content:");
-		System.out.println(preSnapshot);
-		System.out.println("new content:");
-		System.out.println(currentContents);
-		Set<TileEntityPipeBase> differentFluids = currentContents.differentFluids(preSnapshot);
-		System.out.println(differentFluids);
-		updated(differentFluids);
+		updated(currentContents.differentFluids(preSnapshot));
 	}
 	
 	private void updated(Set<TileEntityPipeBase> differingPipes) {
 		// TODO call this method
 		for (TileEntityPipeBase pipe : differingPipes) {
-			System.out.println("updated " + pipe);
 			pipe.updated();
 		}
 	}
@@ -303,7 +255,6 @@ public class PipeNetwork {
 	 */
 	@Nonnull
 	private List<Pair<FluidStack, NetworkContents.Path>> distributeFluidIntoSinks(final TileEntityPipeBase source, final FluidStack fluid) {
-		System.out.println("distributing start");
 		final BFSearcher sinkSearcher = new BFSearcher(source);
 		
 		// which new targets were found & added to the network contents during search
@@ -312,7 +263,6 @@ public class PipeNetwork {
 		sinkSearcher.setValidator(new PathValidator(fluid));
 		
 		sinkSearcher.discover();
-		System.out.println(sinkSearcher.foundConnections.size() + " connections found:");
 		DebugHelper.printMap(sinkSearcher.foundConnections);
 		
 		for (Connection<TileEntity> moduleConnection : fModules) {
@@ -321,7 +271,6 @@ public class PipeNetwork {
 			TileEntity sink = sorted.y;
 			
 			if (sinkInserter.getAttachment(BlockHelper.getConnectingFace(sinkInserter.getPos(), sink.getPos())).canExtract()) {
-				System.out.println("inserter: " + sinkInserter + ", sink:" + sink);
 				
 				// FIXME equal out if there are multiple sources set to IN & OUT
 				
@@ -332,14 +281,11 @@ public class PipeNetwork {
 				// the sink searcher is for one specific source block (see constructor)
 				// foundConnections maps sink -> path to sink
 				if (sinkSearcher.foundConnections.containsKey(sinkInserter)) {
-					System.out.println("found sink " + sinkInserter.getPos());
 					// FIXME this finds connections that are 0 long
 					// the path to the inserting pipe:
 					NetworkContents.Path connection = sinkSearcher.foundConnections.get(sinkInserter);
 					connection.add(sinkInserter); // TODO does this fit here?
-					System.out.println(connection);
 					if (connection.size() > 0) {
-						System.out.println("conection > 0");
 						FluidStack transported = fluid.copy();
 						transported.amount = Math.min(canTransport(connection, transported), maxSink);
 						connection.remove(0); // remove the first tile because this is the one we're currently in
@@ -348,12 +294,10 @@ public class PipeNetwork {
 						connection.setTarget(sink);
 						targets.add(new Pair<FluidStack, NetworkContents.Path>(transported, connection));
 						//currentContents.add(source, connection, transported);
-					} else System.out.println("connection = 0");
+					} //else System.out.println("connection = 0");
 				}
-				System.out.println("searched for sink");
 			}
 		}
-		System.out.println("distribitung end: " + targets.size());
 		return targets;
 	}
 	
@@ -510,8 +454,6 @@ public class PipeNetwork {
 					// check where this fluid is going, it may be splitting up, that's why we have a list<> here.
 					final NetworkContents.Path path = fluidInPipe.getKey();
 					// each individual path
-					System.out.println("ticks ahead: " + ticksAhead);
-					System.out.println("path size: " + path.size());
 					if (ticksAhead > path.size()) continue; // this fluid / path pair is gone before the specified tick
 					else if (ticksAhead == path.size()) {
 						if (path.get(path.size() - 1).equals(pipe)) {
@@ -634,7 +576,6 @@ public class PipeNetwork {
 		data.setTag("moduleList", moduleList);
 		data.setTag("contentList", currentContents.contentCompound());
 		
-		System.out.println("wrote: " + data);
 		// TODO test, read contentList when recreating the network from nbt
 		
 		return data;

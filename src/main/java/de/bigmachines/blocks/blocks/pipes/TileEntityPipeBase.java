@@ -209,8 +209,8 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 	
 	public void onBlockClicked(final EntityPlayer player) {
 		if (!getWorld().isRemote) {
-			if (network == null) System.out.println("network is null");
-			else network.debugInfo(this);
+			if (network != null) network.debugInfo(this);
+			// else System.out.println("network is null");
 		}
 	}
 	
