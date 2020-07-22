@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": {"model": "bigmachines:ore_silver"}
+		"normal": { "model": "bigmachines:ore_silver" }
 	}
 }

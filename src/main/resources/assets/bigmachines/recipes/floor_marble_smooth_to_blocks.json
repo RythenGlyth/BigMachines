@@ -1,14 +1,14 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"},
-		{"item": "bigmachines:floor_marble_smooth"}
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" },
+		{ "item": "bigmachines:floor_marble_smooth" }
 	],
 	"result": {
 		"item": "bigmachines:marble_smooth",

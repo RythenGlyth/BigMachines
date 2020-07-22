@@ -18,8 +18,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Every rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals. (This happens on averge every 9.1 minutes)",
-			
+			"text": "Every rubbertree Log has a 1 in 8 chance to increase its rubber level each time it is random ticked. In addition, there must be rubber leaves within 4 blocks, including diagonals. (This happens on averge every 9.1 minutes)"
 		},
 		{
 			"type": "text",
@@ -28,8 +27,7 @@
 		},
 		{
 			"type": "text",
-			"text": "You can place a Rubber Tap on the side of a rubber log. You can click with any fluid handler (e.g. a bucket) on the Rubber Tap, your fluid handler will gain 500mb of rubber latex per rubber level.",
-			
+			"text": "You can place a Rubber Tap on the side of a rubber log. You can click with any fluid handler (e.g. a bucket) on the Rubber Tap, your fluid handler will gain 500mb of rubber latex per rubber level."
 		},
 		{
 			"type": "text",

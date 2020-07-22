@@ -6,8 +6,8 @@
 	],
 	"key": {
 		"#": [
-			{"item": "bigmachines:limestone"},
-			{"item": "bigmachines:limestone_smooth"}
+			{ "item": "bigmachines:limestone" },
+			{ "item": "bigmachines:limestone_smooth" }
 		]
 	},
 	"result": {

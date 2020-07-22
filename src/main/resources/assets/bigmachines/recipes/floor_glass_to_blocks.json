@@ -1,14 +1,14 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"},
-		{"item": "bigmachines:floor_glass"}
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" },
+		{ "item": "bigmachines:floor_glass" }
 	],
 	"result": {
 		"item": "minecraft:glass",

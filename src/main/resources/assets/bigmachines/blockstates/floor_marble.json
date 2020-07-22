@@ -130,10 +130,10 @@
 			}
 		],
 		"half=bottom,layers=8": [
-			{"model": "bigmachines:marble", "y": 0},
-			{"model": "bigmachines:marble", "y": 90},
-			{"model": "bigmachines:marble", "y": 180},
-			{"model": "bigmachines:marble", "y": 270}
+			{ "model": "bigmachines:marble", "y": 0 },
+			{ "model": "bigmachines:marble", "y": 90 },
+			{ "model": "bigmachines:marble", "y": 180 },
+			{ "model": "bigmachines:marble", "y": 270 }
 		],
 		"half=top,layers=1": [
 			{
@@ -262,10 +262,10 @@
 			}
 		],
 		"half=top,layers=8": [
-			{"model": "bigmachines:marble", "y": 0},
-			{"model": "bigmachines:marble", "y": 90},
-			{"model": "bigmachines:marble", "y": 180},
-			{"model": "bigmachines:marble", "y": 270}
+			{ "model": "bigmachines:marble", "y": 0 },
+			{ "model": "bigmachines:marble", "y": 90 },
+			{ "model": "bigmachines:marble", "y": 180 },
+			{ "model": "bigmachines:marble", "y": 270 }
 		]
 	}
 }

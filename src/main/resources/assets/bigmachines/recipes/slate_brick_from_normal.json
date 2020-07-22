@@ -6,8 +6,8 @@
 	],
 	"key": {
 		"#": [
-			{"item": "bigmachines:slate"},
-			{"item": "bigmachines:slate_smooth"}
+			{ "item": "bigmachines:slate" },
+			{ "item": "bigmachines:slate_smooth" }
 		]
 	},
 	"result": {

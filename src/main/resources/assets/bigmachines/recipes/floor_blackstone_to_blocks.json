@@ -1,14 +1,14 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"},
-		{"item": "bigmachines:floor_blackstone"}
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" },
+		{ "item": "bigmachines:floor_blackstone" }
 	],
 	"result": {
 		"item": "bigmachines:blackstone",

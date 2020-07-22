@@ -1,14 +1,14 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"},
-		{"item": "bigmachines:floor_marble_brick"}
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" },
+		{ "item": "bigmachines:floor_marble_brick" }
 	],
 	"result": {
 		"item": "bigmachines:marble_brick",

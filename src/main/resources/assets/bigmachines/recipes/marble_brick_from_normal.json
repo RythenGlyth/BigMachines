@@ -6,8 +6,8 @@
 	],
 	"key": {
 		"#": [
-			{"item": "bigmachines:marble"},
-			{"item": "bigmachines:marble_smooth"}
+			{ "item": "bigmachines:marble" },
+			{ "item": "bigmachines:marble_smooth" }
 		]
 	},
 	"result": {

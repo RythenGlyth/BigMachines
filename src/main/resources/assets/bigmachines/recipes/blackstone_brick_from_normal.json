@@ -6,8 +6,8 @@
 	],
 	"key": {
 		"#": [
-			{"item": "bigmachines:blackstone"},
-			{"item": "bigmachines:blackstone_smooth"}
+			{ "item": "bigmachines:blackstone" },
+			{ "item": "bigmachines:blackstone_smooth" }
 		]
 	},
 	"result": {
