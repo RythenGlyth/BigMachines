@@ -32,13 +32,13 @@ public class Path {
 		this.target = target;
 	}
 	
-	public Path(final de.bigmachines.utils.classes.Path path) {
+	public Path(final Path path) {
 		if (path != null)
 			this.path.addAll(path.path); // lol
 		this.target = path.target;
 	}
 	
-	public void setTarget(final TileEntity target) {
+	public void setTarget(@Nullable final TileEntity target) {
 		this.target = target;
 	}
 	
@@ -63,11 +63,22 @@ public class Path {
 		return path.contains(pipe);
 	}
 	
+	/**
+	 * Removes the specified pipe and all subsequent ones.
+	 *
+	 * @param pipe
+	 */
+	public void truncate(final TileEntityPipeBase pipe) {
+		final int firstPipe = path.indexOf(pipe);
+		if (firstPipe == -1) return;
+		path.subList(firstPipe, path.size()).clear();
+	}
+	
 	public boolean equals(Object other) {
 		if (other == null) return false;
 		if (this == other) return true;
-		if (other instanceof de.bigmachines.utils.classes.Path) {
-			de.bigmachines.utils.classes.Path otherPath = (de.bigmachines.utils.classes.Path) other;
+		if (other instanceof Path) {
+			Path otherPath = (Path) other;
 			return path.equals(otherPath.path) && target.equals(otherPath.target);
 		}
 		return false;
@@ -83,10 +94,10 @@ public class Path {
 		return nbt;
 	}
 	
-	@Nullable
-	public static de.bigmachines.utils.classes.Path readFromNBT(@Nonnull World world, @Nonnull NBTTagCompound nbt) {
+	@Nonnull
+	public static Path readFromNBT(@Nonnull World world, @Nonnull NBTTagCompound nbt) {
 		BlockPos targetPos = NBTHelper.readTagToBlockPos(nbt.getCompoundTag("target"));
-		de.bigmachines.utils.classes.Path path = new de.bigmachines.utils.classes.Path(world.getTileEntity(targetPos));
+		Path path = new Path(world.getTileEntity(targetPos));
 		
 		NBTTagList pathTag = nbt.getTagList("path", 10);
 		for (int i = 0; i < pathTag.tagCount(); i++)

@@ -81,7 +81,13 @@ public class PipeNetwork {
 		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 		connections.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 		currentContents.remove(pipe);
-		// TODO what if the path contains the pipe but the fluid isn't there yet
+		
+		for (Map<Path, FluidStack> pipeWithFluid : currentContents.values())
+			for (Path fluidPath : pipeWithFluid.keySet())
+				if (fluidPath.contains(pipe)) {
+					fluidPath.truncate(pipe);
+					fluidPath.setTarget(null);
+				}
 		
 		//if (pipe.equals(root)) { // if the pipe to remove is the root, we have to do some fiddling:
 		// new roots -> their children
@@ -179,6 +185,8 @@ public class PipeNetwork {
 				
 				// for every fluid that is in this pipe currently
 				if (fluidInPipe.getKey().isEmpty()) { // fill the fluid into target
+					// TODO if the path was interrupted (broken later on) the target is null
+					//  so I have to reroute the fluid if the target is null
 					FluidStack fluid = fluidInPipe.getValue();
 					TileEntity target = fluidInPipe.getKey().getTarget();
 					IFluidHandler sink = target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
