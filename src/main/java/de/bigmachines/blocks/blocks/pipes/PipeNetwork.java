@@ -53,7 +53,7 @@ public class PipeNetwork {
 	 *
 	 * @param pipe has to be directly adjacent as well as connected to the system
 	 */
-	public void insert(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
+	public void insertPipe(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
 		if (inserter != null && pipe != null)
 			connections.add(new Connection<>(inserter, pipe));
 	}
@@ -93,9 +93,9 @@ public class PipeNetwork {
 			
 			for (final Connection<TileEntityPipeBase> conn : connections) {
 				if (subtree.getValue().contains(conn.a)) {
-					subnetwork.insert(conn.a, conn.b);
+					subnetwork.insertPipe(conn.a, conn.b);
 				} else if (subtree.getValue().contains(conn.b)) {
-					subnetwork.insert(conn.a, conn.b);
+					subnetwork.insertPipe(conn.a, conn.b);
 				}
 			}
 			
@@ -116,14 +116,15 @@ public class PipeNetwork {
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
 		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
 			final TileEntityPipeBase inserterPipe = inserter.getKey().y; // the pipe that is adjacent to the source
-			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
+			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x).copy();
 			List<Pair<FluidStack, Path>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
 			
 			for (Pair<FluidStack, Path> drainedFluidWithPath : drained) {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
 				if (drainedAmount > 0) {
 					drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
-					// TODO what if the first one drains fully
+					fluidDrained.amount -= drainedAmount;
+					if (fluidDrained.amount <= 0) break; // if the first sink takes all available fluid
 				}
 			}
 		}
@@ -131,13 +132,18 @@ public class PipeNetwork {
 		updated(currentContents.differentFluids(preSnapshot));
 	}
 	
-	private static void updated(Set<TileEntityPipeBase> differingPipes) {
-		// TODO call this method
-		for (TileEntityPipeBase pipe : differingPipes) {
+	private static void updated(Set<TileEntityPipeBase> pipes) {
+		for (TileEntityPipeBase pipe : pipes)
 			pipe.updated();
-		}
 	}
 	
+	/**
+	 * Drains the specified source by the specified amount. The targetPipe is only needed for the connecting block facing, but never used.
+	 *
+	 * @param source     the source to drain
+	 * @param amount     how much to drain
+	 * @param targetPipe used to calculate from which facing to extract
+	 */
 	public void drainSource(final TileEntity source, final int amount, final TileEntityPipeBase targetPipe) {
 		final IFluidHandler handler = (IFluidHandler) source.getCapability(c,
 				  BlockHelper.getConnectingFace(source.getPos(), targetPipe.getPos()));
@@ -151,11 +157,20 @@ public class PipeNetwork {
 			// for every pipe that currently contains something
 			
 			if (currentContent.getValue().containsKey(null)) {
-				// TODO reroute, when moving something, check if the next path is free
+				
+				// TODO reroute
+				// TODO when moving something, check if the next path is free
 				// re-route this particular fluid, it might have either been added manually
 				// or part of its earlier path was destroyed
-				//List<Pair<FluidStack, Path>> sinks = distributeFluidIntoSinks(currentContent.getKey(), fluidInPipe.getValue());
-				//for (Pair<FluidStack, Path> sink : sinks) {
+				FluidStack fluidInPipe = currentContent.getValue().get(null);
+				List<Pair<FluidStack, Path>> sinks = distributeFluidIntoSinks(currentContent.getKey(), fluidInPipe);
+				for (Pair<FluidStack, Path> sink : sinks) {
+					sink.x.amount = Math.min(sink.x.amount, fluidInPipe.amount); // only insert as much as is in this pipe
+					int drained = currentContents.add(currentContent.getKey(), sink.y, sink.x);
+					// remove how much was drained from the remaining fluid.
+					fluidInPipe.amount -= drained;
+					if (fluidInPipe.amount <= 0) break;
+				}
 			}
 			
 			for (final Map.Entry<Path, FluidStack> fluidInPipe : currentContent.getValue().entrySet()) {
@@ -486,7 +501,7 @@ public class PipeNetwork {
 					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
 					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
 					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
-					network.insert((TileEntityPipeBase) world.getTileEntity(a),
+					network.insertPipe((TileEntityPipeBase) world.getTileEntity(a),
 							  (TileEntityPipeBase) world.getTileEntity(b));
 				}
 				

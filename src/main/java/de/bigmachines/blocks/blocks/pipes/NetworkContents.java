@@ -108,7 +108,7 @@ public class NetworkContents implements Cloneable {
 	 */
 	public int add(@Nullable final TileEntityPipeBase pipe, @Nullable final Path path,
 	               @Nullable final FluidStack fluidStack) throws RuntimeException {
-		if (pipe == null || path == null || fluidStack == null) return 0;
+		if (pipe == null || path == null || fluidStack == null || fluidStack.amount <= 0) return 0;
 		if (path.contains(pipe)) throw new RuntimeException("path contains the pipe itself");
 		if (contents.containsKey(pipe)) {
 			Map<Path, FluidStack> fluidsWithPaths = contents.get(pipe); // every fluid that is in this pipe
@@ -178,8 +178,6 @@ public class NetworkContents implements Cloneable {
 		
 		return clone;
 	}
-	
-	// TODO put the null checks back into place because HashMaps *can* contain null keys & values
 	
 	public Collection<Map<Path, FluidStack>> values() {
 		return contents.values();

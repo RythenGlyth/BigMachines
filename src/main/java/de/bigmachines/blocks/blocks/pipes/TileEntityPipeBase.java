@@ -185,7 +185,7 @@ public class TileEntityPipeBase extends TileEntityBase implements ITickable, IHa
 				if (hasAttachment(side) && BlockHelper.getAdjacentTileEntity(this, side) instanceof TileEntityPipeBase) {
 					final TileEntityPipeBase other = (TileEntityPipeBase) BlockHelper.getAdjacentTileEntity(this, side);
 					if (network == null) { // add this pipe to other's network
-						other.network.insert(other, this);
+						other.network.insertPipe(other, this);
 						network = other.network;
 					} else { // merge this network into the other's network
 						network.mergeInto(other, this, other.network);
