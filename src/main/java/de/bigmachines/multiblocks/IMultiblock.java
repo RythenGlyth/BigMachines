@@ -1,5 +1,6 @@
 package de.bigmachines.multiblocks;
 
+import de.bigmachines.multiblocks.validators.MultiblockValidator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -39,5 +40,8 @@ public interface IMultiblock {
 	 * @return if it is broken correctly
 	 */
 	boolean breakStructure(World world, BlockPos pos, EntityPlayer player);
+	
+	
+	MultiblockValidator getValidator();
 	
 }

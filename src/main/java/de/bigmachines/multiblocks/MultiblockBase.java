@@ -1,5 +1,6 @@
 package de.bigmachines.multiblocks;
 
+import de.bigmachines.multiblocks.validators.MultiblockValidator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -23,15 +24,6 @@ public abstract class MultiblockBase implements IMultiblock {
 	@Override
 	public ResourceLocation getID() {
 		return id;
-	}
-	
-	@Override
-	public Vec3i getSize() {
-		return null;
-	}
-	
-	protected Template getTemplate() {
-		return null;
 	}
 	
 }

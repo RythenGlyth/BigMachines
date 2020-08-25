@@ -108,7 +108,8 @@ info.bigmachines.press_strg_nbt=Halte §e§l[STRG]§r§7 für NBT Daten
 
 info.bigmachines.slimeBoots.shift=Lässt dich wie auf einem Slime Block springen!
 info.bigmachines.harvestlevel.shift=Abbau-Level
-info.bigmachines.wrench.shift=Wenn Werkzeug Taste gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.wrench.shift1=Wenn Werkzeug Taste gedrückt, über Seite von Maschinen scrollen um durch Einstellungen zu wechseln
+info.bigmachines.wrench.shift2=Rechtsklick um Multiblock zu aktivieren
 info.bigmachines.slicer.shift=Blöcke oder Fußböden lassen sich hiermit in kleinere Fußböden kleinschneiden
 info.bigmachines.debugger.shift1=Debug funktionen
 info.bigmachines.debugger.shift2=Wenn Werkzeug Taste gedrückt, scrollen um zwischen Modis zu wechseln

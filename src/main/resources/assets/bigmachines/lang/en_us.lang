@@ -108,7 +108,8 @@ info.bigmachines.press_strg_nbt=Hold §e§l[CTRL]§r§7 for NBT data
 
 info.bigmachines.slimeBoots.shift=Lets you jump like on a slime block!
 info.bigmachines.harvestlevel.shift=Harvesting Level
-info.bigmachines.wrench.shift=If tool key pressed, scroll over side of a machine to cycle through settings
+info.bigmachines.wrench.shift1=If tool key pressed, scroll over side of a machine to cycle through settings
+info.bigmachines.wrench.shift2=Rightclick to activate multiblock
 info.bigmachines.slicer.shift=Used to cut down blocks or floors into smaller floors
 info.bigmachines.debugger.shift1=Debug functions
 info.bigmachines.debugger.shift2=If tool key pressed, scroll to switch modes
