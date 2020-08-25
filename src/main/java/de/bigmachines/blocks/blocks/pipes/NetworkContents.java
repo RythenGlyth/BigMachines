@@ -3,16 +3,17 @@ package de.bigmachines.blocks.blocks.pipes;
 import de.bigmachines.blocks.blocks.pipes.fluidpipe.TileEntityFluidPipe;
 import de.bigmachines.utils.DebugHelper;
 import de.bigmachines.utils.NBTHelper;
+import de.bigmachines.utils.classes.Path;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static de.bigmachines.utils.classes.Path.readFromNBT;
 
 public class NetworkContents implements Cloneable {
 	
@@ -77,7 +78,7 @@ public class NetworkContents implements Cloneable {
 			for (int j = 0; j < fluids.tagCount(); j++) {
 				NBTTagCompound fluidWithPathTag = fluids.getCompoundTagAt(j);
 				FluidStack fluid = FluidStack.loadFluidStackFromNBT(fluidWithPathTag.getCompoundTag("fluid"));
-				Path path = Path.readFromNBT(world, fluidWithPathTag.getCompoundTag("path"));
+				Path path = readFromNBT(world, fluidWithPathTag.getCompoundTag("path"));
 				content.add((TileEntityPipeBase) world.getTileEntity(pipePos), path, fluid);
 			}
 		}
@@ -106,8 +107,8 @@ public class NetworkContents implements Cloneable {
 	 * @throws RuntimeException if the specified path contains the pipe itself.
 	 */
 	public int add(@Nullable final TileEntityPipeBase pipe, @Nullable final Path path,
-			@Nullable final FluidStack fluidStack) throws RuntimeException {
-		if (pipe == null || path == null || fluidStack == null) return 0;
+	               @Nullable final FluidStack fluidStack) throws RuntimeException {
+		if (pipe == null || path == null || fluidStack == null || fluidStack.amount <= 0) return 0;
 		if (path.contains(pipe)) throw new RuntimeException("path contains the pipe itself");
 		if (contents.containsKey(pipe)) {
 			Map<Path, FluidStack> fluidsWithPaths = contents.get(pipe); // every fluid that is in this pipe
@@ -239,7 +240,6 @@ public class NetworkContents implements Cloneable {
 			// add all that this contains but other doesn't
 		}
 		
-		
 		for (Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> pipeWithFluid : other.contents.entrySet()) {
 			if (!differentFluids.contains(pipeWithFluid.getKey()) && !this.contents.containsKey(pipeWithFluid.getKey()))
 				differentFluids.add(pipeWithFluid.getKey());
@@ -249,112 +249,50 @@ public class NetworkContents implements Cloneable {
 		return differentFluids;
 	}
 	
-	public static class Path {
-		
-		private final List<TileEntityPipeBase> path = new ArrayList<>();
-		private TileEntity target;
-		
-		public Path(final TileEntity target) {
-			this.target = target;
-		}
-		
-		public Path(final List<TileEntityPipeBase> path, final TileEntity target) {
-			if (path != null)
-				this.path.addAll(path);
-			this.target = target;
-		}
-		
-		public Path(final Path path) {
-			if (path != null)
-				this.path.addAll(path.path); // lol
-			this.target = path.target;
-		}
-		
-		protected void setTarget(final TileEntity target) {
-			this.target = target;
-		}
-		
-		protected TileEntity getTarget() {
-			return target;
-		}
-		
-		/**
-		 * Wraps the List.get() method with a little extra:
-		 * If the index is negative, this number is returned starting at the end,
-		 * e. g. get(-1) returns the last element.
-		 *
-		 * @param index which index to return (positives start at the start, negatives at the end)
-		 * @return the element at the specified index
-		 */
-		public TileEntityPipeBase get(final int index) {
-			if (index >= 0) return path.get(index);
-			else return path.get(size() + index);
-		}
-		
-		public boolean contains(final TileEntityPipeBase pipe) {
-			return path.contains(pipe);
-		}
-		
-		public boolean equals(Object other) {
-			if (other == null) return false;
-			if (this == other) return true;
-			if (other instanceof Path) {
-				Path otherPath = (Path) other;
-				return path.equals(otherPath.path) && target.equals(otherPath.target);
+	int canTransport(final TileEntityPipeBase pipe, final int ticksAhead, final FluidStack fluidStack) {
+		if (ticksAhead == 0) { // the current tick
+			if (containsKey(pipe)) {
+				// how much we can transport at most
+				int transported = Math.min(fluidStack.amount, pipe.maxContents());
+				for (final FluidStack currentContent : get(pipe).values()) {
+					// for each fluid with path that is currently in the pipe, subtract it's limit from the
+					// maximum amount we can transport
+					// at this point we shouldn't have to worry about any fluids that can't merge
+					// I SAID SHOULDN'T
+					transported -= PipeNetwork.occupiedSpaceInPipe(pipe, currentContent, fluidStack);
+				}
+				//if (transported < 0) throw new RuntimeException("pipe overflow @ " + pipe.getPos());
+				return Math.max(0, transported);
+				//return canTransport(pipe, currentContents.get(pipe).x, fluidStack);
+			} else return Math.min(fluidStack.amount, pipe.maxContents());
+		} else {
+			// declare a new variable that stores how much of the fluidStack we can transport at most
+			int transported = Math.min(fluidStack.amount, pipe.maxContents());
+			// for everything that is currently in the network:
+			for (Map<Path, FluidStack> fluidsInPipe : values()) {
+				// for every fluid in this pipe:
+				for (final Map.Entry<Path, FluidStack> fluidInPipe : fluidsInPipe.entrySet()) {
+					// check where this fluid is going, it may be splitting up, that's why we have a list<> here.
+					final Path path = fluidInPipe.getKey();
+					// each individual path
+					if (ticksAhead > path.size()) continue; // this fluid / path pair is gone before the specified tick
+					else if (ticksAhead == path.size()) {
+						if (path.get(path.size() - 1).equals(pipe)) {
+							// the fluid reaches the very last pipe (the inserter in the specified tick)
+							transported -= PipeNetwork.occupiedSpaceInPipe(pipe, fluidInPipe.getValue(), fluidStack);
+						} else continue;
+					} else { // the fluid is still in the system
+						if (path.contains(pipe) && path.get(ticksAhead).equals(pipe))
+							// the fluid is in the pipe we're checking for at the tick we want
+							transported -= PipeNetwork.occupiedSpaceInPipe(pipe, fluidInPipe.getValue(), fluidStack);
+						// return how much can fit
+					}
+				}
+				//if (transported < 0) throw new RuntimeException("pipe overflow @ " + pipe.getPos());
+				fluidStack.amount = Math.max(0, transported);
 			}
-			return false;
-		}
-		
-		public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-			nbt.setTag("target", NBTHelper.writeBlockPosToTag(target.getPos()));
-			NBTTagList pathTag = new NBTTagList();
-			for (TileEntityPipeBase pipe : path)
-				pathTag.appendTag(NBTHelper.writeBlockPosToTag(pipe.getPos()));
-			nbt.setTag("path", pathTag);
-			// TODO path compression (e. g. south times 10)
-			return nbt;
-		}
-		
-		@Nullable
-		public static Path readFromNBT(@Nonnull World world, @Nonnull NBTTagCompound nbt) {
-			BlockPos targetPos = NBTHelper.readTagToBlockPos(nbt.getCompoundTag("target"));
-			Path path = new Path(world.getTileEntity(targetPos));
-			
-			NBTTagList pathTag = nbt.getTagList("path", 10);
-			for (int i = 0; i < pathTag.tagCount(); i++)
-				path.add((TileEntityPipeBase) world.getTileEntity(NBTHelper.readTagToBlockPos(pathTag.getCompoundTagAt(i))));
-			
-			return path;
-		}
-		
-		public int hashCode() {
-			return path.hashCode();
-		}
-		
-		public TileEntityPipeBase remove(final int i) {
-			return path.remove(i);
-		}
-		
-		@Override
-		public String toString() {
-			if (path.size() == 0) return "empty path with target " + target.getPos();
-			StringBuilder toString = new StringBuilder(64);
-			for (TileEntityPipeBase pipe : path)
-				toString.append(" -> ").append(pipe.getPos());
-			return toString.substring(4) + " with target " + target.getPos();
-		}
-		
-		public int size() {
-			return path.size();
-		}
-		
-		public boolean isEmpty() {
-			return path.isEmpty();
-		}
-		
-		public void add(final TileEntityPipeBase a) {
-			// TODO throw exception if pipe specified twice?
-			path.add(a);
+			return fluidStack.amount;
 		}
 	}
+	
 }

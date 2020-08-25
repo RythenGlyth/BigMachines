@@ -4,6 +4,7 @@ import de.bigmachines.utils.BlockHelper;
 import de.bigmachines.utils.DebugHelper;
 import de.bigmachines.utils.NBTHelper;
 import de.bigmachines.utils.classes.Pair;
+import de.bigmachines.utils.classes.Path;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -52,7 +53,7 @@ public class PipeNetwork {
 	 *
 	 * @param pipe has to be directly adjacent as well as connected to the system
 	 */
-	public void insert(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
+	public void insertPipe(@Nullable final TileEntityPipeBase inserter, @Nullable final TileEntityPipeBase pipe) {
 		if (inserter != null && pipe != null)
 			connections.add(new Connection<>(inserter, pipe));
 	}
@@ -80,7 +81,13 @@ public class PipeNetwork {
 		fModules.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 		connections.removeIf(connection -> connection.a.equals(pipe) || connection.b.equals(pipe));
 		currentContents.remove(pipe);
-		// TODO what if the path contains the pipe but the fluid isn't there yet
+		
+		for (Map<Path, FluidStack> pipeWithFluid : currentContents.values())
+			for (Path fluidPath : pipeWithFluid.keySet())
+				if (fluidPath.contains(pipe)) {
+					fluidPath.truncate(pipe);
+					fluidPath.setTarget(null);
+				}
 		
 		//if (pipe.equals(root)) { // if the pipe to remove is the root, we have to do some fiddling:
 		// new roots -> their children
@@ -92,9 +99,9 @@ public class PipeNetwork {
 			
 			for (final Connection<TileEntityPipeBase> conn : connections) {
 				if (subtree.getValue().contains(conn.a)) {
-					subnetwork.insert(conn.a, conn.b);
+					subnetwork.insertPipe(conn.a, conn.b);
 				} else if (subtree.getValue().contains(conn.b)) {
-					subnetwork.insert(conn.a, conn.b);
+					subnetwork.insertPipe(conn.a, conn.b);
 				}
 			}
 			
@@ -115,14 +122,15 @@ public class PipeNetwork {
 		final Map<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserters = inserters();
 		for (Map.Entry<Pair<TileEntity, TileEntityPipeBase>, FluidStack> inserter : inserters.entrySet()) {
 			final TileEntityPipeBase inserterPipe = inserter.getKey().y; // the pipe that is adjacent to the source
-			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x);
-			List<Pair<FluidStack, NetworkContents.Path>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
+			final FluidStack fluidDrained = insertVia(inserterPipe, inserter.getKey().x).copy();
+			List<Pair<FluidStack, Path>> drained = distributeFluidIntoSinks(inserterPipe, fluidDrained);
 			
-			for (Pair<FluidStack, NetworkContents.Path> drainedFluidWithPath : drained) {
+			for (Pair<FluidStack, Path> drainedFluidWithPath : drained) {
 				int drainedAmount = currentContents.add(inserterPipe, drainedFluidWithPath.y, drainedFluidWithPath.x);
 				if (drainedAmount > 0) {
 					drainSource(inserter.getKey().x, drainedAmount, inserterPipe);
-					// TODO what if the first one drains fully
+					fluidDrained.amount -= drainedAmount;
+					if (fluidDrained.amount <= 0) break; // if the first sink takes all available fluid
 				}
 			}
 		}
@@ -130,13 +138,18 @@ public class PipeNetwork {
 		updated(currentContents.differentFluids(preSnapshot));
 	}
 	
-	private static void updated(Set<TileEntityPipeBase> differingPipes) {
-		// TODO call this method
-		for (TileEntityPipeBase pipe : differingPipes) {
+	private static void updated(Set<TileEntityPipeBase> pipes) {
+		for (TileEntityPipeBase pipe : pipes)
 			pipe.updated();
-		}
 	}
 	
+	/**
+	 * Drains the specified source by the specified amount. The targetPipe is only needed for the connecting block facing, but never used.
+	 *
+	 * @param source     the source to drain
+	 * @param amount     how much to drain
+	 * @param targetPipe used to calculate from which facing to extract
+	 */
 	public void drainSource(final TileEntity source, final int amount, final TileEntityPipeBase targetPipe) {
 		final IFluidHandler handler = (IFluidHandler) source.getCapability(c,
 				  BlockHelper.getConnectingFace(source.getPos(), targetPipe.getPos()));
@@ -146,14 +159,34 @@ public class PipeNetwork {
 	private void moveFluidsOneTick() {
 		final NetworkContents nextContents = new NetworkContents();
 		
-		for (final Map.Entry<TileEntityPipeBase, Map<NetworkContents.Path, FluidStack>> currentContent : currentContents.entrySet()) {
+		for (final Map.Entry<TileEntityPipeBase, Map<Path, FluidStack>> currentContent : currentContents.entrySet()) {
 			// for every pipe that currently contains something
-			for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : currentContent.getValue().entrySet()) {
+			
+			if (currentContent.getValue().containsKey(null)) {
 				
-				if (fluidInPipe.getValue() == null || fluidInPipe.getValue().amount == 0) continue;
+				// TODO reroute
+				// TODO when moving something, check if the next path is free
+				// re-route this particular fluid, it might have either been added manually
+				// or part of its earlier path was destroyed
+				FluidStack fluidInPipe = currentContent.getValue().get(null);
+				List<Pair<FluidStack, Path>> sinks = distributeFluidIntoSinks(currentContent.getKey(), fluidInPipe);
+				for (Pair<FluidStack, Path> sink : sinks) {
+					sink.x.amount = Math.min(sink.x.amount, fluidInPipe.amount); // only insert as much as is in this pipe
+					int drained = currentContents.add(currentContent.getKey(), sink.y, sink.x);
+					// remove how much was drained from the remaining fluid.
+					fluidInPipe.amount -= drained;
+					if (fluidInPipe.amount <= 0) break;
+				}
+			}
+			
+			for (final Map.Entry<Path, FluidStack> fluidInPipe : currentContent.getValue().entrySet()) {
+				
+				if (fluidInPipe.getValue().amount == 0) continue;
 				
 				// for every fluid that is in this pipe currently
 				if (fluidInPipe.getKey().isEmpty()) { // fill the fluid into target
+					// TODO if the path was interrupted (broken later on) the target is null
+					//  so I have to reroute the fluid if the target is null
 					FluidStack fluid = fluidInPipe.getValue();
 					TileEntity target = fluidInPipe.getKey().getTarget();
 					IFluidHandler sink = target.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
@@ -165,10 +198,11 @@ public class PipeNetwork {
 						nextContents.add(currentContent.getKey(), fluidInPipe.getKey(), fluid);
 					}
 				} else {
-					NetworkContents.Path currentPath = new NetworkContents.Path(fluidInPipe.getKey());
+					Path currentPath = new Path(fluidInPipe.getKey());
 					final TileEntityPipeBase nextTile = currentPath.remove(0); // from here on it's nextPath not currentPath
 					nextContents.add(nextTile, currentPath, fluidInPipe.getValue());
 				}
+				
 			}
 		}
 		
@@ -254,11 +288,11 @@ public class PipeNetwork {
 	 * @return a
 	 */
 	@Nonnull
-	private List<Pair<FluidStack, NetworkContents.Path>> distributeFluidIntoSinks(final TileEntityPipeBase source, final FluidStack fluid) {
+	private List<Pair<FluidStack, Path>> distributeFluidIntoSinks(final TileEntityPipeBase source, final FluidStack fluid) {
 		final BFSearcher sinkSearcher = new BFSearcher(source);
 		
 		// which new targets were found & added to the network contents during search
-		final List<Pair<FluidStack, NetworkContents.Path>> targets = new ArrayList<>(8);
+		final List<Pair<FluidStack, Path>> targets = new ArrayList<>(8);
 		
 		sinkSearcher.setValidator(new PathValidator(fluid));
 		
@@ -282,7 +316,7 @@ public class PipeNetwork {
 				// foundConnections maps sink -> path to sink
 				if (sinkSearcher.foundConnections.containsKey(sinkInserter)) {
 					// the path to the inserting pipe:
-					NetworkContents.Path connection = sinkSearcher.foundConnections.get(sinkInserter);
+					Path connection = sinkSearcher.foundConnections.get(sinkInserter);
 					connection.add(sinkInserter);
 					if (!connection.isEmpty()) {
 						FluidStack transported = fluid.copy();
@@ -291,7 +325,7 @@ public class PipeNetwork {
 						
 						// the newly found
 						connection.setTarget(sink);
-						targets.add(new Pair<FluidStack, NetworkContents.Path>(transported, connection));
+						targets.add(new Pair<FluidStack, Path>(transported, connection));
 						//currentContents.add(source, connection, transported);
 					} //else System.out.println("connection = 0");
 				}
@@ -306,11 +340,20 @@ public class PipeNetwork {
 	}
 	
 	public int fill(final TileEntityPipeBase pipe, final FluidStack resource, final boolean doFill) {
-		distributeFluidIntoSinks(pipe, resource);
-		// TODO route inserted fluids
-		// maybe I will simply search for fluids without a target every tick and route them then
-		// because this way they will get split up if its too much fluid in the pipe for one run
-		return 0;
+		FluidStack pipeContents = getContents(pipe);
+		if (pipeContents == null || pipeContents.amount == 0) {
+			FluidStack inserted = resource.copy();
+			inserted.amount = Math.min(resource.amount, pipe.maxContents());
+			if (doFill)
+				currentContents.add(pipe, null, inserted);
+			return inserted.amount;
+		} else if (pipeContents.isFluidEqual(resource)) {
+			FluidStack inserted = resource.copy();
+			inserted.amount = Math.min(resource.amount, pipe.maxContents() - pipeContents.amount);
+			if (doFill)
+				currentContents.add(pipe, null, inserted);
+			return inserted.amount;
+		} else return 0; // no free space
 	}
 	
 	private final class PathValidator implements ConnectionValidator {
@@ -322,8 +365,8 @@ public class PipeNetwork {
 		}
 		
 		@Override
-		public boolean isValid(@Nonnull final NetworkContents.Path path, @Nonnull final TileEntityPipeBase to) {
-			if (canTransport(to, path.size(), fluidStack) == 0) return false;
+		public boolean isValid(@Nonnull final Path path, @Nonnull final TileEntityPipeBase to) {
+			if (currentContents.canTransport(to, path.size(), fluidStack) == 0) return false;
 			if (path.isEmpty()) return true;
 			return to.isConnectedTo(path.get(-1)) && to.canInsertIn(path.get(-1));
 		}
@@ -369,7 +412,7 @@ public class PipeNetwork {
 				final IFluidHandler handler = (IFluidHandler) source.getCapability(c, connectingFace.getOpposite());
 				FluidStack inserted = handler.drain(inserter.maxContents(), false);
 				if (inserted == null) return null;
-				inserted.amount = canTransport(inserter, 0, inserted);
+				inserted.amount = currentContents.canTransport(inserter, 0, inserted);
 				return inserted;
 			} else return null;
 		} else return null;
@@ -397,12 +440,12 @@ public class PipeNetwork {
 	 * @param path       which path the fluid should take
 	 * @param fluidStack which fluid should be moved
 	 */
-	int canTransport(final NetworkContents.Path path, final FluidStack fluidStack) {
+	int canTransport(final Path path, final FluidStack fluidStack) {
 		int amount = fluidStack.amount;
 		final int pathSize = path.size();
 		for (int i = 0; i < pathSize; i++) {
 			// for every tile in the path, check if it limits the throughput
-			amount = Math.min(amount, canTransport(path.get(i), i, fluidStack));
+			amount = Math.min(amount, currentContents.canTransport(path.get(i), i, fluidStack));
 			if (amount <= 0) return 0;
 		}
 		return amount;
@@ -424,52 +467,6 @@ public class PipeNetwork {
 		else return pipe.maxContents(); // the fluids can't merge
 	}
 	
-	int canTransport(final TileEntityPipeBase pipe, final int ticksAhead, final FluidStack fluidStack) {
-		if (ticksAhead == 0) { // the current tick
-			if (currentContents.containsKey(pipe)) {
-				// how much we can transport at most
-				int transported = Math.min(fluidStack.amount, pipe.maxContents());
-				for (final FluidStack currentContent : currentContents.get(pipe).values()) {
-					// for each fluid with path that is currently in the pipe, subtract it's limit from the
-					// maximum amount we can transport
-					// at this point we shouldn't have to worry about any fluids that can't merge
-					// I SAID SHOULDN'T
-					transported -= occupiedSpaceInPipe(pipe, currentContent, fluidStack);
-				}
-				//if (transported < 0) throw new RuntimeException("pipe overflow @ " + pipe.getPos());
-				return Math.max(0, transported);
-				//return canTransport(pipe, currentContents.get(pipe).x, fluidStack);
-			} else return Math.min(fluidStack.amount, pipe.maxContents());
-		} else {
-			// declare a new variable that stores how much of the fluidStack we can transport at most
-			int transported = Math.min(fluidStack.amount, pipe.maxContents());
-			// for everything that is currently in the network:
-			for (Map<NetworkContents.Path, FluidStack> fluidsInPipe : currentContents.values()) {
-				// for every fluid in this pipe:
-				for (final Map.Entry<NetworkContents.Path, FluidStack> fluidInPipe : fluidsInPipe.entrySet()) {
-					// check where this fluid is going, it may be splitting up, that's why we have a list<> here.
-					final NetworkContents.Path path = fluidInPipe.getKey();
-					// each individual path
-					if (ticksAhead > path.size()) continue; // this fluid / path pair is gone before the specified tick
-					else if (ticksAhead == path.size()) {
-						if (path.get(path.size() - 1).equals(pipe)) {
-							// the fluid reaches the very last pipe (the inserter in the specified tick)
-							transported -= occupiedSpaceInPipe(pipe, fluidInPipe.getValue(), fluidStack);
-						} else continue;
-					} else { // the fluid is still in the system
-						if (path.contains(pipe) && path.get(ticksAhead).equals(pipe))
-							// the fluid is in the pipe we're checking for at the tick we want
-							transported -= occupiedSpaceInPipe(pipe, fluidInPipe.getValue(), fluidStack);
-						// return how much can fit
-					}
-				}
-				//if (transported < 0) throw new RuntimeException("pipe overflow @ " + pipe.getPos());
-				fluidStack.amount = Math.max(0, transported);
-			}
-			return fluidStack.amount;
-		}
-	}
-	
 	void debugInfo(final TileEntityPipeBase home) {
 		System.out.println("===============================================");
 		System.out.println("network with capability " + c);
@@ -488,7 +485,7 @@ public class PipeNetwork {
 		ds.discover();
 		System.out.println("finished discovery");
 		
-		DebugHelper.printMapSortedByValueProperty(ds.foundConnections, TileEntityPipeBase::toString, NetworkContents.Path::size);
+		DebugHelper.printMapSortedByValueProperty(ds.foundConnections, TileEntityPipeBase::toString, Path::size);
 		
 		System.out.println("===============================================");
 	}
@@ -512,7 +509,7 @@ public class PipeNetwork {
 					final NBTTagCompound connection = pipeList.getCompoundTagAt(i);
 					final BlockPos a = NBTHelper.readTagToBlockPos(connection.getCompoundTag("a"));
 					final BlockPos b = NBTHelper.readTagToBlockPos(connection.getCompoundTag("b"));
-					network.insert((TileEntityPipeBase) world.getTileEntity(a),
+					network.insertPipe((TileEntityPipeBase) world.getTileEntity(a),
 							  (TileEntityPipeBase) world.getTileEntity(b));
 				}
 				
@@ -612,17 +609,17 @@ public class PipeNetwork {
 	protected class BFSearcher {
 		
 		// tepb block -> path
-		protected final Map<TileEntityPipeBase, NetworkContents.Path> foundConnections = new HashMap<>(4);
+		protected final Map<TileEntityPipeBase, Path> foundConnections = new HashMap<>(4);
 		// a new node to search from and the path to it
-		private final Map<TileEntityPipeBase, NetworkContents.Path> unknown = new HashMap<>(8);
+		private final Map<TileEntityPipeBase, Path> unknown = new HashMap<>(8);
 		
 		private ConnectionValidator validator;
 		
 		private static final long MAX_RUNS = 1000;
 		
 		protected BFSearcher(final TileEntityPipeBase searchRoot) {
-			foundConnections.put(searchRoot, new NetworkContents.Path(searchRoot));
-			unknown.put(searchRoot, new NetworkContents.Path(searchRoot));
+			foundConnections.put(searchRoot, new Path(searchRoot));
+			unknown.put(searchRoot, new Path(searchRoot));
 			validator = (path, to) -> true;
 		}
 		
@@ -634,10 +631,10 @@ public class PipeNetwork {
 			long run = 0;
 			// FIXME hardcoded max runs shouldn't be in production
 			while (!unknown.isEmpty() && run < MAX_RUNS) {
-				final Map.Entry<TileEntityPipeBase, NetworkContents.Path> search = unknown.entrySet().iterator().next();
+				final Map.Entry<TileEntityPipeBase, Path> search = unknown.entrySet().iterator().next();
 				unknown.remove(search.getKey());
 				for (final Connection<TileEntityPipeBase> connection : PipeNetwork.this.connections) {
-					final NetworkContents.Path path = new NetworkContents.Path(search.getValue());
+					final Path path = new Path(search.getValue());
 					// since there is no premise whether connections get swapped out
 					// (see Connection#<init>)
 					// we have to check which one is the actual inserter and which one isn't inserted yet
@@ -654,13 +651,14 @@ public class PipeNetwork {
 			if (run == MAX_RUNS) System.out.println("max runs reached");
 		}
 		
-		private void discovered(final NetworkContents.Path path, final TileEntityPipeBase node) {
+		private void discovered(final Path path, final TileEntityPipeBase node) {
 			final int distance = path.size();
 			if (validator.isValid(path, node)) {
 				boolean isShorter = true;
 				if (foundConnections.containsKey(node)) {
-					NetworkContents.Path lastPath = foundConnections.get(node);
-					isShorter = lastPath != null && distance < lastPath.size();
+					Path lastPath = foundConnections.get(node);
+					// no null check needed here as maps can't contain null keys or values
+					isShorter = distance < lastPath.size();
 				}
 				if (isShorter) {
 					foundConnections.put(node, path);
@@ -674,7 +672,7 @@ public class PipeNetwork {
 	@FunctionalInterface
 	private interface ConnectionValidator {
 		
-		boolean isValid(final NetworkContents.Path path, final TileEntityPipeBase to);
+		boolean isValid(final Path path, final TileEntityPipeBase to);
 	}
 	
 	private static class Connection<T extends TileEntity> {
