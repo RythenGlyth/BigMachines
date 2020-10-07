@@ -14,8 +14,10 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -56,27 +58,54 @@ public class BigMachines {
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent ev) {
 		OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
-		Config.init(ev.getModConfigurationDirectory());
-		WorldGenerationConfig.init(new File(ev.getModConfigurationDirectory(), Reference.MOD_ID));
 		
+		ProgressBar bar = ProgressManager.push("Register Configs", 2);
+		bar.step("Config");
+		Config.init(ev.getModConfigurationDirectory());
+		bar.step("WorldGenerationConfig");
+		WorldGenerationConfig.init(new File(ev.getModConfigurationDirectory(), Reference.MOD_ID));
+		ProgressManager.pop(bar);
+
+		ProgressBar bar2 = ProgressManager.push("Register Events", 7);
+
+		bar2.step("Proxy");
         MinecraftForge.EVENT_BUS.register(proxy);
 
+		bar2.step("ModItems");
         MinecraftForge.EVENT_BUS.register(new ModItems());
+		bar2.step("ModBlocks");
 		MinecraftForge.EVENT_BUS.register(new ModBlocks());
+		bar2.step("ModEntities");
 		MinecraftForge.EVENT_BUS.register(new ModEntities());
+		bar2.step("SlimeBootsHandler");
 		MinecraftForge.EVENT_BUS.register(new SlimeBootsHandler());
+		bar2.step("Config");
 		MinecraftForge.EVENT_BUS.register(new Config());
+		bar2.step("GiveItemManualHandler");
 		MinecraftForge.EVENT_BUS.register(new GiveItemManualHandler());
 		
-		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
+		ProgressManager.pop(bar2);
 		
+		NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
+
+		ProgressBar bar3 = ProgressManager.push("Initialize Things", 7);
+
+		bar3.step("CreativeTabs");
 		ModCreativeTabs.init();
+		bar3.step("Items");
 		ModItems.preInit();
+		bar3.step("Blocks");
 		ModBlocks.preInit();
+		bar3.step("Fluids");
 		ModFluids.preInit();
+		bar3.step("Entities");
 		ModEntities.preInit();
+		bar3.step("Materials");
 		ModMaterials.preInit();
+		bar3.step("TileEntities");
 		ModTileEntities.init();
+		
+		ProgressManager.pop(bar3);
 		
 		proxy.preInit();
 		

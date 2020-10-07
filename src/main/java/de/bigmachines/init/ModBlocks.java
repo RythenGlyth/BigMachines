@@ -15,6 +15,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ProgressManager;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -61,19 +63,25 @@ public class ModBlocks {
 	
 	@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
+		ProgressBar bar = ProgressManager.push("Register ItemBlocks", BLOCKS.size());
 		BLOCKS.forEach(block -> {
+			bar.step(block.getItemBlock().getRegistryName().toString());
 			event.getRegistry().register(block.getItemBlock());
 			if (block instanceof IInitializer && FMLCommonHandler.instance().getSide().equals(Side.CLIENT))
 				((IInitializer) block).postRegister();
 		});
+		ProgressManager.pop(bar);
 		
 	}
 	
 	@SubscribeEvent
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
+		ProgressBar bar = ProgressManager.push("Register Blocks", BLOCKS.size());
 		BLOCKS.forEach(block -> {
+			bar.step(((Block) block).getRegistryName().toString());
 			event.getRegistry().register((Block) block);
 		});
+		ProgressManager.pop(bar);
 	}
 
 }

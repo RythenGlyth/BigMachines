@@ -12,6 +12,8 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.ProgressManager;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
@@ -55,7 +57,12 @@ public class ClientProxy implements CommonProxy {
 	
 	@SubscribeEvent
 	public void registerItems(ModelRegistryEvent event) {
-		modelList.forEach(IModelRegister::registerModels);
+		ProgressBar bar = ProgressManager.push("Register Models: items", modelList.size());
+		modelList.forEach(register -> {
+			register.registerModels();
+			bar.step("");
+		});
+		ProgressManager.pop(bar);
 	}
 	
 	public void addIModelRegister(IModelRegister modelRegister) {

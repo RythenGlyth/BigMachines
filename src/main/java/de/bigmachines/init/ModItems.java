@@ -7,6 +7,8 @@ import de.bigmachines.items.items.manual.ItemPlate;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ProgressManager;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -52,10 +54,13 @@ public class ModItems {
     
     @SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
+		ProgressBar bar = ProgressManager.push("Register Items", ITEMS.size());
         ITEMS.forEach(item -> {
+        	bar.step(item.getRegistryName().toString());
 			event.getRegistry().register(item);
 			if(item instanceof IInitializer && FMLCommonHandler.instance().getSide().equals(Side.CLIENT)) ((IInitializer)item).postRegister();
 		});
+        ProgressManager.pop(bar);
 		
 	}
 
