@@ -1,143 +1,146 @@
-[
-	{
-		"type": "cavewall",
-		"block": {
-			"Name": "bigmachines:crystal"
-		},
-		"max-per-chunk": 4,
-		"min-height": 0,
-		"max-height": 65,
-		"invertFacing": false
-	},
-	{
-		"type": "structure",
-		"structure-id": "bigmachines:space_jet",
-		"chance": 25000
-	},
-	{
-		"type": "rubbertree",
-		"chance": 1500
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:ore_copper",
-		"max-per-chunk": 12,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 75,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:ore_lead",
-		"max-per-chunk": 8,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 40,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:ore_tin",
-		"max-per-chunk": 10,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 75,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:ore_silver",
-		"max-per-chunk": 6,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 40,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:ore_aluminum",
-		"max-per-chunk": 10,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 75,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:pink_dirt",
-		"max-per-chunk": 20,
-		"max-vein-size": 8,
-		"min-height": 0,
-		"max-height": 255,
-		"replaceable-blocks": [
-			"minecraft:dirt"
-		],
-		"blacklisted-dimensions": [
-			-1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:limestone",
-		"max-per-chunk": 1,
-		"max-vein-size": 12,
-		"min-height": 0,
-		"max-height": 80,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:blackstone",
-		"max-per-chunk": 1,
-		"max-vein-size": 12,
-		"min-height": 0,
-		"max-height": 80,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:marble",
-		"max-per-chunk": 1,
-		"max-vein-size": 12,
-		"min-height": 0,
-		"max-height": 80,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	},
-	{
-		"type": "mineable",
-		"block-id": "bigmachines:slate",
-		"max-per-chunk": 1,
-		"max-vein-size": 12,
-		"min-height": 0,
-		"max-height": 80,
-		"blacklisted-dimensions": [
-			-1,
-			1
-		]
-	}
-]
+{
+    "file-version": 1,
+    "generators": [
+    	{
+    		"type": "cavewall",
+    		"block": {
+    			"Name": "bigmachines:crystal"
+    		},
+    		"max-per-chunk": 4,
+    		"min-height": 0,
+    		"max-height": 65,
+    		"invertFacing": false
+    	},
+    	{
+    		"type": "structure",
+    		"structure-id": "bigmachines:space_jet",
+    		"chance": 25000
+    	},
+    	{
+    		"type": "rubbertree",
+    		"chance": 1500
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:ore_copper",
+    		"max-per-chunk": 12,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 75,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:ore_lead",
+    		"max-per-chunk": 8,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 40,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:ore_tin",
+    		"max-per-chunk": 10,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 75,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:ore_silver",
+    		"max-per-chunk": 6,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 40,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:ore_aluminum",
+    		"max-per-chunk": 10,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 75,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:pink_dirt",
+    		"max-per-chunk": 20,
+    		"max-vein-size": 8,
+    		"min-height": 0,
+    		"max-height": 255,
+    		"replaceable-blocks": [
+    			"minecraft:dirt"
+    		],
+    		"blacklisted-dimensions": [
+    			-1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:limestone",
+    		"max-per-chunk": 1,
+    		"max-vein-size": 12,
+    		"min-height": 0,
+    		"max-height": 80,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:blackstone",
+    		"max-per-chunk": 1,
+    		"max-vein-size": 12,
+    		"min-height": 0,
+    		"max-height": 80,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:marble",
+    		"max-per-chunk": 1,
+    		"max-vein-size": 12,
+    		"min-height": 0,
+    		"max-height": 80,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	},
+    	{
+    		"type": "mineable",
+    		"block-id": "bigmachines:slate",
+    		"max-per-chunk": 1,
+    		"max-vein-size": 12,
+    		"min-height": 0,
+    		"max-height": 80,
+    		"blacklisted-dimensions": [
+    			-1,
+    			1
+    		]
+    	}
+    ]
+}
