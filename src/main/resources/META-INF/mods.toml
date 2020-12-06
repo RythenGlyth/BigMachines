@@ -1,0 +1,27 @@
+modLoader="javafml" #mandatory
+loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="All rights reserved"
+issueTrackerURL="https://github.com/RythenGlyth/BigMachines/issues" #optional
+[[mods]] #mandatory
+    modId="bigmachines" #mandatory
+    version="${file.jarVersion}" #mandatory
+    displayName="Big Machines" #mandatory
+    #updateJSONURL="" #optional #todo
+    displayURL="https://github.com/RythenGlyth/BigMachines" #optional
+    #logoFile="examplemod.png" #optional
+    authors="RythenGlyth, ScrouthTV" #optional
+    description='''
+    A Mod for big machines.
+    '''
+    [[dependencies.bigmachines]] #optional
+        modId="forge" #mandatory
+        mandatory=true #mandatory
+        versionRange="[35,)" #mandatory
+        ordering="NONE"
+        side="BOTH"
+    [[dependencies.bigmachines]]
+        modId="minecraft"
+        mandatory=true
+        versionRange="[1.16.4,1.17)"
+        ordering="NONE"
+        side="BOTH"
