@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" },
+		{ "item": "bigmachines:smooth_marble_layers" }
+	],
+	"result": {
+		"item": "bigmachines:smooth_marble",
+		"count": 1
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" },
+		{ "item": "bigmachines:glass_layers" }
+	],
+	"result": {
+		"item": "minecraft:glass",
+		"count": 1
+	}
+}

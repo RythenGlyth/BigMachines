@@ -1,0 +1,7 @@
+{
+	"parent": "bigmachines:block/layers/template/layers_n_2",
+	"textures": {
+		"particle": "bigmachines:block/blackstone_bricks",
+		"tex": "bigmachines:block/blackstone_bricks"
+	}
+}

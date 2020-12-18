@@ -1,0 +1,7 @@
+{
+	"parent": "bigmachines:block/layers/template/layers_u_3",
+	"textures": {
+		"particle": "bigmachines:block/slate",
+		"tex": "bigmachines:block/slate"
+	}
+}

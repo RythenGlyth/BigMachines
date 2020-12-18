@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:blasting",
+	"ingredient": {
+		"tag": "forge:ores/silver"
+	},
+	"result": "bigmachines:silver_ingot",
+	"experience": 1,
+	"cookingtime": 100
+}

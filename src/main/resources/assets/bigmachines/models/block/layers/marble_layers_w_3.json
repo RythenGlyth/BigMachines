@@ -1,0 +1,7 @@
+{
+	"parent": "bigmachines:block/layers/template/layers_w_3",
+	"textures": {
+		"particle": "bigmachines:block/marble",
+		"tex": "bigmachines:block/marble"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" },
+		{ "item": "bigmachines:slate_layers" }
+	],
+	"result": {
+		"item": "bigmachines:slate",
+		"count": 1
+	}
+}

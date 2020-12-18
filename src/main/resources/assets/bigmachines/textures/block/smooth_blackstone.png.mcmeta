@@ -1,0 +1,16 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type": "ctm",
+		"layer": "SOLID",
+		"textures": [
+            "bigmachines:block/smooth_blackstone_ctm"
+        ],
+		"extra": {
+			"connect_to": [
+				{ "block": "bigmachines:smooth_blackstone" },
+				{ "block": "bigmachines:smooth_blackstone_layers" }
+			]
+		}
+	}
+} 

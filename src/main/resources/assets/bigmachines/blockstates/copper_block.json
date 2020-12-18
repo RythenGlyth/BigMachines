@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "bigmachines:block/copper_block" }
+	}
+}

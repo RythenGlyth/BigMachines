@@ -1,0 +1,7 @@
+{
+	"parent": "bigmachines:block/layers/template/layers_u_4",
+	"textures": {
+		"particle": "bigmachines:block/blackstone",
+		"tex": "bigmachines:block/blackstone"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:blasting",
+	"ingredient": {
+		"tag": "forge:ores/lead"
+	},
+	"result": "bigmachines:lead_ingot",
+	"experience": 1,
+	"cookingtime": 100
+}

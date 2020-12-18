@@ -1,0 +1,95 @@
+{
+	"file-version": 1,
+	"features": {
+		"ore_copper": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:copper_ore"
+			},
+			"max-per-chunk": 12,
+			"max-vein-size": 8,
+			"min-height": 0,
+			"max-height": 75
+		},
+		"ore_lead": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:lead_ore"
+			},
+			"max-per-chunk": 8,
+			"max-vein-size": 8,
+			"min-height": 0,
+			"max-height": 40
+		},
+		"ore_tin": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:tin_ore"
+			},
+			"max-per-chunk": 10,
+			"max-vein-size": 8,
+			"min-height": 0,
+			"max-height": 75
+		},
+		"ore_silver": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:silver_ore"
+			},
+			"max-per-chunk": 6,
+			"max-vein-size": 8,
+			"min-height": 0,
+			"max-height": 40
+		},
+		"ore_aluminum": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:aluminum_ore"
+			},
+			"max-per-chunk": 10,
+			"max-vein-size": 8,
+			"min-height": 0,
+			"max-height": 75
+		},
+		"ore_blackstone": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:blackstone"
+			},
+			"max-per-chunk": 6,
+			"max-vein-size": 22,
+			"min-height": 0,
+			"max-height": 80
+		},
+		"ore_limestone": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:limestone"
+			},
+			"max-per-chunk": 6,
+			"max-vein-size": 22,
+			"min-height": 0,
+			"max-height": 80
+		},
+		"ore_marble": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:marble"
+			},
+			"max-per-chunk": 6,
+			"max-vein-size": 22,
+			"min-height": 0,
+			"max-height": 80
+		},
+		"ore_slate": {
+			"type": "ore",
+			"block": {
+				"Name": "bigmachines:slate"
+			},
+			"max-per-chunk": 6,
+			"max-vein-size": 22,
+			"min-height": 0,
+			"max-height": 80
+		}
+	}
+}

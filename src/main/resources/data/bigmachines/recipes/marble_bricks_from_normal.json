@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": [
+			{ "item": "bigmachines:marble" },
+			{ "item": "bigmachines:smooth_marble" }
+		]
+	},
+	"result": {
+		"item": "bigmachines:marble_bricks",
+		"count": 4
+	}
+}

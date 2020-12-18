@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "bigmachines:block/pipe_heat" }
+	}
+}

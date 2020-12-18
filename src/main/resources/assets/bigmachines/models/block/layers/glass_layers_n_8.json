@@ -1,0 +1,7 @@
+{
+	"parent": "bigmachines:block/layers/template/layers_n_8",
+	"textures": {
+		"particle": "minecraft:block/glass",
+		"tex": "minecraft:block/glass"
+	}
+}

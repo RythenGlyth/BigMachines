@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": [
+			{ "item": "bigmachines:limestone" },
+			{ "item": "bigmachines:smooth_limestone" }
+		]
+	},
+	"result": {
+		"item": "bigmachines:limestone_bricks",
+		"count": 4
+	}
+}

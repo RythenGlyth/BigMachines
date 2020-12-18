@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" },
+		{ "item": "bigmachines:blackstone_layers" }
+	],
+	"result": {
+		"item": "bigmachines:blackstone",
+		"count": 1
+	}
+}
