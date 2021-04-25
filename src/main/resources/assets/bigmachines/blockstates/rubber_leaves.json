@@ -1,15 +1,6 @@
 {
 	"variants": {
-		"check_decay=false,decayable=false": {
-			"model": "bigmachines:block/rubber_leaves"
-		},
-		"check_decay=false,decayable=true": {
-			"model": "bigmachines:block/rubber_leaves"
-		},
-		"check_decay=true,decayable=true": {
-			"model": "bigmachines:block/rubber_leaves"
-		},
-		"check_decay=true,decayable=false": {
+		"": {
 			"model": "bigmachines:block/rubber_leaves"
 		}
 	}

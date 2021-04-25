@@ -1,8 +1,10 @@
 package de.bigmachines.init;
 
+import java.util.Map.Entry;
+
 import de.bigmachines.Reference;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.GenerationStage.Decoration;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -19,8 +21,8 @@ public class ModFeaturesEventBusSubscriber {
 	@SubscribeEvent(priority = EventPriority.HIGH)
     public static void biomeLoadingAdd(final BiomeLoadingEvent event) {
 		if(event.getCategory() != Biome.Category.NONE && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.THEEND) {
-			for(ConfiguredFeature<?, ?> cf : ModFeatures.features) {
-				event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cf);
+			for(Entry<ConfiguredFeature<?, ?>, Decoration> cf : ModFeatures.features.entrySet()) {
+				event.getGeneration().withFeature(cf.getValue(), cf.getKey());
 			}
 		}
     }

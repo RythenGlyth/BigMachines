@@ -59,6 +59,21 @@
 		},
 		"axis=none,rubber_level=3": {
 			"model": "bigmachines:block/rubber_bark"
+		},
+		"axis=y,rubber_level=4": {
+			"model": "bigmachines:block/rubber_log_rubber_4"
+		},
+		"axis=z,rubber_level=4": {
+			"model": "bigmachines:block/rubber_log_rubber_4",
+			"x": 90
+		},
+		"axis=x,rubber_level=4": {
+			"model": "bigmachines:block/rubber_log_rubber_4",
+			"x": 90,
+			"y": 90
+		},
+		"axis=none,rubber_level=4": {
+			"model": "bigmachines:block/rubber_bark"
 		}
 	}
 }

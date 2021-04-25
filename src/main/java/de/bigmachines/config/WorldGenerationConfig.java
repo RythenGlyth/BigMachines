@@ -12,19 +12,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-import com.sun.jna.platform.win32.WinNT.FILE_NOTIFY_INFORMATION;
 
 import de.bigmachines.Reference;
 import de.bigmachines.init.ModFeatures;
-import de.bigmachines.init.ModMaterials;
 import de.bigmachines.util.FileHelper;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.Features.Placements;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -51,6 +48,7 @@ public class WorldGenerationConfig {
 	
 	public static void loadConfig() {
 		ModFeatures.features.clear();
+		ModFeatures.registerDefaults();
 		try {
 			JsonReader reader = new JsonReader(new FileReader(worldGenerationConfig));
 	    	try {
@@ -82,7 +80,8 @@ public class WorldGenerationConfig {
 	    											)
 		    									)
 				    							.square() //RANDOMISE (X/Z) IN CHUNK
-				    							.func_242731_b(generator.get("max-vein-size").getAsInt()));
+				    							.func_242731_b(generator.get("max-vein-size").getAsInt()),
+				    							GenerationStage.Decoration.UNDERGROUND_ORES);
 				    					} else {
 					    					logger.error("In " + generatorEl.getKey() + " in worldgeneration.json is something wrong");
 				    					}

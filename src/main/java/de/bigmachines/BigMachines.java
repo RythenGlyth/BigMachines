@@ -2,7 +2,6 @@ package de.bigmachines;
 
 import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.init.ModBlocks;
-import de.bigmachines.init.ModFeatures;
 import de.bigmachines.init.ModItemGroups;
 import de.bigmachines.init.ModItems;
 import de.bigmachines.init.ModMaterials;
@@ -46,7 +45,7 @@ public class BigMachines {
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(ModBlocks.RUBBER_SAPLING_BLOCK.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.rubber_sapling.get(), RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ModMaterials.glass_layers.get(), RenderType.getCutout());
 	}
 	

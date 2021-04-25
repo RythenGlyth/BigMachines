@@ -1,13 +1,26 @@
 package de.bigmachines.init;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureSpread;
+import net.minecraft.world.gen.feature.FeatureSpreadConfig;
+import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.placement.DepthAverageConfig;
+import net.minecraft.world.gen.feature.TwoLayerFeature;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
+import net.minecraft.world.gen.placement.ChanceConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 
 public class ModFeatures {
 	
@@ -36,15 +49,54 @@ public class ModFeatures {
 							ModMaterials.aluminum_ore.get().getDefaultState(), 8))
 			.range(75).square().func_242731_b(10));*/
 	
-	public static ArrayList<ConfiguredFeature<?, ?>> features = new ArrayList<ConfiguredFeature<?,?>>();
+	public static Map<ConfiguredFeature<?, ?>, GenerationStage.Decoration> features = new HashMap<ConfiguredFeature<?,?>, GenerationStage.Decoration>();
+	
+	public static ConfiguredFeature<BaseTreeFeatureConfig, ?> tree_rubber = Feature.TREE.withConfiguration(
+		new BaseTreeFeatureConfig.Builder(
+			new SimpleBlockStateProvider(ModBlocks.rubber_log.get().getDefaultState()),
+			new SimpleBlockStateProvider(ModBlocks.rubber_leaves.get().getDefaultState()),
+			new BlobFoliagePlacer(
+				FeatureSpread.func_242253_a(
+					2, //base
+					0  //spread
+				),//radius
+				FeatureSpread.func_242253_a(
+					0, //base
+					0  //spread
+				),//offset
+				3//height
+			),
+			new StraightTrunkPlacer(
+				4, //baseHeight
+				2, //heightRandA
+				0  //heightRandB
+			),
+			new TwoLayerFeature(
+				1, //limit
+				0, //lowerSize
+				1  //upperSize
+			)
+		).setIgnoreVines().build()
+	);
+	
+	public static ConfiguredFeature<?, ?> tree_rubber_placement = tree_rubber.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 2)).withPlacement(Placement.CHANCE.configure(new ChanceConfig(100))));
+	
+	static {
+		registerDefaults();
+	}
+	
+	public static void registerDefaults() {
+		register("tree_rubber_placement", tree_rubber_placement, GenerationStage.Decoration.VEGETAL_DECORATION);
+		//register("tree_rubber", tree_rubber, GenerationStage.Decoration.VEGETAL_DECORATION);
+	}
 	
 	public static void init() {
 		//NBTUtil.readBlockState(JsonToNBT.getTagFromJson(jsonString))
 	}
 	
-	public static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> configuredFeature) {
+	public static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> configuredFeature, GenerationStage.Decoration decoration) {
 		ConfiguredFeature<FC, ?> feature = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, key, configuredFeature);
-		features.add(feature);
+		features.put(feature, decoration);
 		return feature;
 	}
 
