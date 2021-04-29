@@ -3,11 +3,10 @@ import java.util.regex.Pattern
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -16,19 +15,26 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = pullVersion()
-group = 'de.bigmachines' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'de.bigmachines'
 archivesBaseName = pullModID()
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+//sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly?
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
+    // Channel:   Version:
+    // snapshot   YYYYMMDD   Snapshot are built nightly.
+    // stable     #          Stables are built at the discretion of the MCP team.
+    // official   MCVersion  Official field/method names from Mojang mapping files
+    //
+    // You must be aware of the Mojang license when using the 'official' mappings.
+    // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
+    //
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'official', version: '1.16.5'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -40,9 +46,15 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // The markers can be changed as needed. 
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -56,9 +68,15 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // The markers can be changed as needed. 
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -72,9 +90,15 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // The markers can be changed as needed. 
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
@@ -89,25 +113,6 @@ minecraft {
     }
 }
 
-repositories {
-  maven {
-    // location of the maven that hosts JEI files
-    name = "Progwml6 maven"
-    url = "https://dvs1.progwml6.com/files/maven/"
-  }
-  maven {
-    // location of a maven mirror for JEI files, as a fallback
-    name = "ModMaven"
-    url = "https://modmaven.k-4u.nl"
-  }
-  maven {
-    // Chisel Maven
-    name = "tterrag Maven"
-    url = "https://maven.tterrag.com"
-  }
-  maven { url "https://maven.tehnut.info" }
-}
-
 // Include resources generated by data generators.
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
@@ -115,17 +120,8 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.0.22'
-	
-	compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-	runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-	
-	compileOnly fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6:api")
-	runtimeOnly fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
+    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
 
-    //ompileOnly fg.deobf("mcp.mobius.waila:Hwyla:Hwyla-forge-1.10.11-B78_1.16.2:api")
-    //runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:Hwyla-forge-1.10.11-B78_1.16.2")
-	
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
@@ -150,9 +146,9 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": pullModID(),
+            "Specification-Title": "examplemod",
             "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": pullVersion(), // We are version 1 of ourselves
+            "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"examplemodsareus",
@@ -181,23 +177,23 @@ publishing {
 }
 
 def pullVersion() {
-    def file = file("src/main/java/de/bigmachines/Reference.java")
-    def version = ""
-    def pattern = Pattern.compile("public static final String VERSION = \"([\\d\\.]*)\";")
-    def matcher = pattern.matcher(file.text)
-    if (matcher.find()) {
-        version = matcher.group(1)
-    }
-    return version
+	def file = file("src/main/java/de/bigmachines/Reference.java")
+	def version = ""
+	def pattern = Pattern.compile("public static final String VERSION =  \"([\\d\\.]*)\";")
+	def matcher = pattern.matcher(file.text)
+	if (matcher.find()) {
+		version = matcher.group(1)
+	}
+	return version
 }
 
 def pullModID() {
-    def file = file("src/main/java/de/bigmachines/Reference.java")
-    def modid = ""
-    def pattern = Pattern.compile("public static final String MOD_ID = \"(.*)\";")
-    def matcher = pattern.matcher(file.text)
-    if (matcher.find()) {
-        modid = matcher.group(1)
-    }
-    return modid
+	def file = file("src/main/java/de/bigmachines/Reference.java")
+	def modid = ""
+	def pattern = Pattern.compile("public static final String MOD_ID = \"(.*)\";")
+	def matcher = pattern.matcher(file.text)
+	if (matcher.find()) {
+		modid = matcher.group(1)
+	}
+	return modid
 }
