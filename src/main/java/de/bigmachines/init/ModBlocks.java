@@ -3,6 +3,7 @@ package de.bigmachines.init;
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.BaseBlockItem;
 import de.bigmachines.blocks.blocks.RubberLogBlock;
+import de.bigmachines.blocks.blocks.reactor.ReactorCoreBlock;
 import de.bigmachines.world.feature.RubberTree;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -40,6 +41,9 @@ public class ModBlocks {
 	public static RegistryObject<Block> rubber_leaves = BLOCKS.register("rubber_leaves", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES)));
 	public static RegistryObject<Item> rubber_leaves_item = ModItems.ITEMS.register("rubber_leaves", () -> new BaseBlockItem(rubber_leaves.get()));
 	
+	public static RegistryObject<Block> reactor_core = BLOCKS.register("reactor_core", () -> new ReactorCoreBlock());
+	public static RegistryObject<Item> reactor_core_item = ModItems.ITEMS.register("reactor_core",
+			  () -> new BaseBlockItem(reactor_core.get()));
 	
 	public static void init() {
 		BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());

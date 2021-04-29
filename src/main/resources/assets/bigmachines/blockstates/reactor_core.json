@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bigmachines:block/reactor_core"
+    }
+  }
+}

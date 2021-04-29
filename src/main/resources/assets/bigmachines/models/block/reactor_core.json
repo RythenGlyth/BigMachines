@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/observer",
+  "textures": {
+    "all": "bigmachines:block/reactor_core"
+  }
+}
