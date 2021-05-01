@@ -7,15 +7,14 @@
 	],
 	"key": {
 		"I": {
-			"type": "forge:ore_dict",
-			"ore": "ingotIron"
+			"tag": "minecraft:ingot/iron"
 		},
 		"S": {
-			"item": "minecraft:stick"
+			"tag": "forge:rods/wooden"
 		}
 	},
 	"result": {
 		"item": "bigmachines:slicer"
 	}
 }
-  
+
