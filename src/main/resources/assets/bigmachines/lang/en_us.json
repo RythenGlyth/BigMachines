@@ -90,6 +90,8 @@
     "block.bigmachines.rubber_sapling": "Rubbertree Sapling",
     "block.bigmachines.rubber_tap": "Rubber Tap",
 
+		"block.bigmachines.machine_casing": "Machine Casing",
+
     "info.bigmachines.press_shift": "Hold §e§l[SHIFT]§r§7 for Details",
     "info.bigmachines.press_alt": "Hold §e§l[ALT]§r§7 for Details",
     "info.bigmachines.press_strg": "Hold §e§l[CTRL]§r§7 for Details",

@@ -90,6 +90,8 @@
     "block.bigmachines.rubber_sapling": "Gummibaum Setzling",
     "block.bigmachines.rubber_tap": "Gummibaumhahn",
 
+		"block.bigmachies.machine_casing": "Maschinengehäuse",
+
     "info.bigmachines.press_shift": "Halte §e§l[SHIFT]§r§7 für Details",
     "info.bigmachines.press_alt": "Halte §e§l[ALT]§r§7 für Details",
     "info.bigmachines.press_strg": "Halte §e§l[STRG]§r§7 für Details",
