@@ -3,10 +3,13 @@ import java.util.regex.Pattern
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+
+				// https://github.com/MinecraftForge/ForgeGradle/pull/763
+				maven { url = 'https://sciwhiz12.tk/maven' }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'tk.sciwhiz12.gradle', name: 'ForgeGradle', version: '4.1.9', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
