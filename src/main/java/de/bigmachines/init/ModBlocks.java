@@ -3,6 +3,7 @@ package de.bigmachines.init;
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.BaseBlockItem;
 import de.bigmachines.blocks.blocks.RubberLogBlock;
+import de.bigmachines.blocks.blocks.PinkDirt;
 import de.bigmachines.blocks.blocks.machines.MachineCasing;
 import de.bigmachines.blocks.blocks.reactor.ReactorCoreBlock;
 import de.bigmachines.world.feature.RubberTree;
@@ -41,6 +42,9 @@ public class ModBlocks {
 	
 	public static RegistryObject<Block> rubber_leaves = BLOCKS.register("rubber_leaves", () -> new LeavesBlock(Block.Properties.copy(Blocks.OAK_LEAVES)));
 	public static RegistryObject<Item> rubber_leaves_item = ModItems.ITEMS.register("rubber_leaves", () -> new BaseBlockItem(rubber_leaves.get()));
+
+	public static RegistryObject<Block> pink_dirt = BLOCKS.register("pink_dirt", () -> new PinkDirt());
+	public static RegistryObject<Item> pink_dirt_item = ModItems.ITEMS.register("pink_dirt", () -> new BaseBlockItem(pink_dirt.get()));
 
 	public static RegistryObject<Block> machine_casing = BLOCKS.register("machine_casing", () -> new MachineCasing());
 	public static RegistryObject<Item> machine_casing_item = ModItems.ITEMS.register("machine_casing", () -> new BaseBlockItem(machine_casing.get()));
