@@ -9,7 +9,7 @@ public class BaseBlockItem extends BlockItem {
 	
 	public BaseBlockItem(Block block) {
 		super(block, new Item.Properties()
-				.group(ModItemGroups.MOD_GROUP)
+				.tab(ModItemGroups.MOD_GROUP)
 		);
 	}
 	

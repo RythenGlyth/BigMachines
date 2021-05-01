@@ -6,6 +6,6 @@ import net.minecraft.block.DirectionalBlock;
 
 public class ReactorCoreBlock extends DirectionalBlock {
 	public ReactorCoreBlock() {
-		super(Block.Properties.from(Blocks.OBSERVER));
+		super(Block.Properties.copy(Blocks.OBSERVER));
 	}
 }

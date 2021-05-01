@@ -25,88 +25,83 @@ public class LayerBlock extends Block {
 	protected static final HashMap<Direction, VoxelShape[]> SHAPES = new HashMap<Direction, VoxelShape[]>() {{
 		put(Direction.DOWN, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D,  2.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D,  4.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D,  6.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D,  8.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 10.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 12.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 14.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D,  2.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D,  4.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D,  6.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D,  8.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 10.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 12.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 14.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 		put(Direction.UP, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape( 0.0D, 14.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D, 12.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D, 10.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  8.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  6.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  4.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  2.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box( 0.0D, 14.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D, 12.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D, 10.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  8.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  6.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  4.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  2.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 		put(Direction.NORTH, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  2.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  4.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  6.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  8.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 10.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 12.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 14.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  2.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  4.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  6.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D,  8.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 10.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 12.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 14.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 		put(Direction.SOUTH, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape( 0.0D,  0.0D, 14.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D, 12.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D, 10.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  8.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  6.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  4.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  2.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box( 0.0D,  0.0D, 14.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D, 12.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D, 10.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  8.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  6.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  4.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  2.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 		put(Direction.WEST, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D,  2.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D,  4.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D,  6.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D,  8.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 10.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 12.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 14.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box( 0.0D,  0.0D,  0.0D,  2.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D,  4.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D,  6.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D,  8.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 10.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 12.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 14.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 		put(Direction.EAST, new VoxelShape[] {
 			VoxelShapes.empty(),
-			Block.makeCuboidShape(14.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape(12.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape(10.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 8.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 6.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 4.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 2.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
+			Block.box(14.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box(12.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box(10.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 8.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 6.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 4.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 2.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box( 0.0D,  0.0D,  0.0D, 16.0D, 16.0D, 16.0D)
 		});
 	}};
 	
 	@Override
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-		return super.allowsMovement(state, worldIn, pos, type);
-	}
-	
-	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPES.get(state.get(FACING))[state.get(LAYERS)];
+		return SHAPES.get(state.getProperty(FACING))[state.getProperty(LAYERS)];
 	}
 	
 	@Override
-	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
-		int i = state.get(LAYERS);
-		if (useContext.getItem().getItem() == this.asItem() && i < 8) {
+	public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
+		int i = state.getValue(LAYERS);
+		if (useContext.getItemInHand().getItem() == this.asItem() && i < 8) {
 			if (useContext.replacingClickedOnBlock()) {
-				return useContext.getFace() == state.get(FACING).getOpposite();
+				return useContext.getNearestLookingDirection() == state.getValue(FACING).getOpposite();
 			} else {
 				return true;
 			}
@@ -117,27 +112,27 @@ public class LayerBlock extends Block {
 	
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		BlockState blockstate = context.getWorld().getBlockState(context.getPos());
-		if (blockstate.isIn(this)) {
-			int i = blockstate.get(LAYERS);
-			return blockstate.with(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
+		BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
+		if (blockstate.is(this)) {
+			int i = blockstate.getValue(LAYERS);
+			return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
 		} else {
-			return getDefaultState().with(FACING, context.getFace().getOpposite()).with(LAYERS, 1);
+			return getDefaultState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(LAYERS, 1);
 		}
 	}
 	
 	public LayerBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(LAYERS, Integer.valueOf(1)).with(FACING, Direction.DOWN));
+		this.setDefaultState(this.stateDefinition.getBaseState().with(LAYERS, Integer.valueOf(1)).with(FACING, Direction.DOWN));
 	}
 	
 	@Override
-	public boolean isTransparent(BlockState state) {
+	public boolean isAir(BlockState state) {
 		return true;
 	}
 	
 	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
 		builder.add(LAYERS).add(FACING);
 	}
 	

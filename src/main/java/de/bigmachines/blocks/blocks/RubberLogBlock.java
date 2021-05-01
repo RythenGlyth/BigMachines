@@ -17,7 +17,7 @@ public class RubberLogBlock extends RotatedPillarBlock {
 	
 	public RubberLogBlock() {
 		super(Block.Properties.from(Blocks.OAK_LOG).tickRandomly());
-		this.setDefaultState(this.getDefaultState().with(RUBBER_LEVEL, 0));
+		registerDefaultState(any().setValue(RUBBER_LEVEL, 0));
 	}
 	
 	@Override

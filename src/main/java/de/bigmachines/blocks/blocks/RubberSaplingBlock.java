@@ -21,18 +21,18 @@ import net.minecraft.world.server.ServerWorld;
 
 public class RubberSaplingBlock extends BushBlock implements IGrowable {
 
-	   public static final IntegerProperty STAGE = BlockStateProperties.STAGE_0_1;
+	   public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
 	//protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
 	
 	public RubberSaplingBlock() {
-		super(AbstractBlock.Properties.create(Material.PLANTS)
+		super(AbstractBlock.Properties.of(Material.PLANT)
 				.tickRandomly()
 				.doesNotBlockMovement()
 				.zeroHardnessAndResistance()
-				.sound(SoundType.PLANT)
+				.sound(SoundType.GRASS)
 		);
-	    this.setDefaultState(this.stateContainer.getBaseState().with(STAGE, Integer.valueOf(0)));
+	    this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, Integer.valueOf(0)));
 	}
 	
 	@Override
@@ -42,15 +42,15 @@ public class RubberSaplingBlock extends BushBlock implements IGrowable {
 	
 	@Override
 	public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
-		if (worldIn.getLight(pos.up()) >= 8 && random.nextInt(7) == 0) {
+		if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 9 && random.nextInt(7) == 0) {
 			if (!worldIn.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
 	        this.placeTree(worldIn, pos, state, random);
 	    }
 	}
 	
 	public void placeTree(ServerWorld world, BlockPos pos, BlockState state, Random rand) {
-		if (state.get(STAGE) == 0) {
-			world.setBlockState(pos, state.func_235896_a_(STAGE), 4);
+		if (state.getValue(STAGE) == 0) {
+			world.setBlock(pos, (BlockState)state.cycle(STAGE), 4);
 		} else {
 			if (!net.minecraftforge.event.ForgeEventFactory.saplingGrowTree(world, rand, pos)) return;
 			//new WorldGeneratorRubberTree.Generator().generate(worldIn, rand, pos);
