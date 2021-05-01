@@ -10,7 +10,7 @@ public class ModItemGroups {
 	public static final ItemGroup MOD_GROUP = new ItemGroup(Reference.MOD_ID + "." + "mainTab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Blocks.DIRT);
+            return new ItemStack(ModBlocks.pink_dirt.get());
         }
     };
 	
