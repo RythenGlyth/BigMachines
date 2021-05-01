@@ -16,23 +16,23 @@ public class RubberLogBlock extends RotatedPillarBlock {
 	public static final IntegerProperty RUBBER_LEVEL = IntegerProperty.create("rubber_level", 0, 4);
 	
 	public RubberLogBlock() {
-		super(Block.Properties.from(Blocks.OAK_LOG).tickRandomly());
-		registerDefaultState(any().setValue(RUBBER_LEVEL, 0));
+		super(Block.Properties.copy(Blocks.OAK_LOG).randomTicks());
+		registerDefaultState(defaultBlockState().setValue(RUBBER_LEVEL, 0));
 	}
 	
 	@Override
 	public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		if(random.nextInt(8) == 0) {
-			int rubber_level = state.get(RUBBER_LEVEL).intValue();
+			int rubber_level = state.getValue(RUBBER_LEVEL).intValue();
 			if (rubber_level < 4) {
-				worldIn.setBlockState(pos, state.with(RUBBER_LEVEL, rubber_level + 1), 2);
+				worldIn.setBlock(pos, state.setValue(RUBBER_LEVEL, rubber_level + 1), 2);
 			}
 		}
 	}
 	
 	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder) {
-		super.fillStateContainer(builder);
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		builder.add(RUBBER_LEVEL);
 	}
 	

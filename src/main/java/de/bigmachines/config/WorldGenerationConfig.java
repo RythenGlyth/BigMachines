@@ -79,8 +79,8 @@ public class WorldGenerationConfig {
     													)
 	    											)
 		    									)
-				    							.square() //RANDOMISE (X/Z) IN CHUNK
-				    							.func_242731_b(generator.get("max-vein-size").getAsInt()),
+				    							.squared() //RANDOMISE (X/Z) IN CHUNK
+				    							.count(generator.get("max-vein-size").getAsInt()),
 				    							GenerationStage.Decoration.UNDERGROUND_ORES);
 				    					} else {
 					    					logger.error("In " + generatorEl.getKey() + " in worldgeneration.json is something wrong");

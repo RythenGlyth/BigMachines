@@ -51,7 +51,7 @@ public class ModFeatures {
 	
 	public static Map<ConfiguredFeature<?, ?>, GenerationStage.Decoration> features = new HashMap<ConfiguredFeature<?,?>, GenerationStage.Decoration>();
 	
-	public static ConfiguredFeature<BaseTreeFeatureConfig, ?> tree_rubber = Feature.TREE.withConfiguration(
+	public static ConfiguredFeature<BaseTreeFeatureConfig, ?> tree_rubber = Feature.TREE.configured(
 		new BaseTreeFeatureConfig.Builder(
 			new SimpleBlockStateProvider(ModBlocks.rubber_log.get().defaultBlockState()),
 			new SimpleBlockStateProvider(ModBlocks.rubber_leaves.get().defaultBlockState()),
@@ -79,7 +79,7 @@ public class ModFeatures {
 		).ignoreVines().build()
 	);
 	
-	public static ConfiguredFeature<?, ?> tree_rubber_placement = tree_rubber.withPlacement(Features.Placements.HEIGHTMAP).withPlacement(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(2, 0.1f, 2)).withPlacement(Placement.CHANCE.configure(new ChanceConfig(100))));
+	public static ConfiguredFeature<?, ?> tree_rubber_placement = tree_rubber.decorated(Features.Placements.HEIGHTMAP).decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(2, 0.1f, 2)).decorated(Placement.CHANCE.configured(new ChanceConfig(100))));
 	
 	static {
 		registerDefaults();

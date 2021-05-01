@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 
 public class LayerBlock extends Block {
 	
-	public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS_1_8;
+	public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	
 	protected static final HashMap<Direction, VoxelShape[]> SHAPES = new HashMap<Direction, VoxelShape[]>() {{
@@ -93,7 +93,7 @@ public class LayerBlock extends Block {
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPES.get(state.getProperty(FACING))[state.getProperty(LAYERS)];
+		return SHAPES.get(state.getValue(FACING))[state.getValue(LAYERS)];
 	}
 	
 	@Override
@@ -117,13 +117,13 @@ public class LayerBlock extends Block {
 			int i = blockstate.getValue(LAYERS);
 			return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
 		} else {
-			return getDefaultState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(LAYERS, 1);
+			return defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(LAYERS, 1);
 		}
 	}
 	
 	public LayerBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateDefinition.getBaseState().with(LAYERS, Integer.valueOf(1)).with(FACING, Direction.DOWN));
+		registerDefaultState(stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)).setValue(FACING, Direction.DOWN));
 	}
 	
 	@Override
