@@ -45,8 +45,8 @@ public class BigMachines {
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(ModBlocks.rubber_sapling.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModMaterials.glass_layers.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.rubber_sapling.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModMaterials.glass_layers.get(), RenderType.cutout());
 	}
 	
 	private void enqueueIMC(final InterModEnqueueEvent event) {
