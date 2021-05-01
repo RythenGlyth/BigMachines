@@ -67,12 +67,12 @@ public class WorldGenerationConfig {
 				    							new ConfiguredFeature<OreFeatureConfig, Feature<OreFeatureConfig>>(
 			    									Feature.ORE,
 			    									new OreFeatureConfig(
-		    											OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-		    											NBTUtil.readBlockState(JsonToNBT.getTagFromJson(generator.get("block").toString())),
+		    											OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+		    											NBTUtil.readBlockState(JsonToNBT.parseTag(generator.get("block").toString())),
 		    											generator.get("max-per-chunk").getAsInt()
 			    									)
-			    								).withPlacement(
-		    										Placement.RANGE.configure(
+			    								).decorated(
+		    										Placement.RANGE.configured(
 	    												ModFeatures.topRangeConfig(
     														generator.has("min-height") ? generator.get("min-height").getAsInt() : 0,
     														generator.get("max-height").getAsInt()
