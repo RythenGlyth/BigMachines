@@ -1,0 +1,13 @@
+GIMP/Color Balance with
+Shadows:
+ Red -25 %
+ Green -70 %
+ Blue 0 %
+Midtones:
+ Red +35 %
+ Green -90 %
+ Blue +90 %
+Highlights:
+ Red -20 %
+ Green -50 %
+ Blue -30 %
