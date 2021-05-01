@@ -9,14 +9,14 @@ public class ModItemGroups {
 	
 	public static final ItemGroup MOD_GROUP = new ItemGroup(Reference.MOD_ID + "." + "mainTab") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(Blocks.DIRT);
         }
     };
 	
 	public static final ItemGroup MATERIAL_GROUP = new ItemGroup(Reference.MOD_ID + "." + "materialsTab") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(ModMaterials.lead_ingot.get());
         }
     };

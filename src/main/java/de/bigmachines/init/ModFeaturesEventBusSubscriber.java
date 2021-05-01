@@ -22,7 +22,7 @@ public class ModFeaturesEventBusSubscriber {
     public static void biomeLoadingAdd(final BiomeLoadingEvent event) {
 		if(event.getCategory() != Biome.Category.NONE && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.THEEND) {
 			for(Entry<ConfiguredFeature<?, ?>, Decoration> cf : ModFeatures.features.entrySet()) {
-				event.getGeneration().withFeature(cf.getValue(), cf.getKey());
+				event.getGeneration().addFeature(cf.getValue(), cf.getKey());
 			}
 		}
     }

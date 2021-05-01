@@ -53,18 +53,18 @@ public class ModFeatures {
 	
 	public static ConfiguredFeature<BaseTreeFeatureConfig, ?> tree_rubber = Feature.TREE.withConfiguration(
 		new BaseTreeFeatureConfig.Builder(
-			new SimpleBlockStateProvider(ModBlocks.rubber_log.get().getDefaultState()),
-			new SimpleBlockStateProvider(ModBlocks.rubber_leaves.get().getDefaultState()),
+			new SimpleBlockStateProvider(ModBlocks.rubber_log.get().defaultBlockState()),
+			new SimpleBlockStateProvider(ModBlocks.rubber_leaves.get().defaultBlockState()),
 			new BlobFoliagePlacer(
-				FeatureSpread.func_242253_a(
+				/* radius: */ FeatureSpread.of(
 					2, //base
 					0  //spread
-				),//radius
-				FeatureSpread.func_242253_a(
+				),
+				/* offset: */ FeatureSpread.of(
 					0, //base
 					0  //spread
-				),//offset
-				3//height
+				),
+				/* height: */ 3
 			),
 			new StraightTrunkPlacer(
 				4, //baseHeight
@@ -76,10 +76,10 @@ public class ModFeatures {
 				0, //lowerSize
 				1  //upperSize
 			)
-		).setIgnoreVines().build()
+		).ignoreVines().build()
 	);
 	
-	public static ConfiguredFeature<?, ?> tree_rubber_placement = tree_rubber.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(2, 0.1f, 2)).withPlacement(Placement.CHANCE.configure(new ChanceConfig(100))));
+	public static ConfiguredFeature<?, ?> tree_rubber_placement = tree_rubber.withPlacement(Features.Placements.HEIGHTMAP).withPlacement(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(2, 0.1f, 2)).withPlacement(Placement.CHANCE.configure(new ChanceConfig(100))));
 	
 	static {
 		registerDefaults();

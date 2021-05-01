@@ -26,11 +26,11 @@ public class ModBlocks {
 	public static RegistryObject<Block> rubber_sapling = BLOCKS.register("rubber_sapling",
 		() -> new SaplingBlock(
 			new RubberTree(),
-			AbstractBlock.Properties.create(Material.PLANTS)
+			AbstractBlock.Properties.of(Material.PLANT)
 				.tickRandomly()
 				.doesNotBlockMovement()
 				.zeroHardnessAndResistance()
-				.sound(SoundType.PLANT)
+				.sound(SoundType.GRASS)
 		)
 	);
 	public static RegistryObject<Item> rubber_sapling_item = ModItems.ITEMS.register("rubber_sapling", () -> new BaseBlockItem(rubber_sapling.get()));
@@ -38,7 +38,7 @@ public class ModBlocks {
 	public static RegistryObject<Block> rubber_log = BLOCKS.register("rubber_log", () -> new RubberLogBlock());
 	public static RegistryObject<Item> rubber_log_item = ModItems.ITEMS.register("rubber_log", () -> new BaseBlockItem(rubber_log.get()));
 	
-	public static RegistryObject<Block> rubber_leaves = BLOCKS.register("rubber_leaves", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES)));
+	public static RegistryObject<Block> rubber_leaves = BLOCKS.register("rubber_leaves", () -> new LeavesBlock(Block.Properties.copy(Block.OAK_LEAVES)));
 	public static RegistryObject<Item> rubber_leaves_item = ModItems.ITEMS.register("rubber_leaves", () -> new BaseBlockItem(rubber_leaves.get()));
 	
 	public static RegistryObject<Block> reactor_core = BLOCKS.register("reactor_core", () -> new ReactorCoreBlock());
