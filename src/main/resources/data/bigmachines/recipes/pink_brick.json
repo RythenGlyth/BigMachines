@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "bigmachines:pink_clay_ball"
+  },
+  "result": "bigmachines:pink_brick",
+  "experience": 0.3,
+  "cookingtime": 200
+}
