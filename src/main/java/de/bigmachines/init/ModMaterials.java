@@ -38,6 +38,7 @@ public class ModMaterials {
 		public static final RegistryObject<Block> tin_ore = ModBlocks.BLOCKS.register("tin_ore", () -> new Block(AbstractBlock.Properties.of(Material.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3.0F)));
 		public static final RegistryObject<Block> silver_ore = ModBlocks.BLOCKS.register("silver_ore", () -> new Block(AbstractBlock.Properties.of(Material.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3.0F)));
 		public static final RegistryObject<Block> aluminum_ore = ModBlocks.BLOCKS.register("aluminum_ore", () -> new Block(AbstractBlock.Properties.of(Material.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3.0F)));
+		
 		//Ores Items
 		public static RegistryObject<Item> copper_ore_item = ModItems.ITEMS.register("copper_ore", () -> new BlockItem(copper_ore.get(), new Item.Properties().tab(ModItemGroups.MATERIAL_GROUP)));
 		public static RegistryObject<Item> lead_ore_item = ModItems.ITEMS.register("lead_ore", () -> new BlockItem(lead_ore.get(), new Item.Properties().tab(ModItemGroups.MATERIAL_GROUP)));
