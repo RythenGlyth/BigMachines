@@ -11,7 +11,7 @@ public class BaseItem extends Item {
 	
 	public BaseItem() {
 		this(new Item.Properties()
-			.group(ModItemGroups.MOD_GROUP)
+			.tab(ModItemGroups.MOD_GROUP)
 		);
 	}
 	
