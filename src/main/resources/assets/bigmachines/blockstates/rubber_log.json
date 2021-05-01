@@ -12,9 +12,6 @@
 			"x": 90,
 			"y": 90
 		},
-		"axis=none,rubber_level=0": {
-			"model": "bigmachines:block/rubber_bark"
-		},
 		"axis=y,rubber_level=1": {
 			"model": "bigmachines:block/rubber_log_rubber_1"
 		},
@@ -26,9 +23,6 @@
 			"model": "bigmachines:block/rubber_log_rubber_1",
 			"x": 90,
 			"y": 90
-		},
-		"axis=none,rubber_level=1": {
-			"model": "bigmachines:block/rubber_bark"
 		},
 		"axis=y,rubber_level=2": {
 			"model": "bigmachines:block/rubber_log_rubber_2"
@@ -42,9 +36,6 @@
 			"x": 90,
 			"y": 90
 		},
-		"axis=none,rubber_level=2": {
-			"model": "bigmachines:block/rubber_bark"
-		},
 		"axis=y,rubber_level=3": {
 			"model": "bigmachines:block/rubber_log_rubber_3"
 		},
@@ -56,9 +47,6 @@
 			"model": "bigmachines:block/rubber_log_rubber_3",
 			"x": 90,
 			"y": 90
-		},
-		"axis=none,rubber_level=3": {
-			"model": "bigmachines:block/rubber_bark"
 		},
 		"axis=y,rubber_level=4": {
 			"model": "bigmachines:block/rubber_log_rubber_4"
@@ -72,8 +60,5 @@
 			"x": 90,
 			"y": 90
 		},
-		"axis=none,rubber_level=4": {
-			"model": "bigmachines:block/rubber_bark"
-		}
 	}
 }
