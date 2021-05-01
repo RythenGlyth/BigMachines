@@ -1,18 +1,13 @@
 {
-	"type": "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shapeless",
 	"group": "planks",
-	"pattern": [
-		"#"
-	],
-	"key": {
-		"#": {
-			"item": "bigmachines:rubber_log",
-			"data": 0
+	"ingredients": [
+		{
+			"item": "bigmachines:rubber_log"
 		}
-	},
+	],
 	"result": {
 		"item": "bigmachines:rubber_planks",
-		"data": 0,
 		"count": 4
 	}
 }
