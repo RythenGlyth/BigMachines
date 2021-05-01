@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/observer",
-  "textures": {
-    "all": "bigmachines:block/reactor_core"
+  "parent": "minecraft:block/orientable",
+	"textures": {
+		"front": "bigmachines:block/reactor_core",
+		"side": "bigmachines:block/machine_casing",
+		"top": "bigmachines:block/machine_casing"
   }
 }
