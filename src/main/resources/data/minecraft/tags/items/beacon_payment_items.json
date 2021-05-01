@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "bigmachines:copper_ingot",
+		"bigmachines:lead_ingot",
+		"bigmachines:tin_ingot",
+		"bigmachines:silver_ingot",
+		"bigmachines:aluminum_ingot"
+  ]
+}
