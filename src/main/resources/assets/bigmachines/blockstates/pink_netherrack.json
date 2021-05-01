@@ -1,0 +1,78 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "bigmachines:block/pink_netherrack"
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "x": 90
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "x": 180
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "x": 270
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 90
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 90,
+        "x": 90
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 90,
+        "x": 180
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 90,
+        "x": 270
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 180
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 180,
+        "x": 90
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 180,
+        "x": 180
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 180,
+        "x": 270
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 270
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 270,
+        "x": 90
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 270,
+        "x": 180
+      },
+      {
+        "model": "bigmachines:block/pink_netherrack",
+        "y": 270,
+        "x": 270
+      }
+    ]
+  }
+}

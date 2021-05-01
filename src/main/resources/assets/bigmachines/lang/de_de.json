@@ -20,6 +20,18 @@
     "itemGroup.bigmachines.mainTab": "Big Machines",
     "itemGroup.bigmachines.materialsTab": "Big Machines: Materials",
 
+		"block.bigmachines.pink_dirt": "Pinke Erde",
+		"block.bigmachines.pink_stone": "Pinker Stein",
+		"block.bigmachines.pink_cobblestone": "Pinker Bruchstein",
+		"block.bigmachines.pink_gravel": "Pinker Kies",
+		"block.bigmachines.pink_sand": "Pinker Sand",
+		"block.bigmachines.pink_clay": "Pinker Ton",
+		"block.bigmachines.pink_netherrack": "Pinker Netherrack",
+		"block.bigmachines.pink_end_stone": "Pinker Endstein",
+		"item.bigmachines.pink_clay_ball": "Pinker Tonklumpen",
+		"item.bigmachines.pink_flint": "Pinker Feuerstein",
+		"item.bigmachines.pink_brick": "Pinker Ziegel",
+
     "item.bigmachines.copper_ingot": "Kupferbarren",
     "item.bigmachines.tin_ingot": "Zinnbarren",
     "item.bigmachines.silver_ingot": "Silberbarren",
@@ -55,7 +67,6 @@
 
     "block.bigmachines.pipe_heat": "Hitze Rohr",
     "block.bigmachines.pipe_fluid": "Flüssigkeiten Rohr",
-    "block.bigmachines.pink_dirt": "Pinke Erde",
 
     "block.bigmachines.limestone": "Kalkstein",
     "block.bigmachines.smooth_limestone": "Glatter Kalkstein",

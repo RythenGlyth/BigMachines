@@ -20,6 +20,18 @@
     "itemGroup.bigmachines.mainTab": "Big Machines",
     "itemGroup.bigmachines.materialsTab": "Big Machines: Materials",
 
+		"block.bigmachines.pink_dirt": "Pink Dirt",
+		"block.bigmachines.pink_stone": "Pink Stone",
+		"block.bigmachines.pink_cobblestone": "Pink Cobblestone",
+		"block.bigmachines.pink_gravel": "Pink Gravel",
+		"block.bigmachines.pink_sand": "Pink Sand",
+		"block.bigmachines.pink_clay": "Pink Clay",
+		"block.bigmachines.pink_netherrack": "Pink Netherrack",
+		"block.bigmachines.pink_end_stone": "Pink End Stone",
+		"item.bigmachines.pink_clay_ball": "Pink Clay Ball",
+		"item.bigmachines.pink_flint": "Pink Flint",
+		"item.bigmachines.pink_brick": "Pink Brick",
+
     "item.bigmachines.copper_ingot": "Copper Ingot",
     "item.bigmachines.tin_ingot": "Tin Ingot",
     "item.bigmachines.silver_ingot": "Silver Ingot",
@@ -55,7 +67,6 @@
 
     "block.bigmachines.pipe_heat": "Heat Pipe",
     "block.bigmachines.pipe_fluid": "Fluid Pipe",
-    "block.bigmachines.pink_dirt": "Pink Dirt",
 
     "block.bigmachines.limestone": "Limestone",
     "block.bigmachines.smooth_limestone": "Smooth Limestone",

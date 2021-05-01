@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "bigmachines:block/pink_sand"
+      },
+      {
+        "model": "bigmachines:block/pink_sand",
+        "y": 90
+      },
+      {
+        "model": "bigmachines:block/pink_sand",
+        "y": 180
+      },
+      {
+        "model": "bigmachines:block/pink_sand",
+        "y": 270
+      }
+    ]
+  }
+}
