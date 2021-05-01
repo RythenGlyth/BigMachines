@@ -91,6 +91,7 @@
     "block.bigmachines.rubber_tap": "Gummibaumhahn",
 
 		"block.bigmachies.machine_casing": "Maschinengehäuse",
+		"block.bigmachies.reactor_core": "Reaktorsteuergerät",
 
     "info.bigmachines.press_shift": "Halte §e§l[SHIFT]§r§7 für Details",
     "info.bigmachines.press_alt": "Halte §e§l[ALT]§r§7 für Details",

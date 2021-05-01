@@ -91,6 +91,7 @@
     "block.bigmachines.rubber_tap": "Rubber Tap",
 
 		"block.bigmachines.machine_casing": "Machine Casing",
+		"block.bigmachines.reactor_core": "Reactor Core",
 
     "info.bigmachines.press_shift": "Hold §e§l[SHIFT]§r§7 for Details",
     "info.bigmachines.press_alt": "Hold §e§l[ALT]§r§7 for Details",
