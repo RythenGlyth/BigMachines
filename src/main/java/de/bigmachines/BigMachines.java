@@ -1,6 +1,5 @@
 package de.bigmachines;
 
-import de.bigmachines.config.WorldGenerationConfig;
 import de.bigmachines.init.ModBlocks;
 import de.bigmachines.init.ModItemGroups;
 import de.bigmachines.init.ModItems;
@@ -14,9 +13,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(Reference.MOD_ID)
 public class BigMachines {
+	
+	public static final Logger LOG = LogManager.getLogger();
 	
 	public BigMachines() {
         // Register the setup method for modloading
@@ -34,14 +37,11 @@ public class BigMachines {
 		ModItemGroups.init();
 		//ModFeatures.init();
 		
-		WorldGenerationConfig.init();
-		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
 		//event.enqueueWork(ModFeatures::init);
-		event.enqueueWork(WorldGenerationConfig::loadConfig);
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {

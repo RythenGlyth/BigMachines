@@ -2,10 +2,13 @@ package de.bigmachines.init;
 
 import de.bigmachines.Reference;
 import de.bigmachines.blocks.BaseBlockItem;
+import de.bigmachines.blocks.blocks.PinkGravelBlock;
+import de.bigmachines.blocks.blocks.PinkSandBlock;
 import de.bigmachines.blocks.blocks.RubberLogBlock;
 import de.bigmachines.blocks.blocks.RubberPlanksBlock;
 import de.bigmachines.blocks.blocks.machines.MachineCasing;
 import de.bigmachines.blocks.blocks.reactor.ReactorCoreBlock;
+import de.bigmachines.world.DynamicTree;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -13,7 +16,11 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.trees.Tree;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,9 +31,9 @@ public class ModBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	
 	// rubber:
-	/*public static RegistryObject<Block> rubber_sapling = BLOCKS.register("rubber_sapling",
+	public static RegistryObject<Block> rubber_sapling = BLOCKS.register("rubber_sapling",
 		() -> new SaplingBlock(
-			new RubberTree(),
+			new DynamicTree(new ResourceLocation("bigmachines", "rubber")),
 			AbstractBlock.Properties.of(Material.PLANT)
 				.randomTicks()
 				.noCollission()
@@ -34,7 +41,8 @@ public class ModBlocks {
 				.sound(SoundType.GRASS)
 		)
 	);
-	public static RegistryObject<Item> rubber_sapling_item = ModItems.ITEMS.register("rubber_sapling", () -> new BaseBlockItem(rubber_sapling.get()));*/
+
+	public static RegistryObject<Item> rubber_sapling_item = ModItems.ITEMS.register("rubber_sapling", () -> new BaseBlockItem(rubber_sapling.get()));
 	
 	public static RegistryObject<Block> rubber_log = BLOCKS.register("rubber_log", () -> new RubberLogBlock());
 	public static RegistryObject<Item> rubber_log_item = ModItems.ITEMS.register("rubber_log", () -> new BaseBlockItem(rubber_log.get()));
