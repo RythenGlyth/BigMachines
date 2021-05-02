@@ -1,19 +1,19 @@
 package de.bigmachines.blocks.blocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.block.FallingBlock;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
 
 public class PinkSandBlock extends FallingBlock {
 
-    public SandBlock(BlockBehaviour.Properties properties) {
+    public PinkSandBlock(AbstractBlock.Properties properties) {
         super(properties);
     }
 
     @Override
-    public int getDustColor(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+    public int getDustColor(BlockState blockState, IBlockReader blockGetter, BlockPos blockPos) {
         return 0xdda1bd;
     }
 }
